@@ -1,0 +1,450 @@
+{
+  "$schema": "https://sdaiaacademy.github.io/engine/schemas/course.schema.json",
+  "engine": "1",
+  "id": "ds-311",
+  "code": "DS-311",
+  "version": "2027.1.0",
+  "lang": "en",
+  "title": {
+    "en": "Data Quality, Labelling and Pipelines for Analysis",
+    "ar": "جودة البيانات والوسم ومسارات إعدادها للتحليل"
+  },
+  "tagline": "REPLACE: one line under the title: what participants can do after the course",
+  "description": "Participants build the data an analysis depends on for Bayyin Consumer Protection Office, a fictional regulator holding 30,000 synthetic complaint records in Arabic and English. They write a labelling guideline, pilot it, measure agreement and adjudicate, run golden-question checks and review queues across a rater team, turn analysts' requirements into quality rules and a data contract, and package the preparation as a reproducible pipeline that stops on those rules. Measuring model-made labels is DS-306; platform-scale data engineering is AE-306.",
+  "track": "data-science",
+  "level": 300,
+  "badge": {
+    "name": "Data Science",
+    "level": "Associate"
+  },
+  "audience": "Practitioners. Data scientists and analysts who have completed the level 200 set or can show equivalent work: an analysis they framed, carried out and explained to a stakeholder.",
+  "prerequisites": [
+    "DS-202 Data Acquisition, Preparation and Quality",
+    "FN-102 Command Line, Git and Reproducible Projects",
+    "Writes Python functions and SQL queries",
+    "Uses Git and a lock-file environment"
+  ],
+  "site": {
+    "url": "https://sdaiaacademy.github.io/ds-311/",
+    "repo": "SDAIAAcademy/ds-311"
+  },
+  "outcomes": [
+    {
+      "id": "LO1",
+      "text": "Draft a labelling guideline with definitions, decision rules and edge cases, and revise it after a pilot, given 300 synthetic complaints labelled by three raters",
+      "level": "Applied",
+      "evidence": "a versioned guideline whose change log ties each revision to a measured disagreement"
+    },
+    {
+      "id": "LO2",
+      "text": "Compute chance-corrected agreement by category and rater, and adjudicate the disagreements, given two rounds of pilot labels",
+      "level": "Applied",
+      "evidence": "an agreement report with intervals and an adjudicated set"
+    },
+    {
+      "id": "LO3",
+      "text": "Configure a labelling workflow with golden-question checks, review queues and rater-drift monitoring, given a simulated round of 2,000 items from six raters, one of whom drifts",
+      "level": "Applied",
+      "evidence": "a quality-control report that flags the drifting rater and states cost per accepted label"
+    },
+    {
+      "id": "LO4",
+      "text": "Implement quality rules with thresholds and severities, and a data contract for the prepared table, given four source tables with seeded defects",
+      "level": "Applied",
+      "evidence": "rules and a contract that catch each defect and reject a breaking schema change"
+    },
+    {
+      "id": "LO5",
+      "text": "Build a reproducible preparation pipeline from raw extracts to an analysis-ready table that stops on a blocking rule, given a repository with continuous integration",
+      "level": "Performance",
+      "evidence": "run logs that pass on clean data and fail on a seeded defect from a clean checkout"
+    },
+    {
+      "id": "LO6",
+      "text": "Diagnose why an analytical figure changed after a data refresh and decide on the correction, given two runs, their lineage records and a stakeholder asking which figure is right",
+      "level": "Performance",
+      "evidence": "an incident note with root cause, affected outputs and correction"
+    }
+  ],
+  "case_study": {
+    "name": "REPLACE: the name of the fictional organisation every lab works on",
+    "summary": "REPLACE: two sentences on the case study and its synthetic data"
+  },
+  "format": "intensive",
+  "format_note": "Intensive: 4 teaching days of four sessions and a capstone day, with guided pre-work and a tracked follow-up task",
+  "hours": {
+    "instruction": 6,
+    "lab": 7,
+    "guided_self_study": 6,
+    "assessment": 1,
+    "capstone": 6
+  },
+  "unit": "day",
+  "days": [
+    {
+      "id": "day1",
+      "kind": "day",
+      "title": "Labels are measurements",
+      "deck": "slides/day1.html",
+      "sessions": [
+        {
+          "title": "What a label measures",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO1"
+          ],
+          "lab": {
+            "id": "1.1",
+            "title": "Label 40 complaints without a guideline and compare with two neighbours (AI-off)",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D1_1_label_40_complaints.ipynb"
+          }
+        },
+        {
+          "title": "Writing a guideline",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO1"
+          ],
+          "lab": {
+            "id": "1.2",
+            "title": "Write definitions, rules and edge cases for six complaint categories",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D1_2_write_definitions_rules.ipynb"
+          }
+        },
+        {
+          "title": "Agreement statistics",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO2"
+          ],
+          "lab": {
+            "id": "1.3",
+            "title": "Compute kappa and alpha by category on pilot labels",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D1_3_compute_kappa_alpha.ipynb"
+          }
+        },
+        {
+          "title": "Adjudication and revision",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO2"
+          ],
+          "lab": {
+            "id": "1.4",
+            "title": "Adjudicate 30 disagreements and revise the guideline with a change log",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D1_4_adjudicate_30_disagreements.ipynb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "day2",
+      "kind": "day",
+      "title": "Golden sets and labelling operations",
+      "deck": "slides/day2.html",
+      "sessions": [
+        {
+          "title": "Sampling a golden set",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO3"
+          ],
+          "lab": {
+            "id": "2.1",
+            "title": "Draw a stratified golden set covering rare categories and dialects",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D2_1_draw_stratified_golden.ipynb"
+          }
+        },
+        {
+          "title": "Gold questions and review queues",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO3"
+          ],
+          "lab": {
+            "id": "2.2",
+            "title": "Set gold-question checks and route low-agreement items to adjudication",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D2_2_set_gold_question.ipynb"
+          }
+        },
+        {
+          "title": "Rater drift and workload",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO3"
+          ],
+          "lab": {
+            "id": "2.3",
+            "title": "Find the drifting rater from gold-question accuracy over time",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D2_3_find_drifting_rater.ipynb"
+          }
+        },
+        {
+          "title": "Cost and model pre-labels",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO3"
+          ],
+          "lab": {
+            "id": "2.4",
+            "title": "Compare cost per accepted label across double, audited single and model-assisted labelling",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D2_4_compare_cost_per.ipynb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "day3",
+      "kind": "day",
+      "title": "Rules and contracts",
+      "deck": "slides/day3.html",
+      "sessions": [
+        {
+          "title": "Profiling to rules",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO4"
+          ],
+          "lab": {
+            "id": "3.1",
+            "title": "Profile four source tables and propose rules with thresholds (AI-off)",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D3_1_profile_four_source.ipynb"
+          }
+        },
+        {
+          "title": "Rules with severity",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO4"
+          ],
+          "lab": {
+            "id": "3.2",
+            "title": "Implement warning and blocking rules against the seeded defects",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D3_2_implement_warning_blocking.ipynb"
+          }
+        },
+        {
+          "title": "Duplicates and merchant matching",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO4"
+          ],
+          "lab": {
+            "id": "3.3",
+            "title": "Match merchant names across Arabic and Latin spellings and measure precision",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D3_3_match_merchant_names.ipynb"
+          }
+        },
+        {
+          "title": "A data contract",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO4"
+          ],
+          "lab": {
+            "id": "3.4",
+            "title": "Write a contract for the prepared table and make a breaking change fail its check",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D3_4_write_contract_prepared.ipynb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "day4",
+      "kind": "day",
+      "title": "Pipelines for analysis",
+      "deck": "slides/day4.html",
+      "sessions": [
+        {
+          "title": "From notebook to pipeline",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO5"
+          ],
+          "lab": {
+            "id": "4.1",
+            "title": "Convert a preparation notebook into scripted steps with a lock file",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D4_1_convert_preparation_notebook.ipynb"
+          }
+        },
+        {
+          "title": "Gates in the pipeline",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO5"
+          ],
+          "lab": {
+            "id": "4.2",
+            "title": "Make the pipeline quarantine bad rows and stop on a blocking rule",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D4_2_make_pipeline_quarantine.ipynb"
+          }
+        },
+        {
+          "title": "Tracing a changed figure",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO6"
+          ],
+          "lab": {
+            "id": "4.3",
+            "title": "Use run logs and lineage to find why a monthly complaint rate changed",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D4_3_use_run_logs.ipynb"
+          }
+        },
+        {
+          "title": "Handing over prepared data",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO5"
+          ],
+          "lab": {
+            "id": "4.4",
+            "title": "Write the preparation section of the datasheet for the prepared table",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D4_4_write_preparation_section.ipynb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "capstone",
+      "kind": "capstone",
+      "title": "Capstone project presentations",
+      "deck": "slides/capstone.html",
+      "subtitle": "REPLACE: the catalog gives 10 minutes for each presentation and nothing about questions; decide whether the questions are inside those minutes, set capstone.talk_minutes and capstone.qa_minutes in course.json and the timers of the now-presenting slide, and remove this line"
+    }
+  ],
+  "capstone": {
+    "summary": "A labelled, quality-gated analysis table for a second synthetic case (municipal maintenance requests), in a public repository whose README reports agreement and rule results from two runs, defended in a ten-minute review in which the assessor seeds a defect",
+    "submission": "REPLACE: what participants submit and how: a public repository link, or a shared folder for a course without code",
+    "talk_minutes": 10,
+    "rubric": [
+      {
+        "criterion": "Guideline and agreement",
+        "weight": 25
+      },
+      {
+        "criterion": "Rules and contract",
+        "weight": 25
+      },
+      {
+        "criterion": "Pipeline",
+        "weight": 25
+      },
+      {
+        "criterion": "Incident handling",
+        "weight": 15
+      },
+      {
+        "criterion": "Reproducibility",
+        "weight": 10
+      }
+    ]
+  },
+  "labs": {
+    "kind": "notebooks",
+    "base": "labs/"
+  },
+  "tools": [
+    {
+      "slot": "Annotation tool",
+      "examples": [
+        "Label Studio",
+        "Argilla",
+        "a spreadsheet with locked validation rules"
+      ]
+    },
+    {
+      "slot": "Validation framework",
+      "examples": [
+        "Pandera",
+        "Great Expectations",
+        "Soda Core"
+      ]
+    },
+    {
+      "slot": "Data contract specification",
+      "examples": [
+        "Open Data Contract Standard",
+        "contract checks compiled to SQL tests"
+      ]
+    },
+    {
+      "slot": "Data processing and pipeline runner",
+      "examples": [
+        "DuckDB or Polars with a task runner",
+        "Dagster with OpenLineage events"
+      ]
+    },
+    {
+      "slot": "Language model for pre-labels, through a chat-completions style endpoint",
+      "examples": [
+        "a locally served open-weight model",
+        "a free hosted open-weight model"
+      ]
+    }
+  ]
+}
