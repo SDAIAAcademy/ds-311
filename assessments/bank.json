@@ -698,6 +698,239 @@
       ],
       "pool": "practice",
       "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d4-clock",
+      "lo": [
+        "LO5"
+      ],
+      "day": "day4",
+      "session": 1,
+      "level": "analyze",
+      "prompt": "A preparation notebook adds a column prepared_at = now() and filters complaints received up to today. Two runs on the same extract give different files. What is the best change?",
+      "options": [
+        "Run the notebook at the same time every month",
+        "Pass the extract date as a parameter and record the run time only in the run log",
+        "Round now() to the day",
+        "Delete the prepared_at column and keep the filter"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "Results must depend only on inputs and parameters; when the run happened belongs in the log, not in the data.",
+      "misconceptions": [
+        "Controls the symptom by schedule instead of removing the clock",
+        "",
+        "Makes runs on the same day agree but not runs on different days",
+        "Leaves the filter tied to the clock"
+      ],
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d4-lock",
+      "lo": [
+        "LO5"
+      ],
+      "day": "day4",
+      "session": 1,
+      "level": "understand",
+      "prompt": "Two analysts run the same pipeline code on the same extract and get slightly different rounding in one column. Their run logs show different lock-file hashes. What is the most likely cause?",
+      "options": [
+        "The extract was read in a different order",
+        "One analyst's laptop is slower",
+        "They ran different versions of a package, such as the database engine",
+        "The pipeline has a random seed"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "A different lock-file hash means different pinned versions; a package update can change ordering or rounding.",
+      "misconceptions": [
+        "Ignores the evidence the run logs give",
+        "Confuses speed with results",
+        "",
+        "Invents randomness the logs do not show"
+      ],
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d4-quarantine",
+      "lo": [
+        "LO5"
+      ],
+      "day": "day4",
+      "session": 2,
+      "level": "apply",
+      "prompt": "A quarantine rule fails on 1.2% of rows; its owner's threshold is 3%. Another, blocking rule passes. What does the pipeline do?",
+      "options": [
+        "Sets the failing rows aside with the rule id and publishes the rest",
+        "Stops: any failure stops the run",
+        "Publishes every row and logs a warning",
+        "Deletes the failing rows and publishes"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "Under the threshold, quarantine keeps the failing rows with their reason and lets the rest be published.",
+      "misconceptions": [
+        "",
+        "Treats quarantine as blocking",
+        "Confuses quarantine with a warning",
+        "Loses the rows instead of keeping them with a reason"
+      ],
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d4-clean-checkout",
+      "lo": [
+        "LO5"
+      ],
+      "day": "day4",
+      "session": 2,
+      "level": "evaluate",
+      "prompt": "The pipeline runs on Abdulelah's laptop but fails in CI with 'No module named contract'. What does this show?",
+      "options": [
+        "CI is misconfigured and should be disabled",
+        "The laptop has a newer Python",
+        "The contract check should be removed",
+        "A file the pipeline needs was never committed; the clean checkout found it"
+      ],
+      "correct": [
+        3
+      ],
+      "explanation": "Running from a clean checkout proves that everything needed is committed; a missing module there is a forgotten file.",
+      "misconceptions": [
+        "Blames the check instead of what it found",
+        "Guesses a version problem the message does not show",
+        "Removes a safeguard to make the error go away",
+        ""
+      ],
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d4-attribution",
+      "lo": [
+        "LO6"
+      ],
+      "day": "day4",
+      "session": 3,
+      "level": "apply",
+      "prompt": "Recomputing R04's August rate one change at a time gives: September run 48.06; plus late arrivals 52.90; plus new population 50.15; plus new dedupe key 39.14. How much of the fall does the new key explain?",
+      "options": [
+        "All of it, 8.92",
+        "2.75",
+        "11.01, more than the whole fall, offset by the late arrivals",
+        "None: the population caused it"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "The key lowered the rate by 11.01; late arrivals raised it by 4.84 and the population lowered it by 2.75, so the net fall was 8.92.",
+      "misconceptions": [
+        "Equates the net change with one change's effect",
+        "Takes the population step's effect",
+        "",
+        "Misreads the size of each step"
+      ],
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d4-newer",
+      "lo": [
+        "LO6"
+      ],
+      "day": "day4",
+      "session": 3,
+      "level": "evaluate",
+      "prompt": "The October refresh used newer code, fresher data and an updated population table, and lowered a published figure by 19%. A stakeholder asks which figure is right. What do you answer first?",
+      "options": [
+        "October's: it has the newest code and data",
+        "September's: it was published first",
+        "The average of the two",
+        "Neither until each change is checked; one change may be a defect"
+      ],
+      "correct": [
+        3
+      ],
+      "explanation": "Newer is not more correct: each change must be judged against what the figure means before answering.",
+      "misconceptions": [
+        "Equates recent with right",
+        "Defends the first publication by default",
+        "Averages two figures instead of finding the error",
+        ""
+      ],
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d4-lineage",
+      "lo": [
+        "LO6"
+      ],
+      "day": "day4",
+      "session": 3,
+      "level": "understand",
+      "prompt": "Which record would have shown, before republishing, that the dedupe step's key had changed between runs?",
+      "options": [
+        "The lineage event of the dedupe job, with its parameters, compared with the previous run's",
+        "The published monthly rate file",
+        "The regions table",
+        "The quarantine file"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "Lineage records each job's inputs, outputs and parameters; comparing them between runs flags a changed key.",
+      "misconceptions": [
+        "",
+        "Looks at the output, which shows the effect but not the cause",
+        "Looks at an input unrelated to dedupe",
+        "Looks at rows set aside by rules, which dedupe does not use"
+      ],
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d4-datasheet",
+      "lo": [
+        "LO5",
+        "LO1"
+      ],
+      "day": "day4",
+      "session": 4,
+      "level": "apply",
+      "prompt": "The datasheet's labelling section gives Krippendorff's alpha 0.789 overall. Mixed Arabic-English complaints had 0.743. What should the section also say?",
+      "options": [
+        "Nothing more: the overall figure is above 0.7",
+        "Remove mixed complaints from the table",
+        "Agreement by language variety, with mixed text named as the weakest and a limit for its users",
+        "Only the highest variety, to show the best case"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "Users of the table need to know where labels are least reliable, by variety, not only the overall figure.",
+      "misconceptions": [
+        "Lets the overall figure hide the weakest group",
+        "Removes data instead of describing its limits",
+        "",
+        "Reports selectively"
+      ],
+      "pool": "practice",
+      "weight": 1
     }
   ]
 }

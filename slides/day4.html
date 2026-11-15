@@ -1,158 +1,351 @@
+<!-- ======================= OPENING ======================= -->
 <section class="slide title" id="title" data-auto="title">
-  <aside class="notes">REPLACE: welcome; introduce yourself; one question to the room that calibrates the pace; the rhythm of the day</aside>
+  <aside class="notes"><p>Day 3 gave Bayyin rules and a contract. Today they go inside a pipeline that gives the same bytes twice, stops before publishing bad data, and leaves enough of a trail to explain a changed figure months later. The day ends with the datasheet section and the capstone brief.</p></aside>
+</section>
+
+<section class="slide" id="review-day3" data-lo="LO4">
+  <div class="kicker">Review of Day 3</div>
+  <h2>What should the producer's change do to the contract?</h2>
+  <div class="quiz" data-type="single" data-lo="LO4">
+    <p class="lead">Abdulelah renames <code>region_code</code> to <code>region</code> in the prepared table, to match another system. The contract lists <code>region_code</code> as required. What should happen?</p>
+    <div class="opts">
+      <div class="opt" data-why="Thinks a rename keeps the meaning, so consumers are not affected">The contract passes: the data is the same</div>
+      <div class="opt" data-why="Confuses a breaking change with a minor one">The contract passes with a warning; the version goes to 1.1.0</div>
+      <div class="opt" data-why="Makes the consumer absorb a producer's change without agreement">Hatoon updates her report the morning it breaks</div>
+      <div class="opt" data-ok>The contract fails; the change waits for a 2.0.0 contract both agree</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> A column the consumer relies on has disappeared: a breaking change, caught before publishing, that needs a new major version agreed by both sides.</div>
+  </div>
+  <aside class="notes"><p>Answer: D. In Lab 3.4 the rename failed the "column present" check. Today the same contract runs inside the pipeline, before publishing.</p></aside>
 </section>
 
 <section class="slide" id="agenda" data-auto="agenda"></section>
 
-<!-- Session 1 -->
-
+<!-- ======================= SESSION 1 ======================= -->
 <section class="slide section" id="s1" data-auto="section" data-session="1"></section>
 
-<section class="slide" id="s1-idea" data-lo="LO5">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
-  <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
-  </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+<section class="slide" data-label="Two tables" id="notebook-twice" data-lo="LO5">
+  <div class="kicker">Lab 4.1, the old notebook run twice</div>
+  <h2>The same notebook on the same extract wrote two different tables</h2>
+  <table class="t small">
+    <tr><th>File</th><th>Monday</th><th>Tuesday</th><th></th></tr>
+    <tr class="hl"><td>complaints_prepared.csv</td><td><code>1fdbe892…</code></td><td><code>6796c999…</code></td><td>different</td></tr>
+    <tr class="hl"><td>monthly_rate.csv</td><td><code>001a5f51…</code></td><td><code>56adaf2e…</code></td><td>different</td></tr>
+    <tr><td>category_by_region.csv</td><td><code>1cdc3da2…</code></td><td><code>1cdc3da2…</code></td><td>same, today</td></tr>
+  </table>
+  <p class="small mt-s">On Tuesday one cell was re-run after a comment was edited. Nothing else changed.</p>
+  <aside class="notes"><p>Hashes from the Lab 4.1 solution run; yours will differ on the first two files, which is the point. The third is the same only because both runs happened in one Python process: on another machine its column order changes. Ask: which figure would Hatoon have published on Tuesday?</p></aside>
 </section>
 
-<section class="slide" id="s1-steps" data-lo="LO5">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" data-label="Four causes" id="four-causes" data-lo="LO5">
+  <div class="kicker">Hidden state</div>
+  <h2>Four ways a notebook stops being repeatable</h2>
+  <div class="cols cols-4 gap-s">
+    <div class="card c-teal"><h4>The clock</h4><p class="small mb0">A <code>prepared_at</code> column from <code>now()</code>: every run is new bytes.</p></div>
+    <div class="card c-cyan"><h4>State changed in place</h4><p class="small mb0">Population multiplied by 1.01 inside a cell: run it twice, grow twice.</p></div>
+    <div class="card c-purple"><h4>Unseeded randomness</h4><p class="small mb0">A shuffle before keeping the first copy: a different copy each run.</p></div>
+    <div class="card c-coral"><h4>Unordered iteration</h4><p class="small mb0">Columns from a set of strings: the order follows Python's hash seed.</p></div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <div class="callout warn small mt"><b>What goes wrong.</b> None of the four raises an error; the figure is simply different, and nobody can say which one is right.</div>
+  <aside class="notes"><p>Others to mention: multi-threaded engines returning rows in a different order, reading "the latest file" from a folder, and an unpinned package upgrade. The pipeline's steps avoid all of them: the extract date is a parameter, nothing samples, every output is sorted, and DuckDB runs on one thread.</p></aside>
+</section>
+
+<section class="slide" data-label="Steps" id="steps-explicit" data-lo="LO5">
+  <div class="kicker">pipeline/steps.py</div>
+  <h2>Each step names its inputs and outputs and returns its counts</h2>
+  <div class="flow">
+    <div class="step c-navy"><b>extract</b>four files → tables with a row id</div>
+    <div class="arrow">→</div>
+    <div class="step c-amber"><b>gate</b>rules → quarantine or stop</div>
+    <div class="arrow">→</div>
+    <div class="step c-teal"><b>clean</b>types, trimmed text</div>
+    <div class="arrow">→</div>
+    <div class="step c-cyan"><b>dedupe</b>resubmissions within a day</div>
+    <div class="arrow">→</div>
+    <div class="step c-purple"><b>enrich</b>merchant, region, days to close</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>publish</b>written last, renamed into place</div>
+  </div>
+  <p class="small mt">Every step returns <code>rows_in</code>, <code>rows_out</code> and its parameters: the run log is made of these.</p>
+  <aside class="notes"><p>Publish writes to a temporary name and renames: a reader never sees a half-written file. The gate sits before anything is typed or joined, so a bad value fails a rule instead of a cast.</p></aside>
+</section>
+
+<section class="slide" data-label="Run log" id="run-log" data-lo="LO5">
+  <div class="kicker">Lab 4.1, the runner</div>
+  <h2>A run log answers "what made this table?" months later</h2>
+  <div class="cols cols-2">
+    <pre class="code s" data-file="run_log.json"><code class="language-json">{"run_id": "lab41", "extract_date": "2026-09-05",
+ "code_version": "4f8d7d5",
+ "lock_file_sha256": "…", "duckdb": "2.0.0",
+ "inputs":  {"complaints_extract.csv.gz": "…"},
+ "steps": [{"step": "dedupe", "rows_in": 30000,
+            "rows_out": 30000, "params": {…}}],
+ "rules": [...], "contract": {"checks": 23},
+ "outputs": {"complaints_prepared.csv":
+             "26132fbc707b22b3"}}</code></pre>
+    <div class="stack">
+      <div class="stat"><div class="big">same bytes</div><div class="lbl">two runs a second apart wrote identical tables</div></div>
+      <div class="card c-teal flat"><h4>Pinned versions</h4><p class="small mb0"><code>uv.lock</code> pins DuckDB 2.0.0; the run log records which one ran.</p></div>
+    </div>
+  </div>
+  <aside class="notes"><p>The hash 26132fbc707b22b3 is the clean extract's prepared table in the solution run, by both the participants' runner and pipeline/run.py. FN-102 covered lock files and environments; this is the same idea applied to a data product. On Colab, which installs without pins, the version check can fail: let it, and discuss.</p></aside>
+</section>
+
+<section class="slide" id="checkpoint-1" data-lo="LO5">
+  <div class="kicker">Checkpoint</div>
+  <h2>Which change makes the step repeatable?</h2>
+  <div class="quiz" data-type="single" data-lo="LO5">
+    <p class="lead">A dedupe cell shuffles the complaints with <code>df.sample(frac=1)</code>, then keeps the first copy of each customer, merchant and product. Two runs keep different copies. What is the fix?</p>
+    <div class="opts">
+      <div class="opt" data-ok>Sort by received date and complaint id, then keep the first: a rule anyone can state</div>
+      <div class="opt" data-why="Makes the output repeatable but leaves the choice of copy arbitrary and unexplained">Add <code>random_state=1</code> to the shuffle</div>
+      <div class="opt" data-why="Hides the problem without removing it">Run the cell only once per month</div>
+      <div class="opt" data-why="Confuses removing duplicates with not deduplicating at all">Remove the dedupe step</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> A seed makes the result repeatable; an explicit order makes it repeatable and explainable: "the earliest complaint is kept".</div>
+  </div>
+  <aside class="notes"><p>Answer: A. B is acceptable for repeatability but leaves the analyst unable to say which copy is kept and why. The pipeline's dedupe orders by received date and complaint id.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-4-1" data-auto="lab" data-lab="4.1">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>The four causes take most people five minutes; the runner is the main exercise. Common failure: forgetting that gate returns a different shape from the other steps. Those who finish: the task-runner stretch, then read pipeline/run.py and find what it adds (code version, lineage, contract).</p></aside>
 </section>
 
-<!-- Session 2 -->
-
+<!-- ======================= SESSION 2 ======================= -->
 <section class="slide section" id="s2" data-auto="section" data-session="2"></section>
 
-<section class="slide" id="s2-idea" data-lo="LO5">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
-  <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+<section class="slide" data-label="Gates" id="gates-in-pipeline" data-lo="LO5">
+  <div class="kicker">Gates in the pipeline</div>
+  <h2>Two gates stand between the extract and the published table</h2>
+  <div class="flow">
+    <div class="step c-navy"><b>extract</b></div>
+    <div class="arrow">→</div>
+    <div class="step c-amber"><b>Gate 1 · rules</b>quarantine rows; stop on a block</div>
+    <div class="arrow">→</div>
+    <div class="step c-teal"><b>clean · dedupe · enrich</b></div>
+    <div class="arrow">→</div>
+    <div class="step c-purple"><b>Gate 2 · contract</b>stop if the table breaks it</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>publish</b></div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <div class="callout tip mt"><b>Exit codes.</b> 0 published; 2 stopped, nothing written to <code>published/</code>, the run log says why.</div>
+  <aside class="notes"><p>Gate 1 is Lab 3.2's rule set; gate 2 is Lab 3.4's contract, now in pipeline/contract.py. A stopped run leaves last month's published table untouched: the report keeps working on the old data instead of showing wrong new data.</p></aside>
 </section>
 
-<section class="slide" id="s2-steps" data-lo="LO5">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" data-label="Order" id="quarantine-order" data-lo="LO5">
+  <div class="kicker">Lab 4.2, quarantine one rule at a time</div>
+  <h2>Judge every rule before deleting anything</h2>
+  <div class="cols cols-2">
+    <div class="stat"><div class="big">970</div><div class="lbl">orphan actions when each rule deletes before the next runs</div></div>
+    <div class="stat"><div class="big">150</div><div class="lbl">orphan actions when all rules judge the untouched tables</div></div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <p class="small mt">Deleting a quarantined complaint orphans its actions: a rule run after a delete judges a different table.</p>
+  <aside class="notes"><p>Participants write the quarantine statements for one rule and apply them rule by rule; I01 then counts 970. steps.gate collects every rule's failures first and deletes at the end, so its counts match Lab 3.2. Every quarantined row carries its rule id.</p></aside>
+</section>
+
+<section class="slide" data-label="Two runs" id="seeded-vs-corrected" data-lo="LO5">
+  <div class="kicker">Lab 4.2, the August batch</div>
+  <h2>Stopped on the halala batch; published once it was corrected</h2>
+  <table class="t small">
+    <tr><th>Extract</th><th>Exit</th><th>Published</th><th>Quarantined</th></tr>
+    <tr class="hl"><td>Seeded, amounts in halalas</td><td class="num">2</td><td>nothing; blocked by A01 and A02</td><td>counted in the run log only</td></tr>
+    <tr><td>Corrected by the vendor (÷ 100)</td><td class="num">0</td><td>29,154 complaints</td><td>915 complaints, 150 actions</td></tr>
+    <tr><td>Clean</td><td class="num">0</td><td>30,000 complaints</td><td>none</td></tr>
+  </table>
+  <aside class="notes"><p>The corrected run still quarantines rows (414 without region, 186 unknown region, 170 codes, 85 dates, 60 duplicates, 12 future dates; some rows fail two rules, so 915 rather than 927): each rule stayed under its owner's threshold, so the rest is published. 29,154 counts the 231 resubmissions removed by dedupe.</p></aside>
+</section>
+
+<section class="slide" data-label="Clean checkout" id="clean-checkout" data-lo="LO5">
+  <div class="kicker">Lab 4.2, evidence that it works</div>
+  <h2>Run it from a clean checkout, not from your own folder</h2>
+  <div class="cols cols-2">
+    <ul class="bullets">
+      <li><code>git clone</code> into an empty folder, then run there.</li>
+      <li>A forgotten file or a package only you have breaks the clone, not your folder.</li>
+      <li>In the lab, the clone published the <b>same bytes</b> as the working folder, and stopped on the seeded extract.</li>
+    </ul>
+    <pre class="code s" data-file="pipeline/ci/pipeline.yml"><code class="language-yaml">- run: uv sync --locked
+- run: uv run run.py --raw ../data/sources_clean ...
+- run: |
+    uv run run.py --raw ../data/sources ...
+    test $? -eq 2</code></pre>
+  </div>
+  <aside class="notes"><p>The CI workflow does on every push what task 3 does by hand: installs the pinned versions, publishes on clean data, expects exit 2 on the seeded extract and checks nothing was published. It lives in pipeline/ci/ as course material; in a pipeline's own repository it goes in .github/workflows/.</p></aside>
+</section>
+
+<section class="slide" id="checkpoint-2" data-lo="LO5">
+  <div class="kicker">Checkpoint</div>
+  <h2>What does the report show after a blocked run?</h2>
+  <div class="quiz" data-type="single" data-lo="LO5">
+    <p class="lead">The October run stops on A02: a channel's median amount tripled. Hatoon's monthly report reads <code>published/monthly_rate.csv</code>. What does it show the next morning?</p>
+    <div class="opts">
+      <div class="opt" data-why="Assumes a stopped run still writes its partial results">October's figures, with the bad channel removed</div>
+      <div class="opt" data-why="Thinks a block deletes the previous output">Nothing: the file is deleted</div>
+      <div class="opt" data-ok>September's figures, unchanged, while the run log says why October stopped</div>
+      <div class="opt" data-why="Confuses a blocking rule with a warning">October's figures with a warning in the log</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> The pipeline publishes only after every gate and writes the files last, by renaming: a stopped run leaves the published table as it was.</div>
+  </div>
+  <aside class="notes"><p>Answer: C. The report should show the date of its data, so readers see it is September's until October passes the gates.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-4-2" data-auto="lab" data-lab="4.2">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>Task 3 needs git on the laptop; on Colab the notebook clones the Colab copy. If a clone fails, the most common cause is a path with spaces or a proxy. The pipeline writes run logs in every case: ask participants to open the blocked one and read blocked_by.</p></aside>
 </section>
 
-<!-- Session 3 -->
-
+<!-- ======================= SESSION 3 ======================= -->
 <section class="slide section" id="s3" data-auto="section" data-session="3"></section>
 
-<section class="slide" id="s3-idea" data-lo="LO6">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
+<section class="slide" data-label="The question" id="which-is-right" data-lo="LO6">
+  <div class="kicker">A stakeholder asks</div>
+  <h2>"Which figure for R04 in August is right: 48.06 or 39.14?"</h2>
   <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+    <div class="stat"><div class="big">48.06</div><div class="lbl">complaints per 100,000, published in September (run A)</div></div>
+    <div class="stat"><div class="big">39.14</div><div class="lbl">the same month, republished in October (run B)</div></div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <div class="callout warn small mt"><b>What goes wrong.</b> Answering "the newer one" because it has more data and newer code.</div>
+  <aside class="notes"><p>The deputy minister's office saw an 18.6% fall in one region's figure for a month already closed. Before answering, the analyst needs to know what changed between the runs, and how much each change moved the figure.</p></aside>
 </section>
 
-<section class="slide" id="s3-steps" data-lo="LO6">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" data-label="What changed" id="what-changed" data-lo="LO6">
+  <div class="kicker">Lab 4.3, run logs and lineage</div>
+  <h2>Three things changed between the runs</h2>
+  <table class="t small">
+    <tr><th>What</th><th>Run A, September</th><th>Run B, October</th></tr>
+    <tr><td>Extract rows</td><td class="num">30,240</td><td class="num">30,500</td></tr>
+    <tr><td>Regions table</td><td>2026.1</td><td>2026.2 (R04 population +5.5%)</td></tr>
+    <tr class="hl"><td>Dedupe key</td><td>complaint id</td><td>customer, merchant, day</td></tr>
+    <tr><td>Code</td><td>a41c2e7</td><td>c9d05b3 "dedupe on customer, merchant and day"</td></tr>
+  </table>
+  <aside class="notes"><p>Everything here is in run_log.json and lineage.jsonl, which follow OpenLineage's shape: one event per job with its inputs, outputs and parameters. The git log names the commit that changed the key. Without these records this would be a week of guessing.</p></aside>
+</section>
+
+<section class="slide" data-label="Attribution" id="one-at-a-time" data-lo="LO6">
+  <div class="kicker">Lab 4.3, one change at a time</div>
+  <h2>The new dedupe key caused the fall</h2>
+  <div class="bars">
+    <div class="row"><span>September run</span><div class="bar c-navy" style="--w:91%"></div><span class="val">48.06</span></div>
+    <div class="row"><span>+ late arrivals</span><div class="bar c-teal" style="--w:100%"></div><span class="val">52.90</span></div>
+    <div class="row"><span>+ new population</span><div class="bar c-teal" style="--w:95%"></div><span class="val">50.15</span></div>
+    <div class="row"><span>+ new dedupe key</span><div class="bar c-coral" style="--w:74%"></div><span class="val">39.14</span></div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <p class="small mt">R04, August, per 100,000 residents. The new key dropped 72 complaints; only 4 were resubmissions.</p>
+  <aside class="notes"><p>The order follows when each change reached the pipeline. The key merges complaints about different products bought from one merchant on one day: a cluster of such complaints arrived in R04 in August. Late arrivals (+30) and the new population are both right.</p></aside>
+</section>
+
+<section class="slide" data-label="Answer" id="corrected-answer" data-lo="LO6">
+  <div class="kicker">Lab 4.3, the decision</div>
+  <h2>Neither: the corrected figure is 49.53</h2>
+  <div class="cols cols-2">
+    <ul class="bullets">
+      <li>Keep the late arrivals and the 2026.2 population.</li>
+      <li>De-duplicate resubmissions only: same customer, merchant <b>and product</b> within one day.</li>
+      <li>R04: 324 complaints, <b>49.53</b> per 100,000.</li>
+      <li>All 13 regions' October figures were off by more than 1%; R04 by 21%.</li>
+    </ul>
+    <div class="card c-teal"><h4>The incident note</h4><p class="small mb0">What happened, root cause, other changes, affected outputs, correction, the answer to the stakeholder, prevention.</p></div>
+  </div>
+  <aside class="notes"><p>The answer to the office: "September's figure missed late arrivals; October's dropped real complaints; the corrected figure is 49.53, republished with a note." The prevention item: a lineage check that warns when a step's parameters change between runs (the stretch of Lab 4.3).</p></aside>
+</section>
+
+<section class="slide" id="checkpoint-3" data-lo="LO6">
+  <div class="kicker">Checkpoint</div>
+  <h2>How do you find which change moved the figure?</h2>
+  <div class="quiz" data-type="single" data-lo="LO6">
+    <p class="lead">Between two runs, the extract gained 260 rows, the population table changed and the dedupe key changed. R04's rate fell from 48.06 to 39.14. How do you attribute the fall?</p>
+    <div class="opts">
+      <div class="opt" data-why="Assumes the largest input change caused the largest effect">Blame the extract: it changed the most rows</div>
+      <div class="opt" data-why="Splits the effect evenly without measuring it">Divide the fall equally among the three changes</div>
+      <div class="opt" data-why="Ignores the evidence the runs left behind">Re-run October and see whether it repeats</div>
+      <div class="opt" data-ok>Start from September and apply the changes one at a time, recomputing each time</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Changes can push in opposite directions; only recomputing one at a time shows each one's share, here a fall of 11.01 from the new key.</div>
+  </div>
+  <aside class="notes"><p>Answer: D. C would give 39.14 again: the pipeline is deterministic, which is what makes the attribution possible.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-4-3" data-auto="lab" data-lab="4.3">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>Pandas' drop_duplicates after a sort reproduces the pipeline's dedupe; check that participants sort by received date and complaint id first, or their counts differ by a few. The incident note is graded on its numbers: each must come from their tables.</p></aside>
 </section>
 
-<!-- Session 4 -->
-
+<!-- ======================= SESSION 4 ======================= -->
 <section class="slide section" id="s4" data-auto="section" data-session="4"></section>
 
-<section class="slide" id="s4-idea" data-lo="LO5">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
-  <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+<section class="slide" data-label="Datasheet" id="datasheet-why" data-lo="LO5">
+  <div class="kicker">Handing over prepared data</div>
+  <h2>A datasheet tells the next analyst what was done to the data</h2>
+  <div class="cols cols-3 gap-s">
+    <div class="card c-teal"><h4>Preprocessing</h4><p class="small mb0">Which extract and code; what was removed, by which rule; how duplicates were treated.</p></div>
+    <div class="card c-cyan"><h4>Labelling</h4><p class="small mb0">The guideline version; agreement overall and by language variety; the weakest category.</p></div>
+    <div class="card c-coral"><h4>Known limits</h4><p class="small mb0">What the table cannot support, in plain words.</p></div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <aside class="notes"><p>Datasheets for Datasets (Gebru et al.) asks questions in sections; the preparation section covers collection, preprocessing and labelling. Hatoon hands this table to analysts who were not in the room; the datasheet is what they read.</p></aside>
 </section>
 
-<section class="slide" id="s4-steps" data-lo="LO5">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" data-label="From the log" id="section-from-log" data-lo="LO5">
+  <div class="kicker">Lab 4.4, the preprocessing part</div>
+  <h2>Every number comes from the run log</h2>
+  <table class="t small">
+    <tr><th>Statement</th><th class="num">Number</th><th>Taken from</th></tr>
+    <tr><td>Complaints in the extract</td><td class="num">30,300</td><td>extract rows_in</td></tr>
+    <tr><td>Set aside in quarantine</td><td class="num">915</td><td>gate rows_in − rows_out</td></tr>
+    <tr><td>Resubmissions removed</td><td class="num">231</td><td>dedupe rows_in − rows_out</td></tr>
+    <tr><td>Published</td><td class="num">29,154</td><td>publish rows_out</td></tr>
+    <tr><td>Contract checks passed</td><td class="num">23</td><td>contract.checks</td></tr>
+  </table>
+  <aside class="notes"><p>From the run on the corrected September extract inside Lab 4.4. A typed number goes stale on the next run; a number taken from the log can be regenerated. Task 4 checks every number in the text against the sources mechanically.</p></aside>
+</section>
+
+<section class="slide" data-label="Labels" id="agreement-in-datasheet" data-lo="LO1">
+  <div class="kicker">Lab 4.4, the labelling part</div>
+  <h2>Report agreement where it is weakest</h2>
+  <div class="bars">
+    <div class="row"><span>All, round 2</span><div class="bar c-navy" style="--w:79%"></div><span class="val">0.789</span></div>
+    <div class="row"><span>MSA</span><div class="bar c-teal" style="--w:79.5%"></div><span class="val">0.795</span></div>
+    <div class="row"><span>Gulf dialect</span><div class="bar c-teal" style="--w:78.2%"></div><span class="val">0.782</span></div>
+    <div class="row"><span>English</span><div class="bar c-teal" style="--w:79.1%"></div><span class="val">0.791</span></div>
+    <div class="row"><span>Mixed</span><div class="bar c-coral" style="--w:74.3%"></div><span class="val">0.743</span></div>
+    <div class="row"><span>WARRANTY</span><div class="bar c-coral" style="--w:68%"></div><span class="val">0.680</span></div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <p class="small mt">Krippendorff's alpha, pilot round 2 under guideline v1.1. Known limits follow from the lowest bars.</p>
+  <aside class="notes"><p>From data/reference/agreement_r1_r2.csv, the Lab 1.4 result. The limits the section states: mixed text is the weakest variety; WARRANTY is confused with DEFECT; complaints without a region are quarantined, not imputed; merchant ids exist only where the portal had one.</p></aside>
+</section>
+
+<section class="slide" id="checkpoint-4" data-lo="LO5">
+  <div class="kicker">Checkpoint</div>
+  <h2>Where should the datasheet's numbers come from?</h2>
+  <div class="quiz" data-type="single" data-lo="LO5">
+    <p class="lead">Hatoon's datasheet says "about 900 rows were removed by quality rules". The run log of the published table says 915 complaints and 150 actions were quarantined. What should the section say?</p>
+    <div class="opts">
+      <div class="opt" data-why="Keeps a rounded figure that cannot be checked against the run">"About 900 rows": close enough for readers</div>
+      <div class="opt" data-ok>"915 complaints and 150 case actions", taken from the run log, with the rules</div>
+      <div class="opt" data-why="Removes what the reader needs to judge the table">Nothing: the quarantine is an internal detail</div>
+      <div class="opt" data-why="Mixes figures from different runs">The counts from Lab 3.2's seeded run</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> A number taken from the run that produced the table can be checked and regenerated; a rounded or borrowed one cannot.</div>
+  </div>
+  <aside class="notes"><p>Answer: B. D is the subtle one: Lab 3.2's counts (927 complaint failures) came from another run with another gate order.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-4-4" data-auto="lab" data-lab="4.4">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>AI-tutor: an assistant may help with the wording, never with the numbers. The trace check in task 4 is strict on purpose: if it flags a number, find where it came from or remove it. Those who finish: compare the contract's columns with the published table's.</p></aside>
 </section>
 
+<!-- ======================= CLOSE ======================= -->
 <section class="slide" id="wrap-up">
   <div class="kicker">Day 4 · wrap-up</div>
   <h2>Three things to keep</h2>
   <div class="cols cols-3">
-    <div class="card c-teal"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-coral"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-purple"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
+    <div class="card c-teal"><h4>Same bytes twice</h4><p class="small mb0">No clock, no unseeded randomness, sorted outputs, pinned versions, a run log.</p></div>
+    <div class="card c-coral"><h4>Gates before publishing</h4><p class="small mb0">Quarantine with a reason, block before anything is written, prove it from a clean checkout.</p></div>
+    <div class="card c-purple"><h4>One change at a time</h4><p class="small mb0">Lineage says what changed; recomputing says how much; the note says which figure is right.</p></div>
   </div>
+  <aside class="notes"><p>Tomorrow is the capstone: the whole chain on a new case, Al-Ghadaf Municipality's maintenance requests, with a seeded defect reviewed live.</p></aside>
 </section>
 
 <section class="slide dark" id="next" data-label="Next">
   <div class="kicker">Next</div>
-  <h2>Capstone: Capstone project presentations</h2>
-  <p class="lead">REPLACE: what participants prepare before then; unfinished labs can be finished at home</p>
-  <aside class="notes">REPLACE: accounts, installs or reading participants need before the next unit</aside>
+  <h2>Capstone: Al-Ghadaf Municipality</h2>
+  <p class="lead">A guideline, agreement, rules, a contract and a gated pipeline for maintenance requests, presented with the seeded defect your pipeline must stop.</p>
+  <aside class="notes"><p>Hand out the capstone brief now (labs/capstone/README.md) and let teams run the generator before they leave, so tomorrow starts with data on every laptop.</p></aside>
 </section>
