@@ -59,6 +59,13 @@ def read(rel: str, **kw) -> pd.DataFrame:
     return pd.read_csv(DATA / rel, **kw)
 
 
+def expert_labels(ids) -> pd.Series:
+    """The expert panel's label for each complaint id (Khulood Bin Saedan's adjudicated reading).
+    In the case this is what labelling a golden set by experts returns; it costs the office time."""
+    t = read("reference/truth_labels.csv.gz", usecols=["complaint_id", "category"]).set_index("complaint_id").category
+    return t.reindex(list(ids))
+
+
 # ---------------------------------------------------------------- guideline v1.1 (reference)
 def apply_rules(f: dict) -> str:
     """Decision rules of guideline v1.1, in order. `f` holds the facts read from one complaint (0 or 1)."""
@@ -156,9 +163,9 @@ LAST_SOURCE = {"source": ""}
 KEYWORDS = {
     "WARRANTY": ["warranty", "ضمان"],
     "REFUND": ["refund", "money back", "استرداد", "فلوسي", "نرجع فلوس", "إعادة المبلغ"],
-    "PRICE": ["charged", "invoice", "دفعت", "حاسبوني", "الفاتورة", "بالفاتورة"],
-    "AD": ["advert", "offer", " ad ", "الإعلان", "العرض", "offer"],
-    "DELIVERY": ["deliver", "arrive", "التوصيل", "يصل", "وصل للحين", "ما وصل", "delivery", "order"],
+    "PRICE": ["charged", "invoice", "shelf", "حاسبوني", "الفاتورة", "بالفاتورة", "على الرف", "لكن دفعت"],
+    "AD": ["advert", "offer", " ad ", "الإعلان", "العرض"],
+    "DELIVERY": ["deliver", "arrive", "التوصيل", "يصل", "ما وصل", "لم يصل", "استلم"],
     "DEFECT": ["broken", "fault", "stopped", "not the model", "different", "defect", "damaged", "مكسور", "عيب", "خرب", "خراب", "توقف", "مو نفس", "ليس الطراز", "يختلفان"],
 }
 

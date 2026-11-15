@@ -1,0 +1,61 @@
+{
+ "drift": {
+  "R1": {
+   "p_base": 0.975,
+   "p_recent": 0.875,
+   "z": 1.6,
+   "flag": false
+  },
+  "R2": {
+   "p_base": 0.875,
+   "p_recent": 1.0,
+   "z": -1.8,
+   "flag": false
+  },
+  "R3": {
+   "p_base": 0.875,
+   "p_recent": 0.875,
+   "z": 0.0,
+   "flag": false
+  },
+  "R4": {
+   "p_base": 0.925,
+   "p_recent": 0.792,
+   "z": 1.56,
+   "flag": false
+  },
+  "R5": {
+   "p_base": 0.975,
+   "p_recent": 0.375,
+   "z": 5.37,
+   "flag": true
+  },
+  "R6": {
+   "p_base": 0.675,
+   "p_recent": 0.792,
+   "z": -1.0,
+   "flag": false
+  }
+ },
+ "diagnosis": {
+  "R1": "ok",
+  "R2": "ok",
+  "R3": "ok",
+  "R4": "ok",
+  "R5": "drift",
+  "R6": "steady-low"
+ },
+ "first_bad_day_R5": 6,
+ "recheck": 211,
+ "over_limit": {
+  "R4 day 7": 69.4
+ },
+ "per_hour": {
+  "R1": 93.2,
+  "R2": 55.7,
+  "R3": 80.5,
+  "R4": 63.0,
+  "R5": 89.0,
+  "R6": 150.1
+ }
+}

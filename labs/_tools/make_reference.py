@@ -21,7 +21,7 @@ COPY = {
     "D1_2_write_definitions_rules": [("d1_2/guideline_v1_0.json", "guideline_v1_0.json")],
     "D1_3_compute_kappa_alpha": [("d1_3/agreement_round1.json", "d1_3_agreement.json")],
     "D1_4_adjudicate_30_disagreements": [("d1_4/guideline_v1_1.json", "guideline_v1_1.json"), ("d1_4/agreement_r1_r2.csv", "agreement_r1_r2.csv")],
-    "D2_1_draw_stratified_golden": [("d2_1/golden_set.csv", "golden_set.csv")],
+    "D2_1_draw_stratified_golden": [("d2_1/coverage.json", "d2_1_coverage.json")],
     "D2_2_set_gold_question": [("d2_2/routing.json", "d2_2_routing.json")],
     "D2_3_find_drifting_rater": [("d2_3/drift.json", "d2_3_drift.json")],
     "D2_4_compare_cost_per": [("d2_4/designs.json", "d2_4_designs.json")],

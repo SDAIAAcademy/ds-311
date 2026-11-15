@@ -319,12 +319,18 @@ def main() -> None:
 
     # pre-label proxy known before labelling (a keyword step): right about 80% of the time
     index = []
+    rng_idx = random.Random(SEED + 7)
     for c in corpus:
         t = T[c["complaint_id"]]
-        pl = t["category"]
+        # two draws from the main stream are kept so that everything generated after stays the same
         if rng.random() < (0.20 if c["variety"] in ("msa", "english") else 0.30):
-            pl = rng.choice([x for x in CATS if x != pl])
-        if t["amb_pair"] and rng.random() < 0.5:
+            rng.choice([x for x in CATS if x != t["category"]])
+        if t["amb_pair"]:
+            rng.random()
+        pl = t["category"]
+        if rng_idx.random() < (0.20 if c["variety"] in ("msa", "english") else 0.30):
+            pl = rng_idx.choice([x for x in CATS if x not in (pl, "WARRANTY")])  # keywords rarely invent a warranty
+        if t["amb_pair"] and rng_idx.random() < 0.5:
             pl = t["amb_pair"].split("|")[1]
         index.append(dict(complaint_id=c["complaint_id"], variety=c["variety"], channel=c["channel"], prelabel=pl))
     wr(DATA / "corpus" / "corpus_index.csv.gz", index, gz=True)
@@ -502,7 +508,9 @@ def main() -> None:
     for r in trial:
         r["gold_label"] = T[r["complaint_id"]]["category"]
     wr(DATA / "ops" / "design_trial.csv", trial)
-    mask_items = [c for c in corpus if T[c["complaint_id"]]["has_pii"]][:30] + [c for c in corpus if not T[c["complaint_id"]]["has_pii"]][:10]
+    ar_dig = [c for c in corpus if any(ch in c["text"] for ch in "٠١٢٣٤٥٦٧٨٩")][:4]
+    mask_items = ar_dig + [c for c in corpus if T[c["complaint_id"]]["has_pii"] and c not in ar_dig][:26] + [c for c in corpus if not T[c["complaint_id"]]["has_pii"]][:10]
+    mask_items.sort(key=lambda c: c["complaint_id"])
     wr(DATA / "ops" / "to_prelabel.csv", [dict(complaint_id=c["complaint_id"], variety=c["variety"], text=c["text"]) for c in mask_items])
     wr(REF / "pii_truth.csv", [dict(complaint_id=c["complaint_id"], pii_kinds=T[c["complaint_id"]]["pii_kinds"],
                                      arabic_digits=int(any(ch in c["text"] for ch in "٠١٢٣٤٥٦٧٨٩"))) for c in mask_items])

@@ -1,0 +1,38 @@
+{
+ "random": {
+  "WARRANTY": 4,
+  "mixed": 18,
+  "WARRANTY in mixed": 2
+ },
+ "stratified": {
+  "WARRANTY": 29,
+  "mixed": 42,
+  "WARRANTY in mixed": 7
+ },
+ "alloc": {
+  "english|AD": 9,
+  "english|DEFECT": 11,
+  "english|DELIVERY": 10,
+  "english|PRICE": 8,
+  "english|REFUND": 10,
+  "english|WARRANTY": 6,
+  "gulf|AD": 11,
+  "gulf|DEFECT": 13,
+  "gulf|DELIVERY": 12,
+  "gulf|PRICE": 10,
+  "gulf|REFUND": 11,
+  "gulf|WARRANTY": 6,
+  "mixed|AD": 7,
+  "mixed|DEFECT": 8,
+  "mixed|DELIVERY": 7,
+  "mixed|PRICE": 7,
+  "mixed|REFUND": 7,
+  "mixed|WARRANTY": 6,
+  "msa|AD": 13,
+  "msa|DEFECT": 19,
+  "msa|DELIVERY": 16,
+  "msa|PRICE": 12,
+  "msa|REFUND": 15,
+  "msa|WARRANTY": 6
+ }
+}

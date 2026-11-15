@@ -234,6 +234,238 @@
       ],
       "pool": "practice",
       "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d2-strata",
+      "lo": [
+        "LO3"
+      ],
+      "day": "day2",
+      "session": 1,
+      "level": "apply",
+      "prompt": "A golden set is drawn with a floor of six per stratum of language variety and pre-label. Its WARRANTY share is 12% while the corpus holds 2.5%. Hatoon wants the golden set's category shares in a report. What must you do first?",
+      "options": [
+        "Nothing: the golden set was labelled by experts, so its shares are right",
+        "Drop WARRANTY items until the share matches the corpus",
+        "Weight each item by its stratum's population size over its sample size",
+        "Draw a new random sample of the same size"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "An oversampled stratified set estimates population shares only after weighting each item by N_h / n_h.",
+      "misconceptions": [
+        "Confuses the accuracy of each label with the representativeness of the sample",
+        "Throws away the rare cases the floor was meant to secure",
+        "",
+        "Gives up the coverage of rare cases to avoid a simple weighting step"
+      ],
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d2-proxy",
+      "lo": [
+        "LO3"
+      ],
+      "day": "day2",
+      "session": 1,
+      "level": "understand",
+      "prompt": "Why does Bayyin stratify its golden set on a keyword pre-label rather than on the category?",
+      "options": [
+        "The category is only known after the labelling the gold set is meant to check",
+        "Keyword pre-labels are more accurate than experts",
+        "Stratifying on the category is forbidden by the guideline",
+        "The pre-label makes the sample a simple random sample"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "Strata must use fields known before labelling; the pre-label predicts the category well enough to raise rare cases.",
+      "misconceptions": [
+        "",
+        "Reverses the roles: the pre-label is a cheap proxy, the expert label is the reference",
+        "Invents a rule; the limit is what is known at sampling time",
+        "Confuses stratified sampling with simple random sampling"
+      ],
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d2-wilson",
+      "lo": [
+        "LO3"
+      ],
+      "day": "day2",
+      "session": 2,
+      "level": "apply",
+      "prompt": "Rater R3 got 71 of 80 gold questions right; the 95% Wilson interval is 0.800 to 0.940. Bayyin's rule is: at least 30 gold answers and a lower bound of at least 0.80. What is R3's status?",
+      "options": [
+        "Watch: accuracy 0.888 is below 0.90",
+        "Too few: 80 answers are not enough",
+        "Pass: the lower bound reaches 0.80",
+        "Watch: the interval is wider than 0.10"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "The rule judges the lower bound after the minimum count; 0.800 meets the 0.80 threshold.",
+      "misconceptions": [
+        "Applies a threshold to the point estimate that the rule does not state",
+        "Misreads the minimum count of 30",
+        "",
+        "Invents a width condition the rule does not have"
+      ],
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d2-routing",
+      "lo": [
+        "LO3"
+      ],
+      "day": "day2",
+      "session": 2,
+      "level": "apply",
+      "prompt": "A complaint describing threats by a merchant's staff was labelled twice, REFUND and PRICE. Under Bayyin's routing, where does it go?",
+      "options": [
+        "Adjudication, because the two labels disagree",
+        "Accept the label of the rater with the higher gold accuracy",
+        "Re-label by a third rater from the general pool",
+        "The restricted queue, worked only by approved raters"
+      ],
+      "correct": [
+        3
+      ],
+      "explanation": "The wellbeing rule comes first: distressing items go to the restricted queue whatever their labels.",
+      "misconceptions": [
+        "Applies the quality rule before the wellbeing constraint",
+        "Trusts an average accuracy on one item",
+        "Sends distressing content to a rater who is not approved",
+        ""
+      ],
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d2-drift",
+      "lo": [
+        "LO3"
+      ],
+      "day": "day2",
+      "session": 3,
+      "level": "analyze",
+      "prompt": "Over ten days R5 averages 0.71 on gold and R6 0.73. R5 scored 0.975 on days 1 to 5 and 0.375 on days 8 to 10; R6 scored 0.68 and 0.79. Which statement is right?",
+      "options": [
+        "R5 drifted and R6 is steadily low, so they need different responses",
+        "Both are steadily low and need the same coaching",
+        "R6 drifted, because its accuracy changed between periods",
+        "Neither can be judged, since eight gold questions a day are too few"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "Compared with their own baselines, R5 fell sharply and R6 did not; drift calls for re-checking recent work, steady low accuracy for coaching.",
+      "misconceptions": [
+        "",
+        "Lets similar averages hide different histories",
+        "Reads an improvement as drift",
+        "Ignores that pooling days gives enough answers to judge"
+      ],
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d2-limit",
+      "lo": [
+        "LO3"
+      ],
+      "day": "day2",
+      "session": 3,
+      "level": "evaluate",
+      "prompt": "The workload log shows R4 labelled 69 minutes of distressing content on one day; the guideline's limit is 60. What is the best response?",
+      "options": [
+        "Remove R4 from the restricted queue permanently",
+        "Cap the restricted queue per rater per day in the routing and check on R4",
+        "Raise the limit to 70 minutes so the log complies",
+        "Ignore it: nine minutes over is within noise"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "The breach came from routing; the fix is a cap that enforces the guideline, and care for the rater.",
+      "misconceptions": [
+        "Punishes the rater for the workflow's fault",
+        "",
+        "Changes the rule to fit the breach",
+        "Treats a stated limit as a suggestion"
+      ],
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d2-mask",
+      "lo": [
+        "LO3"
+      ],
+      "day": "day2",
+      "session": 4,
+      "level": "apply",
+      "prompt": "A masking step replaces phone numbers matching 05 followed by eight Latin digits. A complaint contains a phone number written in Arabic-Indic digits. What happens, and what prevents it?",
+      "options": [
+        "Nothing happens: models cannot read Arabic-Indic digits",
+        "The number is caught because it is still a phone number",
+        "The number leaves unmasked; translate digits first and block any text with a long digit run left",
+        "The complaint is dropped from the corpus"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "A Latin-digit pattern misses the number; normalising digits and a residual check that fails closed keep it from leaving.",
+      "misconceptions": [
+        "Assumes a model cannot read what it receives",
+        "Trusts that a pattern matches meaning rather than characters",
+        "",
+        "Removes data instead of protecting it"
+      ],
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d2-cost",
+      "lo": [
+        "LO3"
+      ],
+      "day": "day2",
+      "session": 4,
+      "level": "evaluate",
+      "prompt": "Three designs: double labelling SAR 1.94 per accepted label at 0.3% error, audited single SAR 0.93 at 5.0%, model-assisted SAR 0.37 at 10.0%. Analysts accept at most 2% wrong labels. Which design?",
+      "options": [
+        "Double labelling: the only design within the limit",
+        "Model-assisted: the cheapest",
+        "Audited single: the middle option",
+        "Any of them: cost matters more than error"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "Only designs within the error limit are compared on cost; at 2% only double labelling qualifies.",
+      "misconceptions": [
+        "",
+        "Compares cost before applying the error limit",
+        "Picks a compromise that does not meet the limit",
+        "Ignores the analysts' requirement"
+      ],
+      "pool": "practice",
+      "weight": 1
     }
   ]
 }
