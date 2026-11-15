@@ -219,8 +219,8 @@ def render(g: dict) -> str:
 
 
 out = B.art("d1_2")
-(out / "guideline_v1_0.md").write_text(render(GUIDELINE), encoding="utf-8")
-(out / "guideline_v1_0.json").write_text(json.dumps(GUIDELINE, ensure_ascii=False, indent=1), encoding="utf-8")
+_ = (out / "guideline_v1_0.md").write_text(render(GUIDELINE), encoding="utf-8")
+_ = (out / "guideline_v1_0.json").write_text(json.dumps(GUIDELINE, ensure_ascii=False, indent=1), encoding="utf-8")
 print(render(GUIDELINE)[:900])
 
 # %% [markdown]

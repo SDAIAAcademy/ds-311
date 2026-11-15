@@ -135,7 +135,7 @@ contract = {
                 "quality": QUALITY["*"]}],
 }
 out = B.art("d3_4")
-(out / "contract.odcs.yaml").write_text(yaml.safe_dump(contract, sort_keys=False, allow_unicode=True, width=110), encoding="utf-8")
+_ = (out / "contract.odcs.yaml").write_text(yaml.safe_dump(contract, sort_keys=False, allow_unicode=True, width=110), encoding="utf-8")
 print((out / "contract.odcs.yaml").read_text(encoding="utf-8")[:1400])
 n_clauses = sum(len(v) for v in QUALITY.values())
 B.check(n_clauses >= 6, f"{n_clauses} quality clauses")

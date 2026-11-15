@@ -177,7 +177,7 @@ except NotImplementedError:
     res_clean = pd.DataFrame(B.reference("d3_2_rule_results")["clean"])
 print(res_clean[["failing", "status", "action"]].to_string())
 B.check((res_clean.failing == 0).all(), "no rule fires on the clean tables")
-(B.art("d3_2") / "rule_results.json").write_text(json.dumps({"seeded": json.loads(res.to_json()), "clean": json.loads(res_clean.to_json())}, indent=1), encoding="utf-8")
+_ = (B.art("d3_2") / "rule_results.json").write_text(json.dumps({"seeded": json.loads(res.to_json()), "clean": json.loads(res_clean.to_json())}, indent=1), encoding="utf-8")
 
 # %% [markdown]
 # ## ✱ Stretch · Three rules in Pandera

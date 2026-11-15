@@ -167,7 +167,7 @@ except NotImplementedError:
     designs = pd.DataFrame(B.reference("d2_4_designs")).T
 print(designs)
 B.check(designs.sar_per_label.idxmin() == "model_assisted" and designs.error.idxmin() == "double", "model-assisted is cheapest, double labelling most accurate")
-(B.art("d2_4") / "designs.json").write_text(designs.T.to_json(indent=1), encoding="utf-8")
+_ = (B.art("d2_4") / "designs.json").write_text(designs.T.to_json(indent=1), encoding="utf-8")
 
 # %% [markdown]
 # ## 4 · Choose a design, and the condition that would change it (4')

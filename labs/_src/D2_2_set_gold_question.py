@@ -66,7 +66,7 @@ try:
     scores = gold_scores(ops)
 except NotImplementedError:
     scores = pd.DataFrame(B.reference("d2_2_routing")["scores"]).T
-print(scores)
+print(scores.round(4))
 B.check(scores.loc["R6", "accuracy"] < 0.85 and scores.loc["R2", "accuracy"] > 0.9, "R6 scores lowest, R2 highest")
 
 # %% [markdown]
@@ -93,12 +93,16 @@ def status(row) -> str:
 try:
     scores["status"] = scores.apply(status, axis=1)
 except NotImplementedError:
-    scores["status"] = ["pass", "pass", "pass", "pass", "watch", "watch"]
-print(scores[["n", "accuracy", "lo", "status"]])
+    scores["status"] = ["pass", "pass", "watch", "pass", "watch", "watch"]
+print(scores[["n", "accuracy", "lo", "status"]].round(4))
 watch = set(scores[scores.status != "pass"].index)
 print("on watch:", sorted(watch))
 
 # %% [markdown]
+# 🔍 **Look at** R3: its lower bound is 0.7998, which a table rounded to three decimals shows as
+# 0.800. The rule compares the bound itself, so R3 is on watch by a hair. Round for display, never
+# before a decision.
+#
 # 🔍 **Look at** R5: over ten days its accuracy looks acceptable or borderline. Lab 2.3 asks whether
 # that average hides a change.
 
@@ -156,7 +160,7 @@ except NotImplementedError:
     hours = pd.Series(B.reference("d2_2_routing")["hours"])
 print(hours)
 pd.DataFrame({"items": queues.value_counts(), "hours": hours}).to_csv(B.art("d2_2") / "queues.csv")
-(B.art("d2_2") / "routing.json").write_text(json.dumps({"scores": scores.drop(columns=["status"]).T.to_dict(),
+_ = (B.art("d2_2") / "routing.json").write_text(json.dumps({"scores": scores.drop(columns=["status"]).T.to_dict(),
                                                          "queues": queues.to_dict(), "hours": hours.to_dict()}, indent=1, default=float), encoding="utf-8")
 B.check(hours.get("adjudicate", 0) > 0, "adjudication hours computed")
 

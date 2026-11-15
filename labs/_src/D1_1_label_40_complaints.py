@@ -159,7 +159,7 @@ try:
 except NotImplementedError:
     EXPLAIN = {cid: "not written yet" for cid in split.index[:3]}
 B.check(len(EXPLAIN) >= 3, "three disagreements explained")
-(B.art("d1_1") / "disagreements.txt").write_text("\n".join(f"{k}: {v}" for k, v in EXPLAIN.items()), encoding="utf-8")
+_ = (B.art("d1_1") / "disagreements.txt").write_text("\n".join(f"{k}: {v}" for k, v in EXPLAIN.items()), encoding="utf-8")
 
 # %% [markdown]
 # ## ✱ Stretch · Agreement by language variety

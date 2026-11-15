@@ -1,7 +1,7 @@
 <!-- academy:title -->
 # Data Quality, Labelling and Pipelines for Analysis
 
-جودة البيانات والوسم ومسارات إعدادها للتحليل
+جودة البيانات والتوسيم وخطوط إعدادها للتحليل
 
 Data Science Track · SDAIA Academy · DS-311 · Level 300
 
@@ -76,6 +76,13 @@ A labelled, quality-gated analysis table for a second synthetic case (municipal 
 
 Rubric: guideline and agreement 25, rules and contract 25, pipeline 25, incident handling 15, reproducibility 10. The brief, the data generator and a README template are in `labs/capstone/`.
 
+## Assessment, AI use and responsible use
+
+- **Assessment:** a supervised AI-off check on agreement, quality dimensions and rules (20%); the capstone repository on the rubric above (60%); the live review of a defect the assessor seeds (20%). Passing needs 70% overall and at least 60% on the capstone rubric. Authenticity rests on the run logs and commit history, and on the live review, in which an unseen defect must be caught and traced. Certificate: completion with assessed work.
+- **AI use:** AI-off for the supervised check and for the first lab of Days 1 and 3 (Labs 1.1 and 3.1). An assistant as a tutor in the other labs, explaining errors without writing the guideline. Full use in the capstone, defended live. Model pre-labels are checked by people, never accepted unseen.
+- **Responsible use:** the synthetic complaints carry planted personal data that is masked and classified before any model call (Lab 2.4); agreement is reported by language and dialect; the guideline records who may label distressing content and for how long, and Lab 2.3 checks it.
+- **Pre-work and follow-up:** about two hours before Day 1, and a follow-up task within four weeks that is tracked by its run logs (`labs/follow_up.md`).
+
 ## Prerequisites
 
 - DS-202 Data Acquisition, Preparation and Quality
@@ -92,7 +99,7 @@ Each line is a capability; the examples are interchangeable.
 - **Validation framework:** Pandera, Great Expectations, Soda Core
 - **Data contract specification:** Open Data Contract Standard, contract checks compiled to SQL tests
 - **Data processing and pipeline runner:** DuckDB or Polars with a task runner, Dagster with OpenLineage events
-- **Language model for pre-labels, through a chat-completions style endpoint:** a free hosted open-weight model (an OpenRouter free model), the labs' scripted stand-in when no key is available
+- **Language model for pre-labels, through a chat-completions style endpoint:** a locally served open-weight model, a free hosted open-weight model
 <!-- /academy:tools -->
 
 <!-- academy:sources -->

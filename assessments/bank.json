@@ -302,22 +302,22 @@
       "day": "day2",
       "session": 2,
       "level": "apply",
-      "prompt": "Rater R3 got 71 of 80 gold questions right; the 95% Wilson interval is 0.800 to 0.940. Bayyin's rule is: at least 30 gold answers and a lower bound of at least 0.80. What is R3's status?",
+      "prompt": "Rater R3 got 71 of 80 gold questions right. The 95% Wilson interval is 0.7998 to 0.9397; a report rounded to three decimals shows it as 0.800 to 0.940. Bayyin's rule is: at least 30 gold answers and a lower bound of at least 0.80. What is R3's status?",
       "options": [
-        "Watch: accuracy 0.888 is below 0.90",
+        "Watch: the lower bound is just under 0.80",
         "Too few: 80 answers are not enough",
-        "Pass: the lower bound reaches 0.80",
-        "Watch: the interval is wider than 0.10"
+        "Pass: the rounded lower bound reads 0.800",
+        "Watch: accuracy 0.888 is below 0.90"
       ],
       "correct": [
-        2
+        0
       ],
-      "explanation": "The rule judges the lower bound after the minimum count; 0.800 meets the 0.80 threshold.",
+      "explanation": "The rule compares the lower bound itself after the minimum count: 0.7998 is below 0.80, so R3 is on watch. Round for display, never before a decision.",
       "misconceptions": [
-        "Applies a threshold to the point estimate that the rule does not state",
-        "Misreads the minimum count of 30",
         "",
-        "Invents a width condition the rule does not have"
+        "Misreads the minimum count of 30",
+        "Applies the rule to a figure rounded for display instead of to the bound",
+        "Applies a threshold to the point estimate that the rule does not state"
       ],
       "pool": "practice",
       "weight": 1

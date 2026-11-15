@@ -161,7 +161,7 @@ dims = set(PROPOSED.dimension)
 B.check(len(PROPOSED) >= 6 and len(dims) >= 5, f"{len(PROPOSED)} rules over {len(dims)} dimensions")
 B.check(PROPOSED.owner.str.len().gt(0).all(), "every rule has an owner")
 out = B.art("d3_1")
-(out / "profile.json").write_text(json.dumps({**{t: json.loads(p.to_json()) for t, p in profiles.items()},
+_ = (out / "profile.json").write_text(json.dumps({**{t: json.loads(p.to_json()) for t, p in profiles.items()},
                                               "proposed": PROPOSED.to_dict("records")}, ensure_ascii=False, indent=1), encoding="utf-8")
 
 # %% [markdown]

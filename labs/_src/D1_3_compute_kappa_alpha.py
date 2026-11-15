@@ -185,7 +185,7 @@ worst = report[report.group == "category"].sort_values("alpha").iloc[0]
 B.check(worst["name"] == "WARRANTY", "the weakest category is WARRANTY")
 out = B.art("d1_3")
 report.to_csv(out / "agreement_round1.csv", index=False)
-(out / "agreement_round1.json").write_text(json.dumps(dict(all_agree=pa_all, pair_pa=pair_pa, pair_pe=pair_pe, kappas=kappas,
+_ = (out / "agreement_round1.json").write_text(json.dumps(dict(all_agree=pa_all, pair_pa=pair_pa, pair_pe=pair_pe, kappas=kappas,
                                                          alpha=a_all, report=rows), indent=1), encoding="utf-8")
 
 # %% [markdown]

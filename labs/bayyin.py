@@ -136,7 +136,8 @@ def wilson(k: int, n: int, z: float = 1.96):
     d = 1 + z * z / n
     c = (p + z * z / (2 * n)) / d
     h = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / d
-    return round(c - h, 3), round(c + h, 3)
+    # Unrounded on purpose: a pass rule compares the bound itself, and 0.7998 rounds to 0.800.
+    return c - h, c + h
 
 
 # ---------------------------------------------------------------- personal data

@@ -227,7 +227,7 @@ try:
 except NotImplementedError:
     NOTE = {}
 md = "## Incident note: R04 August complaint rate\n\n" + "\n".join(f"- **{k}**: {v}" for k, v in NOTE.items())
-(B.art("d4_3") / "incident_note.md").write_text(md, encoding="utf-8")
+_ = (B.art("d4_3") / "incident_note.md").write_text(md, encoding="utf-8")
 print(md)
 B.check(all(x in md for x in ("48.06", "39.14", str(corrected[1]))), "the note gives the two published figures and the corrected one")
 

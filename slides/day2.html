@@ -153,17 +153,17 @@
 
 <section class="slide" data-label="Gold scores" id="gold-accuracy-interval" data-lo="LO3">
   <div class="kicker">Lab 2.2, 80 gold answers per rater</div>
-  <h2>Two raters fall below the line, and the interval says how sure we are</h2>
+  <h2>Three raters fall below the line, one of them by a hair</h2>
   <table class="t small">
     <tr><th>Rater</th><th class="num">Right</th><th class="num">Accuracy</th><th class="num">95% interval</th></tr>
     <tr><td>R1</td><td class="num">76</td><td class="num">0.950</td><td class="num">0.878 to 0.980</td></tr>
     <tr><td>R2</td><td class="num">75</td><td class="num">0.938</td><td class="num">0.862 to 0.973</td></tr>
-    <tr><td>R3</td><td class="num">71</td><td class="num">0.888</td><td class="num">0.800 to 0.940</td></tr>
+    <tr class="hl"><td>R3</td><td class="num">71</td><td class="num">0.888</td><td class="num">0.7998 to 0.940</td></tr>
     <tr><td>R4</td><td class="num">72</td><td class="num">0.900</td><td class="num">0.815 to 0.948</td></tr>
     <tr class="hl"><td>R5</td><td class="num">57</td><td class="num">0.712</td><td class="num">0.605 to 0.800</td></tr>
     <tr class="hl"><td>R6</td><td class="num">58</td><td class="num">0.725</td><td class="num">0.619 to 0.811</td></tr>
   </table>
-  <aside class="notes"><p>Wilson intervals, from the Lab 2.2 solution run. The Wilson interval behaves well near 0 and 1 and with small counts, unlike the plus-or-minus normal formula. R5 and R6 look alike here; Session 3 shows they are not.</p></aside>
+  <aside class="notes"><p>Wilson intervals, from the Lab 2.2 solution run. The Wilson interval behaves well near 0 and 1 and with small counts, unlike the plus-or-minus normal formula. R3 is the lesson of the rounding: its lower bound is 0.7998, which a three-decimal table shows as 0.800, so it misses the 0.80 line by a hair. Round for display, never before a decision. R5 and R6 look alike here; Session 3 shows they are not.</p></aside>
 </section>
 
 <section class="slide" data-label="Pass rule" id="pass-rule-minimum" data-lo="LO3">
@@ -201,15 +201,15 @@ def status(row):
 
 <section class="slide" data-label="Queue sizes" id="queue-sizes" data-lo="LO3">
   <div class="kicker">Lab 2.2, 2,015 work items</div>
-  <h2>A quarter of the round needs a second look</h2>
+  <h2>Almost half of the round needs a second look</h2>
   <div class="bars">
-    <div class="row"><span>Accept</span><div class="bar c-teal" style="--w:100%"></div><span class="val">1,325</span></div>
-    <div class="row"><span>Re-label</span><div class="bar c-amber" style="--w:37%"></div><span class="val">487</span></div>
-    <div class="row"><span>Adjudicate</span><div class="bar c-coral" style="--w:10%"></div><span class="val">139</span></div>
-    <div class="row"><span>Restricted</span><div class="bar c-purple" style="--w:5%"></div><span class="val">64</span></div>
+    <div class="row"><span>Accept</span><div class="bar c-teal" style="--w:100%"></div><span class="val">1,081</span></div>
+    <div class="row"><span>Re-label</span><div class="bar c-amber" style="--w:68%"></div><span class="val">731</span></div>
+    <div class="row"><span>Adjudicate</span><div class="bar c-coral" style="--w:13%"></div><span class="val">139</span></div>
+    <div class="row"><span>Restricted</span><div class="bar c-purple" style="--w:6%"></div><span class="val">64</span></div>
   </div>
-  <p class="small mt">Tomorrow's work: 3.5 adjudicator hours, 5.6 hours of re-labelling, 3.6 hours in the restricted queue.</p>
-  <aside class="notes"><p>From the Lab 2.2 solution run, with 90 seconds per adjudication and the team's median time per re-label. The re-label queue is large because two raters are on watch; fixing R5's drift (Session 3) shrinks it more than hiring.</p></aside>
+  <p class="small mt">Tomorrow's work: 3.5 adjudicator hours, 8.3 hours of re-labelling, 3.6 hours in the restricted queue.</p>
+  <aside class="notes"><p>From the Lab 2.2 solution run, with 90 seconds per adjudication and the team's median time per re-label. The re-label queue is large because three raters are on watch, R3 by a hair; fixing R5's drift (Session 3) shrinks it more than hiring.</p></aside>
 </section>
 
 <section class="slide" data-label="Compliance" id="restricted-compliance" data-lo="LO3">
@@ -250,7 +250,7 @@ def status(row):
 <section class="slide section" id="s3" data-auto="section" data-session="3"></section>
 
 <section class="slide" data-label="Two kinds of low" id="drift-versus-steady" data-lo="LO3">
-  <div class="kicker">Two raters on watch</div>
+  <div class="kicker">Two raters far below the line</div>
   <h2>The same average can come from two different problems</h2>
   <div class="cols cols-2">
     <div class="card c-coral"><h4>Steadily low</h4><p class="small mb0">Always below the team. Needs coaching and double labelling; past work is as good as it ever was.</p></div>
@@ -446,9 +446,9 @@ for name in ["IBAN", "EMAIL", "PHONE",
   <div class="kicker">The evidence for LO3</div>
   <h2>The quality-control report in five lines</h2>
   <ol class="bullets tight">
-    <li>Gold accuracy per rater with intervals; R5 and R6 on watch.</li>
+    <li>Gold accuracy per rater with intervals; R3 (by a hair), R5 and R6 on watch.</li>
     <li>R5 drifted from day 6; 211 work labels re-checked. R6 steadily low: coaching and double labelling.</li>
-    <li>Queues: 1,325 accepted, 487 re-label, 139 adjudication, 64 restricted; 13 hours of review.</li>
+    <li>Queues: 1,081 accepted, 731 re-label, 139 adjudication, 64 restricted; 15 hours of review.</li>
     <li>One breach of the distressing-content limit (R4, day 7, 69 minutes); routing cap added.</li>
     <li>Audited single labelling at SAR 0.93 per accepted label and 5.0% error.</li>
   </ol>

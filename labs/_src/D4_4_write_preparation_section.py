@@ -171,7 +171,7 @@ try:
 except NotImplementedError:
     labels_md = ""
 section = prep_md + "\n" + labels_md
-(out / "datasheet_preparation.md").write_text(section, encoding="utf-8")
+_ = (out / "datasheet_preparation.md").write_text(section, encoding="utf-8")
 
 # %% [markdown]
 # ## 4 · Every number traced to the run (5')

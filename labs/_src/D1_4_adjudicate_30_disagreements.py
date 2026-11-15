@@ -136,7 +136,7 @@ try:
 except NotImplementedError:
     CHANGES = ["v1.1: not written yet"]
 guide_11 = dict(guide, version="1.1", change_log=guide.get("change_log", []) + CHANGES)
-(B.art("d1_4") / "guideline_v1_1.json").write_text(json.dumps(guide_11, ensure_ascii=False, indent=1), encoding="utf-8")
+_ = (B.art("d1_4") / "guideline_v1_1.json").write_text(json.dumps(guide_11, ensure_ascii=False, indent=1), encoding="utf-8")
 print("\n".join(CHANGES))
 B.check(len(CHANGES) >= 3 and all("of 30" in c for c in CHANGES), "every change cites a count")
 

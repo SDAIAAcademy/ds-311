@@ -3,7 +3,8 @@
 #
 # Day 2 · Session 3 (Rater drift and workload) · 25 min · AI-tutor.
 #
-# Two raters ended Lab 2.2 on watch. One has always been weaker; the other was fine and then
+# Two raters ended Lab 2.2 well below the line (R3 missed it only by a hair). One has always
+# been weaker; the other was fine and then
 # changed. They need different responses (coaching against retraining and re-checking recent work),
 # so you must tell them apart. You track gold accuracy per rater over ten days, flag drift against
 # each rater's own baseline, and check workload and distressing-content minutes against the
@@ -151,7 +152,7 @@ except NotImplementedError:
 print("distressing minutes over the limit:\n", over)
 print("labels per hour:", per_hour.to_dict())
 B.check(list(over.index) == [("R4", 7)], "one breach: R4 on day 7")
-(B.art("d2_3") / "drift.json").write_text(json.dumps({"drift": d.T.to_dict(), "diagnosis": diagnosis.to_dict(),
+_ = (B.art("d2_3") / "drift.json").write_text(json.dumps({"drift": d.T.to_dict(), "diagnosis": diagnosis.to_dict(),
                                                        "first_bad_day_R5": int(first_bad), "recheck": len(recheck),
                                                        "over_limit": {f"{r} day {dd}": m for (r, dd), m in over.items()},
                                                        "per_hour": per_hour.to_dict()}, indent=1, default=float), encoding="utf-8")

@@ -7,7 +7,7 @@
   "lang": "en",
   "title": {
     "en": "Data Quality, Labelling and Pipelines for Analysis",
-    "ar": "جودة البيانات والوسم ومسارات إعدادها للتحليل"
+    "ar": "جودة البيانات والتوسيم وخطوط إعدادها للتحليل"
   },
   "tagline": "Build the labels, rules, contract and gated pipeline an analysis depends on, and trace a figure that changed",
   "description": "Participants build the data an analysis depends on for Bayyin Consumer Protection Office, a fictional regulator holding 30,000 synthetic complaint records in Arabic and English. They write a labelling guideline, pilot it, measure agreement and adjudicate, run golden-question checks and review queues across a rater team, turn analysts' requirements into quality rules and a data contract, and package the preparation as a reproducible pipeline that stops on those rules. Measuring model-made labels is DS-306; platform-scale data engineering is AE-306.",
@@ -801,8 +801,8 @@
     {
       "slot": "Language model for pre-labels, through a chat-completions style endpoint",
       "examples": [
-        "a free hosted open-weight model (an OpenRouter free model)",
-        "the labs' scripted stand-in when no key is available"
+        "a locally served open-weight model",
+        "a free hosted open-weight model"
       ]
     }
   ],

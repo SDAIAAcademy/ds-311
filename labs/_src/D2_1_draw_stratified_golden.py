@@ -161,7 +161,7 @@ B.check(cov_gold["WARRANTY"] >= 2 * cov_srs["WARRANTY"] and cov_gold["mixed"] >=
 B.check(abs(shares.loc["WARRANTY", "weighted"] - shares.loc["WARRANTY", "whole corpus"]) < abs(shares.loc["WARRANTY", "unweighted"] - shares.loc["WARRANTY", "whole corpus"]), "weighting brings WARRANTY's share back toward the corpus")
 out = B.art("d2_1")
 gold[["complaint_id", "variety", "prelabel", "stratum", "gold_label", "weight"]].to_csv(out / "golden_set.csv", index=False)
-(out / "coverage.json").write_text(json.dumps({"random": cov_srs, "stratified": cov_gold, "alloc": n_h.to_dict()}, indent=1), encoding="utf-8")
+_ = (out / "coverage.json").write_text(json.dumps({"random": cov_srs, "stratified": cov_gold, "alloc": n_h.to_dict()}, indent=1), encoding="utf-8")
 
 # %% [markdown]
 # ## ✱ Stretch · A hidden half
