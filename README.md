@@ -92,7 +92,7 @@ Each line is a capability; the examples are interchangeable.
 - **Validation framework:** Pandera, Great Expectations, Soda Core
 - **Data contract specification:** Open Data Contract Standard, contract checks compiled to SQL tests
 - **Data processing and pipeline runner:** DuckDB or Polars with a task runner, Dagster with OpenLineage events
-- **Language model for pre-labels, through a chat-completions style endpoint:** a locally served open-weight model, a free hosted open-weight model
+- **Language model for pre-labels, through a chat-completions style endpoint:** a free hosted open-weight model (an OpenRouter free model), the labs' scripted stand-in when no key is available
 <!-- /academy:tools -->
 
 <!-- academy:sources -->
@@ -126,10 +126,3 @@ Each line is a capability; the examples are interchangeable.
 - [Implementing Regulation of the Personal Data Protection Law](https://sdaia.gov.sa/en/SDAIA/about/Documents/ImplementingRegulationPersonalDataProtectionLaw.pdf)
 - [SDAIA: Generative AI Guidelines for Government](https://sdaia.gov.sa/en/SDAIA/about/Files/GenAIGuidelinesForGovernmentENCompressed.pdf)
 <!-- /academy:sources -->
-
-### National references
-
-- NDMO Data Management and Personal Data Protection Standards (Data Quality, and Data Catalog and Metadata domains): <https://sdaia.gov.sa/en/SDAIA/about/Documents/DataManagementPersonalDataProtectionStandards.pdf>
-- NDMO Data Classification Policy: <https://sdaia.gov.sa/en/SDAIA/about/Documents/DataClassificationPolicy.pdf>
-- Personal Data Protection Law and its implementing regulations: <https://sdaia.gov.sa/en/SDAIA/about/Documents/PersonalDataProtectionLaw.pdf> and <https://sdaia.gov.sa/en/SDAIA/about/Documents/ImplementingRegulationPersonalDataProtectionLaw.pdf>
-- SDAIA Generative AI Guidelines for Government: <https://sdaia.gov.sa/en/SDAIA/about/Files/GenAIGuidelinesForGovernmentENCompressed.pdf>

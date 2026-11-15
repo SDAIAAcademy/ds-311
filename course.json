@@ -801,8 +801,8 @@
     {
       "slot": "Language model for pre-labels, through a chat-completions style endpoint",
       "examples": [
-        "a locally served open-weight model",
-        "a free hosted open-weight model"
+        "a free hosted open-weight model (an OpenRouter free model)",
+        "the labs' scripted stand-in when no key is available"
       ]
     }
   ],
