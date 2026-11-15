@@ -27,7 +27,7 @@ COPY = {
     "D2_4_compare_cost_per": [("d2_4/designs.json", "d2_4_designs.json")],
     "D3_1_profile_four_source": [("d3_1/profile.json", "d3_1_profile.json")],
     "D3_2_implement_warning_blocking": [("d3_2/rule_results.json", "d3_2_rule_results.json")],
-    "D3_3_match_merchant_names": [("d3_3/matches.csv", "d3_3_matches.csv")],
+    "D3_3_match_merchant_names": [("d3_3/matches.csv", "d3_3_matches.csv"), ("d3_3/curve.json", "d3_3_curve.json")],
     "D3_4_write_contract_prepared": [("d3_4/contract.odcs.yaml", "contract.odcs.yaml")],
     "D4_4_write_preparation_section": [],
 }

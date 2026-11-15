@@ -1,158 +1,472 @@
+<!-- ======================= OPENING ======================= -->
 <section class="slide title" id="title" data-auto="title">
-  <aside class="notes">REPLACE: welcome; introduce yourself; one question to the room that calibrates the pace; the rhythm of the day</aside>
+  <aside class="notes"><p>Two days on labels. Today the labels join the office's other data: the portal extract, the merchant registry, the regions table and the case-action log. The question becomes "is this table fit to publish a rate from?" Hatoon's monthly rate per 100,000 residents is the figure everything today protects.</p></aside>
+</section>
+
+<section class="slide" id="review-day2" data-lo="LO3">
+  <div class="kicker">Review of Day 2</div>
+  <h2>Who needs which response?</h2>
+  <div class="quiz" data-type="single" data-lo="LO3">
+    <p class="lead">Over ten days R5 and R6 both average about 0.72 on gold. R5 scored 0.975 in the first five days and 0.375 in the last three; R6 stayed between 0.68 and 0.79. What do you do?</p>
+    <div class="opts">
+      <div class="opt" data-why="Lets two similar averages hide two different histories">Coach both raters the same way</div>
+      <div class="opt" data-ok>Re-check R5's recent labels; coach R6 and double-label its work</div>
+      <div class="opt" data-why="Reads a steady, low rater as the one who changed">Re-check R6's recent labels; leave R5, whose average is the same</div>
+      <div class="opt" data-why="Ignores that pooled days give enough gold answers to judge">Wait for more gold answers before doing anything</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Drift is judged against each rater's own baseline: R5 changed, so its recent work is suspect; R6 is steadily low, which calls for coaching.</div>
+  </div>
+  <aside class="notes"><p>Answer: B. Numbers from Lab 2.3: R5 fell from 0.975 to 0.375 (z = 5.37) and 211 labels went back for re-checking. Bridge: today the same habit, a baseline and a threshold, is applied to tables instead of raters.</p></aside>
 </section>
 
 <section class="slide" id="agenda" data-auto="agenda"></section>
 
-<!-- Session 1 -->
-
+<!-- ======================= SESSION 1 ======================= -->
 <section class="slide section" id="s1" data-auto="section" data-session="1"></section>
 
-<section class="slide" id="s1-idea" data-lo="LO4">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
-  <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+<section class="slide" data-label="Four tables" id="four-tables" data-lo="LO4">
+  <div class="kicker">What Bayyin prepares every month</div>
+  <h2>Four tables feed one published rate</h2>
+  <div class="cols cols-4 gap-s">
+    <div class="card c-teal"><h4>Complaints</h4><p class="small mb0">The portal extract of 5 September: 30,300 rows, one per complaint, with its category from the labels.</p></div>
+    <div class="card c-cyan"><h4>Merchants</h4><p class="small mb0">The registry: 153 rows, Arabic and English names, a commercial registration number.</p></div>
+    <div class="card c-purple"><h4>Regions</h4><p class="small mb0">Thirteen regions with their populations: the denominator of the rate.</p></div>
+    <div class="card c-coral"><h4>Case actions</h4><p class="small mb0">30,148 actions taken by officers: warnings, referrals, refunds.</p></div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <div class="callout warn small mt"><b>What goes wrong.</b> Each table can be correct on its own and the join still wrong: a missing region drops a complaint from the rate silently.</div>
+  <aside class="notes"><p>The extract is synthetic and seeded with nine kinds of defect. Participants do not see the list of defects until Lab 3.2: in Lab 3.1 they find them from the profile. The figure at stake: complaints per 100,000 residents, by region and month.</p></aside>
 </section>
 
-<section class="slide" id="s1-steps" data-lo="LO4">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" data-label="Six dimensions" id="six-dimensions" data-lo="LO4">
+  <div class="kicker">The NDMO Data Quality domain</div>
+  <h2>Six dimensions organise what a profile can show</h2>
+  <table class="t small">
+    <tr><th>Dimension</th><th>The question</th><th>In Bayyin's extract</th></tr>
+    <tr><td>Completeness</td><td>Is the value there?</td><td>Region empty on 414 complaints</td></tr>
+    <tr><td>Uniqueness</td><td>Is each thing recorded once?</td><td>60 complaint ids appear twice</td></tr>
+    <tr><td>Validity</td><td>Is the value allowed?</td><td>Category "defect" and "C7"; region R99</td></tr>
+    <tr><td>Consistency</td><td>Do related values agree?</td><td>85 closed before they were received</td></tr>
+    <tr><td>Accuracy</td><td>Is the value true?</td><td>Amounts of SAR 694,783</td></tr>
+    <tr><td>Timeliness</td><td>Is it recent enough?</td><td>Newest complaint against the extract date</td></tr>
+  </table>
+  <aside class="notes"><p>The six are the dimensions named in the NDMO Data Management and Personal Data Protection Standards' Data Quality domain; DS-202 introduces them for exploration. Here they become rules that run every month. Point out that accuracy is the hardest: it needs a reference outside the table.</p></aside>
+</section>
+
+<section class="slide" data-label="Load as text" id="profile-as-text" data-lo="LO4">
+  <div class="kicker">Lab 3.1, before any rule</div>
+  <h2>Profile the values as they arrived, loaded as text</h2>
+  <div class="cols cols-2">
+    <pre class="code s" data-file="profile(table)"><code class="language-sql">SELECT count(*) FILTER (WHERE c IS NULL
+                         OR trim(c) = '') AS empty,
+       count(DISTINCT c)  AS distinct_values,
+       min(c), max(c), mode(c),
+       min(TRY_CAST(c AS DOUBLE)),
+       max(TRY_CAST(c AS DOUBLE))
+FROM complaints</code></pre>
+    <div class="stack">
+      <div class="card c-teal flat"><h4>Why text</h4><p class="small mb0">A typed load turns "warranty" or "2027-06-25" into an error or a NULL before anyone sees it.</p></div>
+      <div class="card c-coral flat"><h4>AI-off</h4><p class="small mb0">Lab 3.1 is done without an assistant: reading a profile is the skill.</p></div>
+    </div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <aside class="notes"><p>DuckDB reads the gzip CSVs directly; all_varchar keeps every value as written. The profile is one row per column: empty, distinct, min, max, most common, and numeric min and max where the cast works. Ask: which column would you look at first, and why?</p></aside>
+</section>
+
+<section class="slide" data-label="What it shows" id="profile-findings" data-lo="LO4">
+  <div class="kicker">Lab 3.1, read from the profile</div>
+  <h2>The profile points at the anomalies; one query confirms each</h2>
+  <table class="t small">
+    <tr><th>What the profile shows</th><th>Confirmed by</th><th class="num">Rows</th></tr>
+    <tr><td>30,300 rows, 30,240 distinct ids</td><td>count minus count distinct</td><td class="num">60</td></tr>
+    <tr><td>13 category codes for six categories</td><td>codes outside the six</td><td class="num">170</td></tr>
+    <tr><td>Maximum amount SAR 694,783</td><td>amounts above SAR 50,000</td><td class="num">619</td></tr>
+    <tr><td>Latest received date 2027-06-25</td><td>after the extract date</td><td class="num">12</td></tr>
+    <tr><td>14 region codes for 13 regions; 414 empty</td><td>not in the regions table</td><td class="num">600</td></tr>
+    <tr><td>Actions for 22,676 complaint ids</td><td>action without a complaint</td><td class="num">150</td></tr>
+  </table>
+  <aside class="notes"><p>All counts from the Lab 3.1 solution run. The category codes include lower-case variants ("defect", "price", "ad", "warranty") and a legacy code from the old portal. The registry has 153 rows for 150 registration numbers: three merchants registered twice.</p></aside>
+</section>
+
+<section class="slide" data-label="Batch error" id="halala-batch" data-lo="LO4">
+  <div class="kicker">The anomaly the maximum hides</div>
+  <h2>August's app batch arrived in halalas</h2>
+  <div class="bars">
+    <div class="row"><span>App, June</span><div class="bar c-teal" style="--w:1%"></div><span class="val">SAR 545</span></div>
+    <div class="row"><span>App, July</span><div class="bar c-teal" style="--w:1.3%"></div><span class="val">SAR 694</span></div>
+    <div class="row"><span>App, August</span><div class="bar c-coral" style="--w:100%"></div><span class="val">SAR 54,706</span></div>
+    <div class="row"><span>Web, August</span><div class="bar c-teal" style="--w:1%"></div><span class="val">SAR 530</span></div>
+  </div>
+  <p class="small mt">Median amount by month and channel. Multiplied by 100, only 619 of the 1,195 amounts pass SAR 50,000.</p>
+  <aside class="notes"><p>The app vendor changed its export in August and sent amounts in halalas. A row-level rule on the maximum sees only the larger amounts; the batch moved as a whole. This is why Lab 3.2 has a second accuracy rule on the monthly median by channel. Ask: what would the August refund figures have shown?</p></aside>
+</section>
+
+<section class="slide" data-label="A rule" id="rule-anatomy" data-lo="LO4">
+  <div class="kicker">What a rule must state</div>
+  <h2>A rule names its owner, dimension, attributes and threshold</h2>
+  <div class="cols cols-2">
+    <pre class="code s" data-file="pipeline/rules.py"><code class="language-python">dict(id="C01", dimension="completeness",
+     owner="Hatoon Al-Furaih",
+     table="complaints",
+     description="Every complaint has a region: "
+                 "the rate is published by region",
+     attributes=["region_code"],
+     severity="quarantine", max_rate=0.03,
+     sql="SELECT rid FROM complaints WHERE "
+         "region_code IS NULL OR trim(region_code) = ''")</code></pre>
+    <div class="stack">
+      <div class="card c-teal flat"><h4>Owner</h4><p class="small mb0">Who accepts the threshold and answers when the rule fires.</p></div>
+      <div class="card c-cyan flat"><h4>Business description</h4><p class="small mb0">Why the figure needs it, in the user's words.</p></div>
+      <div class="card c-purple flat"><h4>Threshold</h4><p class="small mb0">The share of failing rows the owner accepts.</p></div>
+    </div>
+  </div>
+  <aside class="notes"><p>The NDMO Data Quality domain asks each data-quality rule to identify its owner, describe the business requirement, assign a dimension, list the attributes and define the metric. Bayyin's rules carry exactly those fields. The owners: Hatoon uses the rate, Abdulelah runs the pipeline, Khulood leads labelling.</p></aside>
+</section>
+
+<section class="slide" id="checkpoint-1" data-lo="LO4">
+  <div class="kicker">Checkpoint</div>
+  <h2>Is the maximum enough?</h2>
+  <div class="quiz" data-type="single" data-lo="LO4">
+    <p class="lead">The profile shows a maximum amount of SAR 694,783. Abdulelah proposes one rule: "no amount above SAR 50,000". August's app batch was sent in halalas. What does his rule miss?</p>
+    <div class="opts">
+      <div class="opt" data-ok>The halala amounts that stayed under SAR 50,000; a rule on the batch's median catches them</div>
+      <div class="opt" data-why="Assumes multiplying by 100 pushes every amount over the limit">Nothing: every halala amount is above SAR 50,000</div>
+      <div class="opt" data-why="Confuses a unit error with a duplicate">The duplicated complaints of August</div>
+      <div class="opt" data-why="Thinks the threshold, not the level of the check, is the problem">Only amounts between SAR 40,000 and 50,000; lower the limit to 40,000</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> A unit error moves the whole batch; a row rule sees only the rows it pushes past the limit. 619 of 1,195 rows passed SAR 50,000.</div>
+  </div>
+  <aside class="notes"><p>Answer: A. D is tempting: any fixed limit still misses small purchases multiplied by 100. Look at the medians by month and channel instead.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-3-1" data-auto="lab" data-lab="3.1">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>AI-off: assistants closed. Walk the room during task 2; people who stall usually have not looked at min and max of the date columns. The profile function is the slow part; anyone stuck after eight minutes can load the reference profile (the safety net does it) and go on to the anomalies.</p></aside>
 </section>
 
-<!-- Session 2 -->
-
+<!-- ======================= SESSION 2 ======================= -->
 <section class="slide section" id="s2" data-auto="section" data-session="2"></section>
 
-<section class="slide" id="s2-idea" data-lo="LO4">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
+<section class="slide" data-label="Failing rows" id="rule-as-query" data-lo="LO4">
+  <div class="kicker">One shape for every rule</div>
+  <h2>A rule is a query that returns the failing rows</h2>
   <div class="cols cols-2">
+    <pre class="code s" data-file="K01"><code class="language-sql">SELECT rid FROM complaints
+WHERE coalesce(closed_date, '') &lt;&gt; ''
+  AND TRY_CAST(closed_date AS DATE)
+    &lt; TRY_CAST(received_date AS DATE)</code></pre>
     <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
+      <li>The same query <b>counts</b> failures, <b>lists</b> them and <b>moves</b> them to quarantine.</li>
+      <li>Every table gets a row id, <code>rid</code>, so a failing row can be named.</li>
+      <li>Rules run on text: a bad value fails the rule, not the load.</li>
     </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <aside class="notes"><p>K01 is the participants' first exercise in Lab 3.2. TRY_CAST returns NULL instead of an error, so a malformed date does not stop the rule run; V03 catches malformed or future received dates separately.</p></aside>
 </section>
 
-<section class="slide" id="s2-steps" data-lo="LO4">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
+<section class="slide" data-label="Severity" id="severity-ladder" data-lo="LO4">
+  <div class="kicker">What happens when a rule fails</div>
+  <h2>Warn, quarantine or block</h2>
   <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+    <div class="step c-teal"><b>Warn</b>log it; the run goes on</div>
+    <div class="arrow">→</div>
+    <div class="step c-amber"><b>Quarantine</b>set the failing rows aside with the rule id; stop above the threshold</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>Block</b>stop before anything is published</div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <div class="callout tip mt"><b>Choosing.</b> Quarantine when the remaining rows are still right; block when the error could be in rows that look fine.</div>
+  <aside class="notes"><p>A missing region affects only that row: quarantine it and publish the rest. A unit error in a batch may affect rows the rule cannot see: block. The threshold on a quarantine rule protects against quarantining so many rows that the published figure becomes unrepresentative.</p></aside>
+</section>
+
+<section class="slide" data-label="Results" id="rule-results" data-lo="LO4">
+  <div class="kicker">Lab 3.2, the seeded extract</div>
+  <h2>Two accuracy rules stop the run; the rest quarantine or log</h2>
+  <table class="t small">
+    <tr><th>Rule</th><th>Dimension</th><th>Owner</th><th class="num">Failing</th><th class="num">Threshold</th><th>Action</th></tr>
+    <tr><td>U01 one row per id</td><td>uniqueness</td><td>Abdulelah</td><td class="num">60</td><td class="num">0.5%</td><td>quarantined</td></tr>
+    <tr><td>C01 region present</td><td>completeness</td><td>Hatoon</td><td class="num">414</td><td class="num">3%</td><td>quarantined</td></tr>
+    <tr><td>V02 category valid</td><td>validity</td><td>Khulood</td><td class="num">170</td><td class="num">1%</td><td>quarantined</td></tr>
+    <tr><td>K01 closed after received</td><td>consistency</td><td>Abdulelah</td><td class="num">85</td><td class="num">0.5%</td><td>quarantined</td></tr>
+    <tr class="hl"><td>A01 amount ≤ SAR 50,000</td><td>accuracy</td><td>Hatoon</td><td class="num">619</td><td class="num">0.1%</td><td>stop</td></tr>
+    <tr class="hl"><td>A02 monthly median by channel</td><td>accuracy</td><td>Hatoon</td><td class="num">1,195</td><td class="num">0.1%</td><td>stop</td></tr>
+    <tr><td>U02 one entry per CR number</td><td>uniqueness</td><td>Abdulelah</td><td class="num">3</td><td class="num">0</td><td>logged</td></tr>
+  </table>
+  <aside class="notes"><p>Seven of the eleven rules shown; V01 (186, region not in the table), V03 (12, future dates), I01 (150, orphan actions) and T01 (0, timeliness) are in the lab's table. U02 is a warning: duplicated registry entries do not change the complaint rate, so Abdulelah logs them and the registry team fixes them.</p></aside>
+</section>
+
+<section class="slide" data-label="Both ways" id="judge-both-ways" data-lo="LO4">
+  <div class="kicker">How a rule set is judged</div>
+  <h2>Catch every seeded defect, and stay quiet on clean data</h2>
+  <div class="cols cols-2">
+    <div class="card c-teal"><h4>On the seeded extract</h4><p class="small mb0">Eight listed defects, each caught in full by the rule meant for it: 60 duplicates, 600 regions, 170 codes, 85 dates out of order, 1,195 halala amounts, 12 future dates, 150 orphan actions, 3 registry duplicates.</p></div>
+    <div class="card c-coral"><h4>On the clean extract</h4><p class="small mb0">The same eleven rules on the same month without defects: no rule fails a single row.</p></div>
+  </div>
+  <div class="callout warn small mt"><b>What goes wrong.</b> A rule that fires on good data trains people to ignore it, and then to switch it off.</div>
+  <aside class="notes"><p>The trainer's list of seeded defects is in data/reference/seeded_defects.json. The ninth defect, 240 resubmissions, is valid row by row: no rule catches it. That is the next session.</p></aside>
+</section>
+
+<section class="slide" data-label="Frameworks" id="pandera" data-lo="LO4">
+  <div class="kicker">The same checks in a framework</div>
+  <h2>A validation library expresses the same rules as a schema</h2>
+  <div class="cols cols-2">
+    <pre class="code s" data-file="Pandera, stretch of Lab 3.2"><code class="language-python">pa.DataFrameSchema({
+  "complaint_id": pa.Column(str, unique=True),
+  "category_code": pa.Column(str,
+      pa.Check.isin(SIX)),
+  "amount_sar": pa.Column(float,
+      pa.Check.le(50000), nullable=True),
+})</code></pre>
+    <ul class="bullets">
+      <li>Finds the same failures: 120 rows in duplicated ids, 170 codes, 619 amounts.</li>
+      <li>Keeps owners, severities and thresholds outside the schema: you still need them.</li>
+      <li>The SQL rules run where the data is; the schema runs where the DataFrame is.</li>
+    </ul>
+  </div>
+  <aside class="notes"><p>Pandera counts both copies of a duplicated id (120), the SQL rule counts the second copy only (60). Either is fine if the report says which. Frameworks such as Pandera, Great Expectations or Soda are worth using; none of them decides the owner or the threshold for you.</p></aside>
+</section>
+
+<section class="slide" id="checkpoint-2" data-lo="LO4">
+  <div class="kicker">Checkpoint</div>
+  <h2>What should C01 do?</h2>
+  <div class="quiz" data-type="single" data-lo="LO4">
+    <p class="lead">C01 (region present) is a quarantine rule with a 3% threshold. This month 414 of 30,300 complaints, 1.4%, have no region. What happens to the run?</p>
+    <div class="opts">
+      <div class="opt" data-why="Treats every failure as a reason to stop, whatever the severity">The run stops before publishing</div>
+      <div class="opt" data-why="Forgets that quarantine removes the failing rows from the published table">The rows are published with an empty region and a warning</div>
+      <div class="opt" data-ok>The 414 rows go to quarantine with C01; the run goes on</div>
+      <div class="opt" data-why="Invents a repair the rule does not make">The rows are given the most common region and published</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Under the 3% threshold, quarantine sets the failing rows aside with the rule that caught them and lets the rest be published; above 3% the run would stop.</div>
+  </div>
+  <aside class="notes"><p>Answer: C. D is a real temptation in practice: imputing a region changes the rate of the region it lands in. The quarantine file keeps the rows for whoever can fix them at source.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-3-2" data-auto="lab" data-lab="3.2">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>AI-tutor: an assistant may explain a SQL error, not write the rules. A02 is the hardest query; anyone stuck can use the reference query, which the safety net loads, and move on to task 3. Check that participants compare counts with the trainer's list, not just "caught: yes".</p></aside>
 </section>
 
-<!-- Session 3 -->
-
+<!-- ======================= SESSION 3 ======================= -->
 <section class="slide section" id="s3" data-auto="section" data-session="3"></section>
 
-<section class="slide" id="s3-idea" data-lo="LO4">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
+<section class="slide" data-label="Two kinds" id="exact-vs-near" data-lo="LO4">
+  <div class="kicker">Duplicates</div>
+  <h2>An exact duplicate is an export fault; a resubmission is a person</h2>
   <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+    <div class="card c-teal"><h4>Exact duplicates: 60</h4><p class="small mb0">The same complaint id twice. The portal's export wrote a row again. Rule U01 quarantines the second copy.</p></div>
+    <div class="card c-coral"><h4>Resubmissions: 240</h4><p class="small mb0">A new id, the same customer, merchant and product, a day later: the complainant tried again. Each row is valid.</p></div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <div class="callout warn small mt"><b>What goes wrong.</b> A key too wide merges real repeat complaints; a key too narrow counts one problem twice. The choice of key changes the rate.</div>
+  <aside class="notes"><p>The pipeline drops a resubmission when the same customer, merchant name and product reappear within one day. Day 4 shows what happens to a region's rate when that key changes. Bayyin's customer key is a hash, never the national ID.</p></aside>
 </section>
 
-<section class="slide" id="s3-steps" data-lo="LO4">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
+<section class="slide" data-label="Many spellings" id="merchant-spellings" data-lo="LO4">
+  <div class="kicker">The merchant on a complaint</div>
+  <h2>One merchant, written a dozen ways</h2>
+  <table class="t small">
+    <tr><th>As typed by the complainant</th><th>Registry</th></tr>
+    <tr><td class="ar">مؤسسة النور للإلكترونيات المحدودة</td><td>M1001</td></tr>
+    <tr><td>AL-NOOR ELECTRONICS CO.</td><td>M1001</td></tr>
+    <tr><td>Alnoor Elec.</td><td>M1001</td></tr>
+    <tr><td><span class="ar">النور</span> Electronics</td><td>M1001</td></tr>
+    <tr><td class="ar">شركة الفارسللأزياء المحدودة</td><td>M1130</td></tr>
+  </table>
+  <p class="small mt-s">600 raw names in the lab; 300 are labelled with the right registry id, or NONE.</p>
+  <aside class="notes"><p>About one complaint in five arrives without a merchant id. Hatoon's per-merchant figures need the registry id. Names come in Arabic, Latin, mixed, with legal forms, abbreviations, missing spaces and typing errors.</p></aside>
+</section>
+
+<section class="slide" data-label="Key" id="transliteration-key" data-lo="LO4">
+  <div class="kicker">Lab 3.3, comparing across scripts</div>
+  <h2>Normalise, then compare consonant skeletons</h2>
   <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+    <div class="step c-navy"><b>1 · Normalise</b>unify أ إ آ, ة, ى; drop legal forms and the article</div>
+    <div class="arrow">→</div>
+    <div class="step c-teal"><b>2 · Sector</b>stems in both scripts: «لكترون», "elec"</div>
+    <div class="arrow">→</div>
+    <div class="step c-cyan"><b>3 · Skeleton</b>consonants in Latin letters</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>4 · Key</b>"nr|electronics"</div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <p class="small mt">«النور للإلكترونيات» and "Al-Noor Electronics" both give <code>nr|electronics</code>. The Arabic and English names agree on the key for all 150 merchants.</p>
+  <aside class="notes"><p>The skeleton drops vowels and weak letters (w, y; و ي ا) except at the start of a word, so Al-Wifaq keeps its w and does not collide with Al-Ofuq. Check how many registry merchants share a key: zero in this registry. A key throws information away; that check tells you whether it threw away too much.</p></aside>
+</section>
+
+<section class="slide" data-label="Threshold" id="precision-first" data-lo="LO4">
+  <div class="kicker">Lab 3.3, 300 labelled names</div>
+  <h2>Choose the threshold by precision first</h2>
+  <table class="t small">
+    <tr><th class="num">Threshold</th><th class="num">Matched</th><th class="num">Precision</th><th class="num">Recall</th></tr>
+    <tr class="hl"><td class="num">60</td><td class="num">265</td><td class="num">1.000</td><td class="num">0.981</td></tr>
+    <tr><td class="num">70</td><td class="num">262</td><td class="num">1.000</td><td class="num">0.970</td></tr>
+    <tr><td class="num">85</td><td class="num">259</td><td class="num">1.000</td><td class="num">0.959</td></tr>
+    <tr><td class="num">100</td><td class="num">258</td><td class="num">1.000</td><td class="num">0.956</td></tr>
+  </table>
+  <p class="small mt-s">A tie between two merchants returns NONE. The five misses are typing errors in the sector word.</p>
+  <aside class="notes"><p>Precision first because a wrong match blames a merchant who did nothing; a miss leaves the complaint unattributed, which analysts can see. On this sample the key and the tie rule do most of the work, so precision is 1.0 at every threshold; the threshold only decides names whose sector was misspelt ("Fasion", «للمجورات»). The fix for those is in the stems, not a lower threshold.</p></aside>
+</section>
+
+<section class="slide" data-label="Blocking" id="blocking" data-lo="LO4">
+  <div class="kicker">Stretch of Lab 3.3</div>
+  <h2>Blocking compares only names that could match</h2>
+  <div class="cols cols-2">
+    <div class="stat"><div class="big">1,354</div><div class="lbl">comparisons when blocked by sector and first letter, of 90,000</div></div>
+    <ul class="bullets">
+      <li>Fine for 600 names; essential for 30,000 complaints a month.</li>
+      <li>A block that is too strict hides true matches: check recall after blocking.</li>
+      <li>Libraries for record linkage do the same with more care.</li>
+    </ul>
+  </div>
+  <aside class="notes"><p>From the stretch of Lab 3.3. A typing error in the first letter puts a name in the wrong block; that is the cost of blocking, and the reason to measure recall with and without it.</p></aside>
+</section>
+
+<section class="slide" id="checkpoint-3" data-lo="LO4">
+  <div class="kicker">Checkpoint</div>
+  <h2>Should a bare name match?</h2>
+  <div class="quiz" data-type="single" data-lo="LO4">
+    <p class="lead">A complainant writes only «النور», with no sector. Six registry merchants share that name: electronics, furniture, appliances, fashion, auto parts and jewellery. All score 100. What should the matcher return?</p>
+    <div class="opts">
+      <div class="opt" data-why="Lets the order of the registry decide who is blamed">The first of the six in the registry</div>
+      <div class="opt" data-why="Guesses from the population, which may not be this complaint's merchant">The one with the most complaints this year</div>
+      <div class="opt" data-why="Changes the threshold to fix a tie it cannot resolve">Raise the threshold until only one remains</div>
+      <div class="opt" data-ok>NONE, until someone checks the complaint text</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> A tie means the name does not say which merchant; a wrong match blames a merchant who did nothing, a NONE is visible and can be fixed.</div>
+  </div>
+  <aside class="notes"><p>Answer: D. The lab's best_match returns NONE on any tie between merchants. The complaint text often names the product, which settles the sector: a good task for a person or a later step.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-3-3" data-auto="lab" data-lab="3.3">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>AI-tutor. The Arabic normalisation trips people up: remind them that unification must happen before filler words are removed, or «مؤسسة» survives as «مؤسسه». Those who finish early: the stretch on blocking, then look at the misses and propose one more stem.</p></aside>
 </section>
 
-<!-- Session 4 -->
-
+<!-- ======================= SESSION 4 ======================= -->
 <section class="slide section" id="s4" data-auto="section" data-session="4"></section>
 
-<section class="slide" id="s4-idea" data-lo="LO4">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
+<section class="slide" data-label="Two parties" id="producer-consumer" data-lo="LO4">
+  <div class="kicker">A data contract</div>
+  <h2>A contract writes down what the consumer relies on</h2>
   <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+    <div class="card c-teal"><h4>Producer: Abdulelah</h4><p class="small mb0">Runs the preparation pipeline and publishes <code>complaints_prepared</code>. Runs the contract before publishing.</p></div>
+    <div class="card c-coral"><h4>Consumer: Hatoon</h4><p class="small mb0">Builds the monthly rate from it. Agrees the clauses; can run the contract on arrival.</p></div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <div class="callout warn small mt"><b>What goes wrong.</b> Without a contract, a renamed column breaks the report on the morning it is due, and nobody knew it was relied on.</div>
+  <aside class="notes"><p>The rules of Session 2 gate the raw extract inside the pipeline. The contract is on the output side: it states what the published table promises. Some clauses repeat rules; that is deliberate.</p></aside>
 </section>
 
-<section class="slide" id="s4-steps" data-lo="LO4">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" data-label="ODCS" id="odcs-schema" data-lo="LO4">
+  <div class="kicker">The Open Data Contract Standard, v3.2.0</div>
+  <h2>The schema part: one property per column the consumer uses</h2>
+  <div class="cols cols-2">
+    <pre class="code s" data-file="contract.odcs.yaml"><code class="language-yaml">apiVersion: v3.2.0
+kind: DataContract
+id: bayyin-complaints-prepared
+version: 1.0.0
+schema:
+- name: complaints_prepared
+  properties:
+  - name: complaint_id
+    logicalType: string
+    physicalType: VARCHAR
+    required: true
+    primaryKey: true
+  - name: region_code
+    ...</code></pre>
+    <ul class="bullets">
+      <li>An open, vendor-neutral standard maintained by the Bitol project of the Linux Foundation.</li>
+      <li>Ten properties for the ten columns of today's table.</li>
+      <li><code>description</code> says purpose, usage and limitations, in words.</li>
+    </ul>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <aside class="notes"><p>The full contract is written by Lab 3.4 to artifacts/d3_4/contract.odcs.yaml; the reference copy is in data/reference. The physicalType values are the DuckDB types: DATE, DECIMAL(12,2), BIGINT, VARCHAR.</p></aside>
+</section>
+
+<section class="slide" data-label="Clauses" id="quality-clauses" data-lo="LO4">
+  <div class="kicker">Quality clauses</div>
+  <h2>A small library of metrics, or a SQL query that returns a number</h2>
+  <div class="cols cols-2">
+    <pre class="code s" data-file="contract.odcs.yaml"><code class="language-yaml">- name: category
+  quality:
+  - metric: invalidValues
+    arguments:
+      validValues: [REFUND, DEFECT, DELIVERY,
+                    PRICE, AD, WARRANTY]
+    mustBe: 0
+- name: amount_sar
+  quality:
+  - type: sql
+    query: SELECT count(*) FROM ${object}
+           WHERE ${property} &gt; 50000
+    mustBe: 0</code></pre>
+    <ul class="bullets">
+      <li>Library metrics: nullValues, missingValues, invalidValues, duplicateValues, rowCount.</li>
+      <li>Operators: mustBe, mustBeGreaterThan, mustBeLessThan and their kin.</li>
+      <li>Six clauses in Lab 3.4, plus "required" on seven columns.</li>
+    </ul>
+  </div>
+  <aside class="notes"><p>The metric names and the sql form are those of ODCS v3.2.0's data-quality section. The clauses carry Day 3's rules to the output side: U01, V01, V02, A01, K01 and a row count of at least 20,000.</p></aside>
+</section>
+
+<section class="slide" data-label="Run it" id="compile-to-sql" data-lo="LO4">
+  <div class="kicker">Lab 3.4, a contract that runs</div>
+  <h2>Every clause becomes one query and one comparison</h2>
+  <div class="cols cols-2">
+    <pre class="code s" data-file="compile_clause()"><code class="language-python">if m == "duplicateValues":
+    return (f"SELECT count({col}) - "
+            f"count(DISTINCT {col}) FROM {t}")
+if m == "invalidValues":
+    return (f"SELECT count(*) FROM {t} "
+            f"WHERE {col} NOT IN ({vals})")</code></pre>
+    <div class="stack">
+      <div class="stat"><div class="big">23 of 23</div><div class="lbl">checks pass on today's 30,000-row table</div></div>
+      <div class="card c-teal flat"><h4>Types first</h4><p class="small mb0">Each column's type is checked before its values.</p></div>
+    </div>
+  </div>
+  <aside class="notes"><p>A contract nobody runs is documentation. Tools such as the Data Contract CLI do this compilation for many engines; writing it once by hand shows there is no magic. Day 4 runs the contract inside the pipeline before publishing.</p></aside>
+</section>
+
+<section class="slide" data-label="Breaking" id="breaking-vs-compatible" data-lo="LO4">
+  <div class="kicker">Lab 3.4, two proposed changes</div>
+  <h2>A rename fails the contract; an added column passes</h2>
+  <table class="t small">
+    <tr><th>Change</th><th>Contract result</th><th>Version</th></tr>
+    <tr class="hl"><td>A: <code>region_code</code> renamed to <code>region</code>; <code>amount_sar</code> sent as "SAR 120.00"</td><td>3 checks fail: column missing, type changed, amount clause cannot run</td><td>2.0.0</td></tr>
+    <tr><td>B: a nullable <code>merchant_name</code> added</td><td>every check passes</td><td>1.1.0</td></tr>
+    <tr><td>A corrected description</td><td>nothing to check</td><td>1.0.1</td></tr>
+  </table>
+  <aside class="notes"><p>B passes because the contract lists what the consumer relies on, not every column the table may have; a report that selects named columns is not hurt by a new one. A would have broken the rate on the morning it is due. The version numbers are the stretch.</p></aside>
+</section>
+
+<section class="slide" id="checkpoint-4" data-lo="LO4">
+  <div class="kicker">Checkpoint</div>
+  <h2>Which change breaks the contract?</h2>
+  <div class="quiz" data-type="single" data-lo="LO4">
+    <p class="lead">The contract for <code>complaints_prepared</code> lists ten columns. Which change by the producer should fail the contract check?</p>
+    <div class="opts">
+      <div class="opt" data-why="Thinks any new column breaks consumers who select the columns they use">Adding a nullable column <code>merchant_name</code></div>
+      <div class="opt" data-ok>Sending <code>amount_sar</code> as text such as "SAR 120.00"</div>
+      <div class="opt" data-why="Confuses a documentation change with a schema change">Correcting the description of <code>status</code></div>
+      <div class="opt" data-why="Treats more data within the clauses as a change of meaning">Publishing 31,000 rows instead of 30,000</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> A changed type breaks every consumer that computes with the column; the contract's type check fails before any value is read.</div>
+  </div>
+  <aside class="notes"><p>Answer: B. The row count clause is "greater than 20,000", so D passes. Follow-up: what version number does B need? 2.0.0, a breaking change.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-3-4" data-auto="lab" data-lab="3.4">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>The prepared table is built at the top of the notebook with the pipeline's own steps on the clean extract, so everyone starts from the same table. Common failure: physicalType written as "DECIMAL(12, 2)" with a space; the check ignores spaces. Those who finish: the stretch, then compare the contract's clauses with the rules of Lab 3.2.</p></aside>
 </section>
 
+<!-- ======================= CLOSE ======================= -->
 <section class="slide" id="wrap-up">
   <div class="kicker">Day 3 · wrap-up</div>
   <h2>Three things to keep</h2>
   <div class="cols cols-3">
-    <div class="card c-teal"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-coral"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-purple"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
+    <div class="card c-teal"><h4>A rule has an owner</h4><p class="small mb0">Dimension, attributes, threshold and a reason; judged on seeded defects and on clean data.</p></div>
+    <div class="card c-coral"><h4>Precision before recall</h4><p class="small mb0">A wrong match blames someone; a tie returns NONE.</p></div>
+    <div class="card c-purple"><h4>A contract that runs</h4><p class="small mb0">The consumer's columns and clauses, compiled to SQL, checked before publishing.</p></div>
   </div>
+  <aside class="notes"><p>Tomorrow the rules and the contract go inside a pipeline: steps, a runner, a run log, gates that quarantine and block, and the lineage that explains a changed figure.</p></aside>
 </section>
 
 <section class="slide dark" id="next" data-label="Next">
   <div class="kicker">Next</div>
   <h2>Day 4: Pipelines for analysis</h2>
-  <p class="lead">REPLACE: what participants prepare before then; unfinished labs can be finished at home</p>
-  <aside class="notes">REPLACE: accounts, installs or reading participants need before the next unit</aside>
+  <p class="lead">From a notebook to a pipeline that gives the same bytes twice, stops on a blocking rule, and explains why August's rate changed.</p>
+  <aside class="notes"><p>Ask participants to keep their Day 3 artifacts; Day 4's labs bring their own reference state, so nobody is blocked by an unfinished lab. Git must work on their laptops for Lab 4.2's clean checkout.</p></aside>
 </section>

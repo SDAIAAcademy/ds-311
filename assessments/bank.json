@@ -466,6 +466,238 @@
       ],
       "pool": "practice",
       "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d3-dimension",
+      "lo": [
+        "LO4"
+      ],
+      "day": "day3",
+      "session": 1,
+      "level": "understand",
+      "prompt": "A profile shows 85 complaints whose closed date is earlier than their received date. Under the NDMO data-quality dimensions, which dimension does a rule for this belong to?",
+      "options": [
+        "Completeness",
+        "Consistency",
+        "Timeliness",
+        "Uniqueness"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "Two related values in the same row disagree with each other, which is consistency.",
+      "misconceptions": [
+        "Confuses a wrong value with a missing one",
+        "",
+        "Reads any date problem as timeliness, which is about how recent the data is",
+        "Confuses a contradiction within a row with a repeated row"
+      ],
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d3-text-load",
+      "lo": [
+        "LO4"
+      ],
+      "day": "day3",
+      "session": 1,
+      "level": "understand",
+      "prompt": "Abdulelah profiles the extract after loading amounts as numbers and dates as dates. The profile shows no invalid categories or dates. Why might it still hide problems?",
+      "options": [
+        "Typed loading only works on Parquet files",
+        "A profile cannot count empty values",
+        "Values that fail the cast become errors or NULLs before the profile sees them",
+        "DuckDB sorts typed columns differently"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "Loading every column as text lets the profile see values exactly as they arrived, including the ones a cast would reject.",
+      "misconceptions": [
+        "Invents a format limitation",
+        "Ignores that counting empties is a basic profile measure",
+        "",
+        "Blames ordering for what is a loss of information"
+      ],
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d3-owner",
+      "lo": [
+        "LO4"
+      ],
+      "day": "day3",
+      "session": 1,
+      "level": "evaluate",
+      "prompt": "A team writes quality rules with SQL, a dimension and a threshold, but no owner. What is the main risk?",
+      "options": [
+        "Nobody accepts the threshold, answers when the rule fires, or changes it when the use changes",
+        "The SQL will run more slowly",
+        "The rules cannot be stored in a file",
+        "The dimension cannot be reported"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "A threshold is a business decision; the owner named by the rule is who accepts it and acts on failures.",
+      "misconceptions": [
+        "",
+        "Confuses governance with performance",
+        "Thinks ownership is a storage requirement",
+        "Confuses the owner field with the dimension field"
+      ],
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d3-severity",
+      "lo": [
+        "LO4"
+      ],
+      "day": "day3",
+      "session": 2,
+      "level": "apply",
+      "prompt": "A batch of August amounts arrived in halalas instead of riyals. Only some of them are above the SAR 50,000 limit. Which severity fits the rule on the batch's median amount?",
+      "options": [
+        "Warn, because most amounts look normal",
+        "Quarantine the rows above SAR 50,000 and publish the rest",
+        "No rule: amounts are the analysts' concern",
+        "Block, because the error is in rows that look fine as well"
+      ],
+      "correct": [
+        3
+      ],
+      "explanation": "When an error can sit in rows that pass row-level checks, publishing the rest would publish wrong figures; the run must stop.",
+      "misconceptions": [
+        "Lets the share of normal-looking rows decide severity",
+        "Assumes the remaining rows are right when the unit error affects them too",
+        "Leaves a known accuracy problem to the consumer",
+        ""
+      ],
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d3-clean",
+      "lo": [
+        "LO4"
+      ],
+      "day": "day3",
+      "session": 2,
+      "level": "analyze",
+      "prompt": "A new rule catches every seeded defect in the test extract. On last month's clean extract it fails 4% of rows. What should happen before it goes into the pipeline?",
+      "options": [
+        "Deploy it: catching every defect is what matters",
+        "Rewrite or re-threshold it until it stays quiet on clean data",
+        "Lower its severity to warn and deploy",
+        "Drop the clean-data test: clean data has no defects to find"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "A rule is judged both ways: it must catch the seeded defects and not fire on clean data, or people learn to ignore it.",
+      "misconceptions": [
+        "Judges a rule only on what it catches",
+        "",
+        "Hides false alarms instead of fixing the rule",
+        "Misunderstands what the clean-data test is for"
+      ],
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d3-resubmission",
+      "lo": [
+        "LO4"
+      ],
+      "day": "day3",
+      "session": 3,
+      "level": "understand",
+      "prompt": "Two complaints have different ids, the same customer key, merchant and product, and arrive one day apart. Which statement is right?",
+      "options": [
+        "They are exact duplicates and the uniqueness rule removes one",
+        "They must both be counted, since their ids differ",
+        "They are a likely resubmission, found by a key and a time window, not by an id rule",
+        "They are invalid rows and should be quarantined"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "Each row is valid; only a near-duplicate key with a window recognises the same complaint sent twice.",
+      "misconceptions": [
+        "Confuses resubmissions with export duplicates of the same id",
+        "Trusts the id to identify the underlying complaint",
+        "",
+        "Treats valid rows as defects"
+      ],
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d3-precision",
+      "lo": [
+        "LO4"
+      ],
+      "day": "day3",
+      "session": 3,
+      "level": "evaluate",
+      "prompt": "Matching merchant names, threshold 70 gives precision 0.96 and recall 0.98; threshold 85 gives precision 1.00 and recall 0.95. The matches attribute complaints to merchants in a published report. Which threshold?",
+      "options": [
+        "85: a wrong match blames a merchant, a miss stays visible",
+        "70: higher recall finds more complaints",
+        "Either: the average of precision and recall is the same",
+        "Neither: fuzzy matching should not be used"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "When a false match harms someone and a miss can be handled, precision comes first.",
+      "misconceptions": [
+        "",
+        "Values coverage over the harm of a wrong attribution",
+        "Averages two errors with different consequences",
+        "Rejects a measured method instead of choosing its threshold"
+      ],
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d3-contract",
+      "lo": [
+        "LO4"
+      ],
+      "day": "day3",
+      "session": 4,
+      "level": "apply",
+      "prompt": "A data contract lists ten columns of the prepared table. The producer adds an eleventh, nullable column. Under semantic versioning, what happens?",
+      "options": [
+        "The contract fails and the version goes to 2.0.0",
+        "The contract passes; the version goes to 1.1.0 if the column is added to it",
+        "The contract fails until every consumer approves",
+        "Nothing can change without a new contract id"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "A contract checks what consumers rely on; an added optional column breaks nobody and is a minor version.",
+      "misconceptions": [
+        "Treats any schema change as breaking",
+        "",
+        "Confuses a compatible change with one that needs sign-off",
+        "Confuses versioning a contract with replacing it"
+      ],
+      "pool": "practice",
+      "weight": 1
     }
   ]
 }

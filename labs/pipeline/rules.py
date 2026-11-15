@@ -37,6 +37,14 @@ RULES = [
          description="No consumer complaint is above SAR 50,000: larger amounts mean a unit error",
          attributes=["amount_sar"], severity="block", max_rate=0.001,
          sql="SELECT rid FROM complaints WHERE TRY_CAST(amount_sar AS DOUBLE) > 50000"),
+    dict(id="A02", dimension="accuracy", owner="Hatoon Al-Furaih", table="complaints", key="rid",
+         description="A month's median amount in a channel stays within three times that channel's usual median",
+         attributes=["amount_sar", "channel", "received_date"], severity="block", max_rate=0.001,
+         sql="""WITH m AS (SELECT left(received_date, 7) AS mon, channel, median(TRY_CAST(amount_sar AS DOUBLE)) AS med
+                         FROM complaints GROUP BY ALL),
+                     b AS (SELECT channel, median(med) AS base FROM m GROUP BY channel)
+                SELECT c.rid FROM complaints c JOIN m ON left(c.received_date, 7) = m.mon AND c.channel = m.channel
+                JOIN b ON b.channel = m.channel WHERE m.med > 3 * b.base"""),
     dict(id="I01", dimension="consistency", owner="Abdulelah Al-Batal", table="actions", key="rid",
          description="Every case action belongs to a complaint in the extract",
          attributes=["complaint_id"], severity="quarantine", max_rate=0.01,
