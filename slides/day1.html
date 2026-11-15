@@ -1,158 +1,588 @@
+<!-- ======================= OPENING ======================= -->
 <section class="slide title" id="title" data-auto="title">
-  <aside class="notes">REPLACE: welcome; introduce yourself; one question to the room that calibrates the pace; the rhythm of the day</aside>
+  <aside class="notes"><p>Welcome the room. Ask two questions by show of hands: who has used a labelled dataset they did not label, and who has seen a published figure change after a data refresh. Both answers frame the week. This is a 300-level course: DS-202 (quality dimensions, matching, a quality report) and FN-102 (git, lock files, CI) are prerequisites, so Day 1 spends its time on labels as measurement, not on pandas.</p></aside>
+</section>
+
+<section class="slide" data-label="The week" id="four-days-one-table">
+  <div class="kicker">The course at a glance</div>
+  <h2>Four days build the table an analysis depends on</h2>
+  <div class="cols cols-4 gap-s">
+    <div class="card c-teal"><h4>Day 1 · Labels</h4><p class="small mb0">A guideline, a pilot, agreement, adjudication and a revision.</p></div>
+    <div class="card c-cyan"><h4>Day 2 · Operations</h4><p class="small mb0">A golden set, gold checks, review queues, drift and cost.</p></div>
+    <div class="card c-coral"><h4>Day 3 · Rules</h4><p class="small mb0">Profiles, severity rules, merchant matching and a contract.</p></div>
+    <div class="card c-purple"><h4>Day 4 · Pipelines</h4><p class="small mb0">Steps, gates, lineage, a changed figure and a datasheet.</p></div>
+  </div>
+  <div class="callout tip mt"><b>Day 5 · Capstone.</b> A labelled, quality-gated table for a second case, in a public repository, reviewed live while the assessor seeds a defect.</div>
+  <aside class="notes"><p>One sentence per day. The capstone rubric has five criteria: guideline and agreement 25, rules and contract 25, pipeline 25, incident handling 15, reproducibility 10. Each day builds one or two of them; say so now so participants keep their lab outputs.</p></aside>
+</section>
+
+<section class="slide" data-label="How we work" id="measure-then-decide">
+  <div class="kicker">How this course works</div>
+  <h2>Every claim about the data is measured before it is trusted</h2>
+  <div class="cols cols-3 gap-s">
+    <div class="card c-navy"><h4>Labels are measurements</h4><p class="small mb0">They have a construct, an instrument and an error, like any other measurement.</p></div>
+    <div class="card c-teal"><h4>Rules have owners</h4><p class="small mb0">A threshold is a business decision someone signs, not a default in a library.</p></div>
+    <div class="card c-coral"><h4>Runs leave evidence</h4><p class="small mb0">Run logs and lineage answer "why did this number change" without guessing.</p></div>
+  </div>
+  <div class="callout warn small mt"><b>AI policy.</b> AI off for the supervised check and for the first lab of Day 1 and Day 3. In the other labs an assistant may explain an error but not write the guideline or the rules. In the capstone anything goes, and model pre-labels are always checked by a person.</div>
+  <aside class="notes"><p>Say the AI policy and why: Lab 1.1 needs your own disagreements as evidence, and Lab 3.1 needs you to read a profile without help, which is what the supervised check and the live review ask. The policy comes from the catalog entry, not from the trainer.</p></aside>
+</section>
+
+<section class="slide" data-label="Case study" id="bayyin-office">
+  <div class="kicker">One case study all week</div>
+  <h2>Bayyin Consumer Protection Office and its complaints</h2>
+  <p class="lead">A fictional regulator with 30,000 synthetic complaints in Arabic and English. Its analysts publish a monthly complaint rate per 100,000 residents by region.</p>
+  <div class="cols cols-4 gap-s mt-s">
+    <div class="card c-teal flat"><h4>Hatoon Al-Furaih</h4><p class="small mb0">Head of market monitoring. Owns the monthly rate.</p></div>
+    <div class="card c-cyan flat"><h4>Khulood Bin Saedan</h4><p class="small mb0">Labelling lead and adjudicator.</p></div>
+    <div class="card c-coral flat"><h4>Abdulelah Al-Batal</h4><p class="small mb0">Data engineer. Owns the preparation pipeline.</p></div>
+    <div class="card c-purple flat"><h4>Rihab Al-Mudaimeegh</h4><p class="small mb0">Data protection officer.</p></div>
+  </div>
+  <aside class="notes"><p>Everything is synthetic and generated with a fixed seed (labs/prepare_data.py, seed 311). You play the complaints data analyst. The six raters are R1 to R6; on Day 2 the masked pre-labelling step is called Fahis. Planted problems wait in the data all week; do not reveal them. The capstone moves to a second case, Al-Ghadaf Municipality's maintenance requests.</p></aside>
+</section>
+
+<section class="slide" data-label="The data" id="what-the-data-holds">
+  <div class="kicker">What you will work with</div>
+  <h2>Four kinds of data, one seed</h2>
+  <table class="t small">
+    <tr><th>Data</th><th>Size</th><th>Used on</th></tr>
+    <tr><td>Complaint texts in MSA, Gulf dialect, English and mixed</td><td class="num">30,000</td><td>Days 1 and 2</td></tr>
+    <tr><td>Pilot labels: three raters, two rounds</td><td class="num">300 x 3 x 2</td><td>Day 1</td></tr>
+    <tr><td>An operations round: six raters over ten days</td><td class="num">2,986 labels</td><td>Day 2</td></tr>
+    <tr><td>Four source tables with seeded defects</td><td class="num">30,300 rows</td><td>Days 3 and 4</td></tr>
+    <tr><td>Two pipeline runs with lineage records</td><td class="num">2 runs</td><td>Day 4</td></tr>
+  </table>
+  <p class="small mt-s">About 18% of the texts carry planted personal data (phone numbers, e-mail addresses, ID numbers, IBANs). It is masked before any model call on Day 2.</p>
+  <aside class="notes"><p>Numbers come from labs/data/reference/summary.json, written by the generator. The personal data is invented but realistic in form, which is the point: masking on Day 2 has to catch it, including phone numbers written in Arabic-Indic digits.</p></aside>
+</section>
+
+<section class="slide" data-label="Setup" id="setup-check">
+  <div class="kicker">Lab environment</div>
+  <h2>Clone, sync, run the setup check</h2>
+  <div class="cols cols-2">
+    <ol class="bullets">
+      <li>Every lab starts from a <b>supplied reference state</b>: a file in <code>labs/data/</code>. No lab needs an earlier one.</li>
+      <li>Run <code>00_setup_check.ipynb</code> once. It imports every package and reads one file of each kind.</li>
+      <li>One lab on Day 2 calls a free hosted model. Without a key it runs on a scripted stand-in.</li>
+    </ol>
+    <pre class="code s" data-file="terminal (local option)"><code class="language-bash">git clone https://github.com/SDAIAAcademy/ds-311
+cd ds-311/labs
+uv sync
+uv run jupyter lab</code></pre>
+  </div>
+  <aside class="notes"><p>In Colab the first cell of every notebook clones the repository and installs requirements-colab.txt. On Windows with a long folder path, set UV_PROJECT_ENVIRONMENT to a short folder before uv sync. Nothing in this course downloads a model; everything runs on a laptop processor.</p></aside>
 </section>
 
 <section class="slide" id="agenda" data-auto="agenda"></section>
 
-<!-- Session 1 -->
-
+<!-- ======================= SESSION 1 ======================= -->
 <section class="slide section" id="s1" data-auto="section" data-session="1"></section>
 
-<section class="slide" id="s1-idea" data-lo="LO1">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
-  <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+<section class="slide" data-label="A label" id="label-is-a-measurement" data-lo="LO1">
+  <div class="kicker">What a label is</div>
+  <h2>A label is a measurement, with a construct and an error</h2>
+  <div class="cols cols-3 gap-s">
+    <div class="card c-teal"><h4>Construct</h4><p class="small mb0">What the label is meant to capture: "what the merchant refused", not "what went wrong".</p></div>
+    <div class="card c-cyan"><h4>Instrument</h4><p class="small mb0">A person reading text under a guideline. Change the guideline and you change the instrument.</p></div>
+    <div class="card c-coral"><h4>Error</h4><p class="small mb0">Two people reading the same complaint give different labels. That spread is measurable.</p></div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <div class="callout tip mt"><b>So.</b> A complaint rate by category is only as reliable as the labels under it. The analyst who publishes it owns that reliability.</div>
+  <aside class="notes"><p>Draw the parallel with a thermometer: a construct (temperature), an instrument, and an error you can estimate by measuring twice. Labels work the same way, and almost nobody measures them twice. That is what Day 1 does.</p></aside>
 </section>
 
-<section class="slide" id="s1-steps" data-lo="LO1">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
+<section class="slide" data-label="Who uses labels" id="labels-feed-decisions" data-lo="LO1">
+  <div class="kicker">Why it matters at Bayyin</div>
+  <h2>Labels become figures, and figures become enforcement</h2>
   <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+    <div class="step c-navy"><b>1 · Complaint</b>free text, any dialect</div>
+    <div class="arrow">→</div>
+    <div class="step c-teal"><b>2 · Label</b>one of six categories</div>
+    <div class="arrow">→</div>
+    <div class="step c-cyan"><b>3 · Figure</b>rate by category, region, merchant</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>4 · Action</b>inspection, warning, public notice</div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <p class="small mt">If raters split REFUND and DEFECT differently from month to month, a rise in refund refusals can be a change of raters, not of merchants.</p>
+  <aside class="notes"><p>Ask the room for a decision at their own organisation that rests on labels someone else made. Common answers: ticket categories, survey codes, document types. The question to keep: would two of your colleagues label it the same way?</p></aside>
+</section>
+
+<section class="slide" data-label="Six categories" id="six-categories" data-lo="LO1">
+  <div class="kicker">The label schema</div>
+  <h2>Six categories, and the overlaps already visible</h2>
+  <table class="t small">
+    <tr><th>Code</th><th>Short name</th><th>Overlaps with</th></tr>
+    <tr><td><b>REFUND</b></td><td>refund refused</td><td>DEFECT, DELIVERY</td></tr>
+    <tr><td><b>DEFECT</b></td><td>defective or not as described</td><td>REFUND, WARRANTY</td></tr>
+    <tr><td><b>DELIVERY</b></td><td>late or missing delivery</td><td>REFUND</td></tr>
+    <tr><td><b>PRICE</b></td><td>charged more than displayed</td><td>AD</td></tr>
+    <tr><td><b>AD</b></td><td>misleading advert or offer</td><td>PRICE</td></tr>
+    <tr><td><b>WARRANTY</b></td><td>warranty or repair refused</td><td>DEFECT</td></tr>
+  </table>
+  <aside class="notes"><p>Do not explain how to resolve the overlaps yet: that is Session 2. Point out that WARRANTY is rare (about 2.5% of complaints in the corpus), which will matter for agreement and for the golden set on Day 2.</p></aside>
+</section>
+
+<section class="slide" data-label="One complaint" id="one-complaint-two-labels" data-lo="LO1">
+  <div class="kicker">The same text, two honest readings</div>
+  <h2>A broken product and a refused refund: which is it?</h2>
+  <div class="cols cols-2">
+    <div class="chat">
+      <div class="msg user"><span class="who">Complaint C103462, Gulf dialect</span><span class="ar">شريت خزانة من الفارس للأثاث المحدودة. خرب بعد 5 أيام. طلبت فلوسي ورفضوا.</span></div>
+    </div>
+    <div class="stack">
+      <div class="card c-teal flat"><h4>Rater who says DEFECT</h4><p class="small mb0">Measured "what is wrong with the product".</p></div>
+      <div class="card c-coral flat"><h4>Rater who says REFUND</h4><p class="small mb0">Measured "what did the merchant refuse".</p></div>
+    </div>
+  </div>
+  <div class="callout note small mt"><b>Neither rater is careless.</b> The schema has not said which question the label answers.</div>
+  <aside class="notes"><p>Read the complaint aloud and translate: "I bought a wardrobe from Al-Faris Furniture Ltd. It broke after 5 days. I asked for my money and they refused." This is pilot item C103462: in round 1, R1 and R2 said DEFECT and R3 said REFUND. Guideline v1.1 says REFUND, so the majority was wrong; Session 4 comes back to it.</p></aside>
+</section>
+
+<section class="slide" data-label="Disagreement is data" id="disagreement-is-signal" data-lo="LO1">
+  <div class="kicker">What to do with a split</div>
+  <h2>Disagreement shows where the construct is unclear</h2>
+  <ul class="bullets">
+    <li><b>Random</b> disagreement: tiredness, a misread word. It spreads over every pair of categories.</li>
+    <li><b>Systematic</b> disagreement: two readings of the schema. It piles up on one pair, such as DEFECT and REFUND.</li>
+    <li>Systematic splits are fixed by the <b>guideline</b>; random ones by training, workload and checks.</li>
+    <li>Some items are genuinely ambiguous: record them as edge cases rather than forcing a vote.</li>
+  </ul>
+  <aside class="notes"><p>This distinction organises the whole day. Session 2 attacks systematic splits with a guideline, Session 3 measures how much is left, Session 4 adjudicates and revises. Day 2 handles the random kind with gold questions and workload limits.</p></aside>
+</section>
+
+<section class="slide" data-label="Our splits" id="forty-complaint-splits" data-lo="LO1">
+  <div class="kicker">The example colleague in Lab 1.1</div>
+  <h2>On 40 complaints, three people agreed on 26</h2>
+  <div class="cols cols-2">
+    <div class="bars">
+      <div class="row"><span>DEFECT and REFUND</span><div class="bar c-coral" style="--w:100%"></div><span class="val">6</span></div>
+      <div class="row"><span>AD and PRICE</span><div class="bar c-coral" style="--w:100%"></div><span class="val">6</span></div>
+      <div class="row"><span>DEFECT and DELIVERY</span><div class="bar c-amber" style="--w:67%"></div><span class="val">4</span></div>
+      <div class="row"><span>DELIVERY and REFUND</span><div class="bar c-amber" style="--w:67%"></div><span class="val">4</span></div>
+      <div class="row"><span>AD and DELIVERY</span><div class="bar c-teal" style="--w:33%"></div><span class="val">2</span></div>
+    </div>
+    <div class="stack">
+      <div class="stat"><div class="big">0.68 to 0.85</div><div class="lbl">pairwise percent agreement</div></div>
+      <p class="small">Pairs of people who disagreed, counted by the two categories they gave.</p>
+    </div>
+  </div>
+  <aside class="notes"><p>These are the numbers from the solution run of Lab 1.1, where the supplied example colleague stands in for a participant. The room's own numbers will differ; collect two or three on the board after the lab and compare the top pair. It is almost always DEFECT and REFUND, or AD and PRICE.</p></aside>
+</section>
+
+<section class="slide" data-label="Annotation tools" id="annotation-tools" data-lo="LO1">
+  <div class="kicker">Where labelling happens</div>
+  <h2>The tool records labels; it does not define them</h2>
+  <div class="cols cols-3 gap-s">
+    <div class="card c-teal"><h4>Annotation platforms</h4><p class="small mb0">Label Studio, Argilla: queues, several raters per item, export with rater ids.</p></div>
+    <div class="card c-cyan"><h4>A locked spreadsheet</h4><p class="small mb0">Validation lists for the codes, protected columns, one sheet per rater.</p></div>
+    <div class="card c-coral"><h4>What all need</h4><p class="small mb0">Rater id, item id, guideline version and time spent on every label.</p></div>
+  </div>
+  <p class="small mt">This week's labs use files with those four fields, so every number can be recomputed on a laptop.</p>
+  <aside class="notes"><p>Tool names are examples, not endorsements; check versions before a cohort (Label Studio and Argilla both released new versions in 2026). Whatever the tool, insist on the export carrying the guideline version: without it, round 1 and round 2 cannot be compared.</p></aside>
+</section>
+
+<section class="slide" id="checkpoint-1" data-lo="LO1">
+  <div class="kicker">Checkpoint</div>
+  <h2>What does a pile of splits on one pair tell you?</h2>
+  <div class="quiz" data-type="single" data-lo="LO1">
+    <p class="lead">In a pilot, 70% of all disagreements fall on DEFECT against REFUND, and the rest spread thinly. What is the most likely cause?</p>
+    <div class="opts">
+      <div class="opt" data-ok>The schema does not say which question the label answers</div>
+      <div class="opt" data-why="Treats a systematic pattern as random error: tiredness would spread over every pair">The raters were tired and misread the texts</div>
+      <div class="opt" data-why="Blames the instrument's users when the instrument itself is ambiguous">One rater needs retraining on the six codes</div>
+      <div class="opt" data-why="Confuses the size of a sample with the pattern inside it">The pilot is too small to show anything</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Random error spreads over many pairs. A pile on one pair is two readings of the schema, which a guideline rule fixes.</div>
+  </div>
+  <aside class="notes"><p>Answer: A. If many choose C, ask whether one rater could produce 70% of all splits on one pair while the other two agree with each other: check the pattern by rater before blaming one.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-1-1" data-auto="lab" data-lab="1.1">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>AI off. Give 12 minutes of silent labelling; then pairs swap files (neighbour_a.csv, neighbour_b.csv in artifacts/d1_1) or use the supplied ones. Watch for people who look up "the right answer": there is none yet, which is the point. Early finishers do the stretch by variety.</p></aside>
 </section>
 
-<!-- Session 2 -->
-
+<!-- ======================= SESSION 2 ======================= -->
 <section class="slide section" id="s2" data-auto="section" data-session="2"></section>
 
-<section class="slide" id="s2-idea" data-lo="LO1">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
-  <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+<section class="slide" data-label="Guideline parts" id="guideline-parts" data-lo="LO1">
+  <div class="kicker">What a labelling guideline holds</div>
+  <h2>A guideline is the instrument, written down</h2>
+  <div class="cols cols-3 gap-s">
+    <div class="card c-teal"><h4>Definitions</h4><p class="small mb0">What each label measures, with includes and excludes.</p></div>
+    <div class="card c-cyan"><h4>Decision rules</h4><p class="small mb0">An order that resolves every overlap to one label.</p></div>
+    <div class="card c-coral"><h4>Edge cases</h4><p class="small mb0">Decided examples raters can match against.</p></div>
+    <div class="card c-purple"><h4>Language notes</h4><p class="small mb0">Dialect words and code-switching that signal a fact.</p></div>
+    <div class="card c-amber"><h4>Wellbeing</h4><p class="small mb0">Who labels distressing content, and for how long.</p></div>
+    <div class="card c-navy"><h4>Version and change log</h4><p class="small mb0">Every label records the version it was made under.</p></div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <aside class="notes"><p>Lab 1.2 writes all six parts as data, renders them to Markdown and lints them. Ask the room which part their own organisation's coding instructions usually lack: it is almost always the decision rules and the change log.</p></aside>
 </section>
 
-<section class="slide" id="s2-steps" data-lo="LO1">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" data-label="Definitions" id="definition-with-excludes" data-lo="LO1">
+  <div class="kicker">Writing a definition</div>
+  <h2>An exclude names where the case goes instead</h2>
+  <table class="t small">
+    <tr><th>Part</th><th>DEFECT in guideline v1.0</th></tr>
+    <tr><td><b>Definition</b></td><td>The product is faulty, damaged or not as described, and no refund or warranty repair was refused.</td></tr>
+    <tr><td><b>Includes</b></td><td>arrived broken; a different model from the listing</td></tr>
+    <tr><td><b>Excludes</b></td><td>a refund asked and refused: <b>REFUND</b>; a warranty repair refused: <b>WARRANTY</b></td></tr>
+  </table>
+  <div class="callout warn small mt"><b>What goes wrong.</b> "Excludes: other issues" leaves the rater to guess. The lab's lint fails an exclude that does not name another code.</div>
+  <aside class="notes"><p>The definition itself carries the decision: "and no refund or warranty repair was refused". Show how the excludes make the definition testable. Lint rules in the lab: at least eight words of definition, one include, one exclude that names another category.</p></aside>
+</section>
+
+<section class="slide" data-label="Rule order" id="decision-rules-in-order" data-lo="LO1">
+  <div class="kicker">Resolving overlaps</div>
+  <h2>The first rule that applies decides</h2>
+  <ol class="bullets tight">
+    <li>A repair refused under warranty is <b>WARRANTY</b>, whatever else the complaint says.</li>
+    <li>A refund asked for and refused is <b>REFUND</b>, even when the product was faulty or never arrived.</li>
+    <li>A faulty, damaged or not-as-described product is <b>DEFECT</b>.</li>
+    <li>A late or missing delivery is <b>DELIVERY</b>.</li>
+    <li>A charge above the displayed price is <b>PRICE</b>, even when an advert was involved.</li>
+    <li>An advert or offer not honoured, at the displayed price, is <b>AD</b>.</li>
+  </ol>
+  <aside class="notes"><p>This order states the construct: the label measures the merchant's act the consumer is complaining about, from the most specific remedy (warranty) to the most general claim (advert). Another office could choose another order; what matters is that there is one and that it is written down.</p></aside>
+</section>
+
+<section class="slide" data-label="Rules as code" id="rules-as-code" data-lo="LO1">
+  <div class="kicker">Lab 1.2</div>
+  <h2>Write the rules as code, and test them like code</h2>
+  <div class="cols cols-2">
+    <pre class="code s" data-file="decide(f)"><code class="language-python">def decide(f):
+    if f["within_warranty"] and f["repair_refused"]:
+        return "WARRANTY"
+    if f["asked_refund"] and f["refund_refused"]:
+        return "REFUND"
+    if f["faulty"] or f["not_as_described"]:
+        return "DEFECT"
+    ...</code></pre>
+    <div class="stack">
+      <div class="card c-teal flat"><h4>Facts, not words</h4><p class="small mb0">Ten yes-or-no facts a reader takes from the text, in any language.</p></div>
+      <div class="card c-coral flat"><h4>A test set</h4><p class="small mb0">Twelve edge cases Khulood already decided. All twelve must pass.</p></div>
+    </div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <aside class="notes"><p>Separating reading (facts) from deciding (rules) is what makes adjudication in Session 4 fast: an adjudicator who agrees on the facts must agree on the label. Edge case E08 (warranty repair refused and refund refused) is the one participants most often get wrong when they put the refund rule first.</p></aside>
+</section>
+
+<section class="slide" data-label="Dialects" id="dialect-and-code-switching" data-lo="LO1">
+  <div class="kicker">Language notes</div>
+  <h2>The same fact, written four ways</h2>
+  <table class="t small">
+    <tr><th>Variety</th><th>"I asked for a refund and they refused"</th></tr>
+    <tr><td>MSA</td><td class="ar">طلبت استرداد المبلغ فرفضوا.</td></tr>
+    <tr><td>Gulf dialect</td><td class="ar">طلبت فلوسي ورفضوا.</td></tr>
+    <tr><td>Mixed</td><td class="ar">طلبت refund ورفضوا.</td></tr>
+    <tr><td>English</td><td>I asked for a refund and they refused.</td></tr>
+  </table>
+  <p class="small mt-s">About 28% of Bayyin's complaints are in Gulf dialect and 6% mix Arabic and English. A guideline written only for MSA leaves a third of the corpus to guesswork.</p>
+  <aside class="notes"><p>Shares from the generator's summary (labs/data/reference/summary.json). The language notes in the guideline list signal words per variety. Raters who do not read a dialect well should say so; the workflow on Day 2 can route by variety.</p></aside>
+</section>
+
+<section class="slide" data-label="Wellbeing" id="distressing-content-rule" data-lo="LO1">
+  <div class="kicker">Responsible labelling</div>
+  <h2>The guideline says who labels distressing content, and for how long</h2>
+  <div class="cols cols-2">
+    <ul class="bullets">
+      <li>About 3% of complaints describe threats or abuse by a merchant's staff.</li>
+      <li>Only raters who opted in and were briefed label them.</li>
+      <li>A daily limit, 60 minutes at Bayyin, and a break after every 20.</li>
+      <li>A risk to someone's safety goes to the duty officer the same day.</li>
+    </ul>
+    <div class="card c-purple"><h4>Why in the guideline</h4><p class="small mb0">A limit nobody wrote down cannot be enforced or checked. On Day 2 you check it from the workload log.</p></div>
+  </div>
+  <aside class="notes"><p>The 60-minute limit is Bayyin's choice in this case, not a standard; say so. The catalog entry asks that the guideline record who may label distressing content and for how long. Lab 2.3 finds a rater who went past it on one day.</p></aside>
+</section>
+
+<section class="slide" data-label="Versions" id="guideline-versions" data-lo="LO1">
+  <div class="kicker">A guideline changes</div>
+  <h2>Every label carries the guideline version it was made under</h2>
+  <div class="flow">
+    <div class="step c-navy"><b>v0.1</b>category names only: pilot round 1</div>
+    <div class="arrow">→</div>
+    <div class="step c-teal"><b>v1.0</b>definitions, rules, edge cases: Lab 1.2</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>v1.1</b>revised from adjudication: Lab 1.4, pilot round 2</div>
+  </div>
+  <div class="callout tip mt"><b>Rule of thumb.</b> A change that alters what a label means needs a new version; old labels are re-checked or flagged, never silently mixed.</div>
+  <aside class="notes"><p>Version numbers make before-and-after comparisons possible: round 1 against round 2 in Session 4, and on Day 4 the datasheet states which version the prepared table's labels used.</p></aside>
+</section>
+
+<section class="slide" id="checkpoint-2" data-lo="LO1">
+  <div class="kicker">Checkpoint</div>
+  <h2>Which rule decides this complaint?</h2>
+  <div class="quiz" data-type="single" data-lo="LO1">
+    <p class="lead">"The washing machine is still under warranty. The service centre refused to repair it, and the shop also refused my refund." Under guideline v1.0, which label?</p>
+    <div class="opts">
+      <div class="opt" data-why="Applies the rules in the order the facts appear in the text, not the guideline's order">REFUND, because the refund refusal is the last fact stated</div>
+      <div class="opt" data-why="Labels the product's state, the construct the guideline chose not to measure">DEFECT, because the machine is faulty</div>
+      <div class="opt" data-ok>WARRANTY, because rule 1 applies first</div>
+      <div class="opt" data-why="Thinks two applicable rules mean the case is outside the schema">None: it must go to adjudication</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> The rules are applied in order and the first that applies decides: a repair refused under warranty is WARRANTY whatever else the complaint says.</div>
+  </div>
+  <aside class="notes"><p>Answer: C. This is edge case E08 of the lab. Option D is a good instinct for genuinely new cases, but here the guideline already decides; adjudication is for cases the rules do not settle or raters misread.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-1-2" data-auto="lab" data-lab="1.2">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>The usual failure: the refund rule placed before the warranty rule, which fails E08. The second: excludes that do not name another code, caught by the lint. An assistant may explain a failing test, but the definitions must be the participant's own. Anyone without Lab 1.1's file still has the supplied edge cases.</p></aside>
 </section>
 
-<!-- Session 3 -->
-
+<!-- ======================= SESSION 3 ======================= -->
 <section class="slide section" id="s3" data-auto="section" data-session="3"></section>
 
-<section class="slide" id="s3-idea" data-lo="LO2">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
-  <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+<section class="slide" data-label="Percent agreement" id="percent-agreement-flatters" data-lo="LO2">
+  <div class="kicker">The first number everyone computes</div>
+  <h2>Percent agreement counts luck as skill</h2>
+  <div class="cols cols-3">
+    <div class="stat"><div class="big">0.54</div><div class="lbl">all three raters agree, round 1</div></div>
+    <div class="stat"><div class="big">0.65 to 0.70</div><div class="lbl">agreement of each pair</div></div>
+    <div class="stat"><div class="big">0.20</div><div class="lbl">pair agreement expected by chance</div></div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <p class="small mt">Chance agreement for two raters is the sum over categories of p<sub>a</sub>(c) x p<sub>b</sub>(c): how often they would match if each labelled at random with their own frequencies.</p>
+  <aside class="notes"><p>Numbers from the solution run of Lab 1.3 on the 300 pilot complaints, round 1. With six categories of similar size, chance is low (0.20). With one dominant category it can be 0.8 or more, and a high percent agreement means almost nothing. That is the next slide.</p></aside>
 </section>
 
-<section class="slide" id="s3-steps" data-lo="LO2">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" data-label="Skewed labels" id="prevalence-paradox" data-lo="LO2">
+  <div class="kicker">Why chance correction matters</div>
+  <h2>With a dominant category, 90% agreement can be worth nothing</h2>
+  <table class="t small">
+    <tr><th></th><th class="num">Rater A says "yes" 90%</th><th class="num">Rater B says "yes" 90%</th></tr>
+    <tr><td>Agreement by chance</td><td class="num" colspan="2">0.9 x 0.9 + 0.1 x 0.1 = 0.82</td></tr>
+    <tr><td>Observed agreement</td><td class="num" colspan="2">0.90</td></tr>
+    <tr class="hl"><td>Kappa</td><td class="num" colspan="2">(0.90 - 0.82) / (1 - 0.82) = 0.44</td></tr>
+  </table>
+  <div class="callout warn small mt"><b>What goes wrong.</b> A rare category such as WARRANTY looks reliable on percent agreement because both raters almost always say "no".</div>
+  <aside class="notes"><p>Worked arithmetic, not a lab number. The opposite effect also exists (the kappa paradoxes: high agreement with low kappa when prevalence is skewed); Artstein and Poesio's survey discusses both. The fix is to report the chance-corrected figure and the prevalence together.</p><p>Sources: Artstein and Poesio, Inter-Coder Agreement for Computational Linguistics (2008).</p></aside>
+</section>
+
+<section class="slide" data-label="Kappa" id="cohen-kappa" data-lo="LO2">
+  <div class="kicker">Two raters</div>
+  <h2>Kappa: the share of possible agreement above chance</h2>
+  <div class="cols cols-2">
+    <pre class="code s" data-file="Lab 1.3"><code class="language-python">def kappa(a, b):
+    po = mean(x == y for x, y in zip(a, b))
+    pe = chance_agreement(a, b)
+    return (po - pe) / (1 - pe)</code></pre>
+    <div class="bars">
+      <div class="row"><span>R1 and R2</span><div class="bar c-teal" style="--w:60%"></div><span class="val">0.601</span></div>
+      <div class="row"><span>R1 and R3</span><div class="bar c-teal" style="--w:62%"></div><span class="val">0.619</span></div>
+      <div class="row"><span>R2 and R3</span><div class="bar c-teal" style="--w:56%"></div><span class="val">0.564</span></div>
+    </div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <p class="small mt-s">Cohen's kappa compares exactly two raters, each labelling every item. Three raters give three kappas.</p>
+  <aside class="notes"><p>Values from the Lab 1.3 solution run, round 1. Kappa of 0.6 is often called "moderate" or "substantial" in published scales; avoid the adjectives and report the number with an interval and the decision it supports.</p></aside>
+</section>
+
+<section class="slide" data-label="Alpha" id="krippendorff-alpha" data-lo="LO2">
+  <div class="kicker">Any number of raters, missing labels allowed</div>
+  <h2>Krippendorff's alpha compares observed with expected disagreement</h2>
+  <div class="cols cols-2">
+    <ol class="bullets tight">
+      <li>Each complaint with m labels adds 1/(m-1) to the cell of every ordered pair of its labels.</li>
+      <li>D<sub>o</sub>: the off-diagonal share of that coincidence matrix.</li>
+      <li>D<sub>e</sub>: the disagreement expected from the label totals alone.</li>
+      <li>alpha = 1 - D<sub>o</sub> / D<sub>e</sub></li>
+    </ol>
+    <div class="stack">
+      <div class="stat"><div class="big">0.594</div><div class="lbl">alpha, round 1, three raters, 300 complaints</div></div>
+      <div class="card c-teal flat"><p class="small mb0">A rater who skipped twenty complaints changes it only to 0.591: alpha uses whatever labels each item has.</p></div>
+    </div>
+  </div>
+  <aside class="notes"><p>Walk through the four steps on the matrix from the lab. Alpha for nominal data is close to Fleiss' kappa for complete data, and it handles missing labels and other scales (ordinal, interval) with a different distance. The stretch of Lab 1.3 shows the missing-label case.</p><p>Sources: Krippendorff, Computing Krippendorff's Alpha-Reliability.</p></aside>
+</section>
+
+<section class="slide" data-label="Coincidences" id="coincidence-matrix" data-lo="LO2">
+  <div class="kicker">Reading the matrix</div>
+  <h2>The off-diagonal cells name the pairs to fix</h2>
+  <table class="t small">
+    <tr><th>Largest off-diagonal pairs, round 1</th><th class="num">Weight</th><th>The guideline rule that should separate them</th></tr>
+    <tr><td>DEFECT and REFUND</td><td class="num">36.5</td><td>rule 2: a refused refund is REFUND</td></tr>
+    <tr><td>WARRANTY and DEFECT</td><td class="num">20.0</td><td>rule 1: warranty first</td></tr>
+    <tr><td>DELIVERY and REFUND</td><td class="num">19.5</td><td>rule 2: a refused refund is REFUND</td></tr>
+    <tr><td>PRICE and AD</td><td class="num">14.5</td><td>rule 5: compare the charge with the displayed price</td></tr>
+  </table>
+  <p class="small mt-s">Of 40 WARRANTY labels in round 1, the coincidences put 20 against DEFECT and only 8 on WARRANTY itself.</p>
+  <aside class="notes"><p>From the coincidence matrix printed in Lab 1.3 (one off-diagonal cell each; the matrix is symmetric). Ask participants to find their own top pairs in it and compare with the splits of Lab 1.1.</p></aside>
+</section>
+
+<section class="slide" data-label="By category" id="alpha-by-category" data-lo="LO2">
+  <div class="kicker">Lab 1.3, by category, with 95% intervals</div>
+  <h2>One category is barely above chance</h2>
+  <table class="t small">
+    <tr><th>Category</th><th class="num">Labels</th><th class="num">Alpha</th><th class="num">Interval</th></tr>
+    <tr><td>DELIVERY</td><td class="num">221</td><td class="num">0.736</td><td class="num">0.663 to 0.807</td></tr>
+    <tr><td>AD</td><td class="num">118</td><td class="num">0.678</td><td class="num">0.577 to 0.764</td></tr>
+    <tr><td>PRICE</td><td class="num">87</td><td class="num">0.593</td><td class="num">0.437 to 0.703</td></tr>
+    <tr><td>DEFECT</td><td class="num">241</td><td class="num">0.575</td><td class="num">0.473 to 0.653</td></tr>
+    <tr><td>REFUND</td><td class="num">193</td><td class="num">0.512</td><td class="num">0.422 to 0.589</td></tr>
+    <tr class="hl"><td>WARRANTY</td><td class="num">40</td><td class="num">0.164</td><td class="num">0.061 to 0.267</td></tr>
+  </table>
+  <aside class="notes"><p>Each category is a yes-or-no question ("is it this category?") with its own alpha; intervals come from 1,000 bootstrap resamples of complaints. Then the lab's "look at": R3 called DEFECT all 8 complaints that R1 and R2 both called WARRANTY. That is one rater with a different reading, and it shows only when you look by rater.</p></aside>
+</section>
+
+<section class="slide" data-label="By variety" id="alpha-by-variety" data-lo="LO2">
+  <div class="kicker">Lab 1.3, by language variety</div>
+  <h2>Agreement is lowest where the language is least standard</h2>
+  <div class="bars">
+    <div class="row"><span>English (55)</span><div class="bar c-teal" style="--w:67%"></div><span class="val">0.674</span></div>
+    <div class="row"><span>MSA (136)</span><div class="bar c-teal" style="--w:67%"></div><span class="val">0.669</span></div>
+    <div class="row"><span>Gulf dialect (94)</span><div class="bar c-amber" style="--w:47%"></div><span class="val">0.470</span></div>
+    <div class="row"><span>Mixed (15)</span><div class="bar c-coral" style="--w:34%"></div><span class="val">0.340</span></div>
+  </div>
+  <div class="callout warn small mt"><b>Fifteen mixed complaints give an interval from 0.11 to 0.54.</b> Report it, and say it is too wide to rank.</div>
+  <aside class="notes"><p>Agreement by language and dialect is a requirement of the entry's responsible-use line: complainants who write in dialect should not get less reliable labels without anyone knowing. The datasheet on Day 4 carries the round-2 version of this table.</p></aside>
+</section>
+
+<section class="slide" data-label="Report it" id="agreement-report" data-lo="LO2">
+  <div class="kicker">What the agreement report says</div>
+  <h2>Report the number, its interval, and where it is weak</h2>
+  <ul class="bullets">
+    <li>Overall alpha with a bootstrap interval over items.</li>
+    <li>Alpha by category, with the number of labels each rests on.</li>
+    <li>Alpha by rater pair or with each rater left out, to find one reader who differs.</li>
+    <li>Alpha by language variety.</li>
+    <li>The guideline version, the raters and the sample it was measured on.</li>
+  </ul>
+  <aside class="notes"><p>There is no universal threshold. Krippendorff suggests relying on data with alpha of 0.8 or more and drawing tentative conclusions from 0.667 upwards; Bayyin's labelling lead sets her own threshold per use, which is the defensible practice. Avoid quoting a threshold without its source.</p><p>Sources: Krippendorff, Computing Krippendorff's Alpha-Reliability.</p></aside>
+</section>
+
+<section class="slide" id="checkpoint-3" data-lo="LO2">
+  <div class="kicker">Checkpoint</div>
+  <h2>Which agreement figure do you trust?</h2>
+  <div class="quiz" data-type="single" data-lo="LO2">
+    <p class="lead">Two raters label whether a complaint is WARRANTY. They agree on 96% of 300 complaints; each says WARRANTY about 3% of the time. What is the best next step?</p>
+    <div class="opts">
+      <div class="opt" data-why="Takes raw agreement at face value when one answer dominates">Accept: 96% agreement is excellent</div>
+      <div class="opt" data-ok>Compute a chance-corrected figure and count the WARRANTY labels it rests on</div>
+      <div class="opt" data-why="Assumes more raters fixes a measure that is misleading by construction">Add a third rater and recompute percent agreement</div>
+      <div class="opt" data-why="Drops the rare category instead of measuring it, losing the cases analysts need">Merge WARRANTY into DEFECT to raise agreement</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> When both say "no" 97% of the time, chance agreement is about 94%; only a chance-corrected figure on enough WARRANTY labels shows whether they agree on the rare cases.</div>
+  </div>
+  <aside class="notes"><p>Answer: B. Chance agreement here is 0.97 x 0.97 + 0.03 x 0.03, about 0.94. Option D is tempting and sometimes right, but it is a decision about the construct, made with Hatoon who uses the WARRANTY figure, not a way to improve a statistic.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-1-3" data-auto="lab" data-lab="1.3">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>Common errors: computing D<sub>e</sub> from the matrix diagonal instead of the row totals; forgetting the 1/(m-1) weight. The reference functions in bayyin.py let participants check their own. Quick mode uses 200 bootstrap resamples instead of 1,000; intervals move in the second decimal.</p></aside>
 </section>
 
-<!-- Session 4 -->
-
+<!-- ======================= SESSION 4 ======================= -->
 <section class="slide section" id="s4" data-auto="section" data-session="4"></section>
 
-<section class="slide" id="s4-idea" data-lo="LO2">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
+<section class="slide" data-label="Majority vote" id="majority-is-not-adjudication" data-lo="LO2">
+  <div class="kicker">Three labels, one decision</div>
+  <h2>A majority of three can be wrong in the same way</h2>
   <div class="cols cols-2">
+    <div class="stat"><div class="big">8 of 28</div><div class="lbl">majorities in the 30 disagreements that the adjudicator overturned</div></div>
     <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
+      <li>Two raters who share a misreading outvote the one who read the rule.</li>
+      <li>A vote has no reason attached, so it teaches the guideline nothing.</li>
+      <li>Adjudication applies the guideline, and records why.</li>
     </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <aside class="notes"><p>From the stretch of Lab 1.4: 28 of the 30 disagreements had a two-against-one majority, and 8 of those majorities were not the adjudicated label. Majority vote is fine for random noise; it fails for systematic misreadings, which is exactly what a pilot surfaces.</p></aside>
 </section>
 
-<section class="slide" id="s4-steps" data-lo="LO2">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" data-label="Adjudication" id="adjudication-methods" data-lo="LO2">
+  <div class="kicker">Ways to decide</div>
+  <h2>Choose the adjudication method by the kind of disagreement</h2>
+  <table class="t small">
+    <tr><th>Method</th><th>Good for</th><th>Risk</th></tr>
+    <tr><td>Majority vote</td><td>random slips, many raters</td><td>shared misreadings win</td></tr>
+    <tr><td>Expert adjudicator</td><td>systematic splits, a pilot</td><td>one person's reading becomes the rule</td></tr>
+    <tr><td>Discussion to consensus</td><td>new edge cases</td><td>the loudest voice wins</td></tr>
+    <tr><td>Keep the disagreement</td><td>genuinely ambiguous items</td><td>analysts must handle soft labels</td></tr>
+  </table>
+  <aside class="notes"><p>Bayyin uses an expert adjudicator, Khulood, with reason codes, and keeps a list of genuinely ambiguous items as edge cases. Mention that statistical models of annotators (Dawid and Skene style) estimate rater accuracy without gold; they are out of scope here but worth knowing.</p></aside>
+</section>
+
+<section class="slide" data-label="Reason codes" id="reason-codes" data-lo="LO1 LO2">
+  <div class="kicker">Lab 1.4</div>
+  <h2>Every decision gets a reason code</h2>
+  <div class="cols cols-3 gap-s">
+    <div class="card c-teal"><h4>RULE_ORDER</h4><p class="small mb0">Two categories applied; the order decided. The rule may need an example.</p></div>
+    <div class="card c-cyan"><h4>MISREAD</h4><p class="small mb0">A rater missed a fact, often in dialect or mixed text. The language notes may need a line.</p></div>
+    <div class="card c-coral"><h4>DEFINITION</h4><p class="small mb0">The definition did not cover the case. The guideline must change.</p></div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <p class="small mt">Counted over the 30 disagreements, the codes say which part of the guideline to revise.</p>
+  <aside class="notes"><p>Reason codes turn adjudication into evidence. In the solution run the counts were dominated by RULE_ORDER, then MISREAD, with a few DEFINITION cases around WARRANTY; the room's counts depend on their own adjudication function.</p></aside>
+</section>
+
+<section class="slide" data-label="Adjudicate" id="adjudicate-from-facts" data-lo="LO2">
+  <div class="kicker">One disagreement, decided</div>
+  <h2>Agree on the facts, and the rules give the label</h2>
+  <div class="trace s">
+    <div class="ev user"><b>complaint</b>C103462, Gulf dialect: the wardrobe broke after 5 days; "I asked for my money and they refused"</div>
+    <div class="ev model"><b>raters</b>R1 DEFECT · R2 DEFECT · R3 REFUND</div>
+    <div class="ev call"><b>facts</b><code>faulty=1 asked_refund=1 refund_refused=1</code></div>
+    <div class="ev result"><b>rule</b>rule 2 applies before rule 3</div>
+    <div class="ev final"><b>decision</b>REFUND · reason RULE_ORDER · the majority overturned</div>
+  </div>
+  <aside class="notes"><p>The complaint from Session 1. This row is in artifacts/d1_4/adjudicated30.csv of the solution run. The adjudicator reads the facts once; the decision follows from the rules. When two adjudicators disagree, they disagree about facts, which is a much shorter conversation.</p></aside>
+</section>
+
+<section class="slide" data-label="Change log" id="change-log-with-evidence" data-lo="LO1">
+  <div class="kicker">Guideline v1.1</div>
+  <h2>Each revision cites the disagreement that caused it</h2>
+  <table class="t small">
+    <tr><th>Change</th><th>Evidence from the 30</th></tr>
+    <tr><td>Rule 2 gets the example "broken and refund refused is REFUND"</td><td>DEFECT and REFUND split 5 times</td></tr>
+    <tr><td>DEFECT's excludes name WARRANTY first, with the Gulf wording</td><td>WARRANTY and DEFECT split 5 times; R3 said DEFECT 6 times</td></tr>
+    <tr><td>Rule 5: read the charge against the displayed price first</td><td>AD and PRICE split 3 times</td></tr>
+    <tr><td>Language notes: code-switched "refund", "no refund policy"</td><td>8 MISREAD decisions</td></tr>
+  </table>
+  <aside class="notes"><p>From the Lab 1.4 solution's change log. The lab's check fails any entry without a count. A change log like this is the evidence the entry asks for: a versioned guideline whose change log ties each revision to a measured disagreement.</p></aside>
+</section>
+
+<section class="slide" data-label="Round 2" id="round-two-agreement" data-lo="LO2">
+  <div class="kicker">Did the revision work?</div>
+  <h2>Round 2 under v1.1: alpha from 0.594 to 0.789</h2>
+  <table class="t small">
+    <tr><th>Alpha</th><th class="num">Round 1</th><th class="num">Round 2</th></tr>
+    <tr><td>All categories</td><td class="num">0.594</td><td class="num">0.789</td></tr>
+    <tr><td>WARRANTY</td><td class="num">0.164</td><td class="num">0.680</td></tr>
+    <tr><td>REFUND</td><td class="num">0.512</td><td class="num">0.791</td></tr>
+    <tr><td>Gulf dialect</td><td class="num">0.470</td><td class="num">0.782</td></tr>
+    <tr class="hl"><td>Mixed</td><td class="num">0.340</td><td class="num">0.743</td></tr>
+  </table>
+  <p class="small mt-s">Round 2 interval for all categories: 0.744 to 0.825. Mixed text stays the weakest variety.</p>
+  <aside class="notes"><p>From the Lab 1.4 solution run (agreement_r1_r2.csv). The rise is largest where the change log said it would be, which is the test of a good revision. Caution: in this synthetic case round 2 is simulated with the improvement built in; in real work the same raters labelling the same items a second time also remember them, so use fresh items where you can.</p></aside>
+</section>
+
+<section class="slide" id="checkpoint-4" data-lo="LO1 LO2">
+  <div class="kicker">Checkpoint</div>
+  <h2>Which change-log entry would you accept?</h2>
+  <div class="quiz" data-type="single" data-lo="LO1">
+    <p class="lead">Khulood reviews four proposed entries for guideline v1.1. Which one meets the standard of this course?</p>
+    <div class="opts">
+      <div class="opt" data-why="Describes an intention with no measured disagreement behind it">"Definitions clarified throughout for consistency"</div>
+      <div class="opt" data-why="Cites evidence but changes nothing a rater can apply">"REFUND and DEFECT split 5 of 30: raters to take more care"</div>
+      <div class="opt" data-why="Changes the rule from opinion, with no count to test it against in round 2">"Rule 5 restated because AD seems clearer than PRICE"</div>
+      <div class="opt" data-ok>"Rule 2 example added: broken and refund refused is REFUND (split 5 of 30)"</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> An acceptable entry changes something a rater applies and cites the measured disagreement, so round 2 can show whether it worked.</div>
+  </div>
+  <aside class="notes"><p>Answer: D. B is the most common wrong choice: it has a count but no change to the instrument. Asking raters to "take more care" fixes random error at best, and the split here was systematic.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-1-4" data-auto="lab" data-lab="1.4">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>Lab 1.4 reads guideline v1.0 from Lab 1.2's output, or the reference copy in labs/data/reference when it is missing. The adjudication check compares with Khulood's decisions in data/reference/adjudicator_decisions.csv: a mismatch is usually a rule order mistake carried over from Lab 1.2.</p></aside>
 </section>
 
 <section class="slide" id="wrap-up">
   <div class="kicker">Day 1 · wrap-up</div>
   <h2>Three things to keep</h2>
   <div class="cols cols-3">
-    <div class="card c-teal"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-coral"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-purple"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
+    <div class="card c-teal"><h4>Labels are measurements</h4><p class="small mb0">A construct, an instrument and an error. Measure the error twice before trusting a figure.</p></div>
+    <div class="card c-coral"><h4>Correct for chance</h4><p class="small mb0">Report alpha with an interval, by category and by language, not percent agreement alone.</p></div>
+    <div class="card c-purple"><h4>Revise with evidence</h4><p class="small mb0">Adjudicate with reasons; tie each change to a count; measure again.</p></div>
   </div>
+  <aside class="notes"><p>Ask each participant to name the one category pair they would watch in production. Tomorrow the guideline goes to a team of six raters, and the question changes from "is the guideline clear?" to "is each rater still applying it?"</p></aside>
 </section>
 
 <section class="slide dark" id="next" data-label="Next">
   <div class="kicker">Next</div>
   <h2>Day 2: Golden sets and labelling operations</h2>
-  <p class="lead">REPLACE: what participants prepare before then; unfinished labs can be finished at home</p>
-  <aside class="notes">REPLACE: accounts, installs or reading participants need before the next unit</aside>
+  <p class="lead">Keep guideline v1.1 and your agreement report. Tomorrow: a golden set, gold checks over six raters, a drifting rater, and the cost of each labelling design.</p>
+  <aside class="notes"><p>For Lab 2.4, participants who want a live model call create a free OpenRouter key tonight and put it in labs/.env as OPENROUTER_API_KEY. Without one, the lab runs on the scripted stand-in and says so.</p></aside>
 </section>

@@ -1,0 +1,26 @@
+{
+ "run_a": {
+  "n": 298,
+  "rate": 48.06
+ },
+ "late_arrivals": {
+  "n": 328,
+  "rate": 52.9
+ },
+ "new_population": {
+  "n": 328,
+  "rate": 50.15
+ },
+ "new_dedupe_key": {
+  "n": 256,
+  "rate": 39.14
+ },
+ "run_b": {
+  "n": 256,
+  "rate": 39.14
+ },
+ "corrected": {
+  "n": 324,
+  "rate": 49.53
+ }
+}

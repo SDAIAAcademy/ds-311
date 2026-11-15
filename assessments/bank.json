@@ -3,164 +3,235 @@
   "version": 1,
   "questions": [
     {
-      "id": "q-example-1",
       "type": "single",
-      "prompt": "REPLACE: a practice question on LO1, as a short scenario",
-      "options": [
-        "REPLACE: a wrong option that a common misconception makes tempting",
-        "REPLACE: the right answer",
-        "REPLACE: a wrong option that a common misconception makes tempting",
-        "REPLACE: a wrong option that a common misconception makes tempting"
-      ],
-      "correct": [
-        1
-      ],
-      "explanation": "REPLACE: why the right answer is right, in one sentence",
-      "misconceptions": [
-        "REPLACE: the misconception behind this option",
-        "",
-        "REPLACE: the misconception behind this option",
-        "REPLACE: the misconception behind this option"
-      ],
+      "id": "q-d1-construct",
       "lo": [
         "LO1"
       ],
       "day": "day1",
       "session": 1,
-      "level": "apply",
+      "level": "understand",
+      "prompt": "Two analysts at Bayyin label the same 200 complaints and split mostly between DEFECT and REFUND. Before measuring anything else, what should the labelling lead settle?",
+      "options": [
+        "Which of the two analysts is more experienced",
+        "Which question the label answers: what is wrong with the product, or what the merchant refused",
+        "Whether to add a seventh category for mixed complaints",
+        "Whether to switch to a different annotation tool"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "A pile of splits on one pair is two readings of the construct; the guideline must say which question the label measures.",
+      "misconceptions": [
+        "Treats a systematic split as a matter of skill rather than of an unclear construct",
+        "",
+        "Adds a category instead of resolving the overlap, which creates two new overlaps",
+        "Blames the instrument's software when the instrument is the guideline"
+      ],
       "pool": "practice",
       "weight": 1
     },
     {
-      "id": "q-example-2",
-      "type": "tf",
-      "prompt": "REPLACE: a statement on LO2 that is true",
+      "type": "single",
+      "id": "q-d1-exclude",
+      "lo": [
+        "LO1"
+      ],
+      "day": "day1",
+      "session": 2,
+      "level": "apply",
+      "prompt": "A draft guideline says for PRICE: 'Excludes: other pricing issues.' A rater meets a complaint where an advert promised 30% off and the till charged the shelf price. What is wrong with the draft?",
       "options": [
-        "True",
-        "False"
+        "The exclude does not say where the case goes instead, so the rater must guess",
+        "The definition is too long for raters to read",
+        "PRICE should never have excludes, only includes",
+        "The advert case should be dropped from the pilot"
       ],
       "correct": [
         0
       ],
-      "explanation": "REPLACE: why the right answer is right, in one sentence",
+      "explanation": "An exclude is only usable when it names the destination category, here AD, so every overlap resolves to one label.",
       "misconceptions": [
         "",
-        "REPLACE: the misconception behind this option"
+        "Confuses brevity with clarity: the missing destination is the problem, not the length",
+        "Thinks excludes are optional, when they are what separates overlapping categories",
+        "Removes the hard case instead of deciding it, so it returns in production"
       ],
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d1-order",
+      "lo": [
+        "LO1"
+      ],
+      "day": "day1",
+      "session": 2,
+      "level": "apply",
+      "prompt": "Under Bayyin's rule order (warranty, refund, defect, delivery, price, advert), which label does this complaint get? 'The order never arrived and the shop refused to return my money.'",
+      "options": [
+        "DELIVERY, because the missing order is the first fact",
+        "DEFECT, because the consumer did not get what they paid for",
+        "REFUND, because a refused refund comes before delivery in the order",
+        "AD, because the shop's promise was not kept"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "The first applicable rule decides; the refund rule comes before the delivery rule.",
+      "misconceptions": [
+        "Applies the facts in the order the text states them instead of the guideline's order",
+        "Stretches a category's definition to cover an unrelated fact",
+        "",
+        "Reads any broken promise as an advert claim"
+      ],
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d1-wellbeing",
+      "lo": [
+        "LO1"
+      ],
+      "day": "day1",
+      "session": 2,
+      "level": "understand",
+      "prompt": "Why does Bayyin's guideline state who may label complaints describing threats by a merchant's staff, and for how many minutes a day?",
+      "options": [
+        "So that the analysis can exclude those complaints from the rates",
+        "So that the workflow can enforce a limit and the labelling lead can check it from the workload log",
+        "Because distressing complaints are always labelled WARRANTY",
+        "Because a model must label them instead of a person"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "A limit that is written down can be routed and checked; one that is not cannot be enforced.",
+      "misconceptions": [
+        "Confuses protecting raters with removing data from the analysis",
+        "",
+        "Mixes the wellbeing rule with the category rules",
+        "Assumes distressing content should go to a model, which removes the human check the course requires"
+      ],
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "type": "single",
+      "id": "q-d1-kappa",
       "lo": [
         "LO2"
       ],
       "day": "day1",
-      "session": 1,
-      "level": "understand",
-      "pool": "practice",
-      "weight": 1
-    },
-    {
-      "id": "q-example-3",
-      "type": "single",
-      "prompt": "REPLACE: a practice question on LO3, as a short scenario",
+      "session": 3,
+      "level": "apply",
+      "prompt": "Two raters agree on 70% of complaints. From their label frequencies, they would agree on 20% by chance. What is Cohen's kappa?",
       "options": [
-        "REPLACE: a wrong option that a common misconception makes tempting",
-        "REPLACE: the right answer",
-        "REPLACE: a wrong option that a common misconception makes tempting",
-        "REPLACE: a wrong option that a common misconception makes tempting"
+        "0.50",
+        "0.625",
+        "0.70",
+        "0.875"
       ],
       "correct": [
         1
       ],
-      "explanation": "REPLACE: why the right answer is right, in one sentence",
+      "explanation": "Kappa is (0.70 - 0.20) / (1 - 0.20) = 0.625.",
       "misconceptions": [
-        "REPLACE: the misconception behind this option",
+        "Subtracts chance agreement without dividing by what was left to agree on",
         "",
-        "REPLACE: the misconception behind this option",
-        "REPLACE: the misconception behind this option"
+        "Reports raw agreement as if chance played no part",
+        "Divides by observed agreement instead of by one minus chance"
       ],
-      "lo": [
-        "LO3"
-      ],
-      "day": "day1",
-      "session": 1,
-      "level": "apply",
       "pool": "practice",
       "weight": 1
     },
     {
-      "id": "q-example-4",
-      "type": "tf",
-      "prompt": "REPLACE: a statement on LO4 that is true",
+      "type": "single",
+      "id": "q-d1-rare",
+      "lo": [
+        "LO2"
+      ],
+      "day": "day1",
+      "session": 3,
+      "level": "analyze",
+      "prompt": "In a pilot of 300 complaints, WARRANTY carries 40 labels and its alpha is 0.16 with an interval from 0.06 to 0.27. R3 labelled DEFECT on all 8 complaints that R1 and R2 both called WARRANTY. What do you report?",
       "options": [
-        "True",
-        "False"
+        "WARRANTY is unreliable and should be removed from the schema",
+        "Agreement is acceptable overall, so WARRANTY needs no comment",
+        "WARRANTY is unreliable in this round, and the pattern points to one rater's reading of the overlap with DEFECT",
+        "The interval is wide, so no conclusion can be drawn about WARRANTY"
       ],
       "correct": [
-        0
+        2
       ],
-      "explanation": "REPLACE: why the right answer is right, in one sentence",
+      "explanation": "Low alpha on few labels with a clear rater pattern is evidence for a guideline change and a word with R3, not for dropping the category.",
       "misconceptions": [
+        "Removes a category the analysts need instead of fixing how it is read",
+        "Lets a good overall figure hide a weak category",
         "",
-        "REPLACE: the misconception behind this option"
+        "Treats a wide interval as no information, although the whole interval is far below usable agreement"
       ],
-      "lo": [
-        "LO4"
-      ],
-      "day": "day1",
-      "session": 1,
-      "level": "understand",
       "pool": "practice",
       "weight": 1
     },
     {
-      "id": "q-example-5",
       "type": "single",
-      "prompt": "REPLACE: a practice question on LO5, as a short scenario",
+      "id": "q-d1-majority",
+      "lo": [
+        "LO2"
+      ],
+      "day": "day1",
+      "session": 4,
+      "level": "apply",
+      "prompt": "Complaint C103462: 'It broke after 5 days. I asked for my money and they refused.' R1 and R2 said DEFECT, R3 said REFUND. What should the adjudicated label be under guideline v1.1?",
       "options": [
-        "REPLACE: a wrong option that a common misconception makes tempting",
-        "REPLACE: the right answer",
-        "REPLACE: a wrong option that a common misconception makes tempting",
-        "REPLACE: a wrong option that a common misconception makes tempting"
+        "DEFECT, because two of three raters chose it",
+        "REFUND, because rule 2 applies before rule 3",
+        "Both labels, because the complaint is ambiguous",
+        "DEFECT, because the fault happened before the refusal"
       ],
       "correct": [
         1
       ],
-      "explanation": "REPLACE: why the right answer is right, in one sentence",
+      "explanation": "Adjudication applies the guideline's rules, not a vote: a refused refund is REFUND even when the product was faulty.",
       "misconceptions": [
-        "REPLACE: the misconception behind this option",
+        "Treats a majority as correct when two raters can share one misreading",
         "",
-        "REPLACE: the misconception behind this option",
-        "REPLACE: the misconception behind this option"
+        "Keeps a disagreement that the guideline already settles",
+        "Orders facts by time instead of by the guideline's rule order"
       ],
-      "lo": [
-        "LO5"
-      ],
-      "day": "day1",
-      "session": 1,
-      "level": "apply",
       "pool": "practice",
       "weight": 1
     },
     {
-      "id": "q-example-6",
-      "type": "tf",
-      "prompt": "REPLACE: a statement on LO6 that is true",
-      "options": [
-        "True",
-        "False"
-      ],
-      "correct": [
-        0
-      ],
-      "explanation": "REPLACE: why the right answer is right, in one sentence",
-      "misconceptions": [
-        "",
-        "REPLACE: the misconception behind this option"
-      ],
+      "type": "single",
+      "id": "q-d1-changelog",
       "lo": [
-        "LO6"
+        "LO1",
+        "LO2"
       ],
       "day": "day1",
-      "session": 1,
-      "level": "understand",
+      "session": 4,
+      "level": "evaluate",
+      "prompt": "After revising the guideline, alpha rises from 0.59 to 0.79 overall, and for mixed Arabic and English text from 0.34 to 0.74. What should the agreement report say about mixed text?",
+      "options": [
+        "Nothing: the overall alpha is now acceptable",
+        "That mixed text is now as reliable as the rest",
+        "That it improved most and is still the lowest variety, with its interval and the small number of complaints behind it",
+        "That mixed complaints should be translated to MSA before labelling"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "Report the gain and the remaining weakness with its interval, so analysts weigh those complaints accordingly.",
+      "misconceptions": [
+        "Lets an overall figure stand for every subgroup",
+        "Reads a large gain as parity with the other varieties",
+        "",
+        "Proposes a new processing step instead of reporting what was measured"
+      ],
       "pool": "practice",
       "weight": 1
     }

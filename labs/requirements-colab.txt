@@ -1,0 +1,5 @@
+duckdb>=1.4
+pandas>=2.2
+pandera>=0.24
+pyyaml>=6.0
+rapidfuzz>=3.10

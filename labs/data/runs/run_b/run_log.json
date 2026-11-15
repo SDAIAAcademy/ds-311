@@ -1,0 +1,59 @@
+{
+ "run_id": "run_b",
+ "refresh_date": "2026-10-05",
+ "code_version": "c9d05b3",
+ "lock_file_sha256": "3b1f0c9e5a7d2e64",
+ "inputs": [
+  {
+   "name": "complaints_extract",
+   "rows": 30500
+  },
+  {
+   "name": "regions",
+   "version": "2026.2",
+   "rows": 13
+  }
+ ],
+ "steps": [
+  {
+   "step": "extract",
+   "rows_in": 30500,
+   "rows_out": 30500
+  },
+  {
+   "step": "clean",
+   "rows_in": 30500,
+   "rows_out": 30500
+  },
+  {
+   "step": "dedupe",
+   "rows_in": 30500,
+   "rows_out": 28371,
+   "params": {
+    "key": [
+     "customer_key",
+     "merchant_name_raw",
+     "received_date"
+    ]
+   }
+  },
+  {
+   "step": "enrich",
+   "rows_in": 28371,
+   "rows_out": 28371,
+   "params": {
+    "regions_version": "2026.2"
+   }
+  },
+  {
+   "step": "publish",
+   "rows_in": 28371,
+   "rows_out": 28371
+  }
+ ],
+ "rules": {
+  "blocking_failed": 0,
+  "warnings": 1,
+  "quarantined": 0
+ }
+}

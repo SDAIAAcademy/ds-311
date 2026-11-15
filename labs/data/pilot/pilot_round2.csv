@@ -1,0 +1,301 @@
+complaint_id,variety,text,R1,R2,R3
+C124591,english,I ordered a wardrobe online from al-masar furniture llc. The delivery is 11 days late.,DELIVERY,DELIVERY,DELIVERY
+C112734,msa,دفعت الأسبوع الماضي ثمن غسالة في شركة هد للأجهزة المنزلية. العرض قال تركيب مجاني ثم طلبوا رسوم التركيب.,AD,DELIVERY,AD
+C127945,msa,دفعت الأسبوع الماضي ثمن عباءة في مؤسسة الإتقان للأزياء. ظهر الطلب كأنه سُلّم ولم أستلمه.,DELIVERY,DELIVERY,DELIVERY
+C123158,msa,طلبت ثلاجة عبر الإنترنت من متج الهدى للأجهزة المنزلية. رفض المتجر إعادة المبلغ.,REFUND,REFUND,REFUND
+C122189,msa,اشتريت عقد ذهب من شركة الكرم للمجوهرات المحدودة. وصل مكسوراً. حوّلوا المبلغ إلى SA1967177445752890378181. بريدي الإلكتروني noura7@mail.example.,DEFECT,DEFECT,DEFECT
+C119868,msa,اشتريت حذاء رياضي من شركة الريم للأزياء. رفض المتجر إعادة المبلغ.,REFUND,REFUND,REFUND
+C122181,msa,طلبت شاشة عبر الإنترنت من النور للإلكترونيات المحدودة. الإعلان وعد بخصم 50% ولم يكن هناك خصم.,AD,AD,AD
+C122656,msa,اشتريت مساحات من مؤسسة الجود لقطع غيار السارات. لم يصل الطلب أبداً.,DELIVERY,DELIVERY,DELIVERY
+C119790,gulf,طلبت كنبة من شركة مدار للأثاث أونلاين. المقاس واللون غير عن اللي بالصورة. هويتي 2056633417. رقمي 0593897003.,DEFECT,DEFECT,DEFECT
+C112436,gulf,طلبت بطارية سيارة من مؤسسة الوفاق لقطع غيار السيارات أونلاين. الطلب ما وصل للحين. قالوا ما نرجع فلوس.,REFUND,REFUND,REFUND
+C103351,msa,طلبت خاتم عبر الإنترنت من الياسمين للمجوهرات. العرض قال تركيب مجاني ثم طلبوا رسوم التركيب. بريدي الإلكتروني k.otaibi38@mail.example.,AD,AD,DELIVERY
+C122191,msa,اشتريت شاشة من مؤسسة الفجر للإلكترونيات. وعدوا بالتوصيل خلال 3 أيام ووصل بعد 21 يوماً. رقم جوالي 0523272361.,DELIVERY,DELIVERY,DELIVERY
+C120406,gulf,طلبت مساحات من مؤسسة الهدى لقطع غيار السيارات أونلاين. التوصيل متأخر 4 أيام.,DELIVERY,DELIVERY,DELIVERY
+C118643,english,I bought a sofa from al-rayyan furniture llc. The delivery is 7 days late. My ID number is 2783454223.,DELIVERY,DELIVERY,DELIVERY
+C122739,msa,اشتريت عقد ذهب من شركة المسار للمجوهرات. به عيب في التشغيل، فهو يسخن كثيراً.,DEFECT,DEFECT,DEFECT
+C124807,msa,اشتريت كنبة من الإتقان للأثاث. به عيب في التشغيل، فهو يسخن كثيراً. حوّلوا المبلغ إلى SA2488117275967200603423.,DEFECT,DEFECT,DEFECT
+C118790,gulf,شريت غسالة من مدار للأجهزة المنزلية. قالوا يوصل بثلاث أيام ووصل بعد 7 يوم.,DELIVERY,DELIVERY,DELIVERY
+C105159,mixed,طلبت حقيبة من AL FAJER FASHION CO. عن طريق الـ app. وصل damaged.,DEFECT,DELIVERY,DEFECT
+C121750,gulf,طلبت بطارية سيارة من الغدير لقطع غيار السيارات أونلاين. التوصيل متأخر 21 أيام.,DELIVERY,DELIVERY,DELIVERY
+C101828,english,Last week I paid for a wardrobe at AL-OFUQ FURNITURE CO. It arrived broken. The store refused to give my money back. My ID number is 2596625151.,REFUND,REFUND,REFUND
+C127745,english,Last week I paid for a watch at AL ETQAN JEWELLERY. It was marked delivered but I never received it. The store refused to give my money back.,DELIVERY,REFUND,WARRANTY
+C125003,english,I bought a ring from AL-SHOROUQ JEWELLERY EST. It has a fault: it overheats. I asked for a refund and they refused.,REFUND,REFUND,REFUND
+C124367,english,I ordered a watch online from AL UFUQ JEWELLERY CO. It arrived broken.,DEFECT,DEFECT,REFUND
+C107161,english,"Last week I paid for an abaya at al-najma fsh. The offer said free installation, then they charged for it. My ID number is 2476112184.",AD,AD,AD
+C125936,msa,دفعت الأسبوع الماضي ثمن عقد ذهب في مؤسسة الغدير للمجوهرات. رفض المتجر إعادة المبلغ. حوّلوا المبلغ إلى SA0453425276930813685676.,REFUND,REFUND,REFUND
+C103116,gulf,طلبت ساعة من الياسمين للمجوهرات أونلاين. فيه خراب، يسخن مرة.,DEFECT,DEFECT,DEFECT
+C106896,msa,اشتريت طاولة طعام من مؤسسة الأفق للأثاث. ظهر الطلب كأنه سُلّم ولم أستلمه. طلبت استرداد المبلغ فرفضوا. بريدي الإلكتروني k.otaibi48@mail.example.,REFUND,REFUND,REFUND
+C124764,gulf,شريت ثلاجة من شركة النجمه للأجهزة المزلية المحدودة. الإعلان يقول خصم 50% والرف 399 ريال وحاسبوني 499.,PRICE,PRICE,PRICE
+C129729,mixed,طلبت كنبة من Al-Najma Furn. عن طريق الـ app. الـ ad قال free installation وبعدين charged.,AD,AD,DELIVERY
+C109676,msa,طلبت خاتم عبر الإنترنت من متجر الاتقان للمجوهرات المحدودة. تأخر التوصيل 13 أيام. بريدي الإلكتروني user202615@mail.example.,PRICE,AD,DELIVERY
+C129611,msa,دفعت الأسبوع الماضي ثمن ثلاجة في متجر الامل للأجهزة المنزلية. به عيب في التشغيل، فهو يسخن كثيراً.,DEFECT,DEFECT,DEFECT
+C107249,msa,طلبت مساحات عبر الإنترنت من شركة الجود لقطع غيار السيارات المحدودة. توقف عن العمل بعد 17 أيام.,DEFECT,DEFECT,DEFECT
+C101575,english,I ordered tyres online from AL-SAFWA AUTO CO. The store refused to give my money back.,REFUND,REFUND,REFUND
+C120564,english,Last week I paid for a wardrobe at alyasmin furniture co. It arrived broken.,DEFECT,DEFECT,DEFECT
+C124558,english,Last week I paid for a laptop at al-shorouq electronics est. They promised delivery in 3 days; it came after 17 days.,DELIVERY,DELIVERY,DELIVERY
+C114735,gulf,الأسبوع اللي فات دفعت حق شاشة في النور للإلكترونيات. قالوا ما نرجع فلوس. ايميلي m.salem19@mail.example.,REFUND,REFUND,REFUND
+C123207,msa,اشتريت ثلاجة من الوفاق للأجهزة المنزلية. به عيب في التشغيل، فهو يسخن كثيراً.,DEFECT,DEFECT,DEFECT
+C128586,msa,اشتريت بطارية سيارة من متجر غدير لقطع غيار السيارات. توقف عن العمل بعد 21 أيام. حوّلوا المبلغ إلى SA9344905520167376176516.,DEFECT,DEFECT,DEFECT
+C125724,msa,اشتريت حاسب محمول من متجر النخبه للإلكترونيات المحدودة. الإعلان قال خصم 50% والرف أظهر 1299 ريال لكن دفعت 1349 ريال.,PRICE,PRICE,PRICE
+C120388,gulf,شريت مكيف من شركة صفوه للأجهز المنزلية. فيه خراب، يسخن مرة. قالوا ما نرجع فلوس.,PRICE,REFUND,REFUND
+C101441,msa,طلبت عقد ذهب عبر الإنترنت من مؤسسة المدار للمجوهرات المحدودة. به عيب في التشغيل، فهو يسخن كثيراً. طلبت استرداد المبلغ فرفضوا.,REFUND,REFUND,REFUND
+C117979,msa,طلبت عقد ذهب عبر الإنترنت من شركة التميز للمجوهرات. طلبت استرداد المبلغ فرفضوا.,REFUND,REFUND,REFUND
+C102045,gulf,الأسبوع اللي فات دفعت حق مكيف في المدار للأجهزة المنزلية. فيه خراب، يسخن مرة.,DEFECT,DEFECT,DEFECT
+C119957,english,I bought an abaya from alasala fash. llc. I asked for a refund and they refused.,REFUND,REFUND,REFUND
+C111300,msa,طلبت عقد ذهب عبر الإنترنت من متجر الصفوه للمجوهرات المحدودة. تأخر التوصيل 13 أيام.,DELIVERY,DELIVERY,DELIVERY
+C120804,gulf,شريت مساحات من الغدير لقطع غيار السيارات. الطلب ما وصل للحين.,DELIVERY,DELIVERY,DELIVERY
+C104070,gulf,شريت ساعة من متجر جود للمجوهرات المحدودة. السعر على الرف 399 ريال وحاسبوني 449.,PRICE,PRICE,DELIVERY
+C104073,english,I ordered a TV screen online from AL-REEM ELECTRONICS LLC. It arrived broken. They refused the warranty repair although I have the warranty card.,DEFECT,WARRANTY,WARRANTY
+C116048,gulf,طلبت ساعة من شركة المدار للمجوهرات المحدودة أونلاين. وصلني مكسور. رجعوا الفلوس على SA7700660197867447833302.,DEFECT,DEFECT,DEFECT
+C128834,gulf,الأسبوع اللي فات دفعت حق خزانة في الجود للأثاث. الطلب ما وصل للحين. رقمي 0551628281.,DELIVERY,DELIVERY,DELIVERY
+C110190,english,Last week I paid for a ring at Al Karm Jewellery Est. The shelf price was 249 SAR but I was charged 269 SAR.,DELIVERY,PRICE,PRICE
+C127364,msa,طلبت كنبة عبر الإنترنت من الصفوه للأثاث. ظهر الطلب كأنه سُلّم ولم أستلمه.,AD,DELIVERY,REFUND
+C120373,gulf,الأسبوع اللي فات دفعت حق مساحات في متجر الوفاق لقطع غيار السيارات. التوصيل متأخر 17 أيام.,DELIVERY,DELIVERY,DELIVERY
+C114590,msa,طلبت طاولة طعام عبر الإنترنت من الأفق للأثاث. توقف عن العمل بعد 17 أيام. طلبت استرداد المبلغ فرفضوا.,REFUND,REFUND,REFUND
+C117126,gulf,الأسبوع اللي فات دفعت حق ساعة في مؤسسة صفوة للمجوهرات. خرب بعد 12 أيام. قالوا ما نرجع فلوس.,DEFECT,REFUND,REFUND
+C103386,english,I bought running shoes from Alshorouq Fashion LLC. The store refused to give my money back.,REFUND,REFUND,REFUND
+C112380,msa,طلبت مكيف عبر الإنترنت من الصفوه للأجهزة المنزلية. السعر على الرف 99 ريال لكن دفعت 199 ريال. رقم جوالي ٠٥٥٧٧١٨٥٣٩.,PRICE,PRICE,PRICE
+C119411,msa,اشتريت عقد ذهب من الأمل للمجوهرات المحدودة. الإعلان قال خصم 20% والرف أظهر 899 ريال لكن دفعت 1049 ريال. رقم هويتي 1291183036.,PRICE,PRICE,PRICE
+C122765,english,Last week I paid for a fridge at ALNUKHBA HOME APPLIANCES. It arrived broken. The store refused to give my money back.,REFUND,REFUND,REFUND
+C105369,msa,طلبت طاولة طعام عبر الإنترنت من شركة الكرم للأثاث المحدودة. وصل مكسوراً. رفضوا الإصلاح بالضمان رغم وجود بطاقة الضمان.,DEFECT,WARRANTY,WARRANTY
+C106501,msa,دفعت الأسبوع الماضي ثمن شاشة في مؤسسة شروق للإلكترونيات. توقف عن العمل بعد 8 أيام. طلبت استرداد المبلغ فرفضوا.,REFUND,REFUND,REFUND
+C127908,gulf,شريت طاولة طعام من متجر الكرم للأثاث. خرب بعد 16 أيام. طلبت فلوسي ورفضوا.,DEFECT,REFUND,DEFECT
+C108435,msa,طلبت خاتم عبر الإنترنت من مدار للمجوهرات. رفض المتجر إعادة المبلغ.,REFUND,REFUND,REFUND
+C113293,gulf,شريت بطارية سيارة من النخبه لقطع غيار السيارات. الطلب ما وصل للحين. طلبت فلوسي ورفضوا. ايميلي rana8878@mail.example.,REFUND,REFUND,REFUND
+C101270,gulf,شريت حقيبة من الأفق للأزياء. الطلب ما وصل للحين.,DELIVERY,DELIVERY,DELIVERY
+C114319,msa,طلبت خزانة عبر الإنترنت من متجر المدار للأثاث. رفض المتجر إعادة المبلغ.,REFUND,REFUND,REFUND
+C120514,gulf,شريت إطارات من مؤسسة الريان لقطع غيار السيارات. طلبت فلوسي ورفضوا.,REFUND,REFUND,REFUND
+C123600,gulf,شريت عقد ذهب من شركة النجمه للمجورات. مكتوب تم التوصيل وأنا ما استلمت شي.,DELIVERY,DELIVERY,DELIVERY
+C112732,msa,طلبت بطارية سيارة عبر الإنترنت من متجر لؤلؤة لقطع غيار السيارات المحدودة. به عيب في التشغيل، فهو يسخن كثيراً. طلبت استرداد المبلغ فرفضوا.,REFUND,REFUND,REFUND
+C113015,mixed,طلبت مساحات من شركة الامل لقطع غيار السيارات عن طريق الـ app. مو نفس الـ model اللي بالـ website.,DEFECT,DEFECT,DEFECT
+C122477,gulf,طلبت شاشة من متجر النور للإلكترونيات أونلاين. الإعلان يقول خصم 30% والرف 899 ريال وحاسبوني 999.,PRICE,PRICE,PRICE
+C101748,english,I bought a handbag from ALJOOD FASHIO EST. It was marked delivered but I never received it.,DELIVERY,DELIVERY,DELIVERY
+C126040,gulf,طلبت غسالة من التميز للأجهزة المنزلية أونلاين. مكتوب تم التوصيل وأنا ما استلمت شي.,DELIVERY,DELIVERY,DELIVERY
+C100286,gulf,شريت عباءة من متجر الشروق للأزياء. مكتوب تم التوصيل وأنا ما استلمت شي.,DELIVERY,DELIVERY,DELIVERY
+C106895,msa,دفعت الأسبوع الماضي ثمن شاشة في مؤسسة أفق للإلكترونيات. وصل مكسوراً. رفض المتجر إعادة المبلغ.,REFUND,REFUND,REFUND
+C116697,gulf,الأسبوع اللي فات دفعت حق إطارات في مؤسسة فجر لقطع غيار السيارات المحدودة. قالوا يوصل بثلاث أيام ووصل بعد 12 يوم.,DELIVERY,DELIVERY,DELIVERY
+C116872,gulf,الأسبوع اللي فات دفعت حق ثلاجة في شركة الصفوة للأجهزة المنزلية. الإعلان يقول خصم 20% والرف 149 ريال وحاسبوني 249.,PRICE,PRICE,PRICE
+C115855,gulf,شريت خزانة من شركة الهدى للأثاث. مكتوب تم التوصيل وأنا ما استلمت شي. طلبت فلوسي ورفضوا.,REFUND,REFUND,REFUND
+C101226,msa,دفعت الأسبوع الماضي ثمن عقد ذهب في الوفاق للمجوهرات. وعدوا بالتوصيل خلال 3 أيام ووصل بعد 15 يوماً.,DELIVERY,DELIVERY,DELIVERY
+C122099,msa,دفعت الأسبوع الماضي ثمن مكيف في الوفاق للأجهزة المنزلية. الإعلان وعد بخصم 20% ولم يكن هناك خصم. رقم هويتي 1718193373.,AD,AD,AD
+C104633,msa,اشتريت إطارات من شركة الوفاق لقطع غيار السيارات. به عيب في التشغيل، فهو يسخن كثيراً. ما زال في فترة الضمان لكن مركز الصيانة رفض إصلاحه.,WARRANTY,WARRANTY,WARRANTY
+C108951,msa,طلبت إطارات عبر الإنترنت من متجر الهدى لقطع غيار السيارات المحدودة. به عيب في التشغيل، فهو يسخن كثيراً. رفض المتجر إعادة المبلغ.,REFUND,REFUND,DEFECT
+C101024,msa,اشتريت خاتم من شركة الغدير للمجوهرات. رفض المتجر إعادة المبلغ.,REFUND,REFUND,REFUND
+C117220,gulf,طلبت طاولة طعام من مسار للأثاث أونلاين. قالوا ما نرجع فلوس.,WARRANTY,REFUND,REFUND
+C128471,msa,دفعت الأسبوع الماضي ثمن عباءة في الياسمين للأزياء. ظهر الطلب كأنه سُلّم ولم أستلمه.,DELIVERY,DELIVERY,DELIVERY
+C100399,english,I bought a gold necklace from Al Rayan Jewellery. It arrived broken.,DEFECT,DEFECT,DEFECT
+C100925,gulf,شريت خزانة من متجر الوفاق للأثاث المحدودة. التوصيل متأخر 19 أيام.,DELIVERY,DELIVERY,DELIVERY
+C129301,msa,دفعت الأسبوع الماضي ثمن هاتف في مؤسسة غدير للإلكترونيات. وعدوا بالتوصيل خلال 3 أيام ووصل بعد 21 يوماً.,DELIVERY,DELIVERY,DELIVERY
+C108569,gulf,طلبت خزانة من مسار للأثاث أونلاين. خرب بعد 7 أيام.,DEFECT,DEFECT,DEFECT
+C102259,english,I bought a handbag from alwifaq fash. co. It was marked delivered but I never received it. The store refused to give my money back.,DELIVERY,REFUND,REFUND
+C104891,gulf,طلبت خزانة من شركة لؤلؤه للأثاث أونلاين. العرض يقول تركيب مجاني وبعدين طلبوا فلوس التركيب.,AD,AD,AD
+C115491,msa,طلبت هاتف عبر الإنترنت من الوفاق للإلكترونيات المحدودة. طلبت استرداد المبلغ فرفضوا.,REFUND,REFUND,REFUND
+C117233,mixed,طلبت خزانة من Aljood Furniture عن طريق الـ app. صار فيه defect بعد 18 أيام. قالوا no refund policy.,REFUND,REFUND,REFUND
+C102826,gulf,الأسبوع اللي فات دفعت حق حذاء رياضي في الجود للأزياء. العرض يقول تركيب مجاني وبعدين طلبوا فلوس التركيب.,AD,AD,AD
+C109292,msa,دفعت الأسبوع الماضي ثمن مكيف في الغدير للأجهزة المنزلية. رفض المتجر إعادة المبلغ.,REFUND,REFUND,REFUND
+C117908,msa,اشتريت طاولة طعام من الكرم لأثاث. توقف عن العمل بعد 7 أيام. ما زال في فترة الضمان لكن مركز الصيانة رفض إصلاحه.,WARRANTY,DEFECT,WARRANTY
+C115041,english,"I ordered an air conditioner online from Al-Madar Appl. Est. The offer said free installation, then they charged for it.",AD,AD,AD
+C118394,gulf,شريت عباءة من المدار للأزياء. فيه خراب، يسخن مرة. قالوا ما نرجع فلوس.,WARRANTY,WARRANTY,REFUND
+C108228,msa,دفعت الأسبوع الماضي ثمن بطارية سيارة في النور لقطع غيار السيارات المحدودة. وعدوا بالتوصيل خلال 3 أيام ووصل بعد 18 يوماً.,DELIVERY,DELIVERY,AD
+C123548,mixed,طلبت شاشة من الإتقان للإلكترونيات المحدودة عن طريق الـ app. مكتوب delivered وأنا ما استلمت. طلبت refund ورفضوا.,REFUND,REFUND,REFUND
+C113710,gulf,الأسبوع اللي فات دفعت حق كنبة في مؤسسة غدير للأثاث. فيه خراب، يسخن مرة. هويتي 1823713958.,DEFECT,DEFECT,DEFECT
+C115149,msa,طلبت حذاء رياضي عبر الإنترنت من متجر المدار للأزياء. المقاس واللون يختلفان عن الوصف. حوّلوا المبلغ إلى SA0621852615676509376484.,DEFECT,DEFECT,DELIVERY
+C125833,gulf,الأسبوع اللي فات دفعت حق طاولة طعام في شركة الجود للأثاث. العرض يقول تركيب مجاني وبعدين طلبوا فلوس التركيب.,AD,AD,AD
+C111770,msa,طلبت خزانة عبر الإنترنت من متجر الأفق للأثاث. توقف عن العمل بعد 9 أيام. طلبت استرداد المبلغ فرفضوا.,DEFECT,REFUND,REFUND
+C127578,gulf,الأسبوع اللي فات دفعت حق حقيبة في متجر الغدير للأزياء. خرب بعد 16 أيام. طلبت فلوسي ورفضوا.,REFUND,REFUND,REFUND
+C118337,msa,دفعت الأسبوع الماضي ثمن بطارية سيارة في نخبة لقطع غيار السيارات. ظهر الطلب كأنه سُلّم ولم أستلمه.,DELIVERY,DELIVERY,DELIVERY
+C112420,gulf,طلبت حاسب محمول من متجر اللؤلؤة للإلكترونيات أونلاين. مكتوب تم التوصيل وأنا ما استلمت شي.,DELIVERY,DELIVERY,PRICE
+C106250,msa,اشتريت ساعة من متجر الغدير للمجوهرات. لم يصل الطلب أبداً. طلبت استرداد المبلغ فرفضوا.,REFUND,REFUND,REFUND
+C119948,gulf,طلبت حذاء رياضي من ياسمين للأزياء المحدودة أونلاين. طلبت فلوسي ورفضوا.,REFUND,REFUND,REFUND
+C100756,msa,طلبت شاشة عبر الإنترنت من نجمة للإلكترونيات. المقاس واللون يختلفان عن الوصف.,DEFECT,DEFECT,DEFECT
+C117804,msa,اشتريت مكيف من شركة المسار للجهزة المنزلية. طلبت استرداد المبلغ فرفضوا.,REFUND,REFUND,REFUND
+C110643,msa,اشتريت حقيبة من متجر الصفة للأزياء. تأخر التوصيل 16 أيام.,DELIVERY,REFUND,DELIVERY
+C113587,english,I bought tyres from Al-Safwa Auto Parts. It was marked delivered but I never received it. Please refund to SA9574268306587650610029.,DELIVERY,DELIVERY,DELIVERY
+C124982,gulf,طلبت خزانة من شركة مدار للأثاث أونلاين. خرب بعد 20 أيام.,DEFECT,DEFECT,DEFECT
+C119229,msa,طلبت حقيبة عبر الإنترنت من شركة وفاق للأزياء. السعر على الرف 149 ريال لكن دفعت 199 ريال.,PRICE,PRICE,PRICE
+C104985,msa,اشتريت حقيبة من المدار للأزياء. الإعلان وعد بخصم 20% ولم يكن هناك خصم.,AD,AD,AD
+C100739,english,Last week I paid for a washing machine at Alwifaq Appl. Co. The order never arrived. The store refused to give my money back. My number is 0541799422.,REFUND,DELIVERY,REFUND
+C125196,gulf,الأسبوع اللي فات دفعت حق حاسب محمول في ريم للإكترونيات. فيه خراب، يسخن مرة. لسا عليه ضمان والصيانة رفضوا يصلحونه.,DEFECT,WARRANTY,WARRANTY
+C100359,msa,طلبت مساحات عبر الإنترنت من شركة الريان لقطع غيار السيارات. به عيب في التشغيل، فهو يسخن كثيراً.,DEFECT,PRICE,DEFECT
+C112090,gulf,طلبت ساعة من متجر الهدى للمجوهرات أونلاين. مكتوب تم التوصيل وأنا ما استلمت شي. قالوا ما نرجع فلوس.,DELIVERY,PRICE,REFUND
+C113862,msa,طلبت ثلاجة عبر الإنترنت من مؤسسة الافق للأجهزة المنزلية. تأخر التوصيل 19 أيام. رقم جوالي 0538829858. بريدي الإلكتروني user202646@mail.example.,DELIVERY,DELIVERY,DELIVERY
+C119914,msa,دفعت الأسبوع الماضي ثمن شاشة في النخبة للإلكترونيات. طلبت استرداد المبلغ فرفضوا. رقم جوالي 0531558342.,REFUND,REFUND,REFUND
+C102008,msa,اشتريت ثلاجة من التميز للأجهزة المنزلية المحدودة. وعدوا بالتوصيل خلال 3 أيام ووصل بعد 11 يوماً. رقم هويتي 1868194898.,DELIVERY,DELIVERY,DELIVERY
+C115756,msa,اشتريت حاسب محمول من الوفاق للإلكترونيات المحدودة. تأخر التوصيل 4 أيام.,DELIVERY,DELIVERY,DELIVERY
+C102238,gulf,شريت بطارية سيارة من شركة النخبة لقطع غيار السيارات. بالتطبيق 149 ريال وبالفاتورة 169.,PRICE,PRICE,PRICE
+C126503,msa,دفعت الأسبوع الماضي ثمن حاسب محمول في شركة النخبه للإلكترونيات. الإعلان وعد بخصم 50% ولم يكن هناك خصم.,AD,AD,AD
+C126507,msa,طلبت طاولة طعام عبر الإنترنت من شركة الاتقان للأثاث المحدودة. السعر على الرف 899 ريال لكن دفعت 919 ريال.,PRICE,PRICE,PRICE
+C101975,english,I ordered running shoes online from al etqan fashion. The order never arrived.,DELIVERY,PRICE,DELIVERY
+C110251,msa,اشتريت خزانة من الفارس للأثاث. التطبيق أظهر 99 ريال والفاتورة 119 ريال.,PRICE,PRICE,REFUND
+C115220,mixed,طلبت عباءة من AL-REEM ASHION عن طريق الـ app. وصل damaged. قالوا no refund policy.,PRICE,AD,REFUND
+C101725,msa,اشتريت هاتف من شركة الأمل للإلكترونيات المحدودة. وصل مكسوراً.,DEFECT,DEFECT,DEFECT
+C121140,english,Last week I paid for a phone at AL AMAL ELECTRONICS CO. The order never arrived. The store refused to give my money back.,DELIVERY,REFUND,REFUND
+C118494,msa,دفعت الأسبوع الماضي ثمن شاشة في مؤسسة إتقان للإلكترونيات. السعر على الرف 99 ريال لكن دفعت 249 ريال.,PRICE,PRICE,PRICE
+C122932,gulf,شريت عقد ذهب من مؤسسة النجمه للمجوهرات. طلبت فلوسي ورفضوا.,REFUND,REFUND,REFUND
+C121822,msa,طلبت بطارية سيارة عبر الإنترنت من مؤسسة فجر لقطع غيار السيارات. رفض المتجر إعادة المبلغ.,REFUND,REFUND,REFUND
+C118980,gulf,طلبت عباءة من شركة المدار للأزياء أونلاين. وصلني مكسور.,PRICE,DEFECT,DEFECT
+C124851,english,"I bought wiper blades from AL LULU AUTO PART EST. The offer said free installation, then they charged for it.",AD,AD,REFUND
+C101223,msa,دفعت الأسبوع الماضي ثمن عباءة في الهدى للأزياء. السعر على الرف 399 ريال لكن دفعت 499 ريال.,PRICE,PRICE,PRICE
+C112931,gulf,الأسبوع اللي فات دفعت حق عقد ذهب في مؤسسة الريان للمجوهرات. قالوا ما نرجع فلوس. ايميلي m.salem77@mail.example.,REFUND,REFUND,REFUND
+C123175,mixed,طلبت خزانة من المدار للأثاث عن طريق الـ app. الـ price بالـ app 149 وحاسبوني 199.,PRICE,PRICE,PRICE
+C110296,gulf,طلبت مكيف من متجر الأصاله للأجهزة المنزلية أونلاين. العرض يقول تركيب مجاني وبعدين طلبوا فلوس التركيب. رجعوا الفلوس على SA6694427654232830437208. رقمي ٠٥٨٧١٦٩٤٥٦.,AD,AD,AD
+C122206,english,I bought a laptop from AL-NOOR ELECTRONICS EST. They promised delivery in 3 days; it came after 4 days.,DELIVERY,DELIVERY,DELIVERY
+C117813,gulf,طلبت ساعة من الياسمين للمجوهرات أونلاين. خرب بعد 4 أيام. رجعوا الفلوس على SA0033369308617413717684.,DEFECT,DEFECT,DEFECT
+C109062,msa,اشتريت عقد ذهب من الريم للمجوهرات. التطبيق أظهر 99 ريال والفاتورة 249 ريال.,PRICE,PRICE,PRICE
+C113005,gulf,الأسبوع اللي فات دفعت حق إطارات في شركة الكرم لقطع غيار السيارات المحدودة. فيه خراب، يسخن مرة. قالوا ما نرجع فلوس.,REFUND,REFUND,REFUND
+C118626,msa,طلبت عباءة عبر الإنترنت من شركة السحاب للأزياء. وعدوا بالتوصيل خلال 3 أيام ووصل بعد 14 يوماً.,DELIVERY,DELIVERY,DELIVERY
+C123509,msa,اشتريت مساحات من الغدير لقطع غيار السيارات. به عيب في التشغيل، فهو يسخن كثيراً.,DEFECT,DEFECT,DEFECT
+C126694,gulf,طلبت خزانة من أمل للأثاث المحدودة أونلاين. الإعلان يقول خصم 50% والرف 1299 ريال وحاسبوني 1349.,AD,PRICE,PRICE
+C128516,msa,اشتريت بطارية سيارة من الياسمين لقطع غيار السيارات. الإعلان قال خصم 50% والرف أظهر 399 ريال لكن دفعت 549 ريال.,PRICE,AD,PRICE
+C119424,english,I ordered a fridge online from ALNOOR HOME APPLIANCES EST. It arrived broken.,DEFECT,DEFECT,DEFECT
+C108821,gulf,شريت مكيف من النجمة للأجهزة المنزلية. قالوا يوصل بثلاث أيام ووصل بعد 10 يوم.,DELIVERY,DELIVERY,DELIVERY
+C112230,gulf,شريت كنبة من مؤسسة وفاق للأثاث. العرض يقول تركيب مجاني وبعدين طلبوا فلوس التركيب. ايميلي rana8884@mail.example.,AD,DEFECT,AD
+C122589,english,Last week I paid for running shoes at alsahab fashion co. It has a fault: it overheats.,DEFECT,DEFECT,DEFECT
+C120662,gulf,الأسبوع اللي فات دفعت حق بطارية سيارة في مؤسسة هدى لقطع غيار السيارات. المقاس واللون غير عن اللي بالصورة.,DEFECT,DEFECT,DEFECT
+C119000,msa,اشتريت هاتف من شركة تميز للإلكترونيات. طلبت استرداد المبلغ فرفضوا. بريدي الإلكتروني m.salem52@mail.example.,REFUND,REFUND,REFUND
+C119908,gulf,شريت حقيبة من اتقان للأزياء المحدودة. الإعلان يقول خصم 20% وطلع كذب.,AD,AD,AD
+C101272,msa,دفعت الأسبوع الماضي ثمن ساعة في مؤسسة النور للمجوهرات. لم يصل الطلب أبداً. طلبت استرداد المبلغ فرفضوا.,REFUND,DELIVERY,REFUND
+C104763,english,Last week I paid for a fridge at al luluah appl. It stopped working after 19 days. They refused the warranty repair although I have the warranty card.,WARRANTY,WARRANTY,WARRANTY
+C106781,msa,اشتريت مساحات من مؤسسة المسار لقطع غيار السيارات. به عيب في التشغيل، فهو يسخن كثيراً. ما زال في فترة الضمان لكن مركز الصيانة رفض إصلاحه.,WARRANTY,WARRANTY,WARRANTY
+C105185,msa,اشتريت حاسب محمول من السحاب للإلكترونيات. لم يصل الطلب أبداً. رفض المتجر إعادة المبلغ. رقم جوالي 0573309100.,REFUND,REFUND,REFUND
+C119371,msa,دفعت الأسبوع الماضي ثمن كنبة في الهدى للأثاث. به عيب في التشغيل، فهو يسخن كثيراً. رفض المتجر إعادة المبلغ.,DEFECT,REFUND,REFUND
+C103389,gulf,طلبت بطارية سيارة من الهدى لقطع غيار السيارات المحدودة أونلاين. طلبت فلوسي ورفضوا.,REFUND,REFUND,REFUND
+C111448,msa,دفعت الأسبوع الماضي ثمن غسالة في نجمة للأجهزة المنزلية المحدودة. ظهر الطلب كأنه سُلّم ولم أستلمه.,DELIVERY,DELIVERY,REFUND
+C106058,msa,دفعت الأسبوع الماضي ثمن حقيبة في النخبة للأزياء. توقف عن العمل بعد 7 أيام. رقم جوالي 0574679564.,DELIVERY,DEFECT,DEFECT
+C112401,msa,طلبت ثلاجة عبر الإنترنت من النور للأجهزة المنزلية. لم يصل الطلب أبداً.,DELIVERY,DELIVERY,DELIVERY
+C113865,gulf,طلبت حقيبة من الشروق للزياء أونلاين. الإعلان يقول خصم 20% والرف 1299 ريال وحاسبوني 1319.,PRICE,PRICE,PRICE
+C126620,msa,اشتريت مكيف من شركة السحاب للأجهزة المنزلية المحدودة. رفض المتجر إعادة المبلغ.,REFUND,REFUND,REFUND
+C111989,english,I ordered a wardrobe online from Al-Jood Furniture. The size and colour are different from the listing.,DEFECT,REFUND,DEFECT
+C122156,msa,طلبت شاشة عبر الإنترنت من مؤسسة التميز للإلكترونيات. توقف عن العمل بعد 14 أيام. رفض المتجر إعادة المبلغ.,REFUND,DEFECT,WARRANTY
+C117897,gulf,شريت عقد ذهب من متجر الامل للموهرات. العرض يقول تركيب مجاني وبعدين طلبوا فلوس التركيب.,AD,AD,AD
+C109738,gulf,الأسبوع اللي فات دفعت حق هاتف في شركة الأصالة للإلكترونيات المحدودة. وصلني مكسور.,DEFECT,DEFECT,DEFECT
+C103589,msa,دفعت الأسبوع الماضي ثمن كنبة في الجود للأثاث. ليس الطراز المعروض في الموقع.,DEFECT,DEFECT,DEFECT
+C106111,gulf,شريت كنبة من متجر الامل للأثاث. الإعلان يقول خصم 50% وطلع كذب.,AD,AD,REFUND
+C124028,gulf,شريت عقد ذهب من اتقان للمجوهرات المحدودة. التوصيل متأخر 16 أيام.,DELIVERY,DELIVERY,DELIVERY
+C127275,msa,دفعت الأسبوع الماضي ثمن حاسب محمول في شركة أفق للإلكترونيات. ظهر الطلب كأنه سُلّم ولم أستلمه. رفض المتجر إعادة المبلغ. بريدي الإلكتروني m.salem42@mail.example.,DELIVERY,REFUND,REFUND
+C113000,english,I bought a washing machine from al-ghadir home appliances co. It is not the model shown on the website.,DEFECT,DEFECT,DEFECT
+C125197,msa,اشتريت خزانة من الصفوة للأثاث. وصل مكسوراً. ما زال في فترة الضمان لكن مركز الصيانة رفض إصلاحه.,WARRANTY,WARRANTY,WARRANTY
+C108398,gulf,الأسبوع اللي فات دفعت حق كنبة في الفارس للأثاث المحدودة. وصلني مكسور. قالوا ما نرجع فلوس.,DEFECT,REFUND,REFUND
+C106664,mixed,شريت بطارية سيارة من متجر النخبه لقطع غيار السيارات online. الـ ad قال free installation وبعدين charged.,AD,AD,AD
+C108615,msa,طلبت ثلاجة عبر الإنترنت من الغدير للأجهزة المنزلية. ظهر الطلب كأنه سُلّم ولم أستلمه. طلبت استرداد المبلغ فرفضوا. رقم هويتي 2361364065.,REFUND,REFUND,REFUND
+C101722,english,Last week I paid for a dining table at al rayan furn. est. It has a fault: it overheats.,DEFECT,DEFECT,DEFECT
+C102752,msa,دفعت الأسبوع الماضي ثمن عقد ذهب في متجر النور للمجوهرات. وعدوا بالتوصيل خلال 3 أيام ووصل بعد 8 يوماً.,DELIVERY,DELIVERY,DELIVERY
+C104853,gulf,شريت بطارية سيارة من شركة الريان لقطع غيار السيارات المحدودة. المقاس واللون غير عن اللي بالصورة.,DEFECT,DEFECT,DEFECT
+C104440,english,Last week I paid for a phone at AL HODA ELEC. EST. It stopped working after 20 days. The store refused to give my money back.,REFUND,REFUND,REFUND
+C118452,msa,دفعت الأسبوع الماضي ثمن مساحات في أفق لقطع غيار السيارات المحدودة. توقف عن العمل بعد 11 أيام. رفضوا الإصلاح بالضمان رغم وجود بطاقة الضمان.,WARRANTY,WARRANTY,WARRANTY
+C127948,msa,اشتريت حذاء رياضي من مؤسسة المسار للأزياء المحدودة. ظهر الطلب كأنه سُلّم ولم أستلمه.,AD,DELIVERY,DELIVERY
+C100568,gulf,شريت غسالة من الياسمين للأجهزة المنزلية. مكتوب تم التوصيل وأنا ما استلمت شي. قالوا ما نرجع فلوس.,REFUND,REFUND,REFUND
+C124785,msa,اشتريت غسالة من شركة الصفوة للأجهزة المنزلية. توقف عن العمل بعد 16 أيام. رفض المتجر إعادة المبلغ.,REFUND,REFUND,REFUND
+C125177,gulf,الأسبوع اللي فات دفعت حق ساعة في الجود للمجوهرات المحدودة. وصلني مكسور. قالوا ما نرجع فلوس.,REFUND,REFUND,REFUND
+C113507,gulf,الأسبوع اللي فات دفعت حق كنبة في النور للأثاث المحدودة. خرب بعد 21 أيام.,DEFECT,DEFECT,DEFECT
+C120110,msa,اشتريت حذاء رياضي من شركة الهدى للأزياء. رفض المتجر إعادة المبلغ.,REFUND,REFUND,REFUND
+C101079,msa,طلبت مساحات عبر الإنترنت من مؤسسة الفارس لقطع غيار السيارات. توقف عن العمل بعد 9 أيام. رفض المتجر إعادة المبلغ. بريدي الإلكتروني noura21@mail.example.,REFUND,WARRANTY,REFUND
+C113250,msa,طلبت عقد ذهب عبر الإنترنت من شركة اللؤلؤة للمجوهرات. توقف عن العمل بعد 15 أيام. رفض المتجر إعادة المبلغ.,REFUND,REFUND,REFUND
+C118506,mixed,طلبت كنبة من AL RAYAN FURN. LLC عن طريق الـ app. الـ ad قال free installation وبعدين charged.,AD,AD,AD
+C107014,english,"Last week I paid for a dining table at AL LULUAH FURN. LLC. The offer said free installation, then they charged for it. Please refund to SA1500800002176850549457.",AD,AD,AD
+C101695,english,I bought wiper blades from alsafwa auto parts. The delivery is 11 days late. My number is 0521454721. Please refund to SA7704154644141510658861.,AD,DELIVERY,DELIVERY
+C102481,msa,دفعت الأسبوع الماضي ثمن مكيف في مؤسسة النور للأجهزة المنزلية. التطبيق أظهر 1299 ريال والفاتورة 1319 ريال.,PRICE,PRICE,PRICE
+C110346,msa,دفعت الأسبوع الماضي ثمن ساعة في مؤسسة النور للمجوهرات. الإعلان قال خصم 50% والرف أظهر 99 ريال لكن دفعت 119 ريال. رقم جوالي 0568283928.,PRICE,PRICE,PRICE
+C110078,mixed,طلبت حقيبة من AL UFUQ FASH. عن طريق الـ app. وصل damaged. طلبت refund ورفضوا.,REFUND,REFUND,REFUND
+C117005,msa,دفعت الأسبوع الماضي ثمن مساحات في الكرم لقطع غيار السيارات. توقف عن العمل بعد 5 أيام.,DEFECT,DEFECT,DEFECT
+C129341,msa,اشتريت حذاء رياضي من المسار للأزياء المحدودة. لم يصل الطلب أبداً. طلبت استرداد المبلغ فرفضوا.,DELIVERY,REFUND,REFUND
+C111990,msa,دفعت الأسبوع الماضي ثمن طاولة طعام في الصفوة للأثاث المحدودة. به عيب في التشغيل، فهو يسخن كثيراً. رفض المتجر إعادة المبلغ.,DEFECT,REFUND,REFUND
+C110255,msa,طلبت طاولة طعام عبر الإنترنت من متجر الفارس للأثاث. طلبت استرداد المبلغ فرفضوا.,REFUND,REFUND,REFUND
+C113255,msa,اشتريت خزانة من شركة الأصاله للأثاث المحدودة. وصل مكسوراً. طلبت استرداد المبلغ فرفضوا.,REFUND,REFUND,REFUND
+C116332,msa,طلبت كنبة عبر الإنترنت من متجر الصفوة للأثاث المحدودة. وصل مكسوراً. طلبت استرداد المبلغ فرفضوا.,REFUND,REFUND,DEFECT
+C128288,msa,طلبت عقد ذهب عبر الإنترنت من مؤسسة الرواد للمجوهرات. ظهر الطلب كأنه سُلّم ولم أستلمه. رفض المتجر إعادة المبلغ.,REFUND,REFUND,DELIVERY
+C129593,msa,طلبت إطارات عبر الإنترنت من وفاق لقطع غيار السيارات المحدودة. به عيب في التشغيل، فهو يسخن كثيراً. ما زال في فترة الضمان لكن مركز الصيانة رفض إصلاحه.,WARRANTY,WARRANTY,DEFECT
+C101620,msa,دفعت الأسبوع الماضي ثمن عباءة في غدير للأزياء المحدودة. الإعلان وعد بخصم 50% ولم يكن هناك خصم.,AD,AD,AD
+C120487,gulf,الأسبوع اللي فات دفعت حق مساحات في متجر إتقان لقطع غيار السيارات. وصلني مكسور.,DEFECT,DEFECT,DEFECT
+C107596,gulf,الأسبوع اللي فات دفعت حق كنبة في الصفو للأثاث. العرض يقول تركيب مجاني وبعدين طلبوا فلوس التركيب.,AD,AD,AD
+C126328,msa,دفعت الأسبوع الماضي ثمن مساحات في شركة الريم لقطع غيار السيارات المحدودة. ليس الطراز المعروض في الموقع.,DEFECT,DEFECT,DEFECT
+C105136,english,I ordered an air conditioner online from al lulu home appliances co. The delivery is 16 days late.,DELIVERY,DELIVERY,DELIVERY
+C117086,msa,طلبت مكيف عبر الإنترنت من الغدير للأجهزة المنزلية. تأخر التوصيل 13 أيام.,DELIVERY,DELIVERY,DELIVERY
+C100071,gulf,شريت مكيف من متجر المدار للأجهزة المنزلية المحدودة. الطلب ما وصل للحين. قالوا ما نرجع فلوس. رقمي 0568045648.,DELIVERY,REFUND,PRICE
+C101485,gulf,شريت مساحات من شركة الرواد لقطع غيار السيارات. الطلب ما وصل للحين.,DELIVERY,DELIVERY,DELIVERY
+C120684,msa,اشتريت حاسب محمول من مؤسسة الاتقان للإلكترونيات. وعدوا بالتوصيل خلال 3 أيام ووصل بعد 10 يوماً.,DELIVERY,DELIVERY,REFUND
+C100396,english,Last week I paid for a watch at Al Luluah Jewel. It stopped working after 21 days. I asked for a refund and they refused.,REFUND,REFUND,REFUND
+C111340,mixed,طلبت كنبة من Aljood Furn. LLC عن طريق الـ app. الـ offer يقول 30% off وطلع fake. IBAN SA7279992527127068522523.,AD,AD,AD
+C123572,msa,دفعت الأسبوع الماضي ثمن طاولة طعام في اللؤلؤة للأثاث. المقاس واللون يختلفان عن الوصف.,DEFECT,DEFECT,DEFECT
+C124478,msa,اشتريت شاشة من وفاق للإلكترونيات. به عيب في التشغيل، فهو يسخن كثيراً. طلبت استرداد المبلغ فرفضوا.,DEFECT,WARRANTY,REFUND
+C111447,msa,طلبت مساحات عبر الإنترنت من النور لقطع غيار السيارات المحدودة. به عيب في التشغيل، فهو يسخن كثيراً. طلبت استرداد المبلغ فرفضوا.,REFUND,REFUND,REFUND
+C126534,gulf,الأسبوع اللي فات دفعت حق عقد ذهب في الريم للمجوهرات. الطلب ما وصل للحين.,DELIVERY,DELIVERY,DELIVERY
+C124174,msa,دفعت الأسبوع الماضي ثمن حاسب محمول في الهدي للإلكترونيات. لم يصل الطلب أبداً.,DELIVERY,DELIVERY,DELIVERY
+C120386,msa,دفعت الأسبوع الماضي ثمن حقيبة في اللؤلؤة للأزياء. العرض قال تركيب مجاني ثم طلبوا رسوم التركيب. رقم جوالي 0554256662. بريدي الإلكتروني abu.fahad71@mail.example.,AD,AD,AD
+C100344,english,I bought a TV screen from Al-Tamayuz Elec. Est. It arrived broken.,DEFECT,DEFECT,DEFECT
+C116941,english,I bought a handbag from Al Luluah Fash. Co. The order never arrived. My number is 0521915724. Email me at noura55@mail.example.,DELIVERY,DELIVERY,DELIVERY
+C106745,gulf,طلبت خزانة من الجود لأثاث أونلاين. قالوا ما نرجع فلوس.,REFUND,REFUND,REFUND
+C101250,msa,اشتريت إطارات من الأفق لقطع غيار السيارات. التطبيق أظهر 899 ريال والفاتورة 1049 ريال.,PRICE,PRICE,PRICE
+C108275,english,I bought a car battery from ALWIFAQ UTO. It stopped working after 14 days. The store refused to give my money back.,REFUND,REFUND,REFUND
+C121483,msa,دفعت الأسبوع الماضي ثمن إطارات في متجر الكرم لقطع غيار السيارات. العرض قال تركيب مجاني ثم طلبوا رسوم التركيب.,AD,AD,AD
+C126537,msa,دفعت الأسبوع الماضي ثمن خاتم في الأفق للمجوهرات. رفض المتجر إعادة المبلغ.,REFUND,REFUND,REFUND
+C128871,msa,دفعت الأسبوع الماضي ثمن إطارات في أمل لقطع غيار السيارات. لم يصل الطلب أبداً. حوّلوا المبلغ إلى SA9753696201114796249055.,DELIVERY,DELIVERY,DELIVERY
+C123453,gulf,الأسبوع اللي فات دفعت حق غسالة في مؤسسة النجمة للأجهزة المنزلية المحدودة. العرض يقول تركيب مجاني وبعدين طلبوا فلوس التركيب.,AD,AD,AD
+C103361,english,"I ordered a dining table online from AL ETQAN FURN. CO. The advert said 50% off and the shelf showed 899 SAR, but I was charged 1049 SAR.",PRICE,PRICE,PRICE
+C108188,gulf,شريت شاشة من الفجر للإلكترونيات. قالوا يوصل بثلاث أيام ووصل بعد 9 يوم. ايميلي noura94@mail.example.,DELIVERY,DELIVERY,DELIVERY
+C106762,gulf,الأسبوع اللي فات دفعت حق كنبة في مؤسسة النخبه للأثاث. خرب بعد 5 أيام. رقمي 0528951392. رجعوا الفلوس على SA5749302699155754064801.,AD,DEFECT,DEFECT
+C100822,msa,دفعت الأسبوع الماضي ثمن حاسب محمول في شركة الوفاق للإلكترونيات. الإعلان قال خصم 50% والرف أظهر 249 ريال لكن دفعت 269 ريال.,PRICE,PRICE,PRICE
+C101398,msa,دفعت الأسبوع الماضي ثمن بطارية سيارة في متجر الريم لقطع غيار السيارات. السعر على الرف 99 ريال لكن دفعت 199 ريال.,PRICE,PRICE,PRICE
+C116675,msa,اشتريت ساعة من مؤسسة الهدى للمجوهرات المحدودة. طلبت استرداد المبلغ فرفضوا.,REFUND,REFUND,REFUND
+C103462,gulf,شريت خزانة من الفارس للأثاث المحدودة. خرب بعد 5 أيام. طلبت فلوسي ورفضوا.,DEFECT,REFUND,DEFECT
+C128919,gulf,شريت إطارات من مؤسسة الفارس لقطع غيار السيارات. خرب بعد 7 أيام.,DEFECT,DEFECT,DEFECT
+C105087,english,I bought a fridge from al-itqan appl. The delivery is 17 days late.,DELIVERY,DELIVERY,DELIVERY
+C129428,gulf,طلبت حذاء رياضي من المدار للأزياء المحدودة أونلاين. قالوا ما نرجع فلوس. ايميلي m.salem95@mail.example.,REFUND,REFUND,REFUND
+C125809,mixed,شريت حذاء رياضي من متجر الإتقان للأزياء online. الـ offer يقول 50% off وطلع fake. my email abu.fahad77@mail.example.,AD,AD,DELIVERY
+C106554,english,I bought a washing machine from AL SHOROOQ HOME APPLIANCES LLC. The shelf price was 99 SAR but I was charged 199 SAR.,PRICE,PRICE,PRICE
+C118315,gulf,الأسبوع اللي فات دفعت حق إطارات في متجر النور لقطع غيار السيارات المحدودة. فيه خراب، يسخن مرة. طلبت فلوسي ورفضوا.,REFUND,REFUND,REFUND
+C105608,gulf,طلبت مكيف من التميز للأجهزة المنزلية أونلاين. خرب بعد 6 أيام.,DEFECT,DEFECT,DEFECT
+C117546,english,"Last week I paid for a gold necklace at Al Lulu Jewellery Co. The advert said 20% off and the shelf showed 249 SAR, but I was charged 349 SAR.",PRICE,PRICE,PRICE
+C107569,english,Last week I paid for a fridge at AL-TAMAYUZ APPL. It stopped working after 7 days. They refused the warranty repair although I have the warranty card.,WARRANTY,WARRANTY,WARRANTY
+C129687,msa,طلبت مكيف عبر الإنترنت من الفارس للأجهزة المنزلية. التطبيق أظهر 1299 ريال والفاتورة 1319 ريال. رقم هويتي 2654086264.,PRICE,PRICE,PRICE
+C102524,mixed,شريت مكيف من متجر سحاب للأجهزة المنزلية online. الـ ad يقول 30% off والـ shelf 249 وحاسبوني 269. هويتي 1679298069.,PRICE,PRICE,PRICE
+C107527,gulf,شريت كنبة من متجر الاتقان للأثاث. الإعلان يقول خصم 20% والرف 399 ريال وحاسبوني 499. رجعوا الفلوس على SA6381417800775803029468.,AD,PRICE,WARRANTY
+C100548,msa,دفعت الأسبوع الماضي ثمن بطارية سيارة في مؤسسة تميز لقطع غيار السيارات. تأخر التوصيل 16 أيام.,DELIVERY,DELIVERY,DELIVERY
+C103985,msa,دفعت الأسبوع الماضي ثمن ثلاجة في الوفاق للأجهزة المنزلية. السعر على الرف 149 ريال لكن دفعت 169 ريال. بريدي الإلكتروني m.salem46@mail.example.,PRICE,PRICE,PRICE
+C126801,msa,طلبت طاولة طعام عبر الإنترنت من مؤسسة الصفوة للأثاث المحدودة. لم يصل الطلب أبداً.,DELIVERY,DELIVERY,DELIVERY
+C119758,msa,اشتريت كنبة من شركة الصفوة للأثاث. وعدوا بالتوصيل خلال 3 أيام ووصل بعد 14 يوماً.,DELIVERY,DELIVERY,DELIVERY
+C108609,english,Last week I paid for a sofa at ALGHADIR FURN. The order never arrived. I asked for a refund and they refused. Email me at rana887@mail.example. My number is 0573315234.,REFUND,DELIVERY,DELIVERY
+C105106,english,"Last week I paid for a wardrobe at al-madar furniture co. The advert said 20% off and the shelf showed 399 SAR, but I was charged 449 SAR.",AD,PRICE,PRICE
+C105829,english,I ordered a washing machine online from AL-SAFWA HOME APPLIANCES LLC. They promised delivery in 3 days; it came after 18 days. Email me at m.salem28@mail.example.,DELIVERY,DELIVERY,DELIVERY
+C128811,msa,اشتريت عقد ذهب من متجر الأفق للمجوهرات. توقف عن العمل بعد 11 أيام. حوّلوا المبلغ إلى SA1794077195272611455147.,DEFECT,DEFECT,DEFECT
+C113925,gulf,طلبت عقد ذهب من الوفاق للمجوهرات أونلاين. مكتوب تم التوصيل وأنا ما استلمت شي.,DELIVERY,DELIVERY,DELIVERY
+C126919,mixed,طلبت غسالة من Al Karm Appl. عن طريق الـ app. مكتوب delivered وأنا ما استلمت. طلبت refund ورفضوا.,REFUND,REFUND,REFUND
+C118495,english,Last week I paid for wiper blades at AL FARES AUTO PARTS EST. It was marked delivered but I never received it. I asked for a refund and they refused. My ID number is 2794537360.,REFUND,REFUND,REFUND
+C118846,english,"Last week I paid for a ring at al nour jewellery. It arrived broken. It is still under warranty, but the service centre refused to repair it.",WARRANTY,WARRANTY,WARRANTY
+C128422,msa,دفعت الأسبوع الماضي ثمن حذاء رياضي في متجر الصفوه للأزياء. لم يصل الطلب أبداً.,DELIVERY,DELIVERY,DELIVERY
+C120269,msa,طلبت شاشة عبر الإنترنت من التميز للإلكترونيات. رفض المتجر إعادة المبلغ.,REFUND,REFUND,REFUND
+C125732,mixed,طلبت غسالة من AL-SAFWA APPL. عن طريق الـ app. وصل damaged.,DEFECT,DEFECT,DEFECT
+C115723,msa,اشتريت خزانة من شركة ريم للأثاث المحدودة. ليس الطراز المعروض في الموقع. رقم هويتي 2760512629.,DEFECT,DEFECT,DEFECT
+C119069,gulf,طلبت عقد ذهب من التميز للمجوهرات أونلاين. مكتوب تم التوصيل وأنا ما استلمت شي.,DELIVERY,DELIVERY,DELIVERY
+C109353,msa,اشتريت مكيف من شرك النجمة للأجهزة المنزلية المحدودة. وصل مكسوراً. حوّلوا المبلغ إلى SA0273211284645616855156.,DEFECT,DEFECT,DEFECT
+C117750,gulf,طلبت بطارية سيارة من مؤسسة السحاب لقطع غيار السيارات أونلاين. فيه خراب، يسخن مرة. قالوا ما نرجع فلوس.,AD,REFUND,REFUND
+C125494,msa,اشتريت شاشة من متجر المسار للإلكترونيات. ظهر الطلب كأنه سُلّم ولم أستلمه.,DELIVERY,DELIVERY,DELIVERY
+C127674,english,I ordered a fridge online from almasar home appliances est. I asked for a refund and they refused.,REFUND,REFUND,REFUND
+C126943,msa,اشتريت ساعة من المسار للمجوهرات. لم يصل الطلب أبداً.,DELIVERY,DELIVERY,DELIVERY
+C110676,gulf,الأسبوع اللي فات دفعت حق مكيف في شركة الغدير للأجهزة المنزلية المحدودة. خرب بعد 15 أيام. قالوا ما نرجع فلوس.,REFUND,REFUND,REFUND
+C104357,english,I ordered a washing machine online from Alreem Home Appliances. It arrived broken.,DEFECT,DEFECT,DEFECT
+C101557,msa,دفعت الأسبوع الماضي ثمن خاتم في شركة التميز للمجوهرات. به عيب في التشغيل، فهو يسخن كثيراً.,DEFECT,DEFECT,DEFECT
+C105477,msa,طلبت عباءة عبر الإنترنت من فجر للأزياء المحدودة. به عيب في التشغيل، فهو يسخن كثيراً. رفضوا الإصلاح بالضمان رغم وجود بطاقة الضمان.,WARRANTY,DELIVERY,WARRANTY
+C112648,gulf,الأسبوع اللي فات دفعت حق حقيبة في متجر كرم للأزياء. الإعلان يقول خصم 30% وطلع كذب.,AD,DELIVERY,AD
+C104243,gulf,الأسبوع اللي فات دفعت حق حقيبة في الإتقان للأزياء. الإعلان يقول خصم 20% والرف 899 ريال وحاسبوني 949.,PRICE,PRICE,AD
+C124519,gulf,الأسبوع اللي فات دفعت حق كنبة في النخبه للأثاث المحدودة. وصلني مكسور. رفضوا يصلحونه بالضمان مع إن معي كرت الضمان.,WARRANTY,DEFECT,WARRANTY
+C103913,gulf,شريت غسالة من متجر النخبه للأجهزة المنزلية المحدودة. قالوا ما نرجع فلوس.,REFUND,REFUND,REFUND
+C126763,msa,دفعت الأسبوع الماضي ثمن ساعة في الصفوة للمجوهرات. توقف عن العمل بعد 16 أيام. بريدي الإلكتروني noura51@mail.example.,DEFECT,DEFECT,DEFECT
+C123603,gulf,الأسبوع اللي فات دفعت حق حاسب محمول في متجر النخبة للإلكترونيات. وصلني مكسور. رفضوا يصلحونه بالضمان مع إن معي كرت الضمان.,WARRANTY,WARRANTY,WARRANTY
+C100974,msa,دفعت الأسبوع الماضي ثمن عقد ذهب في متجر الجمة للمجوهرات. لم يصل الطلب أبداً.,DELIVERY,DELIVERY,DELIVERY
+C119894,gulf,شريت حاسب محمول من شركة الأمل للإلكترونيات. التوصيل متأخر 8 أيام.,DELIVERY,DELIVERY,DELIVERY
+C106143,gulf,طلبت خزانة من مؤسسة الاتقان للأثاث أونلاين. وصلني مكسور. طلبت فلوسي ورفضوا.,REFUND,REFUND,REFUND
+C106770,english,I bought wiper blades from ALTAMAYUZ AUTO PARTS. The order never arrived.,DELIVERY,DELIVERY,DELIVERY
+C103752,gulf,الأسبوع اللي فات دفعت حق طاولة طعام في مؤسسة المدار للأثاث المحدودة. العرض يقول تركيب مجاني وبعدين طلبوا فلوس التركيب.,AD,AD,AD
+C109396,english,I bought tyres from al-noor auto. They promised delivery in 3 days; it came after 6 days.,DELIVERY,DELIVERY,DELIVERY
+C129264,msa,دفعت الأسبوع الماضي ثمن هاتف في متجر الفجر للإلكترونيات. رفض المتجر إعادة المبلغ.,REFUND,REFUND,REFUND
+C105906,gulf,الأسبوع اللي فات دفعت حق مساحات في شركة الوفاق لقطع غيار السيارات. فيه خراب، يسخن مرة. رجعوا الفلوس على SA4023325343182543754579.,DEFECT,DEFECT,DEFECT
+C103168,msa,اشتريت هاتف من الغدير للإلكترونيات. توقف عن العمل بعد 9 أيام.,DEFECT,DEFECT,DEFECT
+C108172,gulf,طلبت حاسب محمول من متج كرم للإلكترونيات أونلاين. بالتطبيق 99 ريال وبالفاتورة 199.,PRICE,PRICE,PRICE
+C114087,msa,دفعت الأسبوع الماضي ثمن هاتف في مؤسسة الهدى للإلكترونيات. العرض قال تركيب مجاني ثم طلبوا رسوم التركيب.,AD,AD,AD
+C110498,english,I ordered a fridge online from Al-Itqan Home Applances. The store refused to give my money back.,REFUND,REFUND,REFUND
+C123360,msa,اشتريت مكيف من تميز للأجهزة المنزلية. به عيب في التشغيل، فهو يسخن كثيراً. طلبت استرداد المبلغ فرفضوا.,REFUND,DEFECT,REFUND
+C114667,msa,طلبت مكيف عبر الإنترنت من الشروق للأجهزة المنزلية المحدودة. الإعلان قال خصم 30% والرف أظهر 399 ريال لكن دفعت 499 ريال.,PRICE,PRICE,PRICE
+C120926,english,Last week I paid for running shoes at al-nur fashion llc. The order never arrived.,DELIVERY,DELIVERY,DELIVERY
+C110054,gulf,شريت غسالة من الريم للأجهزة المنزلية. خرب بعد 8 أيام. طلبت فلوسي ورفضوا.,REFUND,REFUND,DEFECT
