@@ -5,7 +5,7 @@
 
 Data Science Track · SDAIA Academy · DS-311 · Level 300
 
-REPLACE: one line under the title: what participants can do after the course
+Build the labels, rules, contract and gated pipeline an analysis depends on, and trace a figure that changed
 
 Participants build the data an analysis depends on for Bayyin Consumer Protection Office, a fictional regulator holding 30,000 synthetic complaint records in Arabic and English. They write a labelling guideline, pilot it, measure agreement and adjudicate, run golden-question checks and review queues across a rater team, turn analysts' requirements into quality rules and a data contract, and package the preparation as a reproducible pipeline that stops on those rules. Measuring model-made labels is DS-306; platform-scale data engineering is AE-306.
 
@@ -48,22 +48,22 @@ Every lab is a notebook in `labs/`. Open it in Google Colab from the course page
 
 | | Session | Lab | File |
 |---|---|---|---|
-| 1.1 | Day 1 · Session 1 | Label 40 complaints without a guideline and compare with two neighbours (AI-off) | [`D1_1_label_40_complaints.ipynb`](labs/D1_1_label_40_complaints.ipynb) |
-| 1.2 | Day 1 · Session 2 | Write definitions, rules and edge cases for six complaint categories | [`D1_2_write_definitions_rules.ipynb`](labs/D1_2_write_definitions_rules.ipynb) |
-| 1.3 | Day 1 · Session 3 | Compute kappa and alpha by category on pilot labels | [`D1_3_compute_kappa_alpha.ipynb`](labs/D1_3_compute_kappa_alpha.ipynb) |
-| 1.4 | Day 1 · Session 4 | Adjudicate 30 disagreements and revise the guideline with a change log | [`D1_4_adjudicate_30_disagreements.ipynb`](labs/D1_4_adjudicate_30_disagreements.ipynb) |
-| 2.1 | Day 2 · Session 1 | Draw a stratified golden set covering rare categories and dialects | [`D2_1_draw_stratified_golden.ipynb`](labs/D2_1_draw_stratified_golden.ipynb) |
-| 2.2 | Day 2 · Session 2 | Set gold-question checks and route low-agreement items to adjudication | [`D2_2_set_gold_question.ipynb`](labs/D2_2_set_gold_question.ipynb) |
-| 2.3 | Day 2 · Session 3 | Find the drifting rater from gold-question accuracy over time | [`D2_3_find_drifting_rater.ipynb`](labs/D2_3_find_drifting_rater.ipynb) |
-| 2.4 | Day 2 · Session 4 | Compare cost per accepted label across double, audited single and model-assisted labelling | [`D2_4_compare_cost_per.ipynb`](labs/D2_4_compare_cost_per.ipynb) |
-| 3.1 | Day 3 · Session 1 | Profile four source tables and propose rules with thresholds (AI-off) | [`D3_1_profile_four_source.ipynb`](labs/D3_1_profile_four_source.ipynb) |
-| 3.2 | Day 3 · Session 2 | Implement warning and blocking rules against the seeded defects | [`D3_2_implement_warning_blocking.ipynb`](labs/D3_2_implement_warning_blocking.ipynb) |
-| 3.3 | Day 3 · Session 3 | Match merchant names across Arabic and Latin spellings and measure precision | [`D3_3_match_merchant_names.ipynb`](labs/D3_3_match_merchant_names.ipynb) |
-| 3.4 | Day 3 · Session 4 | Write a contract for the prepared table and make a breaking change fail its check | [`D3_4_write_contract_prepared.ipynb`](labs/D3_4_write_contract_prepared.ipynb) |
-| 4.1 | Day 4 · Session 1 | Convert a preparation notebook into scripted steps with a lock file | [`D4_1_convert_preparation_notebook.ipynb`](labs/D4_1_convert_preparation_notebook.ipynb) |
-| 4.2 | Day 4 · Session 2 | Make the pipeline quarantine bad rows and stop on a blocking rule | [`D4_2_make_pipeline_quarantine.ipynb`](labs/D4_2_make_pipeline_quarantine.ipynb) |
-| 4.3 | Day 4 · Session 3 | Use run logs and lineage to find why a monthly complaint rate changed | [`D4_3_use_run_logs.ipynb`](labs/D4_3_use_run_logs.ipynb) |
-| 4.4 | Day 4 · Session 4 | Write the preparation section of the datasheet for the prepared table | [`D4_4_write_preparation_section.ipynb`](labs/D4_4_write_preparation_section.ipynb) |
+| 1.1 | Day 1 · Session 1 | Label 40 complaints, then compare | [`D1_1_label_40_complaints.ipynb`](labs/D1_1_label_40_complaints.ipynb) |
+| 1.2 | Day 1 · Session 2 | Guideline v1.0 for six categories | [`D1_2_write_definitions_rules.ipynb`](labs/D1_2_write_definitions_rules.ipynb) |
+| 1.3 | Day 1 · Session 3 | Kappa and alpha on the pilot | [`D1_3_compute_kappa_alpha.ipynb`](labs/D1_3_compute_kappa_alpha.ipynb) |
+| 1.4 | Day 1 · Session 4 | Adjudicate 30, revise, measure again | [`D1_4_adjudicate_30_disagreements.ipynb`](labs/D1_4_adjudicate_30_disagreements.ipynb) |
+| 2.1 | Day 2 · Session 1 | A stratified golden set | [`D2_1_draw_stratified_golden.ipynb`](labs/D2_1_draw_stratified_golden.ipynb) |
+| 2.2 | Day 2 · Session 2 | Gold checks and routing | [`D2_2_set_gold_question.ipynb`](labs/D2_2_set_gold_question.ipynb) |
+| 2.3 | Day 2 · Session 3 | Find the drifting rater | [`D2_3_find_drifting_rater.ipynb`](labs/D2_3_find_drifting_rater.ipynb) |
+| 2.4 | Day 2 · Session 4 | Cost per accepted label | [`D2_4_compare_cost_per.ipynb`](labs/D2_4_compare_cost_per.ipynb) |
+| 3.1 | Day 3 · Session 1 | Profile four tables, propose rules | [`D3_1_profile_four_source.ipynb`](labs/D3_1_profile_four_source.ipynb) |
+| 3.2 | Day 3 · Session 2 | Warning and blocking rules | [`D3_2_implement_warning_blocking.ipynb`](labs/D3_2_implement_warning_blocking.ipynb) |
+| 3.3 | Day 3 · Session 3 | Merchant names across two scripts | [`D3_3_match_merchant_names.ipynb`](labs/D3_3_match_merchant_names.ipynb) |
+| 3.4 | Day 3 · Session 4 | A contract that rejects a breaking change | [`D3_4_write_contract_prepared.ipynb`](labs/D3_4_write_contract_prepared.ipynb) |
+| 4.1 | Day 4 · Session 1 | Steps, a runner and a lock file | [`D4_1_convert_preparation_notebook.ipynb`](labs/D4_1_convert_preparation_notebook.ipynb) |
+| 4.2 | Day 4 · Session 2 | Quarantine and block | [`D4_2_make_pipeline_quarantine.ipynb`](labs/D4_2_make_pipeline_quarantine.ipynb) |
+| 4.3 | Day 4 · Session 3 | Why the August rate changed | [`D4_3_use_run_logs.ipynb`](labs/D4_3_use_run_logs.ipynb) |
+| 4.4 | Day 4 · Session 4 | The datasheet's preparation section | [`D4_4_write_preparation_section.ipynb`](labs/D4_4_write_preparation_section.ipynb) |
 <!-- /academy:labs -->
 
 ## Capstone
@@ -94,7 +94,33 @@ Each line is a capability; the examples are interchangeable.
 <!-- academy:sources -->
 ## Sources
 
-- REPLACE: every source the course cites, with its address, in course.json under "sources"; this list is written from there
+### Labelling and agreement
+
+- [Klaus Krippendorff: Computing Krippendorff's Alpha-Reliability](https://repository.upenn.edu/handle/20.500.14332/2089)
+- [Artstein and Poesio: Inter-Coder Agreement for Computational Linguistics (2008)](https://aclanthology.org/J08-4004/)
+- [Label Studio documentation](https://labelstud.io/guide/)
+- [Argilla documentation](https://docs.argilla.io/)
+
+### Rules, contracts and pipelines
+
+- [Open Data Contract Standard (ODCS)](https://bitol-io.github.io/open-data-contract-standard/latest/)
+- [ODCS v3.2.0 release](https://github.com/bitol-io/open-data-contract-standard/releases/tag/v3.2.0)
+- [Pandera documentation](https://pandera.readthedocs.io/en/stable/)
+- [Great Expectations documentation](https://docs.greatexpectations.io/docs/home/)
+- [Soda documentation](https://docs.soda.io/)
+- [DuckDB documentation](https://duckdb.org/docs/stable/)
+- [uv: project layout and the lock file](https://docs.astral.sh/uv/concepts/projects/layout/)
+- [OpenLineage object model](https://openlineage.io/docs/spec/object-model/)
+- [Dagster documentation](https://docs.dagster.io/)
+- [Gebru et al.: Datasheets for Datasets](https://arxiv.org/abs/1803.09010)
+
+### National references
+
+- [NDMO: Data Management and Personal Data Protection Standards](https://sdaia.gov.sa/en/SDAIA/about/Documents/DataManagementPersonalDataProtectionStandards.pdf)
+- [NDMO: Data Classification Policy](https://sdaia.gov.sa/en/SDAIA/about/Documents/DataClassificationPolicy.pdf)
+- [Personal Data Protection Law](https://sdaia.gov.sa/en/SDAIA/about/Documents/PersonalDataProtectionLaw.pdf)
+- [Implementing Regulation of the Personal Data Protection Law](https://sdaia.gov.sa/en/SDAIA/about/Documents/ImplementingRegulationPersonalDataProtectionLaw.pdf)
+- [SDAIA: Generative AI Guidelines for Government](https://sdaia.gov.sa/en/SDAIA/about/Files/GenAIGuidelinesForGovernmentENCompressed.pdf)
 <!-- /academy:sources -->
 
 ### National references
