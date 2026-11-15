@@ -49,7 +49,7 @@
     <tr><td>Accuracy</td><td>Is the value true?</td><td>Amounts of SAR 694,783</td></tr>
     <tr><td>Timeliness</td><td>Is it recent enough?</td><td>Newest complaint against the extract date</td></tr>
   </table>
-  <aside class="notes"><p>The six are the dimensions named in the NDMO Data Management and Personal Data Protection Standards' Data Quality domain; DS-202 introduces them for exploration. Here they become rules that run every month. Point out that accuracy is the hardest: it needs a reference outside the table.</p></aside>
+  <aside class="notes"><p>The six are the dimensions named in the NDMO Data Management and Personal Data Protection Standards' Data Quality domain; DS-202 already wrote type, range, uniqueness and completeness rules from a data dictionary and matched names at three thresholds: treat this as a recap. What is new here is the owner, the threshold and the severity of each rule, accuracy and timeliness, and rules that run inside a pipeline every month. Point out that accuracy is the hardest: it needs a reference outside the table.</p></aside>
 </section>
 
 <section class="slide" data-label="Load as text" id="profile-as-text" data-lo="LO4">
@@ -298,7 +298,7 @@ WHERE coalesce(closed_date, '') &lt;&gt; ''
     <tr><td class="num">100</td><td class="num">258</td><td class="num">1.000</td><td class="num">0.956</td></tr>
   </table>
   <p class="small mt-s">A tie between two merchants returns NONE. The five misses are typing errors in the sector word.</p>
-  <aside class="notes"><p>Precision first because a wrong match blames a merchant who did nothing; a miss leaves the complaint unattributed, which analysts can see. On this sample the key and the tie rule do most of the work, so precision is 1.0 at every threshold; the threshold only decides names whose sector was misspelt ("Fasion", «للمجورات»). The fix for those is in the stems, not a lower threshold.</p></aside>
+  <aside class="notes"><p>DS-202 chose a matching threshold on labelled pairs within one script; the new part here is matching across Arabic and Latin spellings. Precision first because a wrong match blames a merchant who did nothing; a miss leaves the complaint unattributed, which analysts can see. On this sample the key and the tie rule do most of the work, so precision is 1.0 at every threshold; the threshold only decides names whose sector was misspelt ("Fasion", «للمجورات»). The fix for those is in the stems, not a lower threshold.</p></aside>
 </section>
 
 <section class="slide" data-label="Blocking" id="blocking" data-lo="LO4">
