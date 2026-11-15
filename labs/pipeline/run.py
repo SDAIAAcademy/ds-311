@@ -2,7 +2,7 @@
 
     uv run run.py --raw ../data/sources_clean --regions ../data/sources_clean/regions.csv --out out --extract-date 2026-09-05
 
-Exit code 0: published. Exit code 2: stopped by a blocking rule, nothing published.
+Exit code 0: published. Exit code 2: stopped by a blocking rule or a failed contract check, nothing published.
 Writes <out>/run_log.json and <out>/lineage.jsonl in every case.
 """
 
@@ -21,6 +21,7 @@ import duckdb
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import steps  # noqa: E402
+import contract  # noqa: E402
 
 
 def sha(p: Path) -> str:
@@ -69,6 +70,10 @@ def main(argv=None) -> int:
         record("clean", steps.clean(con))
         record("dedupe", steps.dedupe(con))
         record("enrich", steps.enrich(con))
+        checks = contract.check(con, HERE / "contract.odcs.yaml")
+        log["contract"] = {"checks": len(checks), "failed": [c["check"] for c in checks if c["status"] == "fail"]}
+        if log["contract"]["failed"]:
+            raise steps.Blocked({"results": log["rules"], "quarantined": log["quarantined"], "blocked_by": ["contract"]})
         record("publish", steps.publish(con, a.out / "published"))
         log["outputs"] = {f.name: sha(f) for f in sorted((a.out / "published").glob("*.csv"))}
         log["status"] = "published"
