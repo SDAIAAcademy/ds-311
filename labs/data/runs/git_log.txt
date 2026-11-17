@@ -1,0 +1,3 @@
+c9d05b3 dedupe on customer, merchant and day
+7e21a90 load regions from the reference service
+a41c2e7 publish the monthly rate by region

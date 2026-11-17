@@ -1,0 +1,52 @@
+{
+ "corpus": 30000,
+ "categories": {
+  "DEFECT": 6839,
+  "PRICE": 4125,
+  "DELIVERY": 6415,
+  "REFUND": 8081,
+  "AD": 3803,
+  "WARRANTY": 737
+ },
+ "varieties": {
+  "msa": 14311,
+  "english": 5444,
+  "gulf": 8416,
+  "mixed": 1829
+ },
+ "pii_share": 0.18,
+ "distressing": 859,
+ "pilot_ambiguous": 95,
+ "ops_rows": 2986,
+ "extract_clean": 30000,
+ "extract_seeded": 30300,
+ "actions": 29998,
+ "regions": 13,
+ "merchants": 150,
+ "r04_aug": {
+  "run_a": {
+   "n": 298,
+   "rate": 48.06
+  },
+  "late_arrivals": {
+   "n": 328,
+   "rate": 52.9
+  },
+  "new_population": {
+   "n": 328,
+   "rate": 50.15
+  },
+  "new_dedupe_key": {
+   "n": 256,
+   "rate": 39.14
+  },
+  "run_b": {
+   "n": 256,
+   "rate": 39.14
+  },
+  "corrected": {
+   "n": 324,
+   "rate": 49.53
+  }
+ }
+}

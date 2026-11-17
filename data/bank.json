@@ -1,0 +1,1542 @@
+{
+  "format": "academy-bank",
+  "version": 1,
+  "course": {
+    "id": "ds-311",
+    "code": "DS-311",
+    "title": "Data Quality, Labelling and Pipelines for Analysis",
+    "lang": "en",
+    "version": "2027.1.0"
+  },
+  "questions": [
+    {
+      "id": "checkpoint-1-q1",
+      "type": "single",
+      "prompt": "In a pilot, 70% of all disagreements fall on DEFECT against REFUND, and the rest spread thinly. What is the most likely cause?",
+      "options": [
+        "The schema does not say which question the label answers",
+        "The raters were tired and misread the texts",
+        "One rater needs retraining on the six codes",
+        "The pilot is too small to show anything"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "Random error spreads over many pairs. A pile on one pair is two readings of the schema, which a guideline rule fixes.",
+      "misconceptions": [
+        "",
+        "Treats a systematic pattern as random error: tiredness would spread over every pair",
+        "Blames the instrument's users when the instrument itself is ambiguous",
+        "Confuses the size of a sample with the pattern inside it"
+      ],
+      "lo": [
+        "LO1"
+      ],
+      "day": 1,
+      "session": 1,
+      "slide": "checkpoint-1",
+      "pool": "checkpoint",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "checkpoint-2-q1",
+      "type": "single",
+      "prompt": "\"The washing machine is still under warranty. The service centre refused to repair it, and the shop also refused my refund.\" Under guideline v1.0, which label?",
+      "options": [
+        "REFUND, because the refund refusal is the last fact stated",
+        "DEFECT, because the machine is faulty",
+        "WARRANTY, because rule 1 applies first",
+        "None: it must go to adjudication"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "The rules are applied in order and the first that applies decides: a repair refused under warranty is WARRANTY whatever else the complaint says.",
+      "misconceptions": [
+        "Applies the rules in the order the facts appear in the text, not the guideline's order",
+        "Labels the product's state, the construct the guideline chose not to measure",
+        "",
+        "Thinks two applicable rules mean the case is outside the schema"
+      ],
+      "lo": [
+        "LO1"
+      ],
+      "day": 1,
+      "session": 2,
+      "slide": "checkpoint-2",
+      "pool": "checkpoint",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "checkpoint-3-q1",
+      "type": "single",
+      "prompt": "Two raters label whether a complaint is WARRANTY. They agree on 96% of 300 complaints; each says WARRANTY about 3% of the time. What is the best next step?",
+      "options": [
+        "Accept: 96% agreement is excellent",
+        "Compute a chance-corrected figure and count the WARRANTY labels it rests on",
+        "Add a third rater and recompute percent agreement",
+        "Merge WARRANTY into DEFECT to raise agreement"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "When both say \"no\" 97% of the time, chance agreement is about 94%; only a chance-corrected figure on enough WARRANTY labels shows whether they agree on the rare cases.",
+      "misconceptions": [
+        "Takes raw agreement at face value when one answer dominates",
+        "",
+        "Assumes more raters fixes a measure that is misleading by construction",
+        "Drops the rare category instead of measuring it, losing the cases analysts need"
+      ],
+      "lo": [
+        "LO2"
+      ],
+      "day": 1,
+      "session": 3,
+      "slide": "checkpoint-3",
+      "pool": "checkpoint",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "checkpoint-4-q1",
+      "type": "single",
+      "prompt": "Khulood reviews four proposed entries for guideline v1.1. Which one meets the standard of this course?",
+      "options": [
+        "\"Definitions clarified throughout for consistency\"",
+        "\"REFUND and DEFECT split 5 of 30: raters to take more care\"",
+        "\"Rule 5 restated because AD seems clearer than PRICE\"",
+        "\"Rule 2 example added: broken and refund refused is REFUND (split 5 of 30)\""
+      ],
+      "correct": [
+        3
+      ],
+      "explanation": "An acceptable entry changes something a rater applies and cites the measured disagreement, so round 2 can show whether it worked.",
+      "misconceptions": [
+        "Describes an intention with no measured disagreement behind it",
+        "Cites evidence but changes nothing a rater can apply",
+        "Changes the rule from opinion, with no count to test it against in round 2",
+        ""
+      ],
+      "lo": [
+        "LO1"
+      ],
+      "day": 1,
+      "session": 4,
+      "slide": "checkpoint-4",
+      "pool": "checkpoint",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "review-day1-q1",
+      "type": "single",
+      "prompt": "Round 2 of the pilot gives alpha 0.789 overall, with an interval from 0.744 to 0.825, and 0.743 for mixed text from 15 complaints. Which sentence belongs in the report?",
+      "options": [
+        "\"Agreement is 0.789.\"",
+        "\"Agreement is 0.789 (0.744 to 0.825), so every variety is reliable.\"",
+        "\"Agreement is 0.789 (0.744 to 0.825); mixed text is lowest, on only 15 complaints.\"",
+        "\"Mixed text is excluded because 15 complaints are too few.\""
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "The report gives the estimate, its interval and where it is weakest, with the number of items behind the weak group.",
+      "misconceptions": [
+        "Reports a point estimate without the uncertainty the report must carry",
+        "Hides the weakest variety behind the overall figure",
+        "",
+        "Treats a small subgroup as no information instead of reporting it with its size"
+      ],
+      "lo": [
+        "LO2"
+      ],
+      "day": 2,
+      "slide": "review-day1",
+      "pool": "checkpoint",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "checkpoint-1-q1",
+      "type": "single",
+      "prompt": "Bayyin must build a 240-complaint golden set that tests raters on WARRANTY, about 2.5% of complaints. No complaint is labelled yet. What do you stratify on?",
+      "options": [
+        "The true category of each complaint",
+        "Nothing: draw a random sample of 480 instead",
+        "The channel the complaint came through",
+        "The language variety and a pre-label, with a floor per stratum"
+      ],
+      "correct": [
+        3
+      ],
+      "explanation": "Strata must use fields known before labelling; a pre-label that predicts WARRANTY, with a floor, raises the count of the rare category.",
+      "misconceptions": [
+        "Uses information that only exists after the labelling the gold set is meant to check",
+        "Assumes a larger random sample fixes rarity; it scales the rare count only slowly",
+        "Balances something that does not predict the rare category",
+        ""
+      ],
+      "lo": [
+        "LO3"
+      ],
+      "day": 2,
+      "session": 1,
+      "slide": "checkpoint-1",
+      "pool": "checkpoint",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "checkpoint-2-q1",
+      "type": "single",
+      "prompt": "A new rater has answered 12 gold questions and got all 12 right. Bayyin's rule needs 30 gold answers and a lower bound of at least 0.80. What is their status?",
+      "options": [
+        "Pass: 100% accuracy",
+        "Too few: keep giving gold questions until 30",
+        "Watch: the interval is too wide",
+        "Re-label all their work"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "Below the minimum count the rule does not judge at all; twelve answers cannot separate a good rater from a lucky one.",
+      "misconceptions": [
+        "Reads a perfect score on a few items as a precise estimate",
+        "",
+        "Applies the interval rule before the count rule that comes first",
+        "Treats lack of evidence as evidence of poor work"
+      ],
+      "lo": [
+        "LO3"
+      ],
+      "day": 2,
+      "session": 2,
+      "slide": "checkpoint-2",
+      "pool": "checkpoint",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "checkpoint-3-q1",
+      "type": "single",
+      "prompt": "R5 scored 0.975 on gold for five days and 0.375 for the last three. R6 has scored about 0.72 throughout. What should happen to R5's work?",
+      "options": [
+        "Put R5 on double labelling from now on, like R6",
+        "Re-label everything R5 has ever labelled",
+        "Re-check R5's work since the drift began, and find out what changed",
+        "Nothing: R5's ten-day average is close to R6's"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "Drift means the work before the change is sound and the work after is not; the response targets the period and the cause.",
+      "misconceptions": [
+        "Applies the steady-low response to a rater whose problem is recent",
+        "Discards good work from before the change",
+        "",
+        "Lets an average over all ten days hide the recent fall"
+      ],
+      "lo": [
+        "LO3"
+      ],
+      "day": 2,
+      "session": 3,
+      "slide": "checkpoint-3",
+      "pool": "checkpoint",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "checkpoint-4-q1",
+      "type": "single",
+      "prompt": "Analysts accept at most 5% wrong labels. Double labelling costs SAR 1.94 at 0.3% error; audited single SAR 0.93 at 5.0%; model-assisted SAR 0.37 at 10.0%. Which design, and why?",
+      "options": [
+        "Model-assisted: it is the cheapest",
+        "Double labelling: it has the fewest errors",
+        "A mix of all three in equal shares",
+        "Audited single: the cheapest design within the error limit"
+      ],
+      "correct": [
+        3
+      ],
+      "explanation": "Cost per accepted label is compared only among designs that meet the error limit; then the cheapest wins.",
+      "misconceptions": [
+        "Compares costs without first applying the error limit",
+        "Pays twice the cost for accuracy beyond what the analysts need",
+        "Averages designs that do different things, which no team can run",
+        ""
+      ],
+      "lo": [
+        "LO3"
+      ],
+      "day": 2,
+      "session": 4,
+      "slide": "checkpoint-4",
+      "pool": "checkpoint",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "review-day2-q1",
+      "type": "single",
+      "prompt": "Over ten days R5 and R6 both average about 0.72 on gold. R5 scored 0.975 in the first five days and 0.375 in the last three; R6 stayed between 0.68 and 0.79. What do you do?",
+      "options": [
+        "Coach both raters the same way",
+        "Re-check R5's recent labels; coach R6 and double-label its work",
+        "Re-check R6's recent labels; leave R5, whose average is the same",
+        "Wait for more gold answers before doing anything"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "Drift is judged against each rater's own baseline: R5 changed, so its recent work is suspect; R6 is steadily low, which calls for coaching.",
+      "misconceptions": [
+        "Lets two similar averages hide two different histories",
+        "",
+        "Reads a steady, low rater as the one who changed",
+        "Ignores that pooled days give enough gold answers to judge"
+      ],
+      "lo": [
+        "LO3"
+      ],
+      "day": 3,
+      "slide": "review-day2",
+      "pool": "checkpoint",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "checkpoint-1-q1",
+      "type": "single",
+      "prompt": "The profile shows a maximum amount of SAR 694,783. Abdulelah proposes one rule: \"no amount above SAR 50,000\". August's app batch was sent in halalas. What does his rule miss?",
+      "options": [
+        "The halala amounts that stayed under SAR 50,000; a rule on the batch's median catches them",
+        "Nothing: every halala amount is above SAR 50,000",
+        "The duplicated complaints of August",
+        "Only amounts between SAR 40,000 and 50,000; lower the limit to 40,000"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "A unit error moves the whole batch; a row rule sees only the rows it pushes past the limit. 619 of 1,195 rows passed SAR 50,000.",
+      "misconceptions": [
+        "",
+        "Assumes multiplying by 100 pushes every amount over the limit",
+        "Confuses a unit error with a duplicate",
+        "Thinks the threshold, not the level of the check, is the problem"
+      ],
+      "lo": [
+        "LO4"
+      ],
+      "day": 3,
+      "session": 1,
+      "slide": "checkpoint-1",
+      "pool": "checkpoint",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "checkpoint-2-q1",
+      "type": "single",
+      "prompt": "C01 (region present) is a quarantine rule with a 3% threshold. This month 414 of 30,300 complaints, 1.4%, have no region. What happens to the run?",
+      "options": [
+        "The run stops before publishing",
+        "The rows are published with an empty region and a warning",
+        "The 414 rows go to quarantine with C01; the run goes on",
+        "The rows are given the most common region and published"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "Under the 3% threshold, quarantine sets the failing rows aside with the rule that caught them and lets the rest be published; above 3% the run would stop.",
+      "misconceptions": [
+        "Treats every failure as a reason to stop, whatever the severity",
+        "Forgets that quarantine removes the failing rows from the published table",
+        "",
+        "Invents a repair the rule does not make"
+      ],
+      "lo": [
+        "LO4"
+      ],
+      "day": 3,
+      "session": 2,
+      "slide": "checkpoint-2",
+      "pool": "checkpoint",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "checkpoint-3-q1",
+      "type": "single",
+      "prompt": "A complainant writes only «النور», with no sector. Six registry merchants share that name: electronics, furniture, appliances, fashion, auto parts and jewellery. All score 100. What should the matcher return?",
+      "options": [
+        "The first of the six in the registry",
+        "The one with the most complaints this year",
+        "Raise the threshold until only one remains",
+        "NONE, until someone checks the complaint text"
+      ],
+      "correct": [
+        3
+      ],
+      "explanation": "A tie means the name does not say which merchant; a wrong match blames a merchant who did nothing, a NONE is visible and can be fixed.",
+      "misconceptions": [
+        "Lets the order of the registry decide who is blamed",
+        "Guesses from the population, which may not be this complaint's merchant",
+        "Changes the threshold to fix a tie it cannot resolve",
+        ""
+      ],
+      "lo": [
+        "LO4"
+      ],
+      "day": 3,
+      "session": 3,
+      "slide": "checkpoint-3",
+      "pool": "checkpoint",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "checkpoint-4-q1",
+      "type": "single",
+      "prompt": "The contract for complaints_prepared lists ten columns. Which change by the producer should fail the contract check?",
+      "options": [
+        "Adding a nullable column merchant_name",
+        "Sending amount_sar as text such as \"SAR 120.00\"",
+        "Correcting the description of status",
+        "Publishing 31,000 rows instead of 30,000"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "A changed type breaks every consumer that computes with the column; the contract's type check fails before any value is read.",
+      "misconceptions": [
+        "Thinks any new column breaks consumers who select the columns they use",
+        "",
+        "Confuses a documentation change with a schema change",
+        "Treats more data within the clauses as a change of meaning"
+      ],
+      "lo": [
+        "LO4"
+      ],
+      "day": 3,
+      "session": 4,
+      "slide": "checkpoint-4",
+      "pool": "checkpoint",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "review-day3-q1",
+      "type": "single",
+      "prompt": "Abdulelah renames region_code to region in the prepared table, to match another system. The contract lists region_code as required. What should happen?",
+      "options": [
+        "The contract passes: the data is the same",
+        "The contract passes with a warning; the version goes to 1.1.0",
+        "Hatoon updates her report the morning it breaks",
+        "The contract fails; the change waits for a 2.0.0 contract both agree"
+      ],
+      "correct": [
+        3
+      ],
+      "explanation": "A column the consumer relies on has disappeared: a breaking change, caught before publishing, that needs a new major version agreed by both sides.",
+      "misconceptions": [
+        "Thinks a rename keeps the meaning, so consumers are not affected",
+        "Confuses a breaking change with a minor one",
+        "Makes the consumer absorb a producer's change without agreement",
+        ""
+      ],
+      "lo": [
+        "LO4"
+      ],
+      "day": 4,
+      "slide": "review-day3",
+      "pool": "checkpoint",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "checkpoint-1-q1",
+      "type": "single",
+      "prompt": "A dedupe cell shuffles the complaints with df.sample(frac=1), then keeps the first copy of each customer, merchant and product. Two runs keep different copies. What is the fix?",
+      "options": [
+        "Sort by received date and complaint id, then keep the first: a rule anyone can state",
+        "Add random_state=1 to the shuffle",
+        "Run the cell only once per month",
+        "Remove the dedupe step"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "A seed makes the result repeatable; an explicit order makes it repeatable and explainable: \"the earliest complaint is kept\".",
+      "misconceptions": [
+        "",
+        "Makes the output repeatable but leaves the choice of copy arbitrary and unexplained",
+        "Hides the problem without removing it",
+        "Confuses removing duplicates with not deduplicating at all"
+      ],
+      "lo": [
+        "LO5"
+      ],
+      "day": 4,
+      "session": 1,
+      "slide": "checkpoint-1",
+      "pool": "checkpoint",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "checkpoint-2-q1",
+      "type": "single",
+      "prompt": "The October run stops on A02: a channel's median amount tripled. Hatoon's monthly report reads published/monthly_rate.csv. What does it show the next morning?",
+      "options": [
+        "October's figures, with the bad channel removed",
+        "Nothing: the file is deleted",
+        "September's figures, unchanged, while the run log says why October stopped",
+        "October's figures with a warning in the log"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "The pipeline publishes only after every gate and writes the files last, by renaming: a stopped run leaves the published table as it was.",
+      "misconceptions": [
+        "Assumes a stopped run still writes its partial results",
+        "Thinks a block deletes the previous output",
+        "",
+        "Confuses a blocking rule with a warning"
+      ],
+      "lo": [
+        "LO5"
+      ],
+      "day": 4,
+      "session": 2,
+      "slide": "checkpoint-2",
+      "pool": "checkpoint",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "checkpoint-3-q1",
+      "type": "single",
+      "prompt": "Between two runs, the extract gained 260 rows, the population table changed and the dedupe key changed. R04's rate fell from 48.06 to 39.14. How do you attribute the fall?",
+      "options": [
+        "Blame the extract: it changed the most rows",
+        "Divide the fall equally among the three changes",
+        "Re-run October and see whether it repeats",
+        "Start from September and apply the changes one at a time, recomputing each time"
+      ],
+      "correct": [
+        3
+      ],
+      "explanation": "Changes can push in opposite directions; only recomputing one at a time shows each one's share, here a fall of 11.01 from the new key.",
+      "misconceptions": [
+        "Assumes the largest input change caused the largest effect",
+        "Splits the effect evenly without measuring it",
+        "Ignores the evidence the runs left behind",
+        ""
+      ],
+      "lo": [
+        "LO6"
+      ],
+      "day": 4,
+      "session": 3,
+      "slide": "checkpoint-3",
+      "pool": "checkpoint",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "checkpoint-4-q1",
+      "type": "single",
+      "prompt": "Hatoon's datasheet says \"about 900 rows were removed by quality rules\". The run log of the published table says 915 complaints and 150 actions were quarantined. What should the section say?",
+      "options": [
+        "\"About 900 rows\": close enough for readers",
+        "\"915 complaints and 150 case actions\", taken from the run log, with the rules",
+        "Nothing: the quarantine is an internal detail",
+        "The counts from Lab 3.2's seeded run"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "A number taken from the run that produced the table can be checked and regenerated; a rounded or borrowed one cannot.",
+      "misconceptions": [
+        "Keeps a rounded figure that cannot be checked against the run",
+        "",
+        "Removes what the reader needs to judge the table",
+        "Mixes figures from different runs"
+      ],
+      "lo": [
+        "LO5"
+      ],
+      "day": 4,
+      "session": 4,
+      "slide": "checkpoint-4",
+      "pool": "checkpoint",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d1-construct",
+      "type": "single",
+      "prompt": "Two analysts at Bayyin label the same 200 complaints and split mostly between DEFECT and REFUND. Before measuring anything else, what should the labelling lead settle?",
+      "options": [
+        "Which of the two analysts is more experienced",
+        "Which question the label answers: what is wrong with the product, or what the merchant refused",
+        "Whether to add a seventh category for mixed complaints",
+        "Whether to switch to a different annotation tool"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "A pile of splits on one pair is two readings of the construct; the guideline must say which question the label measures.",
+      "misconceptions": [
+        "Treats a systematic split as a matter of skill rather than of an unclear construct",
+        "",
+        "Adds a category instead of resolving the overlap, which creates two new overlaps",
+        "Blames the instrument's software when the instrument is the guideline"
+      ],
+      "lo": [
+        "LO1"
+      ],
+      "day": 1,
+      "session": 1,
+      "level": "understand",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d1-exclude",
+      "type": "single",
+      "prompt": "A draft guideline says for PRICE: 'Excludes: other pricing issues.' A rater meets a complaint where an advert promised 30% off and the till charged the shelf price. What is wrong with the draft?",
+      "options": [
+        "The exclude does not say where the case goes instead, so the rater must guess",
+        "The definition is too long for raters to read",
+        "PRICE should never have excludes, only includes",
+        "The advert case should be dropped from the pilot"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "An exclude is only usable when it names the destination category, here AD, so every overlap resolves to one label.",
+      "misconceptions": [
+        "",
+        "Confuses brevity with clarity: the missing destination is the problem, not the length",
+        "Thinks excludes are optional, when they are what separates overlapping categories",
+        "Removes the hard case instead of deciding it, so it returns in production"
+      ],
+      "lo": [
+        "LO1"
+      ],
+      "day": 1,
+      "session": 2,
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d1-order",
+      "type": "single",
+      "prompt": "Under Bayyin's rule order (warranty, refund, defect, delivery, price, advert), which label does this complaint get? 'The order never arrived and the shop refused to return my money.'",
+      "options": [
+        "DELIVERY, because the missing order is the first fact",
+        "DEFECT, because the consumer did not get what they paid for",
+        "REFUND, because a refused refund comes before delivery in the order",
+        "AD, because the shop's promise was not kept"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "The first applicable rule decides; the refund rule comes before the delivery rule.",
+      "misconceptions": [
+        "Applies the facts in the order the text states them instead of the guideline's order",
+        "Stretches a category's definition to cover an unrelated fact",
+        "",
+        "Reads any broken promise as an advert claim"
+      ],
+      "lo": [
+        "LO1"
+      ],
+      "day": 1,
+      "session": 2,
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d1-wellbeing",
+      "type": "single",
+      "prompt": "Why does Bayyin's guideline state who may label complaints describing threats by a merchant's staff, and for how many minutes a day?",
+      "options": [
+        "So that the analysis can exclude those complaints from the rates",
+        "So that the workflow can enforce a limit and the labelling lead can check it from the workload log",
+        "Because distressing complaints are always labelled WARRANTY",
+        "Because a model must label them instead of a person"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "A limit that is written down can be routed and checked; one that is not cannot be enforced.",
+      "misconceptions": [
+        "Confuses protecting raters with removing data from the analysis",
+        "",
+        "Mixes the wellbeing rule with the category rules",
+        "Assumes distressing content should go to a model, which removes the human check the course requires"
+      ],
+      "lo": [
+        "LO1"
+      ],
+      "day": 1,
+      "session": 2,
+      "level": "understand",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d1-kappa",
+      "type": "single",
+      "prompt": "Two raters agree on 70% of complaints. From their label frequencies, they would agree on 20% by chance. What is Cohen's kappa?",
+      "options": [
+        "0.50",
+        "0.625",
+        "0.70",
+        "0.875"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "Kappa is (0.70 - 0.20) / (1 - 0.20) = 0.625.",
+      "misconceptions": [
+        "Subtracts chance agreement without dividing by what was left to agree on",
+        "",
+        "Reports raw agreement as if chance played no part",
+        "Divides by observed agreement instead of by one minus chance"
+      ],
+      "lo": [
+        "LO2"
+      ],
+      "day": 1,
+      "session": 3,
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d1-rare",
+      "type": "single",
+      "prompt": "In a pilot of 300 complaints, WARRANTY carries 40 labels and its alpha is 0.16 with an interval from 0.06 to 0.27. R3 labelled DEFECT on all 8 complaints that R1 and R2 both called WARRANTY. What do you report?",
+      "options": [
+        "WARRANTY is unreliable and should be removed from the schema",
+        "Agreement is acceptable overall, so WARRANTY needs no comment",
+        "WARRANTY is unreliable in this round, and the pattern points to one rater's reading of the overlap with DEFECT",
+        "The interval is wide, so no conclusion can be drawn about WARRANTY"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "Low alpha on few labels with a clear rater pattern is evidence for a guideline change and a word with R3, not for dropping the category.",
+      "misconceptions": [
+        "Removes a category the analysts need instead of fixing how it is read",
+        "Lets a good overall figure hide a weak category",
+        "",
+        "Treats a wide interval as no information, although the whole interval is far below usable agreement"
+      ],
+      "lo": [
+        "LO2"
+      ],
+      "day": 1,
+      "session": 3,
+      "level": "analyze",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d1-majority",
+      "type": "single",
+      "prompt": "Complaint C103462: 'It broke after 5 days. I asked for my money and they refused.' R1 and R2 said DEFECT, R3 said REFUND. What should the adjudicated label be under guideline v1.1?",
+      "options": [
+        "DEFECT, because two of three raters chose it",
+        "REFUND, because rule 2 applies before rule 3",
+        "Both labels, because the complaint is ambiguous",
+        "DEFECT, because the fault happened before the refusal"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "Adjudication applies the guideline's rules, not a vote: a refused refund is REFUND even when the product was faulty.",
+      "misconceptions": [
+        "Treats a majority as correct when two raters can share one misreading",
+        "",
+        "Keeps a disagreement that the guideline already settles",
+        "Orders facts by time instead of by the guideline's rule order"
+      ],
+      "lo": [
+        "LO2"
+      ],
+      "day": 1,
+      "session": 4,
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d1-changelog",
+      "type": "single",
+      "prompt": "After revising the guideline, alpha rises from 0.59 to 0.79 overall, and for mixed Arabic and English text from 0.34 to 0.74. What should the agreement report say about mixed text?",
+      "options": [
+        "Nothing: the overall alpha is now acceptable",
+        "That mixed text is now as reliable as the rest",
+        "That it improved most and is still the lowest variety, with its interval and the small number of complaints behind it",
+        "That mixed complaints should be translated to MSA before labelling"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "Report the gain and the remaining weakness with its interval, so analysts weigh those complaints accordingly.",
+      "misconceptions": [
+        "Lets an overall figure stand for every subgroup",
+        "Reads a large gain as parity with the other varieties",
+        "",
+        "Proposes a new processing step instead of reporting what was measured"
+      ],
+      "lo": [
+        "LO1",
+        "LO2"
+      ],
+      "day": 1,
+      "session": 4,
+      "level": "evaluate",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d2-strata",
+      "type": "single",
+      "prompt": "A golden set is drawn with a floor of six per stratum of language variety and pre-label. Its WARRANTY share is 12% while the corpus holds 2.5%. Hatoon wants the golden set's category shares in a report. What must you do first?",
+      "options": [
+        "Nothing: the golden set was labelled by experts, so its shares are right",
+        "Drop WARRANTY items until the share matches the corpus",
+        "Weight each item by its stratum's population size over its sample size",
+        "Draw a new random sample of the same size"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "An oversampled stratified set estimates population shares only after weighting each item by N_h / n_h.",
+      "misconceptions": [
+        "Confuses the accuracy of each label with the representativeness of the sample",
+        "Throws away the rare cases the floor was meant to secure",
+        "",
+        "Gives up the coverage of rare cases to avoid a simple weighting step"
+      ],
+      "lo": [
+        "LO3"
+      ],
+      "day": 2,
+      "session": 1,
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d2-proxy",
+      "type": "single",
+      "prompt": "Why does Bayyin stratify its golden set on a keyword pre-label rather than on the category?",
+      "options": [
+        "The category is only known after the labelling the gold set is meant to check",
+        "Keyword pre-labels are more accurate than experts",
+        "Stratifying on the category is forbidden by the guideline",
+        "The pre-label makes the sample a simple random sample"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "Strata must use fields known before labelling; the pre-label predicts the category well enough to raise rare cases.",
+      "misconceptions": [
+        "",
+        "Reverses the roles: the pre-label is a cheap proxy, the expert label is the reference",
+        "Invents a rule; the limit is what is known at sampling time",
+        "Confuses stratified sampling with simple random sampling"
+      ],
+      "lo": [
+        "LO3"
+      ],
+      "day": 2,
+      "session": 1,
+      "level": "understand",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d2-wilson",
+      "type": "single",
+      "prompt": "Rater R3 got 71 of 80 gold questions right. The 95% Wilson interval is 0.7998 to 0.9397; a report rounded to three decimals shows it as 0.800 to 0.940. Bayyin's rule is: at least 30 gold answers and a lower bound of at least 0.80. What is R3's status?",
+      "options": [
+        "Watch: the lower bound is just under 0.80",
+        "Too few: 80 answers are not enough",
+        "Pass: the rounded lower bound reads 0.800",
+        "Watch: accuracy 0.888 is below 0.90"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "The rule compares the lower bound itself after the minimum count: 0.7998 is below 0.80, so R3 is on watch. Round for display, never before a decision.",
+      "misconceptions": [
+        "",
+        "Misreads the minimum count of 30",
+        "Applies the rule to a figure rounded for display instead of to the bound",
+        "Applies a threshold to the point estimate that the rule does not state"
+      ],
+      "lo": [
+        "LO3"
+      ],
+      "day": 2,
+      "session": 2,
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d2-routing",
+      "type": "single",
+      "prompt": "A complaint describing threats by a merchant's staff was labelled twice, REFUND and PRICE. Under Bayyin's routing, where does it go?",
+      "options": [
+        "Adjudication, because the two labels disagree",
+        "Accept the label of the rater with the higher gold accuracy",
+        "Re-label by a third rater from the general pool",
+        "The restricted queue, worked only by approved raters"
+      ],
+      "correct": [
+        3
+      ],
+      "explanation": "The wellbeing rule comes first: distressing items go to the restricted queue whatever their labels.",
+      "misconceptions": [
+        "Applies the quality rule before the wellbeing constraint",
+        "Trusts an average accuracy on one item",
+        "Sends distressing content to a rater who is not approved",
+        ""
+      ],
+      "lo": [
+        "LO3"
+      ],
+      "day": 2,
+      "session": 2,
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d2-drift",
+      "type": "single",
+      "prompt": "Over ten days R5 averages 0.71 on gold and R6 0.73. R5 scored 0.975 on days 1 to 5 and 0.375 on days 8 to 10; R6 scored 0.68 and 0.79. Which statement is right?",
+      "options": [
+        "R5 drifted and R6 is steadily low, so they need different responses",
+        "Both are steadily low and need the same coaching",
+        "R6 drifted, because its accuracy changed between periods",
+        "Neither can be judged, since eight gold questions a day are too few"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "Compared with their own baselines, R5 fell sharply and R6 did not; drift calls for re-checking recent work, steady low accuracy for coaching.",
+      "misconceptions": [
+        "",
+        "Lets similar averages hide different histories",
+        "Reads an improvement as drift",
+        "Ignores that pooling days gives enough answers to judge"
+      ],
+      "lo": [
+        "LO3"
+      ],
+      "day": 2,
+      "session": 3,
+      "level": "analyze",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d2-limit",
+      "type": "single",
+      "prompt": "The workload log shows R4 labelled 69 minutes of distressing content on one day; the guideline's limit is 60. What is the best response?",
+      "options": [
+        "Remove R4 from the restricted queue permanently",
+        "Cap the restricted queue per rater per day in the routing and check on R4",
+        "Raise the limit to 70 minutes so the log complies",
+        "Ignore it: nine minutes over is within noise"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "The breach came from routing; the fix is a cap that enforces the guideline, and care for the rater.",
+      "misconceptions": [
+        "Punishes the rater for the workflow's fault",
+        "",
+        "Changes the rule to fit the breach",
+        "Treats a stated limit as a suggestion"
+      ],
+      "lo": [
+        "LO3"
+      ],
+      "day": 2,
+      "session": 3,
+      "level": "evaluate",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d2-mask",
+      "type": "single",
+      "prompt": "A masking step replaces phone numbers matching 05 followed by eight Latin digits. A complaint contains a phone number written in Arabic-Indic digits. What happens, and what prevents it?",
+      "options": [
+        "Nothing happens: models cannot read Arabic-Indic digits",
+        "The number is caught because it is still a phone number",
+        "The number leaves unmasked; translate digits first and block any text with a long digit run left",
+        "The complaint is dropped from the corpus"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "A Latin-digit pattern misses the number; normalising digits and a residual check that fails closed keep it from leaving.",
+      "misconceptions": [
+        "Assumes a model cannot read what it receives",
+        "Trusts that a pattern matches meaning rather than characters",
+        "",
+        "Removes data instead of protecting it"
+      ],
+      "lo": [
+        "LO3"
+      ],
+      "day": 2,
+      "session": 4,
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d2-cost",
+      "type": "single",
+      "prompt": "Three designs: double labelling SAR 1.94 per accepted label at 0.3% error, audited single SAR 0.93 at 5.0%, model-assisted SAR 0.37 at 10.0%. Analysts accept at most 2% wrong labels. Which design?",
+      "options": [
+        "Double labelling: the only design within the limit",
+        "Model-assisted: the cheapest",
+        "Audited single: the middle option",
+        "Any of them: cost matters more than error"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "Only designs within the error limit are compared on cost; at 2% only double labelling qualifies.",
+      "misconceptions": [
+        "",
+        "Compares cost before applying the error limit",
+        "Picks a compromise that does not meet the limit",
+        "Ignores the analysts' requirement"
+      ],
+      "lo": [
+        "LO3"
+      ],
+      "day": 2,
+      "session": 4,
+      "level": "evaluate",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d3-dimension",
+      "type": "single",
+      "prompt": "A profile shows 85 complaints whose closed date is earlier than their received date. Under the NDMO data-quality dimensions, which dimension does a rule for this belong to?",
+      "options": [
+        "Completeness",
+        "Consistency",
+        "Timeliness",
+        "Uniqueness"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "Two related values in the same row disagree with each other, which is consistency.",
+      "misconceptions": [
+        "Confuses a wrong value with a missing one",
+        "",
+        "Reads any date problem as timeliness, which is about how recent the data is",
+        "Confuses a contradiction within a row with a repeated row"
+      ],
+      "lo": [
+        "LO4"
+      ],
+      "day": 3,
+      "session": 1,
+      "level": "understand",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d3-text-load",
+      "type": "single",
+      "prompt": "Abdulelah profiles the extract after loading amounts as numbers and dates as dates. The profile shows no invalid categories or dates. Why might it still hide problems?",
+      "options": [
+        "Typed loading only works on Parquet files",
+        "A profile cannot count empty values",
+        "Values that fail the cast become errors or NULLs before the profile sees them",
+        "DuckDB sorts typed columns differently"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "Loading every column as text lets the profile see values exactly as they arrived, including the ones a cast would reject.",
+      "misconceptions": [
+        "Invents a format limitation",
+        "Ignores that counting empties is a basic profile measure",
+        "",
+        "Blames ordering for what is a loss of information"
+      ],
+      "lo": [
+        "LO4"
+      ],
+      "day": 3,
+      "session": 1,
+      "level": "understand",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d3-owner",
+      "type": "single",
+      "prompt": "A team writes quality rules with SQL, a dimension and a threshold, but no owner. What is the main risk?",
+      "options": [
+        "Nobody accepts the threshold, answers when the rule fires, or changes it when the use changes",
+        "The SQL will run more slowly",
+        "The rules cannot be stored in a file",
+        "The dimension cannot be reported"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "A threshold is a business decision; the owner named by the rule is who accepts it and acts on failures.",
+      "misconceptions": [
+        "",
+        "Confuses governance with performance",
+        "Thinks ownership is a storage requirement",
+        "Confuses the owner field with the dimension field"
+      ],
+      "lo": [
+        "LO4"
+      ],
+      "day": 3,
+      "session": 1,
+      "level": "evaluate",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d3-severity",
+      "type": "single",
+      "prompt": "A batch of August amounts arrived in halalas instead of riyals. Only some of them are above the SAR 50,000 limit. Which severity fits the rule on the batch's median amount?",
+      "options": [
+        "Warn, because most amounts look normal",
+        "Quarantine the rows above SAR 50,000 and publish the rest",
+        "No rule: amounts are the analysts' concern",
+        "Block, because the error is in rows that look fine as well"
+      ],
+      "correct": [
+        3
+      ],
+      "explanation": "When an error can sit in rows that pass row-level checks, publishing the rest would publish wrong figures; the run must stop.",
+      "misconceptions": [
+        "Lets the share of normal-looking rows decide severity",
+        "Assumes the remaining rows are right when the unit error affects them too",
+        "Leaves a known accuracy problem to the consumer",
+        ""
+      ],
+      "lo": [
+        "LO4"
+      ],
+      "day": 3,
+      "session": 2,
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d3-clean",
+      "type": "single",
+      "prompt": "A new rule catches every seeded defect in the test extract. On last month's clean extract it fails 4% of rows. What should happen before it goes into the pipeline?",
+      "options": [
+        "Deploy it: catching every defect is what matters",
+        "Rewrite or re-threshold it until it stays quiet on clean data",
+        "Lower its severity to warn and deploy",
+        "Drop the clean-data test: clean data has no defects to find"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "A rule is judged both ways: it must catch the seeded defects and not fire on clean data, or people learn to ignore it.",
+      "misconceptions": [
+        "Judges a rule only on what it catches",
+        "",
+        "Hides false alarms instead of fixing the rule",
+        "Misunderstands what the clean-data test is for"
+      ],
+      "lo": [
+        "LO4"
+      ],
+      "day": 3,
+      "session": 2,
+      "level": "analyze",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d3-resubmission",
+      "type": "single",
+      "prompt": "Two complaints have different ids, the same customer key, merchant and product, and arrive one day apart. Which statement is right?",
+      "options": [
+        "They are exact duplicates and the uniqueness rule removes one",
+        "They must both be counted, since their ids differ",
+        "They are a likely resubmission, found by a key and a time window, not by an id rule",
+        "They are invalid rows and should be quarantined"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "Each row is valid; only a near-duplicate key with a window recognises the same complaint sent twice.",
+      "misconceptions": [
+        "Confuses resubmissions with export duplicates of the same id",
+        "Trusts the id to identify the underlying complaint",
+        "",
+        "Treats valid rows as defects"
+      ],
+      "lo": [
+        "LO4"
+      ],
+      "day": 3,
+      "session": 3,
+      "level": "understand",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d3-precision",
+      "type": "single",
+      "prompt": "Matching merchant names, threshold 70 gives precision 0.96 and recall 0.98; threshold 85 gives precision 1.00 and recall 0.95. The matches attribute complaints to merchants in a published report. Which threshold?",
+      "options": [
+        "85: a wrong match blames a merchant, a miss stays visible",
+        "70: higher recall finds more complaints",
+        "Either: the average of precision and recall is the same",
+        "Neither: fuzzy matching should not be used"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "When a false match harms someone and a miss can be handled, precision comes first.",
+      "misconceptions": [
+        "",
+        "Values coverage over the harm of a wrong attribution",
+        "Averages two errors with different consequences",
+        "Rejects a measured method instead of choosing its threshold"
+      ],
+      "lo": [
+        "LO4"
+      ],
+      "day": 3,
+      "session": 3,
+      "level": "evaluate",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d3-contract",
+      "type": "single",
+      "prompt": "A data contract lists ten columns of the prepared table. The producer adds an eleventh, nullable column. Under semantic versioning, what happens?",
+      "options": [
+        "The contract fails and the version goes to 2.0.0",
+        "The contract passes; the version goes to 1.1.0 if the column is added to it",
+        "The contract fails until every consumer approves",
+        "Nothing can change without a new contract id"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "A contract checks what consumers rely on; an added optional column breaks nobody and is a minor version.",
+      "misconceptions": [
+        "Treats any schema change as breaking",
+        "",
+        "Confuses a compatible change with one that needs sign-off",
+        "Confuses versioning a contract with replacing it"
+      ],
+      "lo": [
+        "LO4"
+      ],
+      "day": 3,
+      "session": 4,
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d4-clock",
+      "type": "single",
+      "prompt": "A preparation notebook adds a column prepared_at = now() and filters complaints received up to today. Two runs on the same extract give different files. What is the best change?",
+      "options": [
+        "Run the notebook at the same time every month",
+        "Pass the extract date as a parameter and record the run time only in the run log",
+        "Round now() to the day",
+        "Delete the prepared_at column and keep the filter"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "Results must depend only on inputs and parameters; when the run happened belongs in the log, not in the data.",
+      "misconceptions": [
+        "Controls the symptom by schedule instead of removing the clock",
+        "",
+        "Makes runs on the same day agree but not runs on different days",
+        "Leaves the filter tied to the clock"
+      ],
+      "lo": [
+        "LO5"
+      ],
+      "day": 4,
+      "session": 1,
+      "level": "analyze",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d4-lock",
+      "type": "single",
+      "prompt": "Two analysts run the same pipeline code on the same extract and get slightly different rounding in one column. Their run logs show different lock-file hashes. What is the most likely cause?",
+      "options": [
+        "The extract was read in a different order",
+        "One analyst's laptop is slower",
+        "They ran different versions of a package, such as the database engine",
+        "The pipeline has a random seed"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "A different lock-file hash means different pinned versions; a package update can change ordering or rounding.",
+      "misconceptions": [
+        "Ignores the evidence the run logs give",
+        "Confuses speed with results",
+        "",
+        "Invents randomness the logs do not show"
+      ],
+      "lo": [
+        "LO5"
+      ],
+      "day": 4,
+      "session": 1,
+      "level": "understand",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d4-quarantine",
+      "type": "single",
+      "prompt": "A quarantine rule fails on 1.2% of rows; its owner's threshold is 3%. Another, blocking rule passes. What does the pipeline do?",
+      "options": [
+        "Sets the failing rows aside with the rule id and publishes the rest",
+        "Stops: any failure stops the run",
+        "Publishes every row and logs a warning",
+        "Deletes the failing rows and publishes"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "Under the threshold, quarantine keeps the failing rows with their reason and lets the rest be published.",
+      "misconceptions": [
+        "",
+        "Treats quarantine as blocking",
+        "Confuses quarantine with a warning",
+        "Loses the rows instead of keeping them with a reason"
+      ],
+      "lo": [
+        "LO5"
+      ],
+      "day": 4,
+      "session": 2,
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d4-clean-checkout",
+      "type": "single",
+      "prompt": "The pipeline runs on Abdulelah's laptop but fails in CI with 'No module named contract'. What does this show?",
+      "options": [
+        "CI is misconfigured and should be disabled",
+        "The laptop has a newer Python",
+        "The contract check should be removed",
+        "A file the pipeline needs was never committed; the clean checkout found it"
+      ],
+      "correct": [
+        3
+      ],
+      "explanation": "Running from a clean checkout proves that everything needed is committed; a missing module there is a forgotten file.",
+      "misconceptions": [
+        "Blames the check instead of what it found",
+        "Guesses a version problem the message does not show",
+        "Removes a safeguard to make the error go away",
+        ""
+      ],
+      "lo": [
+        "LO5"
+      ],
+      "day": 4,
+      "session": 2,
+      "level": "evaluate",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d4-attribution",
+      "type": "single",
+      "prompt": "Recomputing R04's August rate one change at a time gives: September run 48.06; plus late arrivals 52.90; plus new population 50.15; plus new dedupe key 39.14. How much of the fall does the new key explain?",
+      "options": [
+        "All of it, 8.92",
+        "2.75",
+        "11.01, more than the whole fall, offset by the late arrivals",
+        "None: the population caused it"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "The key lowered the rate by 11.01; late arrivals raised it by 4.84 and the population lowered it by 2.75, so the net fall was 8.92.",
+      "misconceptions": [
+        "Equates the net change with one change's effect",
+        "Takes the population step's effect",
+        "",
+        "Misreads the size of each step"
+      ],
+      "lo": [
+        "LO6"
+      ],
+      "day": 4,
+      "session": 3,
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d4-newer",
+      "type": "single",
+      "prompt": "The October refresh used newer code, fresher data and an updated population table, and lowered a published figure by 19%. A stakeholder asks which figure is right. What do you answer first?",
+      "options": [
+        "October's: it has the newest code and data",
+        "September's: it was published first",
+        "The average of the two",
+        "Neither until each change is checked; one change may be a defect"
+      ],
+      "correct": [
+        3
+      ],
+      "explanation": "Newer is not more correct: each change must be judged against what the figure means before answering.",
+      "misconceptions": [
+        "Equates recent with right",
+        "Defends the first publication by default",
+        "Averages two figures instead of finding the error",
+        ""
+      ],
+      "lo": [
+        "LO6"
+      ],
+      "day": 4,
+      "session": 3,
+      "level": "evaluate",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d4-lineage",
+      "type": "single",
+      "prompt": "Which record would have shown, before republishing, that the dedupe step's key had changed between runs?",
+      "options": [
+        "The lineage event of the dedupe job, with its parameters, compared with the previous run's",
+        "The published monthly rate file",
+        "The regions table",
+        "The quarantine file"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "Lineage records each job's inputs, outputs and parameters; comparing them between runs flags a changed key.",
+      "misconceptions": [
+        "",
+        "Looks at the output, which shows the effect but not the cause",
+        "Looks at an input unrelated to dedupe",
+        "Looks at rows set aside by rules, which dedupe does not use"
+      ],
+      "lo": [
+        "LO6"
+      ],
+      "day": 4,
+      "session": 3,
+      "level": "understand",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    },
+    {
+      "id": "q-d4-datasheet",
+      "type": "single",
+      "prompt": "The datasheet's labelling section gives Krippendorff's alpha 0.789 overall. Mixed Arabic-English complaints had 0.743. What should the section also say?",
+      "options": [
+        "Nothing more: the overall figure is above 0.7",
+        "Remove mixed complaints from the table",
+        "Agreement by language variety, with mixed text named as the weakest and a limit for its users",
+        "Only the highest variety, to show the best case"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "Users of the table need to know where labels are least reliable, by variety, not only the overall figure.",
+      "misconceptions": [
+        "Lets the overall figure hide the weakest group",
+        "Removes data instead of describing its limits",
+        "",
+        "Reports selectively"
+      ],
+      "lo": [
+        "LO5",
+        "LO1"
+      ],
+      "day": 4,
+      "session": 4,
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 30
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+complaint_id,variety,text
+C100001,msa,دفعت الأسبوع الماضي ثمن مساحات في شركة النجمة لقطع غيار السيارات. به عيب في التشغيل، فهو يسخن كثيراً.
+C100002,english,I bought an abaya from al nokhba fashion. The app showed 149 SAR and the invoice says 299 SAR.
+C100003,gulf,شريت ثلاجة من متجر النور للأجهزة المنزلية. قالوا يوصل بثلاث أيام ووصل بعد 7 يوم.
+C100004,msa,طلبت كنبة عبر الإنترنت من فجر للأثث. توقف عن العمل بعد 5 أيام.
+C100005,msa,طلبت مساحات عبر الإنترنت من متجر الفارس لقطع غيار السيارات المحدودة. به عيب في التشغيل، فهو يسخن كثيراً. طلبت استرداد المبلغ فرفضوا. حوّلوا المبلغ إلى SA3199517029855082530010. رقم هويتي 1728847585.
+C100006,gulf,الأسبوع اللي فات دفعت حق شاشة في مؤسسة الصفوة للإلكترونيات المحدودة. وصلني مكسور. طلبت فلوسي ورفضوا.
+C100007,msa,اشتريت غسالة من مؤسسة الأفق للأجهزة المنزلية المحدودة. به عيب في التشغيل، فهو يسخن كثيراً. رفض المتجر إعادة المبلغ.
+C100008,msa,دفعت الأسبوع الماضي ثمن حاسب محمول في متجر الفجر للإلكترونيات. تأخر التوصيل 18 أيام.
+C100009,gulf,الأسبوع اللي فات دفعت حق مكيف في شركة الكرم للأجهزة المنزلية. التوصيل متأخر 14 أيام.
+C100010,msa,دفعت الأسبوع الماضي ثمن ثلاجة في مؤسسة الجود للأجهزة المنزلية المحدودة. توقف عن العمل بعد 21 أيام. رفض المتجر إعادة المبلغ.
+C100011,msa,دفعت الأسبوع الماضي ثمن طاولة طعام في مؤسسة الامل للأثاث. وصل مكسوراً.
+C100027,msa,طلبت ثلاجة عبر الإنترنت من مؤسسة النخبة للأجهزة المنزلية. وعدوا بالتوصيل خلال 3 أيام ووصل بعد 10 يوماً. حوّلوا المبلغ إلى SA0646013095723187297366.
+C100038,msa,دفعت الأسبوع الماضي ثمن بطارية سيارة في شركة السحاب لقطع غيار السيارات المحدودة. التطبيق أظهر 1299 ريال والفاتورة 1449 ريال. حوّلوا المبلغ إلى SA0926205397916048279703.
+C100041,english,I bought a car battery from alhuda auto parts. It stopped working after 11 days. My ID number is 2031556219. My number is 0530573768.
+C100045,english,I ordered a laptop online from al-noor electronics. It stopped working after 19 days. The staff shouted at me and threatened me when I complained. My number is 0529475049.
+C100046,gulf,الأسبوع اللي فات دفعت حق كنبة في الجود للأثاث. قالوا يوصل بثلاث أيام ووصل بعد 14 يوم. رقمي 0536863708.
+C100047,english,"I ordered running shoes online from al nour fashion est. The advert said 30% off and the shelf showed 249 SAR, but I was charged 399 SAR. My ID number is 2627623765."
+C100049,gulf,شريت طاولة طعام من النور للأثاث. التوصيل متأخر 5 أيام. هويتي 1489001625.
+C100061,gulf,الأسبوع اللي فات دفعت حق طاولة طعام في الوفاق لأثاث. التوصيل متأخر 8 أيام. رجعوا الفلوس على SA8589293640473912106830.
+C100069,english,I ordered a fridge online from AL RUWAD HOME APPLIANCES LLC. It is not the model shown on the website. Email me at m.salem90@mail.example.
+C100071,gulf,شريت مكيف من متجر المدار للأجهزة المنزلية المحدودة. الطلب ما وصل للحين. قالوا ما نرجع فلوس. رقمي 0568045648.
+C100079,gulf,الأسبوع اللي فات دفعت حق خاتم في متجر أصاله للمجوهرات المحدودة. قالوا يوصل بثلاث أيام ووصل بعد 5 يوم. ايميلي noura28@mail.example. رجعوا الفلوس على SA9057234863937150378459.
+C100080,msa,اشتريت مساحات من متجر النور لقطع غيار السيارات. العرض قال تركيب مجاني ثم طلبوا رسوم التركيب. رقم هويتي 1763033915.
+C100081,english,Last week I paid for a laptop at Al Yasmeen Electronics Co. The order never arrived. Please refund to SA7397508283800492028327.
+C100084,english,I ordered a wardrobe online from Al-Masar Furn. The app showed 899 SAR and the invoice says 949 SAR. My number is 0578334045.
+C100088,english,I ordered wiper blades online from AL NOKHBA AUTO. It is not the model shown on the website. Email me at k.otaibi17@mail.example. My number is 0580622693.
+C100090,mixed,شريت شاشة من AL RUWAD ELECTRONICS LLC online. على الـ shelf 899 SAR والـ invoice 949. هويتي 1308950532.
+C100102,gulf,طلبت خاتم من شروق للمجوهرات أونلاين. وصلني مكسور. رقمي 0507965282.
+C100103,gulf,الأسبوع اللي فات دفعت حق عقد ذهب في مؤسسة أصاله للمجوهرات. العرض يقول تركيب مجاني وبعدين طلبوا فلوس التركيب. رجعوا الفلوس على SA4429376252458532964800.
+C100109,english,I bought a phone from al-asalaelectronics llc. It arrived broken. The store refused to give my money back. Email me at m.salem60@mail.example.
+C100110,msa,دفعت الأسبوع الماضي ثمن إطارات في مؤسسة الرواد لقطع غيار السيارات. السعر على الرف 399 ريال لكن دفعت 419 ريال. رقم جوالي 0526370816.
+C100112,msa,اشتريت بطارية سيارة من اللؤلؤة لقطع غيار السيارات. وصل مكسوراً. بريدي الإلكتروني rana8880@mail.example.
+C100117,english,Last week I paid for running shoes at almasar fash. co. The order never arrived. Please refund to SA5467693685645465628953.
+C100125,gulf,طلبت حاسب محمول من الريم لللكترونيات المحدودة أونلاين. قالوا ما نرجع فلوس. ايميلي user202679@mail.example. رقمي 0515138478.
+C100130,msa,اشتريت مساحات من مؤسسة التميز لقطع غيار السيارات. السعر على الرف 149 ريال لكن دفعت 169 ريال. حوّلوا المبلغ إلى SA1716923637164784815316.
+C100140,gulf,شريت غسالة من مؤسسة أمل للأجهزة المنزلية. قالوا ما نرجع فلوس. هويتي 2233632625. رقمي 0573104141.
+C100424,english,"I bought a sofa from AL-LULUA FURNITURE LLC. The advert promised 50% off, but there was no discount. My number is ٠٥٥٦٩٢٢٩٠٤. Email me at user202637@mail.example."
+C100536,english,I bought a handbag from ALNAJMA FASHION CO. They promised delivery in 3 days; it came after 9 days. My number is ٠٥٦٨٤٧٢٨٩٢.
+C100633,english,I bought a ring from Al Tamayoz Jewellery Est. The app showed 399 SAR and the invoice says 549 SAR. My number is ٠٥١٧٢١٤٢٠٧.
+C100665,gulf,الأسبوع اللي فات دفعت حق عباءة في متجر النور للأزياء. التوصيل متأخر 16 أيام. ايميلي noura77@mail.example. رقمي ٠٥٠٨٣٠١٤٨٢.

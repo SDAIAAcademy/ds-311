@@ -1,0 +1,126 @@
+apiVersion: v3.2.0
+kind: DataContract
+id: bayyin-complaints-prepared
+name: Complaints, prepared
+version: 1.0.0
+status: active
+domain: consumer-protection
+description:
+  purpose: Monthly complaint rate per 100,000 residents by region, for Bayyin's market monitoring
+  usage: Join region_code to the regions table of the same version; count rows per month and region
+  limitations: Synthetic training data. Labels follow guideline v1.1; WARRANTY agreement is the lowest of the six
+team:
+  name: Bayyin data preparation
+  members:
+  - username: abdulelah
+    role: producer
+  - username: hatoon
+    role: consumer
+schema:
+- name: complaints_prepared
+  physicalName: complaints_prepared
+  logicalType: object
+  physicalType: table
+  description: One row per complaint after the quality gate and de-duplication
+  properties:
+  - name: complaint_id
+    logicalType: string
+    physicalType: VARCHAR
+    required: true
+    unique: true
+    primaryKey: true
+    description: The portal's complaint number, one row per complaint after de-duplication
+    quality:
+    - metric: duplicateValues
+      mustBe: 0
+      description: One row per complaint (rule U01)
+  - name: received_date
+    logicalType: date
+    physicalType: DATE
+    required: true
+    description: Day the portal received the complaint
+  - name: month
+    logicalType: string
+    physicalType: VARCHAR
+    required: true
+    description: YYYY-MM of received_date; the rate's period
+  - name: channel
+    logicalType: string
+    physicalType: VARCHAR
+    required: true
+    description: app, web or call centre
+  - name: merchant_id
+    logicalType: string
+    physicalType: VARCHAR
+    required: false
+    description: Registry id; empty when the portal had none
+  - name: category
+    logicalType: string
+    physicalType: VARCHAR
+    required: true
+    description: One of the six codes of guideline v1.1
+    quality:
+    - metric: invalidValues
+      arguments:
+        validValues:
+        - REFUND
+        - DEFECT
+        - DELIVERY
+        - PRICE
+        - AD
+        - WARRANTY
+      mustBe: 0
+      description: The six codes of the guideline (rule V02)
+  - name: amount_sar
+    logicalType: number
+    physicalType: DECIMAL(12,2)
+    required: false
+    description: Disputed amount in Saudi riyals
+    quality:
+    - type: sql
+      query: SELECT count(*) FROM ${object} WHERE ${property} > 50000
+      mustBe: 0
+      description: No consumer amount above SAR 50,000 (rule A01)
+  - name: region_code
+    logicalType: string
+    physicalType: VARCHAR
+    required: true
+    description: One of the thirteen regions; joins the population table
+    quality:
+    - metric: invalidValues
+      arguments:
+        validValues:
+        - R01
+        - R02
+        - R03
+        - R04
+        - R05
+        - R06
+        - R07
+        - R08
+        - R09
+        - R10
+        - R11
+        - R12
+        - R13
+      mustBe: 0
+      description: The thirteen regions (rule V01)
+  - name: status
+    logicalType: string
+    physicalType: VARCHAR
+    required: true
+    description: Case status at extract time
+  - name: days_to_close
+    logicalType: integer
+    physicalType: BIGINT
+    required: false
+    description: Days from received to closed; empty while open
+    quality:
+    - type: sql
+      query: SELECT count(*) FROM ${object} WHERE ${property} < 0
+      mustBe: 0
+      description: Closed on or after received (rule K01)
+  quality:
+  - metric: rowCount
+    mustBeGreaterThan: 20000
+    description: A whole extract, not a partial one

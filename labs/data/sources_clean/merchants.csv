@@ -1,0 +1,151 @@
+merchant_id,name_ar,name_en,cr_number,sector,region_code
+M1001,النور للإلكترونيات,Al-Noor Electronics,1010960295,Electronics,R01
+M1002,النور للأثاث,Al-Noor Furniture,1010377362,Furniture,R02
+M1003,النور للأجهزة المنزلية,Al-Noor Home Appliances,1010369672,Home Appliances,R03
+M1004,النور للأزياء,Al-Noor Fashion,1010860275,Fashion,R04
+M1005,النور لقطع غيار السيارات,Al-Noor Auto Parts,1010174423,Auto Parts,R05
+M1006,النور للمجوهرات,Al-Noor Jewellery,1010557053,Jewellery,R06
+M1007,الريان للإلكترونيات,Al-Rayyan Electronics,1010597544,Electronics,R02
+M1008,الريان للأثاث,Al-Rayyan Furniture,1010262065,Furniture,R03
+M1009,الريان للأجهزة المنزلية,Al-Rayyan Home Appliances,1010394136,Home Appliances,R04
+M1010,الريان للأزياء,Al-Rayyan Fashion,1010679147,Fashion,R05
+M1011,الريان لقطع غيار السيارات,Al-Rayyan Auto Parts,1010145093,Auto Parts,R06
+M1012,الريان للمجوهرات,Al-Rayyan Jewellery,1010658891,Jewellery,R07
+M1013,الأفق للإلكترونيات,Al-Ofuq Electronics,1010548189,Electronics,R03
+M1014,الأفق للأثاث,Al-Ofuq Furniture,1010337902,Furniture,R04
+M1015,الأفق للأجهزة المنزلية,Al-Ofuq Home Appliances,1010848660,Home Appliances,R05
+M1016,الأفق للأزياء,Al-Ofuq Fashion,1010437241,Fashion,R06
+M1017,الأفق لقطع غيار السيارات,Al-Ofuq Auto Parts,1010423490,Auto Parts,R07
+M1018,الأفق للمجوهرات,Al-Ofuq Jewellery,1010199074,Jewellery,R08
+M1019,السحاب للإلكترونيات,Al-Sahab Electronics,1010878463,Electronics,R04
+M1020,السحاب للأثاث,Al-Sahab Furniture,1010260691,Furniture,R05
+M1021,السحاب للأجهزة المنزلية,Al-Sahab Home Appliances,1010747764,Home Appliances,R06
+M1022,السحاب للأزياء,Al-Sahab Fashion,1010370809,Fashion,R07
+M1023,السحاب لقطع غيار السيارات,Al-Sahab Auto Parts,1010866037,Auto Parts,R08
+M1024,السحاب للمجوهرات,Al-Sahab Jewellery,1010831581,Jewellery,R09
+M1025,الأمل للإلكترونيات,Al-Amal Electronics,1010983380,Electronics,R05
+M1026,الأمل للأثاث,Al-Amal Furniture,1010403090,Furniture,R06
+M1027,الأمل للأجهزة المنزلية,Al-Amal Home Appliances,1010993271,Home Appliances,R07
+M1028,الأمل للأزياء,Al-Amal Fashion,1010169659,Fashion,R08
+M1029,الأمل لقطع غيار السيارات,Al-Amal Auto Parts,1010701544,Auto Parts,R09
+M1030,الأمل للمجوهرات,Al-Amal Jewellery,1010338860,Jewellery,R10
+M1031,الفجر للإلكترونيات,Al-Fajr Electronics,1010737283,Electronics,R06
+M1032,الفجر للأثاث,Al-Fajr Furniture,1010374428,Furniture,R07
+M1033,الفجر للأجهزة المنزلية,Al-Fajr Home Appliances,1010490500,Home Appliances,R08
+M1034,الفجر للأزياء,Al-Fajr Fashion,1010423973,Fashion,R09
+M1035,الفجر لقطع غيار السيارات,Al-Fajr Auto Parts,1010568664,Auto Parts,R10
+M1036,الفجر للمجوهرات,Al-Fajr Jewellery,1010583580,Jewellery,R11
+M1037,المدار للإلكترونيات,Al-Madar Electronics,1010914736,Electronics,R07
+M1038,المدار للأثاث,Al-Madar Furniture,1010137566,Furniture,R08
+M1039,المدار للأجهزة المنزلية,Al-Madar Home Appliances,1010372139,Home Appliances,R09
+M1040,المدار للأزياء,Al-Madar Fashion,1010888065,Fashion,R10
+M1041,المدار لقطع غيار السيارات,Al-Madar Auto Parts,1010227514,Auto Parts,R11
+M1042,المدار للمجوهرات,Al-Madar Jewellery,1010913479,Jewellery,R12
+M1043,اللؤلؤة للإلكترونيات,Al-Lulua Electronics,1010878161,Electronics,R08
+M1044,اللؤلؤة للأثاث,Al-Lulua Furniture,1010857361,Furniture,R09
+M1045,اللؤلؤة للأجهزة المنزلية,Al-Lulua Home Appliances,1010924743,Home Appliances,R10
+M1046,اللؤلؤة للأزياء,Al-Lulua Fashion,1010128177,Fashion,R11
+M1047,اللؤلؤة لقطع غيار السيارات,Al-Lulua Auto Parts,1010657435,Auto Parts,R12
+M1048,اللؤلؤة للمجوهرات,Al-Lulua Jewellery,1010699934,Jewellery,R13
+M1049,النخبة للإلكترونيات,Al-Nukhba Electronics,1010703623,Electronics,R09
+M1050,النخبة للأثاث,Al-Nukhba Furniture,1010844698,Furniture,R10
+M1051,النخبة للأجهزة المنزلية,Al-Nukhba Home Appliances,1010207700,Home Appliances,R11
+M1052,النخبة للأزياء,Al-Nukhba Fashion,1010589309,Fashion,R12
+M1053,النخبة لقطع غيار السيارات,Al-Nukhba Auto Parts,1010322851,Auto Parts,R13
+M1054,النخبة للمجوهرات,Al-Nukhba Jewellery,1010235436,Jewellery,R01
+M1055,الصفوة للإلكترونيات,Al-Safwa Electronics,1010928242,Electronics,R10
+M1056,الصفوة للأثاث,Al-Safwa Furniture,1010156656,Furniture,R11
+M1057,الصفوة للأجهزة المنزلية,Al-Safwa Home Appliances,1010846106,Home Appliances,R12
+M1058,الصفوة للأزياء,Al-Safwa Fashion,1010559722,Fashion,R13
+M1059,الصفوة لقطع غيار السيارات,Al-Safwa Auto Parts,1010411781,Auto Parts,R01
+M1060,الصفوة للمجوهرات,Al-Safwa Jewellery,1010865973,Jewellery,R02
+M1061,الريم للإلكترونيات,Al-Reem Electronics,1010969813,Electronics,R11
+M1062,الريم للأثاث,Al-Reem Furniture,1010737173,Furniture,R12
+M1063,الريم للأجهزة المنزلية,Al-Reem Home Appliances,1010965677,Home Appliances,R13
+M1064,الريم للأزياء,Al-Reem Fashion,1010122555,Fashion,R01
+M1065,الريم لقطع غيار السيارات,Al-Reem Auto Parts,1010316516,Auto Parts,R02
+M1066,الريم للمجوهرات,Al-Reem Jewellery,1010192918,Jewellery,R03
+M1067,الجود للإلكترونيات,Al-Jood Electronics,1010152054,Electronics,R12
+M1068,الجود للأثاث,Al-Jood Furniture,1010705177,Furniture,R13
+M1069,الجود للأجهزة المنزلية,Al-Jood Home Appliances,1010913887,Home Appliances,R01
+M1070,الجود للأزياء,Al-Jood Fashion,1010306388,Fashion,R02
+M1071,الجود لقطع غيار السيارات,Al-Jood Auto Parts,1010836448,Auto Parts,R03
+M1072,الجود للمجوهرات,Al-Jood Jewellery,1010814527,Jewellery,R04
+M1073,التميز للإلكترونيات,Al-Tamayuz Electronics,1010638737,Electronics,R13
+M1074,التميز للأثاث,Al-Tamayuz Furniture,1010596543,Furniture,R01
+M1075,التميز للأجهزة المنزلية,Al-Tamayuz Home Appliances,1010756020,Home Appliances,R02
+M1076,التميز للأزياء,Al-Tamayuz Fashion,1010748411,Fashion,R03
+M1077,التميز لقطع غيار السيارات,Al-Tamayuz Auto Parts,1010160061,Auto Parts,R04
+M1078,التميز للمجوهرات,Al-Tamayuz Jewellery,1010400688,Jewellery,R05
+M1079,الإتقان للإلكترونيات,Al-Itqan Electronics,1010227134,Electronics,R01
+M1080,الإتقان للأثاث,Al-Itqan Furniture,1010428175,Furniture,R02
+M1081,الإتقان للأجهزة المنزلية,Al-Itqan Home Appliances,1010957633,Home Appliances,R03
+M1082,الإتقان للأزياء,Al-Itqan Fashion,1010655795,Fashion,R04
+M1083,الإتقان لقطع غيار السيارات,Al-Itqan Auto Parts,1010115100,Auto Parts,R05
+M1084,الإتقان للمجوهرات,Al-Itqan Jewellery,1010684580,Jewellery,R06
+M1085,المسار للإلكترونيات,Al-Masar Electronics,1010461869,Electronics,R02
+M1086,المسار للأثاث,Al-Masar Furniture,1010610440,Furniture,R03
+M1087,المسار للأجهزة المنزلية,Al-Masar Home Appliances,1010414976,Home Appliances,R04
+M1088,المسار للأزياء,Al-Masar Fashion,1010252811,Fashion,R05
+M1089,المسار لقطع غيار السيارات,Al-Masar Auto Parts,1010938239,Auto Parts,R06
+M1090,المسار للمجوهرات,Al-Masar Jewellery,1010936733,Jewellery,R07
+M1091,الأصالة للإلكترونيات,Al-Asala Electronics,1010920485,Electronics,R03
+M1092,الأصالة للأثاث,Al-Asala Furniture,1010870091,Furniture,R04
+M1093,الأصالة للأجهزة المنزلية,Al-Asala Home Appliances,1010696674,Home Appliances,R05
+M1094,الأصالة للأزياء,Al-Asala Fashion,1010299305,Fashion,R06
+M1095,الأصالة لقطع غيار السيارات,Al-Asala Auto Parts,1010200668,Auto Parts,R07
+M1096,الأصالة للمجوهرات,Al-Asala Jewellery,1010218935,Jewellery,R08
+M1097,الهدى للإلكترونيات,Al-Huda Electronics,1010735155,Electronics,R04
+M1098,الهدى للأثاث,Al-Huda Furniture,1010634040,Furniture,R05
+M1099,الهدى للأجهزة المنزلية,Al-Huda Home Appliances,1010965785,Home Appliances,R06
+M1100,الهدى للأزياء,Al-Huda Fashion,1010278894,Fashion,R07
+M1101,الهدى لقطع غيار السيارات,Al-Huda Auto Parts,1010895671,Auto Parts,R08
+M1102,الهدى للمجوهرات,Al-Huda Jewellery,1010694232,Jewellery,R09
+M1103,الرواد للإلكترونيات,Al-Rowad Electronics,1010134112,Electronics,R05
+M1104,الرواد للأثاث,Al-Rowad Furniture,1010180786,Furniture,R06
+M1105,الرواد للأجهزة المنزلية,Al-Rowad Home Appliances,1010949785,Home Appliances,R07
+M1106,الرواد للأزياء,Al-Rowad Fashion,1010424266,Fashion,R08
+M1107,الرواد لقطع غيار السيارات,Al-Rowad Auto Parts,1010730118,Auto Parts,R09
+M1108,الرواد للمجوهرات,Al-Rowad Jewellery,1010759590,Jewellery,R10
+M1109,النجمة للإلكترونيات,Al-Najma Electronics,1010852269,Electronics,R06
+M1110,النجمة للأثاث,Al-Najma Furniture,1010664068,Furniture,R07
+M1111,النجمة للأجهزة المنزلية,Al-Najma Home Appliances,1010479252,Home Appliances,R08
+M1112,النجمة للأزياء,Al-Najma Fashion,1010922033,Fashion,R09
+M1113,النجمة لقطع غيار السيارات,Al-Najma Auto Parts,1010809661,Auto Parts,R10
+M1114,النجمة للمجوهرات,Al-Najma Jewellery,1010706214,Jewellery,R11
+M1115,الشروق للإلكترونيات,Al-Shorouq Electronics,1010763435,Electronics,R07
+M1116,الشروق للأثاث,Al-Shorouq Furniture,1010318070,Furniture,R08
+M1117,الشروق للأجهزة المنزلية,Al-Shorouq Home Appliances,1010877199,Home Appliances,R09
+M1118,الشروق للأزياء,Al-Shorouq Fashion,1010336202,Fashion,R10
+M1119,الشروق لقطع غيار السيارات,Al-Shorouq Auto Parts,1010993033,Auto Parts,R11
+M1120,الشروق للمجوهرات,Al-Shorouq Jewellery,1010754313,Jewellery,R12
+M1121,الغدير للإلكترونيات,Al-Ghadir Electronics,1010843460,Electronics,R08
+M1122,الغدير للأثاث,Al-Ghadir Furniture,1010818265,Furniture,R09
+M1123,الغدير للأجهزة المنزلية,Al-Ghadir Home Appliances,1010428206,Home Appliances,R10
+M1124,الغدير للأزياء,Al-Ghadir Fashion,1010377161,Fashion,R11
+M1125,الغدير لقطع غيار السيارات,Al-Ghadir Auto Parts,1010731927,Auto Parts,R12
+M1126,الغدير للمجوهرات,Al-Ghadir Jewellery,1010947714,Jewellery,R13
+M1127,الفارس للإلكترونيات,Al-Faris Electronics,1010691444,Electronics,R09
+M1128,الفارس للأثاث,Al-Faris Furniture,1010956991,Furniture,R10
+M1129,الفارس للأجهزة المنزلية,Al-Faris Home Appliances,1010323677,Home Appliances,R11
+M1130,الفارس للأزياء,Al-Faris Fashion,1010462821,Fashion,R12
+M1131,الفارس لقطع غيار السيارات,Al-Faris Auto Parts,1010966394,Auto Parts,R13
+M1132,الفارس للمجوهرات,Al-Faris Jewellery,1010309603,Jewellery,R01
+M1133,الكرم للإلكترونيات,Al-Karam Electronics,1010383980,Electronics,R10
+M1134,الكرم للأثاث,Al-Karam Furniture,1010551458,Furniture,R11
+M1135,الكرم للأجهزة المنزلية,Al-Karam Home Appliances,1010666648,Home Appliances,R12
+M1136,الكرم للأزياء,Al-Karam Fashion,1010628272,Fashion,R13
+M1137,الكرم لقطع غيار السيارات,Al-Karam Auto Parts,1010925319,Auto Parts,R01
+M1138,الكرم للمجوهرات,Al-Karam Jewellery,1010501606,Jewellery,R02
+M1139,الياسمين للإلكترونيات,Al-Yasmin Electronics,1010144920,Electronics,R11
+M1140,الياسمين للأثاث,Al-Yasmin Furniture,1010392927,Furniture,R12
+M1141,الياسمين للأجهزة المنزلية,Al-Yasmin Home Appliances,1010787436,Home Appliances,R13
+M1142,الياسمين للأزياء,Al-Yasmin Fashion,1010562411,Fashion,R01
+M1143,الياسمين لقطع غيار السيارات,Al-Yasmin Auto Parts,1010949862,Auto Parts,R02
+M1144,الياسمين للمجوهرات,Al-Yasmin Jewellery,1010355487,Jewellery,R03
+M1145,الوفاق للإلكترونيات,Al-Wifaq Electronics,1010809246,Electronics,R12
+M1146,الوفاق للأثاث,Al-Wifaq Furniture,1010723594,Furniture,R13
+M1147,الوفاق للأجهزة المنزلية,Al-Wifaq Home Appliances,1010439786,Home Appliances,R01
+M1148,الوفاق للأزياء,Al-Wifaq Fashion,1010303094,Fashion,R02
+M1149,الوفاق لقطع غيار السيارات,Al-Wifaq Auto Parts,1010798160,Auto Parts,R03
+M1150,الوفاق للمجوهرات,Al-Wifaq Jewellery,1010144258,Jewellery,R04

@@ -1,0 +1,23 @@
+{
+ "double":{
+  "labels":300.0,
+  "cost_sar":582.5,
+  "sar_per_label":1.942,
+  "error":0.003,
+  "adjudicated":51.0
+ },
+ "audited_single":{
+  "labels":300.0,
+  "cost_sar":277.7,
+  "sar_per_label":0.926,
+  "error":0.05,
+  "adjudicated":5.0
+ },
+ "model_assisted":{
+  "labels":300.0,
+  "cost_sar":109.8,
+  "sar_per_label":0.366,
+  "error":0.1,
+  "adjudicated":0.0
+ }
+}

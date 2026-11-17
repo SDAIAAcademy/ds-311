@@ -1,0 +1,993 @@
+{
+  "v": 1,
+  "engine": "1.0.0",
+  "build": {
+    "at": "2026-11-15T21:37:37Z",
+    "version": "2027.1.0",
+    "commit": "7240e93"
+  },
+  "lang": "en",
+  "dir": "ltr",
+  "langs": [
+    "en"
+  ],
+  "alt": {},
+  "course": {
+    "id": "ds-311",
+    "code": "DS-311",
+    "version": "2027.1.0",
+    "title": "Data Quality, Labelling and Pipelines for Analysis",
+    "tagline": "Build the labels, rules, contract and gated pipeline an analysis depends on, and trace a figure that changed",
+    "description": "Participants build the data an analysis depends on for Bayyin Consumer Protection Office, a fictional regulator holding 30,000 synthetic complaint records in Arabic and English. They write a labelling guideline, pilot it, measure agreement and adjudicate, run golden-question checks and review queues across a rater team, turn analysts' requirements into quality rules and a data contract, and package the preparation as a reproducible pipeline that stops on those rules. Measuring model-made labels is DS-306; platform-scale data engineering is AE-306.",
+    "track": "data-science",
+    "track_name": "Data Science Track",
+    "level": 300,
+    "badge": {
+      "name": "Data Science",
+      "level": "Associate"
+    },
+    "audience": "Practitioners. Data scientists and analysts who have completed the level 200 set or can show equivalent work: an analysis they framed, carried out and explained to a stakeholder.",
+    "prerequisites": [
+      "DS-202 Data Acquisition, Preparation and Quality",
+      "FN-102 Command Line, Git and Reproducible Projects",
+      "Writes Python functions and SQL queries",
+      "Uses Git and a lock-file environment",
+      "Setup: a laptop CPU with uv, or Google Colab. Nothing downloads a model; one lab calls a free hosted model and runs without a key on a stand-in. Run 00_setup_check before Day 1; see labs/README.md."
+    ],
+    "url": "https://sdaiaacademy.github.io/ds-311/",
+    "repo": "SDAIAAcademy/ds-311",
+    "home": "../index.html",
+    "format": "intensive",
+    "format_note": "Intensive: 4 teaching days of four sessions and a capstone day, with guided pre-work and a tracked follow-up task",
+    "shape": "4 teaching days + capstone day",
+    "hours": {
+      "instruction": 6,
+      "lab": 7,
+      "guided_self_study": 6,
+      "assessment": 1,
+      "capstone": 6,
+      "total": 26
+    },
+    "unit": "day",
+    "outcomes": [
+      {
+        "id": "LO1",
+        "text": "Draft a labelling guideline with definitions, decision rules and edge cases, and revise it after a pilot, given 300 synthetic complaints labelled by three raters",
+        "level": "Applied",
+        "evidence": "a versioned guideline whose change log ties each revision to a measured disagreement"
+      },
+      {
+        "id": "LO2",
+        "text": "Compute chance-corrected agreement by category and rater, and adjudicate the disagreements, given two rounds of pilot labels",
+        "level": "Applied",
+        "evidence": "an agreement report with intervals and an adjudicated set"
+      },
+      {
+        "id": "LO3",
+        "text": "Configure a labelling workflow with golden-question checks, review queues and rater-drift monitoring, given a simulated round of 2,000 items from six raters, one of whom drifts",
+        "level": "Applied",
+        "evidence": "a quality-control report that flags the drifting rater and states cost per accepted label"
+      },
+      {
+        "id": "LO4",
+        "text": "Implement quality rules with thresholds and severities, and a data contract for the prepared table, given four source tables with seeded defects",
+        "level": "Applied",
+        "evidence": "rules and a contract that catch each defect and reject a breaking schema change"
+      },
+      {
+        "id": "LO5",
+        "text": "Build a reproducible preparation pipeline from raw extracts to an analysis-ready table that stops on a blocking rule, given a repository with continuous integration",
+        "level": "Performance",
+        "evidence": "run logs that pass on clean data and fail on a seeded defect from a clean checkout"
+      },
+      {
+        "id": "LO6",
+        "text": "Diagnose why an analytical figure changed after a data refresh and decide on the correction, given two runs, their lineage records and a stakeholder asking which figure is right",
+        "level": "Performance",
+        "evidence": "an incident note with root cause, affected outputs and correction"
+      }
+    ],
+    "case_study": {
+      "name": "Bayyin Consumer Protection Office",
+      "summary": "Bayyin is a fictional consumer protection regulator with 30,000 synthetic complaints in Modern Standard Arabic, Gulf dialect, English and code-switched text, four source tables and a monthly complaint rate per 100,000 residents that its analysts publish. Participants write and pilot a six-category labelling guideline, measure and adjudicate agreement, run gold checks, review queues and drift monitoring over six raters, turn requirements into severity rules and an open-standard contract, and package the preparation as a pipeline that quarantines, blocks and leaves lineage. All data is synthetic and generated with a fixed seed."
+    },
+    "days": [
+      {
+        "id": "day1",
+        "kind": "day",
+        "n": 1,
+        "number": 1,
+        "label": "Day 1",
+        "title": "Labels are measurements",
+        "subtitle": "Write, pilot and measure a labelling guideline",
+        "shape": "4 sessions · 4 labs",
+        "deck": "../slides/day1.html",
+        "md": "../slides/day1.md",
+        "url": "https://sdaiaacademy.github.io/ds-311/slides/day1.html",
+        "sessions": [
+          {
+            "n": 1,
+            "label": "Session 1",
+            "title": "What a label measures",
+            "summary": "A label is a measurement of a construct, and disagreement shows where the construct is unclear",
+            "outcomes": [
+              "Explain a label as a measurement with a construct, a scale and an error",
+              "Label complaints without a guideline and measure raw agreement with two neighbours",
+              "Name the category pairs where people disagree and why"
+            ],
+            "lo": [
+              "LO1"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "1.1",
+              "title": "Label 40 complaints, then compare",
+              "summary": "Label 40 complaints with only the six category names (AI-off), compare with two neighbours' labels, and find the category pairs and complaints that split you.",
+              "minutes": 25,
+              "href": "../labs/D1_1_label_40_complaints.ipynb",
+              "steps": [
+                {
+                  "text": "Label 40 complaints with only the six category names",
+                  "minutes": 12
+                },
+                {
+                  "text": "Load two neighbours' labels",
+                  "minutes": 3
+                },
+                {
+                  "text": "Percent agreement and the pairs that split you",
+                  "minutes": 5
+                },
+                {
+                  "text": "Three disagreements: what each of you measured",
+                  "minutes": 5
+                }
+              ],
+              "stretch": "Agreement by language variety: Arabic, Gulf dialect, English, mixed"
+            }
+          },
+          {
+            "n": 2,
+            "label": "Session 2",
+            "title": "Writing a guideline",
+            "summary": "Definitions, ordered decision rules, edge cases and the rules for raters' wellbeing, written as a versioned document",
+            "outcomes": [
+              "Write a definition with includes and excludes for each category",
+              "Order decision rules so that every overlap resolves to one label",
+              "Record edge cases, dialect notes and the limits on distressing content"
+            ],
+            "lo": [
+              "LO1"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "1.2",
+              "title": "Guideline v1.0 for six categories",
+              "summary": "Write guideline v1.0 as data, render it to Markdown, lint it for missing parts, and test its decision rules on twelve edge cases.",
+              "minutes": 25,
+              "href": "../labs/D1_2_write_definitions_rules.ipynb",
+              "steps": [
+                {
+                  "text": "Definitions with includes and excludes",
+                  "minutes": 7
+                },
+                {
+                  "text": "Decision rules in order",
+                  "minutes": 6
+                },
+                {
+                  "text": "Edge cases and language notes",
+                  "minutes": 5
+                },
+                {
+                  "text": "Who labels distressing content, and for how long",
+                  "minutes": 2
+                },
+                {
+                  "text": "Test the rules on twelve edge cases",
+                  "minutes": 5
+                }
+              ],
+              "stretch": "One Gulf-dialect and one code-switched example per category"
+            }
+          },
+          {
+            "n": 3,
+            "label": "Session 3",
+            "title": "Agreement statistics",
+            "summary": "Percent agreement, Cohen's kappa and Krippendorff's alpha, by category, rater and language, with intervals",
+            "outcomes": [
+              "Compute kappa for each pair of raters and explain the chance correction",
+              "Compute Krippendorff's alpha from a coincidence matrix",
+              "Report agreement by category and language with bootstrap intervals"
+            ],
+            "lo": [
+              "LO2"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "1.3",
+              "title": "Kappa and alpha on the pilot",
+              "summary": "Compute percent agreement, kappa by pair and Krippendorff's alpha on 300 pilot complaints labelled by three raters, by category and language variety, with bootstrap intervals.",
+              "minutes": 25,
+              "href": "../labs/D1_3_compute_kappa_alpha.ipynb",
+              "steps": [
+                {
+                  "text": "Percent agreement, and why it flatters",
+                  "minutes": 4
+                },
+                {
+                  "text": "Cohen's kappa for each pair of raters",
+                  "minutes": 6
+                },
+                {
+                  "text": "Krippendorff's alpha from the coincidence matrix",
+                  "minutes": 7
+                },
+                {
+                  "text": "By category and by variety, with intervals",
+                  "minutes": 8
+                }
+              ],
+              "stretch": "Alpha when one rater skipped twenty complaints"
+            }
+          },
+          {
+            "n": 4,
+            "label": "Session 4",
+            "title": "Adjudication and revision",
+            "summary": "Disagreements decided against the guideline with a reason, and a revision that the next round measures",
+            "outcomes": [
+              "Adjudicate disagreements with a decision and a reason code",
+              "Tie every guideline revision to a measured disagreement in a change log",
+              "Measure whether the revision raised agreement in the next round"
+            ],
+            "lo": [
+              "LO1",
+              "LO2"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "1.4",
+              "title": "Adjudicate 30, revise, measure again",
+              "summary": "Adjudicate 30 pilot disagreements with reason codes, revise the guideline to v1.1 with a change log tied to the counts, and compare alpha in round 1 and round 2.",
+              "minutes": 25,
+              "href": "../labs/D1_4_adjudicate_30_disagreements.ipynb",
+              "steps": [
+                {
+                  "text": "Sort the 30 disagreements by category pair",
+                  "minutes": 5
+                },
+                {
+                  "text": "Adjudicate: a decision and a reason code each",
+                  "minutes": 8
+                },
+                {
+                  "text": "Guideline v1.1: a change log tied to the counts",
+                  "minutes": 7
+                },
+                {
+                  "text": "Round 2: did agreement rise, and where",
+                  "minutes": 5
+                }
+              ],
+              "stretch": "How often was the majority of three raters wrong?"
+            }
+          }
+        ]
+      },
+      {
+        "id": "day2",
+        "kind": "day",
+        "n": 2,
+        "number": 2,
+        "label": "Day 2",
+        "title": "Golden sets and labelling operations",
+        "subtitle": "Run a rater team with gold questions, queues and a cost",
+        "shape": "4 sessions · 4 labs",
+        "deck": "../slides/day2.html",
+        "md": "../slides/day2.md",
+        "url": "https://sdaiaacademy.github.io/ds-311/slides/day2.html",
+        "sessions": [
+          {
+            "n": 1,
+            "label": "Session 1",
+            "title": "Sampling a golden set",
+            "summary": "A golden set stratified on what is known before labelling, with floors for rare categories and dialects",
+            "outcomes": [
+              "Explain why a simple random sample misses rare categories and dialects",
+              "Stratify on fields known before labelling, with a floor per stratum",
+              "Weight a stratified sample back to the population"
+            ],
+            "lo": [
+              "LO3"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "2.1",
+              "title": "A stratified golden set",
+              "summary": "Draw a 240-complaint golden set stratified by language variety and pre-label with a floor per stratum, compare its coverage with a random sample, and weight it back to the population.",
+              "minutes": 25,
+              "href": "../labs/D2_1_draw_stratified_golden.ipynb",
+              "steps": [
+                {
+                  "text": "What a random sample of 240 misses",
+                  "minutes": 4
+                },
+                {
+                  "text": "Strata from what is known before labelling",
+                  "minutes": 6
+                },
+                {
+                  "text": "Allocate with a floor per stratum, and draw",
+                  "minutes": 8
+                },
+                {
+                  "text": "Coverage under expert labels, and the weights",
+                  "minutes": 7
+                }
+              ],
+              "stretch": "Keep half of the gold hidden for later audits"
+            }
+          },
+          {
+            "n": 2,
+            "label": "Session 2",
+            "title": "Gold questions and review queues",
+            "summary": "Gold questions mixed into the work, a pass rule with a minimum count, and routing rules that send each item where it belongs",
+            "outcomes": [
+              "Estimate each rater's gold accuracy with an interval",
+              "Set a pass rule that needs a minimum number of gold answers",
+              "Route items to acceptance, adjudication or a restricted queue"
+            ],
+            "lo": [
+              "LO3"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "2.2",
+              "title": "Gold checks and routing",
+              "summary": "Score six raters on the gold questions of a 2,000-item round with Wilson intervals, set a pass rule, and route every item to acceptance, adjudication or the restricted queue.",
+              "minutes": 25,
+              "href": "../labs/D2_2_set_gold_question.ipynb",
+              "steps": [
+                {
+                  "text": "Gold accuracy per rater, with an interval",
+                  "minutes": 6
+                },
+                {
+                  "text": "A pass rule with a minimum count",
+                  "minutes": 5
+                },
+                {
+                  "text": "Routing: accept, adjudicate, restricted queue",
+                  "minutes": 8
+                },
+                {
+                  "text": "Queue sizes and adjudicator hours",
+                  "minutes": 6
+                }
+              ],
+              "stretch": "Gold questions a rater cannot spot"
+            }
+          },
+          {
+            "n": 3,
+            "label": "Session 3",
+            "title": "Rater drift and workload",
+            "summary": "Each rater against their own baseline, drift told apart from steady low accuracy, and workload against the guideline's limits",
+            "outcomes": [
+              "Track gold accuracy per rater over time",
+              "Flag drift against a rater's own baseline, not the team average",
+              "Check workload and distressing-content time against the guideline"
+            ],
+            "lo": [
+              "LO3"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "2.3",
+              "title": "Find the drifting rater",
+              "summary": "Track gold accuracy per rater over ten days, flag the rater who drifts against their own baseline, tell drift from steady low accuracy, and check distressing-content minutes against the guideline.",
+              "minutes": 25,
+              "href": "../labs/D2_3_find_drifting_rater.ipynb",
+              "steps": [
+                {
+                  "text": "Gold accuracy by rater and day",
+                  "minutes": 5
+                },
+                {
+                  "text": "A drift rule against each rater's own baseline",
+                  "minutes": 8
+                },
+                {
+                  "text": "Drift or steadily low?",
+                  "minutes": 5
+                },
+                {
+                  "text": "Workload and distressing-content minutes",
+                  "minutes": 7
+                }
+              ],
+              "stretch": "Which categories does the drifting rater now confuse?"
+            }
+          },
+          {
+            "n": 4,
+            "label": "Session 4",
+            "title": "Cost and model pre-labels",
+            "summary": "Cost per accepted label across three designs, with personal data masked and classified before any model call",
+            "outcomes": [
+              "Compute cost per accepted label for a labelling design",
+              "Mask personal data and classify what may leave the organisation before a model call",
+              "Compare double, audited single and model-assisted labelling on cost and error"
+            ],
+            "lo": [
+              "LO3"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "2.4",
+              "title": "Cost per accepted label",
+              "summary": "Mask and classify complaints before any model call, pre-label the masked ones through a chat-completions endpoint, and compare cost per accepted label and error across double, audited single and model-assisted labelling.",
+              "minutes": 25,
+              "href": "../labs/D2_4_compare_cost_per.ipynb",
+              "steps": [
+                {
+                  "text": "Mask personal data; classify what may leave",
+                  "minutes": 7
+                },
+                {
+                  "text": "Pre-label masked complaints through the endpoint",
+                  "minutes": 5
+                },
+                {
+                  "text": "Cost and error of three designs",
+                  "minutes": 9
+                },
+                {
+                  "text": "Choose a design, and the condition that would change it",
+                  "minutes": 4
+                }
+              ],
+              "stretch": "Anchoring: how often do people confirm a wrong pre-label?"
+            }
+          }
+        ]
+      },
+      {
+        "id": "day3",
+        "kind": "day",
+        "n": 3,
+        "number": 3,
+        "label": "Day 3",
+        "title": "Rules and contracts",
+        "subtitle": "Turn analysts' requirements into rules and a contract",
+        "shape": "4 sessions · 4 labs",
+        "deck": "../slides/day3.html",
+        "md": "../slides/day3.md",
+        "url": "https://sdaiaacademy.github.io/ds-311/slides/day3.html",
+        "sessions": [
+          {
+            "n": 1,
+            "label": "Session 1",
+            "title": "Profiling to rules",
+            "summary": "A profile of each source table, read against the six quality dimensions, becomes rules with owners and thresholds",
+            "outcomes": [
+              "Profile tables for completeness, uniqueness, validity, consistency, accuracy and timeliness",
+              "Read anomalies from a profile without help",
+              "Write a rule with an owner, a dimension, a threshold and a business reason"
+            ],
+            "lo": [
+              "LO4"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "3.1",
+              "title": "Profile four tables, propose rules",
+              "summary": "Profile four source tables in DuckDB without AI help, find the anomalies, and propose rules with a dimension, an owner, a threshold and a reason.",
+              "minutes": 25,
+              "href": "../labs/D3_1_profile_four_source.ipynb",
+              "steps": [
+                {
+                  "text": "Profile each table in DuckDB",
+                  "minutes": 8
+                },
+                {
+                  "text": "Five anomalies from the profile",
+                  "minutes": 7
+                },
+                {
+                  "text": "Rules with dimension, owner and threshold",
+                  "minutes": 10
+                }
+              ],
+              "stretch": "Timeliness: how old is the newest complaint in each extract?"
+            }
+          },
+          {
+            "n": 2,
+            "label": "Session 2",
+            "title": "Rules with severity",
+            "summary": "Warn, quarantine or block: a rule as a query that returns failing rows, judged on seeded defects and on clean data",
+            "outcomes": [
+              "Write a rule as a query that returns the failing rows",
+              "Give each rule a severity: warn, quarantine or block",
+              "Show that the rules catch each seeded defect and stay quiet on clean data"
+            ],
+            "lo": [
+              "LO4"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "3.2",
+              "title": "Warning and blocking rules",
+              "summary": "Implement the rule set as SQL with thresholds and severities, catch every seeded defect in the four tables, and show no false alarm on the clean tables.",
+              "minutes": 25,
+              "href": "../labs/D3_2_implement_warning_blocking.ipynb",
+              "steps": [
+                {
+                  "text": "A rule as a query that returns failing rows",
+                  "minutes": 5
+                },
+                {
+                  "text": "The rule set with thresholds and severities",
+                  "minutes": 9
+                },
+                {
+                  "text": "Every seeded defect caught",
+                  "minutes": 6
+                },
+                {
+                  "text": "No alarm on the clean tables",
+                  "minutes": 5
+                }
+              ],
+              "stretch": "Three of the rules again in Pandera"
+            }
+          },
+          {
+            "n": 3,
+            "label": "Session 3",
+            "title": "Duplicates and merchant matching",
+            "summary": "Exact and near duplicates, and merchant names matched across Arabic and Latin spellings with measured precision",
+            "outcomes": [
+              "Tell exact duplicates from resubmissions",
+              "Normalise Arabic and Latin names and compare them through a transliteration key",
+              "Choose a match threshold from precision and recall on labelled pairs"
+            ],
+            "lo": [
+              "LO4"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "3.3",
+              "title": "Merchant names across two scripts",
+              "summary": "Normalise 600 raw merchant names, match them to the registry across Arabic and Latin spellings, choose a threshold, and measure precision and recall on 300 labelled names.",
+              "minutes": 25,
+              "href": "../labs/D3_3_match_merchant_names.ipynb",
+              "steps": [
+                {
+                  "text": "Normalise Arabic and Latin names",
+                  "minutes": 7
+                },
+                {
+                  "text": "A transliteration key across scripts",
+                  "minutes": 6
+                },
+                {
+                  "text": "Score, and choose a threshold",
+                  "minutes": 6
+                },
+                {
+                  "text": "Precision and recall on 300 labelled names",
+                  "minutes": 6
+                }
+              ],
+              "stretch": "Blocking: compare fewer pairs"
+            }
+          },
+          {
+            "n": 4,
+            "label": "Session 4",
+            "title": "A data contract",
+            "summary": "A contract in an open standard that the producer and the consumer of the prepared table both check",
+            "outcomes": [
+              "Write a contract for a table in the Open Data Contract Standard",
+              "Compile its quality clauses to SQL checks",
+              "Tell a breaking schema change from a compatible one"
+            ],
+            "lo": [
+              "LO4"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "3.4",
+              "title": "A contract that rejects a breaking change",
+              "summary": "Write an ODCS contract for the prepared complaints table, compile its clauses to SQL, pass it on today's table, and make a producer's breaking change fail while an added column passes.",
+              "minutes": 25,
+              "href": "../labs/D3_4_write_contract_prepared.ipynb",
+              "steps": [
+                {
+                  "text": "The schema part of the contract",
+                  "minutes": 7
+                },
+                {
+                  "text": "Quality clauses from the rules",
+                  "minutes": 5
+                },
+                {
+                  "text": "Compile the clauses to SQL and run them",
+                  "minutes": 7
+                },
+                {
+                  "text": "A breaking change fails; an added column passes",
+                  "minutes": 6
+                }
+              ],
+              "stretch": "The version number each change needs"
+            }
+          }
+        ]
+      },
+      {
+        "id": "day4",
+        "kind": "day",
+        "n": 4,
+        "number": 4,
+        "label": "Day 4",
+        "title": "Pipelines for analysis",
+        "subtitle": "Package the preparation as a gated, traceable pipeline",
+        "shape": "4 sessions · 4 labs",
+        "deck": "../slides/day4.html",
+        "md": "../slides/day4.md",
+        "url": "https://sdaiaacademy.github.io/ds-311/slides/day4.html",
+        "sessions": [
+          {
+            "n": 1,
+            "label": "Session 1",
+            "title": "From notebook to pipeline",
+            "summary": "Hidden state out, steps with explicit inputs and outputs in, a run log, a lock file, and the same bytes twice",
+            "outcomes": [
+              "Find the hidden state that makes a notebook give different results",
+              "Write preparation steps as functions with explicit inputs and outputs",
+              "Show with a run log and a hash that two runs give the same table"
+            ],
+            "lo": [
+              "LO5"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "4.1",
+              "title": "Steps, a runner and a lock file",
+              "summary": "Find four sources of nondeterminism in a preparation notebook, rewrite it as steps with a runner that writes a run log, and show two runs give the same bytes with the versions the lock file pins.",
+              "minutes": 25,
+              "href": "../labs/D4_1_convert_preparation_notebook.ipynb",
+              "steps": [
+                {
+                  "text": "Four sources of nondeterminism",
+                  "minutes": 5
+                },
+                {
+                  "text": "Steps with explicit inputs and outputs",
+                  "minutes": 9
+                },
+                {
+                  "text": "A runner that writes a run log",
+                  "minutes": 6
+                },
+                {
+                  "text": "Two runs, the same bytes, the pinned versions",
+                  "minutes": 5
+                }
+              ],
+              "stretch": "A task runner for the steps"
+            }
+          },
+          {
+            "n": 2,
+            "label": "Session 2",
+            "title": "Gates in the pipeline",
+            "summary": "Rules run inside the pipeline: warnings logged, bad rows quarantined, publication stopped by a blocking rule",
+            "outcomes": [
+              "Quarantine failing rows with the rule that caught them",
+              "Stop the pipeline on a blocking rule before anything is published",
+              "Show from a clean checkout that a run passes on clean data and fails on a seeded defect"
+            ],
+            "lo": [
+              "LO5"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "4.2",
+              "title": "Quarantine and block",
+              "summary": "Add the rules to the pipeline so it quarantines bad rows and stops on a blocking rule, then run it from a clean checkout on a clean extract and on the August batch.",
+              "minutes": 25,
+              "href": "../labs/D4_2_make_pipeline_quarantine.ipynb",
+              "steps": [
+                {
+                  "text": "Quarantine rows with a reason",
+                  "minutes": 7
+                },
+                {
+                  "text": "Stop on a blocking rule; publish only after every gate",
+                  "minutes": 7
+                },
+                {
+                  "text": "From a clean checkout: pass on clean, fail on the defect",
+                  "minutes": 7
+                },
+                {
+                  "text": "The CI workflow that runs it",
+                  "minutes": 4
+                }
+              ],
+              "stretch": "A warning that becomes a block after three runs"
+            }
+          },
+          {
+            "n": 3,
+            "label": "Session 3",
+            "title": "Tracing a changed figure",
+            "summary": "Lineage records and run logs show which change moved a published figure, one change at a time",
+            "outcomes": [
+              "Read run logs and lineage records to list what changed between two runs",
+              "Attribute a changed figure to each change by recomputing one change at a time",
+              "Write an incident note with root cause, affected outputs and correction"
+            ],
+            "lo": [
+              "LO6"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "4.3",
+              "title": "Why the August rate changed",
+              "summary": "Use the run logs and lineage of two runs to find why August's complaint rate for one region changed, attribute the change, list the affected outputs and write the incident note.",
+              "minutes": 25,
+              "href": "../labs/D4_3_use_run_logs.ipynb",
+              "steps": [
+                {
+                  "text": "What changed between the two runs",
+                  "minutes": 6
+                },
+                {
+                  "text": "Recompute one change at a time",
+                  "minutes": 9
+                },
+                {
+                  "text": "Which outputs are affected",
+                  "minutes": 4
+                },
+                {
+                  "text": "The incident note, and the answer to the stakeholder",
+                  "minutes": 6
+                }
+              ],
+              "stretch": "A lineage check that would have warned"
+            }
+          },
+          {
+            "n": 4,
+            "label": "Session 4",
+            "title": "Handing over prepared data",
+            "summary": "The preparation section of a datasheet, with every number traceable to a run",
+            "outcomes": [
+              "Write the preparation section of a datasheet for a prepared table",
+              "Report agreement by language variety and the known limits",
+              "Check every number in the section against the run that produced it"
+            ],
+            "lo": [
+              "LO5",
+              "LO1"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "4.4",
+              "title": "The datasheet's preparation section",
+              "summary": "Write the preparation section of the datasheet for the prepared complaints table from the run log, the rule results and the agreement report, and check every number against the run.",
+              "minutes": 25,
+              "href": "../labs/D4_4_write_preparation_section.ipynb",
+              "steps": [
+                {
+                  "text": "What a user of the table needs to know",
+                  "minutes": 4
+                },
+                {
+                  "text": "Fill the section from the run log and rule results",
+                  "minutes": 9
+                },
+                {
+                  "text": "Agreement by variety, and the known limits",
+                  "minutes": 7
+                },
+                {
+                  "text": "Every number traced to the run",
+                  "minutes": 5
+                }
+              ],
+              "stretch": "The contract and the datasheet name the same columns"
+            }
+          }
+        ]
+      },
+      {
+        "id": "capstone",
+        "kind": "capstone",
+        "n": 5,
+        "number": null,
+        "label": "Capstone",
+        "title": "Capstone project presentations",
+        "subtitle": "A labelled, quality-gated table for Al-Ghadaf Municipality, reviewed live with a seeded defect",
+        "shape": "",
+        "deck": "../slides/capstone.html",
+        "md": "../slides/capstone.md",
+        "url": "https://sdaiaacademy.github.io/ds-311/slides/capstone.html",
+        "sessions": []
+      }
+    ],
+    "capstone": {
+      "summary": "A labelled, quality-gated analysis table for a second synthetic case (municipal maintenance requests), in a public repository whose README reports agreement and rule results from two runs, defended in a ten-minute review in which the assessor seeds a defect",
+      "submission": "A public GitHub repository link: the labelling guideline with its change log, agreement from two pilot rounds, the rules and the ODCS contract, the pipeline with its lock file and CI workflow, run logs of two runs (one passing on clean data, one stopped by a seeded defect) and an incident note, with a README that reports agreement and rule results from the two runs. Then a ten-minute live review: the assessor seeds a defect in the data and the participant runs the pipeline from a clean checkout, catches it and traces it.",
+      "talk_minutes": 10,
+      "qa_minutes": null,
+      "rubric": [
+        {
+          "criterion": "Guideline and agreement",
+          "weight": 25
+        },
+        {
+          "criterion": "Rules and contract",
+          "weight": 25
+        },
+        {
+          "criterion": "Pipeline",
+          "weight": 25
+        },
+        {
+          "criterion": "Incident handling",
+          "weight": 15
+        },
+        {
+          "criterion": "Reproducibility",
+          "weight": 10
+        }
+      ]
+    },
+    "labs": {
+      "kind": "notebooks",
+      "base": "labs/"
+    },
+    "tools": [
+      {
+        "slot": "Annotation tool",
+        "examples": [
+          "Label Studio",
+          "Argilla",
+          "a spreadsheet with locked validation rules"
+        ]
+      },
+      {
+        "slot": "Validation framework",
+        "examples": [
+          "Pandera",
+          "Great Expectations",
+          "Soda Core"
+        ]
+      },
+      {
+        "slot": "Data contract specification",
+        "examples": [
+          "Open Data Contract Standard",
+          "contract checks compiled to SQL tests"
+        ]
+      },
+      {
+        "slot": "Data processing and pipeline runner",
+        "examples": [
+          "DuckDB or Polars with a task runner",
+          "Dagster with OpenLineage events"
+        ]
+      },
+      {
+        "slot": "Language model for pre-labels, through a chat-completions style endpoint",
+        "examples": [
+          "a locally served open-weight model",
+          "a free hosted open-weight model"
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "group": "Labelling and agreement",
+        "items": [
+          {
+            "title": "Klaus Krippendorff: Computing Krippendorff's Alpha-Reliability",
+            "url": "https://repository.upenn.edu/handle/20.500.14332/2089"
+          },
+          {
+            "title": "Artstein and Poesio: Inter-Coder Agreement for Computational Linguistics (2008)",
+            "url": "https://aclanthology.org/J08-4004/"
+          },
+          {
+            "title": "Label Studio documentation",
+            "url": "https://labelstud.io/guide/"
+          },
+          {
+            "title": "Argilla documentation",
+            "url": "https://docs.argilla.io/"
+          }
+        ]
+      },
+      {
+        "group": "Rules, contracts and pipelines",
+        "items": [
+          {
+            "title": "Open Data Contract Standard (ODCS)",
+            "url": "https://bitol-io.github.io/open-data-contract-standard/latest/"
+          },
+          {
+            "title": "ODCS v3.2.0 release",
+            "url": "https://github.com/bitol-io/open-data-contract-standard/releases/tag/v3.2.0"
+          },
+          {
+            "title": "Pandera documentation",
+            "url": "https://pandera.readthedocs.io/en/stable/"
+          },
+          {
+            "title": "Great Expectations documentation",
+            "url": "https://docs.greatexpectations.io/docs/home/"
+          },
+          {
+            "title": "Soda documentation",
+            "url": "https://docs.soda.io/"
+          },
+          {
+            "title": "DuckDB documentation",
+            "url": "https://duckdb.org/docs/stable/"
+          },
+          {
+            "title": "uv: project layout and the lock file",
+            "url": "https://docs.astral.sh/uv/concepts/projects/layout/"
+          },
+          {
+            "title": "OpenLineage object model",
+            "url": "https://openlineage.io/docs/spec/object-model/"
+          },
+          {
+            "title": "Dagster documentation",
+            "url": "https://docs.dagster.io/"
+          },
+          {
+            "title": "Gebru et al.: Datasheets for Datasets",
+            "url": "https://arxiv.org/abs/1803.09010"
+          }
+        ]
+      },
+      {
+        "group": "National references",
+        "items": [
+          {
+            "title": "NDMO: Data Management and Personal Data Protection Standards",
+            "url": "https://sdaia.gov.sa/en/SDAIA/about/Documents/DataManagementPersonalDataProtectionStandards.pdf"
+          },
+          {
+            "title": "NDMO: Data Classification Policy",
+            "url": "https://sdaia.gov.sa/en/SDAIA/about/Documents/DataClassificationPolicy.pdf"
+          },
+          {
+            "title": "Personal Data Protection Law",
+            "url": "https://sdaia.gov.sa/en/SDAIA/about/Documents/PersonalDataProtectionLaw.pdf"
+          },
+          {
+            "title": "Implementing Regulation of the Personal Data Protection Law",
+            "url": "https://sdaia.gov.sa/en/SDAIA/about/Documents/ImplementingRegulationPersonalDataProtectionLaw.pdf"
+          },
+          {
+            "title": "SDAIA: Generative AI Guidelines for Government",
+            "url": "https://sdaia.gov.sa/en/SDAIA/about/Files/GenAIGuidelinesForGovernmentENCompressed.pdf"
+          }
+        ]
+      }
+    ]
+  }
+}

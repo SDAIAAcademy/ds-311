@@ -1,0 +1,114 @@
+{
+ "version": "1.0",
+ "categories": {
+  "REFUND": {
+   "definition": "The consumer asked for their money back and the merchant refused or ignored the request.",
+   "includes": [
+    "a refund refused for a faulty product",
+    "a refund refused for an order that never arrived"
+   ],
+   "excludes": [
+    "a repair refused under warranty: WARRANTY",
+    "a fault with no refund requested: DEFECT"
+   ]
+  },
+  "DEFECT": {
+   "definition": "The product is faulty, damaged or not as described, and no refund or warranty repair was refused.",
+   "includes": [
+    "arrived broken",
+    "a different model from the listing"
+   ],
+   "excludes": [
+    "the consumer asked for a refund and was refused: REFUND",
+    "a warranty repair was refused: WARRANTY"
+   ]
+  },
+  "DELIVERY": {
+   "definition": "The order arrived late or not at all, and no refund was refused.",
+   "includes": [
+    "delivered days after the promised date",
+    "marked delivered but never received"
+   ],
+   "excludes": [
+    "a refund for the missing order was refused: REFUND"
+   ]
+  },
+  "PRICE": {
+   "definition": "The consumer was charged more than the price displayed at the point of sale (shelf, app or listing).",
+   "includes": [
+    "shelf price lower than the till",
+    "app price lower than the invoice"
+   ],
+   "excludes": [
+    "an advert promised a discount and the displayed price matched the charge: AD"
+   ]
+  },
+  "AD": {
+   "definition": "An advert or offer made a claim the merchant did not honour, and the displayed price was charged.",
+   "includes": [
+    "advertised discount did not exist",
+    "free installation advertised, then charged"
+   ],
+   "excludes": [
+    "the charge differs from the displayed price: PRICE"
+   ]
+  },
+  "WARRANTY": {
+   "definition": "The product is under warranty and the merchant or service centre refused the repair or replacement.",
+   "includes": [
+    "service centre refused a repair within the warranty period"
+   ],
+   "excludes": [
+    "a fault with no warranty claim: DEFECT"
+   ]
+  }
+ },
+ "rules": [
+  "1. A repair or replacement refused under warranty is WARRANTY, whatever else the complaint says.",
+  "2. A refund the consumer asked for and was refused is REFUND, even when the product was faulty or never arrived.",
+  "3. A faulty, damaged or not-as-described product is DEFECT.",
+  "4. A late or missing delivery is DELIVERY.",
+  "5. A charge above the displayed price is PRICE, even when an advert was involved.",
+  "6. An advert or offer not honoured, at the displayed price, is AD."
+ ],
+ "edge_cases": [
+  {
+   "case": "Broken on arrival and the refund was refused",
+   "label": "REFUND",
+   "rule": 2
+  },
+  {
+   "case": "Under warranty, repair refused, and the refund also refused",
+   "label": "WARRANTY",
+   "rule": 1
+  },
+  {
+   "case": "Advert said 50% off; the shelf showed one price and the till charged more",
+   "label": "PRICE",
+   "rule": 5
+  },
+  {
+   "case": "Order never arrived and the money was not returned",
+   "label": "REFUND",
+   "rule": 2
+  },
+  {
+   "case": "Late delivery and the product arrived broken",
+   "label": "DEFECT",
+   "rule": 3
+  }
+ ],
+ "language_notes": {
+  "gulf": "خرب = stopped working (faulty); طلبت فلوسي ورفضوا = refund asked and refused; حاسبوني = charged; ما وصل = not delivered",
+  "mixed": "refund, warranty, delivery and offer may appear in English inside Arabic: read them as the same facts; 'no refund policy' is a refusal",
+  "english": "'money back' is a refund request; 'marked delivered' with nothing received is not delivered"
+ },
+ "wellbeing": {
+  "flag": "distressing",
+  "who": "raters who opted in and were briefed by the labelling lead (R2 and R4 in this round)",
+  "max_minutes_per_day": 60,
+  "breaks": "a break after every 20 minutes of distressing items",
+  "escalation": "a complaint that describes a risk to someone's safety goes to the duty officer the same day"
+ },
+ "change_log": []
+}

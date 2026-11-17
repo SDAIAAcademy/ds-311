@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-ax="page" data-track="data-science">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Quality, Labelling and Pipelines for Analysis · SDAIA Academy</title>
+<meta name="generator" content="SDAIA Academy engine 1.0.0">
+<meta name="description" content="Build the labels, rules, contract and gated pipeline an analysis depends on, and trace a figure that changed">
+<link rel="icon" href="_engine/icon.svg">
+<link rel="alternate" type="text/markdown" href="index.md">
+<link rel="describedby" href="llms.txt">
+<link rel="stylesheet" href="_engine/academy.css">
+</head>
+<body>
+<header>
+<div class="wrap">
+<div class="top"><div class="logo" id="logo"></div><nav><a href="slides/day1.html">Slides</a><a href="practice.html">Practice</a><a href="index.md" type="text/markdown">Markdown</a></nav></div>
+<div class="kicker">Data Science Track · SDAIA Academy · DS-311</div>
+<h1>Data Quality, Labelling and Pipelines for Analysis<span class="sub ar" lang="ar" dir="rtl">جودة البيانات والتوسيم وخطوط إعدادها للتحليل</span></h1>
+<p>Build the labels, rules, contract and gated pipeline an analysis depends on, and trace a figure that changed</p>
+<div class="meta"><span class="track">Data Science Track</span><span>4 teaching days + capstone day</span><span>26 hours</span><span>Level 300</span><span>Data Science · Associate badge</span></div>
+</div>
+</header>
+<main class="wrap">
+<h2>About the course</h2>
+<p>Participants build the data an analysis depends on for Bayyin Consumer Protection Office, a fictional regulator holding 30,000 synthetic complaint records in Arabic and English. They write a labelling guideline, pilot it, measure agreement and adjudicate, run golden-question checks and review queues across a rater team, turn analysts' requirements into quality rules and a data contract, and package the preparation as a reproducible pipeline that stops on those rules. Measuring model-made labels is DS-306; platform-scale data engineering is AE-306.</p>
+<p><b>Who it is for:</b> Practitioners. Data scientists and analysts who have completed the level 200 set or can show equivalent work: an analysis they framed, carried out and explained to a stakeholder.</p>
+<p><b>Format:</b> Intensive: 4 teaching days of four sessions and a capstone day, with guided pre-work and a tracked follow-up task</p>
+<h2>The case study</h2>
+<div class="note info"><b>Bayyin Consumer Protection Office.</b> Bayyin is a fictional consumer protection regulator with 30,000 synthetic complaints in Modern Standard Arabic, Gulf dialect, English and code-switched text, four source tables and a monthly complaint rate per 100,000 residents that its analysts publish. Participants write and pilot a six-category labelling guideline, measure and adjudicate agreement, run gold checks, review queues and drift monitoring over six raters, turn requirements into severity rules and an open-standard contract, and package the preparation as a pipeline that quarantines, blocks and leaves lineage. All data is synthetic and generated with a fixed seed.</div>
+<h2>The course</h2>
+<div class="day">
+<div class="day-head c-teal"><div><div class="t">Day 1 · 4 sessions · 4 labs</div><h3>Labels are measurements</h3></div><a class="btn" href="slides/day1.html">Open the slides</a></div>
+<div class="scroll"><table>
+<tr><th>Session</th><th>Topic</th><th>Lab</th></tr>
+<tr><td>1</td><td><b>What a label measures</b><br>A label is a measurement of a construct, and disagreement shows where the construct is unclear<ul><li>Explain a label as a measurement with a construct, a scale and an error</li><li>Label complaints without a guideline and measure raw agreement with two neighbours</li><li>Name the category pairs where people disagree and why</li></ul></td><td><a href="labs/D1_1_label_40_complaints.ipynb">Lab 1.1 · Label 40 complaints, then compare</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-311/blob/main/labs/D1_1_label_40_complaints.ipynb">Open in Colab</a></td></tr>
+<tr><td>2</td><td><b>Writing a guideline</b><br>Definitions, ordered decision rules, edge cases and the rules for raters' wellbeing, written as a versioned document<ul><li>Write a definition with includes and excludes for each category</li><li>Order decision rules so that every overlap resolves to one label</li><li>Record edge cases, dialect notes and the limits on distressing content</li></ul></td><td><a href="labs/D1_2_write_definitions_rules.ipynb">Lab 1.2 · Guideline v1.0 for six categories</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-311/blob/main/labs/D1_2_write_definitions_rules.ipynb">Open in Colab</a></td></tr>
+<tr><td>3</td><td><b>Agreement statistics</b><br>Percent agreement, Cohen's kappa and Krippendorff's alpha, by category, rater and language, with intervals<ul><li>Compute kappa for each pair of raters and explain the chance correction</li><li>Compute Krippendorff's alpha from a coincidence matrix</li><li>Report agreement by category and language with bootstrap intervals</li></ul></td><td><a href="labs/D1_3_compute_kappa_alpha.ipynb">Lab 1.3 · Kappa and alpha on the pilot</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-311/blob/main/labs/D1_3_compute_kappa_alpha.ipynb">Open in Colab</a></td></tr>
+<tr><td>4</td><td><b>Adjudication and revision</b><br>Disagreements decided against the guideline with a reason, and a revision that the next round measures<ul><li>Adjudicate disagreements with a decision and a reason code</li><li>Tie every guideline revision to a measured disagreement in a change log</li><li>Measure whether the revision raised agreement in the next round</li></ul></td><td><a href="labs/D1_4_adjudicate_30_disagreements.ipynb">Lab 1.4 · Adjudicate 30, revise, measure again</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-311/blob/main/labs/D1_4_adjudicate_30_disagreements.ipynb">Open in Colab</a></td></tr>
+</table></div>
+</div>
+<div class="day">
+<div class="day-head c-cyan"><div><div class="t">Day 2 · 4 sessions · 4 labs</div><h3>Golden sets and labelling operations</h3></div><a class="btn" href="slides/day2.html">Open the slides</a></div>
+<div class="scroll"><table>
+<tr><th>Session</th><th>Topic</th><th>Lab</th></tr>
+<tr><td>1</td><td><b>Sampling a golden set</b><br>A golden set stratified on what is known before labelling, with floors for rare categories and dialects<ul><li>Explain why a simple random sample misses rare categories and dialects</li><li>Stratify on fields known before labelling, with a floor per stratum</li><li>Weight a stratified sample back to the population</li></ul></td><td><a href="labs/D2_1_draw_stratified_golden.ipynb">Lab 2.1 · A stratified golden set</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-311/blob/main/labs/D2_1_draw_stratified_golden.ipynb">Open in Colab</a></td></tr>
+<tr><td>2</td><td><b>Gold questions and review queues</b><br>Gold questions mixed into the work, a pass rule with a minimum count, and routing rules that send each item where it belongs<ul><li>Estimate each rater's gold accuracy with an interval</li><li>Set a pass rule that needs a minimum number of gold answers</li><li>Route items to acceptance, adjudication or a restricted queue</li></ul></td><td><a href="labs/D2_2_set_gold_question.ipynb">Lab 2.2 · Gold checks and routing</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-311/blob/main/labs/D2_2_set_gold_question.ipynb">Open in Colab</a></td></tr>
+<tr><td>3</td><td><b>Rater drift and workload</b><br>Each rater against their own baseline, drift told apart from steady low accuracy, and workload against the guideline's limits<ul><li>Track gold accuracy per rater over time</li><li>Flag drift against a rater's own baseline, not the team average</li><li>Check workload and distressing-content time against the guideline</li></ul></td><td><a href="labs/D2_3_find_drifting_rater.ipynb">Lab 2.3 · Find the drifting rater</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-311/blob/main/labs/D2_3_find_drifting_rater.ipynb">Open in Colab</a></td></tr>
+<tr><td>4</td><td><b>Cost and model pre-labels</b><br>Cost per accepted label across three designs, with personal data masked and classified before any model call<ul><li>Compute cost per accepted label for a labelling design</li><li>Mask personal data and classify what may leave the organisation before a model call</li><li>Compare double, audited single and model-assisted labelling on cost and error</li></ul></td><td><a href="labs/D2_4_compare_cost_per.ipynb">Lab 2.4 · Cost per accepted label</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-311/blob/main/labs/D2_4_compare_cost_per.ipynb">Open in Colab</a></td></tr>
+</table></div>
+</div>
+<div class="day">
+<div class="day-head c-coral"><div><div class="t">Day 3 · 4 sessions · 4 labs</div><h3>Rules and contracts</h3></div><a class="btn" href="slides/day3.html">Open the slides</a></div>
+<div class="scroll"><table>
+<tr><th>Session</th><th>Topic</th><th>Lab</th></tr>
+<tr><td>1</td><td><b>Profiling to rules</b><br>A profile of each source table, read against the six quality dimensions, becomes rules with owners and thresholds<ul><li>Profile tables for completeness, uniqueness, validity, consistency, accuracy and timeliness</li><li>Read anomalies from a profile without help</li><li>Write a rule with an owner, a dimension, a threshold and a business reason</li></ul></td><td><a href="labs/D3_1_profile_four_source.ipynb">Lab 3.1 · Profile four tables, propose rules</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-311/blob/main/labs/D3_1_profile_four_source.ipynb">Open in Colab</a></td></tr>
+<tr><td>2</td><td><b>Rules with severity</b><br>Warn, quarantine or block: a rule as a query that returns failing rows, judged on seeded defects and on clean data<ul><li>Write a rule as a query that returns the failing rows</li><li>Give each rule a severity: warn, quarantine or block</li><li>Show that the rules catch each seeded defect and stay quiet on clean data</li></ul></td><td><a href="labs/D3_2_implement_warning_blocking.ipynb">Lab 3.2 · Warning and blocking rules</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-311/blob/main/labs/D3_2_implement_warning_blocking.ipynb">Open in Colab</a></td></tr>
+<tr><td>3</td><td><b>Duplicates and merchant matching</b><br>Exact and near duplicates, and merchant names matched across Arabic and Latin spellings with measured precision<ul><li>Tell exact duplicates from resubmissions</li><li>Normalise Arabic and Latin names and compare them through a transliteration key</li><li>Choose a match threshold from precision and recall on labelled pairs</li></ul></td><td><a href="labs/D3_3_match_merchant_names.ipynb">Lab 3.3 · Merchant names across two scripts</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-311/blob/main/labs/D3_3_match_merchant_names.ipynb">Open in Colab</a></td></tr>
+<tr><td>4</td><td><b>A data contract</b><br>A contract in an open standard that the producer and the consumer of the prepared table both check<ul><li>Write a contract for a table in the Open Data Contract Standard</li><li>Compile its quality clauses to SQL checks</li><li>Tell a breaking schema change from a compatible one</li></ul></td><td><a href="labs/D3_4_write_contract_prepared.ipynb">Lab 3.4 · A contract that rejects a breaking change</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-311/blob/main/labs/D3_4_write_contract_prepared.ipynb">Open in Colab</a></td></tr>
+</table></div>
+</div>
+<div class="day">
+<div class="day-head c-purple"><div><div class="t">Day 4 · 4 sessions · 4 labs</div><h3>Pipelines for analysis</h3></div><a class="btn" href="slides/day4.html">Open the slides</a></div>
+<div class="scroll"><table>
+<tr><th>Session</th><th>Topic</th><th>Lab</th></tr>
+<tr><td>1</td><td><b>From notebook to pipeline</b><br>Hidden state out, steps with explicit inputs and outputs in, a run log, a lock file, and the same bytes twice<ul><li>Find the hidden state that makes a notebook give different results</li><li>Write preparation steps as functions with explicit inputs and outputs</li><li>Show with a run log and a hash that two runs give the same table</li></ul></td><td><a href="labs/D4_1_convert_preparation_notebook.ipynb">Lab 4.1 · Steps, a runner and a lock file</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-311/blob/main/labs/D4_1_convert_preparation_notebook.ipynb">Open in Colab</a></td></tr>
+<tr><td>2</td><td><b>Gates in the pipeline</b><br>Rules run inside the pipeline: warnings logged, bad rows quarantined, publication stopped by a blocking rule<ul><li>Quarantine failing rows with the rule that caught them</li><li>Stop the pipeline on a blocking rule before anything is published</li><li>Show from a clean checkout that a run passes on clean data and fails on a seeded defect</li></ul></td><td><a href="labs/D4_2_make_pipeline_quarantine.ipynb">Lab 4.2 · Quarantine and block</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-311/blob/main/labs/D4_2_make_pipeline_quarantine.ipynb">Open in Colab</a></td></tr>
+<tr><td>3</td><td><b>Tracing a changed figure</b><br>Lineage records and run logs show which change moved a published figure, one change at a time<ul><li>Read run logs and lineage records to list what changed between two runs</li><li>Attribute a changed figure to each change by recomputing one change at a time</li><li>Write an incident note with root cause, affected outputs and correction</li></ul></td><td><a href="labs/D4_3_use_run_logs.ipynb">Lab 4.3 · Why the August rate changed</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-311/blob/main/labs/D4_3_use_run_logs.ipynb">Open in Colab</a></td></tr>
+<tr><td>4</td><td><b>Handing over prepared data</b><br>The preparation section of a datasheet, with every number traceable to a run<ul><li>Write the preparation section of a datasheet for a prepared table</li><li>Report agreement by language variety and the known limits</li><li>Check every number in the section against the run that produced it</li></ul></td><td><a href="labs/D4_4_write_preparation_section.ipynb">Lab 4.4 · The datasheet's preparation section</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-311/blob/main/labs/D4_4_write_preparation_section.ipynb">Open in Colab</a></td></tr>
+</table></div>
+</div>
+<div class="day">
+<div class="day-head c-amber"><div><div class="t">Capstone</div><h3>Capstone project presentations</h3></div><a class="btn" href="slides/capstone.html">Open the slides</a></div>
+<div class="scroll"><table><tr><td>A labelled, quality-gated table for Al-Ghadaf Municipality, reviewed live with a seeded defect</td></tr></table></div>
+</div>
+<h2>Capstone</h2>
+<div class="two">
+<div><p>A labelled, quality-gated analysis table for a second synthetic case (municipal maintenance requests), in a public repository whose README reports agreement and rule results from two runs, defended in a ten-minute review in which the assessor seeds a defect</p><p><b>What you submit:</b> A public GitHub repository link: the labelling guideline with its change log, agreement from two pilot rounds, the rules and the ODCS contract, the pipeline with its lock file and CI workflow, run logs of two runs (one passing on clean data, one stopped by a seeded defect) and an incident note, with a README that reports agreement and rule results from the two runs. Then a ten-minute live review: the assessor seeds a defect in the data and the participant runs the pipeline from a clean checkout, catches it and traces it.</p><p><b>Format:</b> 10 min talk and demo</p></div>
+<div><h3>Rubric</h3><div class="bar c-teal"><span>Guideline and agreement<i style="--w:100%"></i></span><b>25%</b></div><div class="bar c-cyan"><span>Rules and contract<i style="--w:100%"></i></span><b>25%</b></div><div class="bar c-coral"><span>Pipeline<i style="--w:100%"></i></span><b>25%</b></div><div class="bar c-purple"><span>Incident handling<i style="--w:60%"></i></span><b>15%</b></div><div class="bar c-amber"><span>Reproducibility<i style="--w:40%"></i></span><b>10%</b></div></div>
+</div>
+<h2>Outcomes</h2>
+<p>By the end of the course, participants can:</p>
+<div class="day"><div class="scroll"><table>
+<tr><th></th><th>Outcomes</th><th>Level</th><th>Evidence</th></tr>
+<tr><td><b>LO1</b></td><td>Draft a labelling guideline with definitions, decision rules and edge cases, and revise it after a pilot, given 300 synthetic complaints labelled by three raters</td><td>Applied</td><td>a versioned guideline whose change log ties each revision to a measured disagreement</td></tr>
+<tr><td><b>LO2</b></td><td>Compute chance-corrected agreement by category and rater, and adjudicate the disagreements, given two rounds of pilot labels</td><td>Applied</td><td>an agreement report with intervals and an adjudicated set</td></tr>
+<tr><td><b>LO3</b></td><td>Configure a labelling workflow with golden-question checks, review queues and rater-drift monitoring, given a simulated round of 2,000 items from six raters, one of whom drifts</td><td>Applied</td><td>a quality-control report that flags the drifting rater and states cost per accepted label</td></tr>
+<tr><td><b>LO4</b></td><td>Implement quality rules with thresholds and severities, and a data contract for the prepared table, given four source tables with seeded defects</td><td>Applied</td><td>rules and a contract that catch each defect and reject a breaking schema change</td></tr>
+<tr><td><b>LO5</b></td><td>Build a reproducible preparation pipeline from raw extracts to an analysis-ready table that stops on a blocking rule, given a repository with continuous integration</td><td>Performance</td><td>run logs that pass on clean data and fail on a seeded defect from a clean checkout</td></tr>
+<tr><td><b>LO6</b></td><td>Diagnose why an analytical figure changed after a data refresh and decide on the correction, given two runs, their lineage records and a stakeholder asking which figure is right</td><td>Performance</td><td>an incident note with root cause, affected outputs and correction</td></tr>
+</table></div></div>
+<h2>Tools</h2>
+<div class="grid">
+<div class="card c-teal"><h3>Annotation tool</h3><p>Label Studio · Argilla · a spreadsheet with locked validation rules</p></div>
+<div class="card c-cyan"><h3>Validation framework</h3><p>Pandera · Great Expectations · Soda Core</p></div>
+<div class="card c-coral"><h3>Data contract specification</h3><p>Open Data Contract Standard · contract checks compiled to SQL tests</p></div>
+<div class="card c-purple"><h3>Data processing and pipeline runner</h3><p>DuckDB or Polars with a task runner · Dagster with OpenLineage events</p></div>
+<div class="card c-green"><h3>Language model for pre-labels, through a chat-completions style endpoint</h3><p>a locally served open-weight model · a free hosted open-weight model</p></div>
+</div>
+<h2>Before you start</h2>
+<h3>Prerequisites</h3>
+<ul><li>DS-202 Data Acquisition, Preparation and Quality</li><li>FN-102 Command Line, Git and Reproducible Projects</li><li>Writes Python functions and SQL queries</li><li>Uses Git and a lock-file environment</li><li>Setup: a laptop CPU with uv, or Google Colab. Nothing downloads a model; one lab calls a free hosted model and runs without a key on a stand-in. Run 00_setup_check before Day 1; see labs/README.md.</li></ul>
+<div class="note tip">The labs are notebooks. Open each one in Google Colab from the table above, or clone the repository and run them locally.</div>
+<h2>Sources</h2>
+<h3>Labelling and agreement</h3>
+<ul><li><a href="https://repository.upenn.edu/handle/20.500.14332/2089">Klaus Krippendorff: Computing Krippendorff's Alpha-Reliability</a></li><li><a href="https://aclanthology.org/J08-4004/">Artstein and Poesio: Inter-Coder Agreement for Computational Linguistics (2008)</a></li><li><a href="https://labelstud.io/guide/">Label Studio documentation</a></li><li><a href="https://docs.argilla.io/">Argilla documentation</a></li></ul>
+<h3>Rules, contracts and pipelines</h3>
+<ul><li><a href="https://bitol-io.github.io/open-data-contract-standard/latest/">Open Data Contract Standard (ODCS)</a></li><li><a href="https://github.com/bitol-io/open-data-contract-standard/releases/tag/v3.2.0">ODCS v3.2.0 release</a></li><li><a href="https://pandera.readthedocs.io/en/stable/">Pandera documentation</a></li><li><a href="https://docs.greatexpectations.io/docs/home/">Great Expectations documentation</a></li><li><a href="https://docs.soda.io/">Soda documentation</a></li><li><a href="https://duckdb.org/docs/stable/">DuckDB documentation</a></li><li><a href="https://docs.astral.sh/uv/concepts/projects/layout/">uv: project layout and the lock file</a></li><li><a href="https://openlineage.io/docs/spec/object-model/">OpenLineage object model</a></li><li><a href="https://docs.dagster.io/">Dagster documentation</a></li><li><a href="https://arxiv.org/abs/1803.09010">Gebru et al.: Datasheets for Datasets</a></li></ul>
+<h3>National references</h3>
+<ul><li><a href="https://sdaia.gov.sa/en/SDAIA/about/Documents/DataManagementPersonalDataProtectionStandards.pdf">NDMO: Data Management and Personal Data Protection Standards</a></li><li><a href="https://sdaia.gov.sa/en/SDAIA/about/Documents/DataClassificationPolicy.pdf">NDMO: Data Classification Policy</a></li><li><a href="https://sdaia.gov.sa/en/SDAIA/about/Documents/PersonalDataProtectionLaw.pdf">Personal Data Protection Law</a></li><li><a href="https://sdaia.gov.sa/en/SDAIA/about/Documents/ImplementingRegulationPersonalDataProtectionLaw.pdf">Implementing Regulation of the Personal Data Protection Law</a></li><li><a href="https://sdaia.gov.sa/en/SDAIA/about/Files/GenAIGuidelinesForGovernmentENCompressed.pdf">SDAIA: Generative AI Guidelines for Government</a></li></ul>
+<h2>Files and links</h2>
+<div class="files">
+<a href="practice.html"><b>practice.html</b><span>Practice questions with feedback</span></a>
+<a href="index.md"><b>index.md</b><span>This page as Markdown, for an AI assistant</span></a>
+<a href="llms.txt"><b>llms.txt</b><span>The course for AI assistants (llms.txt)</span></a>
+<a href="https://github.com/SDAIAAcademy/ds-311"><b>SDAIAAcademy/ds-311</b><span>The course repository</span></a>
+</div>
+</main>
+<footer><div class="wrap">SDAIA Academy · Data Science Track · Data Quality, Labelling and Pipelines for Analysis<br><span class="muted">Course version 2027.1.0 · engine 1.0.0 · built 2026-11-15 · commit 7240e93</span></div></footer>
+<script type="application/json" id="academy-data">{"v":1,"engine":"1.0.0","build":{"at":"2026-11-15T21:37:37Z","version":"2027.1.0","commit":"7240e93"},"course":{"id":"ds-311","code":"DS-311","title":"Data Quality, Labelling and Pipelines for Analysis","track":"data-science","lang":"en","dir":"ltr","url":"https://sdaiaacademy.github.io/ds-311/","repo":"SDAIAAcademy/ds-311","home":"index.html"},"ai":{"context":{"course":"context/course.md","courseJs":"context/course.js","day":null,"llms":"llms.txt"},"tasks":[],"tools":[]},"features":{},"strings":{}}</script>
+<script src="_engine/academy.js"></script>
+</body>
+</html>

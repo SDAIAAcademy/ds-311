@@ -1,0 +1,32 @@
+# Continuous integration for Bayyin's preparation pipeline (GitHub Actions).
+# Kept here as course material; copy it to .github/workflows/ in a pipeline's own repository to run it.
+# On every push it runs the pipeline from a clean checkout twice: the clean extract must publish
+# (exit 0) and the seeded extract must be stopped by a blocking rule (exit 2).
+name: pipeline
+on: [push, pull_request]
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: labs/pipeline
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Install the pinned versions
+        run: uv sync --locked
+      - name: Clean extract publishes
+        run: uv run run.py --raw ../data/sources_clean --regions ../data/sources_clean/regions.csv --out out/clean --run-id ci-clean
+      - name: Seeded extract is blocked
+        run: |
+          set +e
+          uv run run.py --raw ../data/sources --regions ../data/sources/regions.csv --out out/seeded --run-id ci-seeded
+          code=$?
+          test "$code" -eq 2 || { echo "expected exit 2 (blocked), got $code"; exit 1; }
+          test ! -e out/seeded/published || { echo "something was published"; exit 1; }
+      - name: Keep the run logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: run-logs
+          path: labs/pipeline/out/*/run_log.json

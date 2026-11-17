@@ -1,0 +1,13 @@
+case,variety,text,expected,asked_refund,refund_refused,faulty,not_as_described,within_warranty,repair_refused,late,not_delivered,charged_more,advert_claim
+E01,msa,اشتريت هاتف من متجر النور للإلكترونيات. وصل مكسوراً. رفض المتجر إعادة المبلغ.,REFUND,1,1,1,0,0,0,0,0,0,0
+E02,gulf,الأسبوع اللي فات دفعت حق كنبة في مؤسسة الأفق للأثاث. خرب بعد 13 أيام. رفضوا يصلحونه بالضمان مع إن معي كرت الضمان.,WARRANTY,0,0,1,0,1,1,0,0,0,0
+E03,english,"I ordered a washing machine online from AL AMAL HOME APPLIANCES LLC. The advert said 20% off and the shelf showed 399 SAR, but I was charged 419 SAR.",PRICE,0,0,0,0,0,0,0,0,1,1
+E04,mixed,شريت حذاء رياضي من المدار للأزياء المحدودة online. الـ order ما وصل أبداً. طلبت refund ورفضوا.,REFUND,1,1,0,0,0,0,0,1,0,0
+E05,msa,طلبت بطارية سيارة عبر الإنترنت من شركة النخبة لقطع غيار السيارات. ليس الطراز المعروض في الموقع.,DEFECT,0,0,0,1,0,0,0,0,0,0
+E06,gulf,الأسبوع اللي فات دفعت حق عقد ذهب في ريم للمجوهرات المحدودة. الإعلان يقول خصم 20% وطلع كذب.,AD,0,0,0,0,0,0,0,0,0,1
+E07,english,I ordered a phone online from al-itqan elec. est. They promised delivery in 3 days; it came after 21 days.,DELIVERY,0,0,0,0,0,0,1,0,0,0
+E08,mixed,شريت كنبة من مؤسسة أصاله للأثاث المحدودة online. صار فيه defect بعد 20 أيام. الـ warranty card معي ورفضوا الـ repair. قالوا no refund policy.,WARRANTY,1,1,1,0,1,1,0,0,0,0
+E09,msa,طلبت غسالة عبر الإنترنت من الرواد للأجهزة المنزلية. السعر على الرف 249 ريال لكن دفعت 299 ريال.,PRICE,0,0,0,0,0,0,0,0,1,0
+E10,gulf,طلبت حذاء رياضي من متجر الشروق للأزياء أونلاين. المقاس واللون غير عن اللي بالصورة. قالوا ما نرجع فلوس.,REFUND,1,1,0,1,0,0,0,0,0,0
+E11,english,I bought a car battery from AL-FARIS AUTO LLC. It arrived broken. They promised delivery in 3 days; it came after 17 days.,DEFECT,0,0,1,0,0,0,1,0,0,0
+E12,mixed,شريت عقد ذهب من مؤسسة الياسمين للمجوهرات online. الـ order ما وصل أبداً. الـ ad قال free installation وبعدين charged.,DELIVERY,0,0,0,0,0,0,0,1,0,1

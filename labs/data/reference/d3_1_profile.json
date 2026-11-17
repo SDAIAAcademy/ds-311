@@ -1,0 +1,352 @@
+{
+ "complaints": {
+  "empty": {
+   "complaint_id": 0,
+   "received_date": 0,
+   "channel": 0,
+   "merchant_ref": 5937,
+   "merchant_name_raw": 0,
+   "product": 0,
+   "category_code": 0,
+   "amount_sar": 0,
+   "region_code": 414,
+   "status": 0,
+   "closed_date": 12153,
+   "customer_key": 0
+  },
+  "distinct": {
+   "complaint_id": 30240,
+   "received_date": 377,
+   "channel": 4,
+   "merchant_ref": 150,
+   "merchant_name_raw": 9566,
+   "product": 18,
+   "category_code": 13,
+   "amount_sar": 27120,
+   "region_code": 14,
+   "status": 3,
+   "closed_date": 404,
+   "customer_key": 15448
+  },
+  "min": {
+   "complaint_id": "C100001",
+   "received_date": "2025-09-01",
+   "channel": "app",
+   "merchant_ref": "M1001",
+   "merchant_name_raw": "AL AJMAH ELEC.",
+   "product": "a TV screen",
+   "category_code": "AD",
+   "amount_sar": "100.00",
+   "region_code": "R01",
+   "status": "closed",
+   "closed_date": "2025-08-29",
+   "customer_key": "0001972562f8"
+  },
+  "max": {
+   "complaint_id": "C300240",
+   "received_date": "2027-06-25",
+   "channel": "web",
+   "merchant_ref": "M1150",
+   "merchant_name_raw": "ياسمينلقطع غيار السيارات",
+   "product": "wiper blades",
+   "category_code": "warranty",
+   "amount_sar": "99902.00",
+   "region_code": "R99",
+   "status": "referred",
+   "closed_date": "2026-10-09",
+   "customer_key": "fff770163531"
+  },
+  "most_common": {
+   "complaint_id": "C102966",
+   "received_date": "2025-11-29",
+   "channel": "app",
+   "merchant_ref": "M1134",
+   "merchant_name_raw": "الكرم للمجوهرات",
+   "product": "a wardrobe",
+   "category_code": "REFUND",
+   "amount_sar": "128.49",
+   "region_code": "R09",
+   "status": "closed",
+   "closed_date": "2026-08-30",
+   "customer_key": "18f37bb6d359"
+  },
+  "min_num": {
+   "complaint_id": null,
+   "received_date": null,
+   "channel": null,
+   "merchant_ref": null,
+   "merchant_name_raw": null,
+   "product": null,
+   "category_code": null,
+   "amount_sar": 59.41,
+   "region_code": null,
+   "status": null,
+   "closed_date": null,
+   "customer_key": 7805661812.0
+  },
+  "max_num": {
+   "complaint_id": null,
+   "received_date": null,
+   "channel": null,
+   "merchant_ref": null,
+   "merchant_name_raw": null,
+   "product": null,
+   "category_code": null,
+   "amount_sar": 694783.0,
+   "region_code": null,
+   "status": null,
+   "closed_date": null,
+   "customer_key": null
+  }
+ },
+ "merchants": {
+  "empty": {
+   "merchant_id": 0,
+   "name_ar": 0,
+   "name_en": 0,
+   "cr_number": 0,
+   "sector": 0,
+   "region_code": 0
+  },
+  "distinct": {
+   "merchant_id": 153,
+   "name_ar": 150,
+   "name_en": 150,
+   "cr_number": 150,
+   "sector": 6,
+   "region_code": 13
+  },
+  "min": {
+   "merchant_id": "M1001",
+   "name_ar": "الأصالة لقطع غيار السيارات",
+   "name_en": "Al-Amal Auto Parts",
+   "cr_number": "1010115100",
+   "sector": "Auto Parts",
+   "region_code": "R01"
+  },
+  "max": {
+   "merchant_id": "M1153",
+   "name_ar": "الياسمين للمجوهرات",
+   "name_en": "Al-Yasmin Jewellery",
+   "cr_number": "1010993271",
+   "sector": "Jewellery",
+   "region_code": "R13"
+  },
+  "most_common": {
+   "merchant_id": "M1049",
+   "name_ar": "المسار للإلكترونيات",
+   "name_en": "Al-Najma Furniture",
+   "cr_number": "1010337902",
+   "sector": "Furniture",
+   "region_code": "R07"
+  },
+  "min_num": {
+   "merchant_id": null,
+   "name_ar": null,
+   "name_en": null,
+   "cr_number": 1010115100.0,
+   "sector": null,
+   "region_code": null
+  },
+  "max_num": {
+   "merchant_id": null,
+   "name_ar": null,
+   "name_en": null,
+   "cr_number": 1010993271.0,
+   "sector": null,
+   "region_code": null
+  }
+ },
+ "regions": {
+  "empty": {
+   "region_code": 0,
+   "name_en": 0,
+   "name_ar": 0,
+   "population": 0,
+   "version": 0
+  },
+  "distinct": {
+   "region_code": 13,
+   "name_en": 13,
+   "name_ar": 13,
+   "population": 13,
+   "version": 1
+  },
+  "min": {
+   "region_code": "R01",
+   "name_en": "Region 01",
+   "name_ar": "المنطقة 01",
+   "population": "1356000",
+   "version": "2026.1"
+  },
+  "max": {
+   "region_code": "R13",
+   "name_en": "Region 13",
+   "name_ar": "المنطقة 13",
+   "population": "875000",
+   "version": "2026.1"
+  },
+  "most_common": {
+   "region_code": "R10",
+   "name_en": "Region 01",
+   "name_ar": "المنطقة 03",
+   "population": "620000",
+   "version": "2026.1"
+  },
+  "min_num": {
+   "region_code": null,
+   "name_en": null,
+   "name_ar": null,
+   "population": 562000.0,
+   "version": 2026.1
+  },
+  "max_num": {
+   "region_code": null,
+   "name_en": null,
+   "name_ar": null,
+   "population": 3393000.0,
+   "version": 2026.1
+  }
+ },
+ "actions": {
+  "empty": {
+   "action_id": 0,
+   "complaint_id": 0,
+   "action_type": 0,
+   "action_date": 0,
+   "officer_id": 0,
+   "refund_sar": 24136
+  },
+  "distinct": {
+   "action_id": 30148,
+   "complaint_id": 22676,
+   "action_type": 4,
+   "action_date": 394,
+   "officer_id": 38,
+   "refund_sar": 5592
+  },
+  "min": {
+   "action_id": "A500001",
+   "complaint_id": "C100001",
+   "action_type": "closed_no_action",
+   "action_date": "2025-09-02",
+   "officer_id": "O11",
+   "refund_sar": "100.00"
+  },
+  "max": {
+   "action_id": "A900150",
+   "complaint_id": "C799819",
+   "action_type": "warning",
+   "action_date": "2026-09-30",
+   "officer_id": "O48",
+   "refund_sar": "999.81"
+  },
+  "most_common": {
+   "action_id": "A500019",
+   "complaint_id": "C100025",
+   "action_type": "warning",
+   "action_date": "2026-07-03",
+   "officer_id": "O15",
+   "refund_sar": "921.57"
+  },
+  "min_num": {
+   "action_id": null,
+   "complaint_id": null,
+   "action_type": null,
+   "action_date": null,
+   "officer_id": null,
+   "refund_sar": 59.41
+  },
+  "max_num": {
+   "action_id": null,
+   "complaint_id": null,
+   "action_type": null,
+   "action_date": null,
+   "officer_id": null,
+   "refund_sar": 6994.61
+  }
+ },
+ "proposed": [
+  {
+   "rule": "One row per complaint id",
+   "dimension": "uniqueness",
+   "table": "complaints",
+   "attributes": "complaint_id",
+   "owner": "Abdulelah Al-Batal",
+   "threshold": "0.5%",
+   "reason": "duplicates inflate the rate"
+  },
+  {
+   "rule": "Every complaint has a known region",
+   "dimension": "completeness",
+   "table": "complaints",
+   "attributes": "region_code",
+   "owner": "Hatoon Al-Furaih",
+   "threshold": "3%",
+   "reason": "the rate is published by region"
+  },
+  {
+   "rule": "Region code is in the regions table",
+   "dimension": "validity",
+   "table": "complaints",
+   "attributes": "region_code",
+   "owner": "Hatoon Al-Furaih",
+   "threshold": "3%",
+   "reason": "unknown regions drop out of the rate"
+  },
+  {
+   "rule": "Category code is one of the six",
+   "dimension": "validity",
+   "table": "complaints",
+   "attributes": "category_code",
+   "owner": "Khulood Bin Saedan",
+   "threshold": "1%",
+   "reason": "the guideline has six codes"
+  },
+  {
+   "rule": "Closed on or after received",
+   "dimension": "consistency",
+   "table": "complaints",
+   "attributes": "received_date, closed_date",
+   "owner": "Abdulelah Al-Batal",
+   "threshold": "0.5%",
+   "reason": "days to close must not be negative"
+  },
+  {
+   "rule": "No amount above SAR 50,000; monthly median stable by channel",
+   "dimension": "accuracy",
+   "table": "complaints",
+   "attributes": "amount_sar",
+   "owner": "Hatoon Al-Furaih",
+   "threshold": "0.1%",
+   "reason": "a unit error changes every amount figure"
+  },
+  {
+   "rule": "No complaint after the extract date",
+   "dimension": "validity",
+   "table": "complaints",
+   "attributes": "received_date",
+   "owner": "Abdulelah Al-Batal",
+   "threshold": "0.1%",
+   "reason": "future dates are entry errors"
+  },
+  {
+   "rule": "Every action belongs to a complaint",
+   "dimension": "consistency",
+   "table": "actions",
+   "attributes": "complaint_id",
+   "owner": "Abdulelah Al-Batal",
+   "threshold": "1%",
+   "reason": "orphan actions distort closure counts"
+  },
+  {
+   "rule": "Newest complaint within ten days of the extract",
+   "dimension": "timeliness",
+   "table": "complaints",
+   "attributes": "received_date",
+   "owner": "Hatoon Al-Furaih",
+   "threshold": "0",
+   "reason": "a stale extract understates the month"
+  }
+ ]
+}

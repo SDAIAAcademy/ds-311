@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-ax="deck" data-track="data-science">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Day 1 · Labels are measurements · Data Quality, Labelling and Pipelines for Analysis</title>
+<meta name="generator" content="SDAIA Academy engine 1.0.0">
+<link rel="icon" href="../_engine/icon.svg">
+<link rel="alternate" type="text/markdown" href="day1.md">
+<link rel="describedby" href="../llms.txt">
+<link rel="stylesheet" href="../_engine/academy.css">
+</head>
+<body>
+<div class="deck" data-course="Data Quality, Labelling and Pipelines for Analysis" data-track="data-science" data-day="Day 1">
+<!-- ======================= OPENING ======================= -->
+<section class="slide title" id="title" data-auto="title" data-label="Welcome" data-n="1">
+  <div class="kicker">SDAIA Academy · Data Quality, Labelling and Pipelines for Analysis</div>
+  <h1>Labels are measurements</h1>
+  <p class="lead mt">Day 1: Write, pilot and measure a labelling guideline</p>
+  <div class="meta"><span class="track">Data Science Track</span><span>4 teaching days + capstone day</span><span>4 sessions · 4 labs</span><span>DS-311</span></div>
+  <aside class="notes"><p>Welcome the room. Ask two questions by show of hands: who has used a labelled dataset they did not label, and who has seen a published figure change after a data refresh. Both answers frame the week. This is a 300-level course: DS-202 (quality dimensions, matching, a quality report) and FN-102 (git, lock files, CI) are prerequisites, so Day 1 spends its time on labels as measurement, not on pandas.</p></aside>
+</section>
+
+<section class="slide" data-label="The week" id="four-days-one-table" data-n="2">
+  <div class="kicker">The course at a glance</div>
+  <h2>Four days build the table an analysis depends on</h2>
+  <div class="cols cols-4 gap-s">
+    <div class="card c-teal"><h4>Day 1 · Labels</h4><p class="small mb0">A guideline, a pilot, agreement, adjudication and a revision.</p></div>
+    <div class="card c-cyan"><h4>Day 2 · Operations</h4><p class="small mb0">A golden set, gold checks, review queues, drift and cost.</p></div>
+    <div class="card c-coral"><h4>Day 3 · Rules</h4><p class="small mb0">Profiles, severity rules, merchant matching and a contract.</p></div>
+    <div class="card c-purple"><h4>Day 4 · Pipelines</h4><p class="small mb0">Steps, gates, lineage, a changed figure and a datasheet.</p></div>
+  </div>
+  <div class="callout tip mt"><b>Day 5 · Capstone.</b> A labelled, quality-gated table for a second case, in a public repository, reviewed live while the assessor seeds a defect.</div>
+  <aside class="notes"><p>One sentence per day. The capstone rubric has five criteria: guideline and agreement 25, rules and contract 25, pipeline 25, incident handling 15, reproducibility 10. Each day builds one or two of them; say so now so participants keep their lab outputs.</p></aside>
+</section>
+
+<section class="slide" data-label="How we work" id="measure-then-decide" data-n="3">
+  <div class="kicker">How this course works</div>
+  <h2>Every claim about the data is measured before it is trusted</h2>
+  <div class="cols cols-3 gap-s">
+    <div class="card c-navy"><h4>Labels are measurements</h4><p class="small mb0">They have a construct, an instrument and an error, like any other measurement.</p></div>
+    <div class="card c-teal"><h4>Rules have owners</h4><p class="small mb0">A threshold is a business decision someone signs, not a default in a library.</p></div>
+    <div class="card c-coral"><h4>Runs leave evidence</h4><p class="small mb0">Run logs and lineage answer "why did this number change" without guessing.</p></div>
+  </div>
+  <div class="callout warn small mt"><b>AI policy.</b> AI off for the supervised check and for the first lab of Day 1 and Day 3. In the other labs an assistant may explain an error but not write the guideline or the rules. In the capstone anything goes, and model pre-labels are always checked by a person.</div>
+  <aside class="notes"><p>Say the AI policy and why: Lab 1.1 needs your own disagreements as evidence, and Lab 3.1 needs you to read a profile without help, which is what the supervised check and the live review ask. The policy comes from the catalog entry, not from the trainer.</p></aside>
+</section>
+
+<section class="slide" data-label="Case study" id="bayyin-office" data-n="4">
+  <div class="kicker">One case study all week</div>
+  <h2>Bayyin Consumer Protection Office and its complaints</h2>
+  <p class="lead">A fictional regulator with 30,000 synthetic complaints in Arabic and English. Its analysts publish a monthly complaint rate per 100,000 residents by region.</p>
+  <div class="cols cols-4 gap-s mt-s">
+    <div class="card c-teal flat"><h4>Hatoon Al-Furaih</h4><p class="small mb0">Head of market monitoring. Owns the monthly rate.</p></div>
+    <div class="card c-cyan flat"><h4>Khulood Bin Saedan</h4><p class="small mb0">Labelling lead and adjudicator.</p></div>
+    <div class="card c-coral flat"><h4>Abdulelah Al-Batal</h4><p class="small mb0">Data engineer. Owns the preparation pipeline.</p></div>
+    <div class="card c-purple flat"><h4>Rihab Al-Mudaimeegh</h4><p class="small mb0">Data protection officer.</p></div>
+  </div>
+  <aside class="notes"><p>Everything is synthetic and generated with a fixed seed (labs/prepare_data.py, seed 311). You play the complaints data analyst. The six raters are R1 to R6; on Day 2 the masked pre-labelling step is called Fahis. Planted problems wait in the data all week; do not reveal them. The capstone moves to a second case, Al-Ghadaf Municipality's maintenance requests.</p></aside>
+</section>
+
+<section class="slide" data-label="The data" id="what-the-data-holds" data-n="5">
+  <div class="kicker">What you will work with</div>
+  <h2>Four kinds of data, one seed</h2>
+  <table class="t small">
+    <tr><th>Data</th><th>Size</th><th>Used on</th></tr>
+    <tr><td>Complaint texts in MSA, Gulf dialect, English and mixed</td><td class="num">30,000</td><td>Days 1 and 2</td></tr>
+    <tr><td>Pilot labels: three raters, two rounds</td><td class="num">300 x 3 x 2</td><td>Day 1</td></tr>
+    <tr><td>An operations round: six raters over ten days</td><td class="num">2,986 labels</td><td>Day 2</td></tr>
+    <tr><td>Four source tables with seeded defects</td><td class="num">30,300 rows</td><td>Days 3 and 4</td></tr>
+    <tr><td>Two pipeline runs with lineage records</td><td class="num">2 runs</td><td>Day 4</td></tr>
+  </table>
+  <p class="small mt-s">About 18% of the texts carry planted personal data (phone numbers, e-mail addresses, ID numbers, IBANs). It is masked before any model call on Day 2.</p>
+  <aside class="notes"><p>Numbers come from labs/data/reference/summary.json, written by the generator. The personal data is invented but realistic in form, which is the point: masking on Day 2 has to catch it, including phone numbers written in Arabic-Indic digits.</p></aside>
+</section>
+
+<section class="slide" data-label="Setup" id="setup-check" data-n="6">
+  <div class="kicker">Lab environment</div>
+  <h2>Clone, sync, run the setup check</h2>
+  <div class="cols cols-2">
+    <ol class="bullets">
+      <li>Every lab starts from a <b>supplied reference state</b>: a file in <code>labs/data/</code>. No lab needs an earlier one.</li>
+      <li>Run <code>00_setup_check.ipynb</code> once. It imports every package and reads one file of each kind.</li>
+      <li>One lab on Day 2 calls a free hosted model. Without a key it runs on a scripted stand-in.</li>
+    </ol>
+    <pre class="code s" data-file="terminal (local option)"><code class="language-bash">git <span class="hljs-built_in">clone</span> https://github.com/SDAIAAcademy/ds-311
+<span class="hljs-built_in">cd</span> ds-311/labs
+uv <span class="hljs-built_in">sync</span>
+uv run jupyter lab</code></pre>
+  </div>
+  <aside class="notes"><p>In Colab the first cell of every notebook clones the repository and installs requirements-colab.txt. On Windows with a long folder path, set UV_PROJECT_ENVIRONMENT to a short folder before uv sync. Nothing in this course downloads a model; everything runs on a laptop processor.</p></aside>
+</section>
+
+<section class="slide" id="agenda" data-auto="agenda" data-label="Agenda" data-n="7">
+  <div class="kicker">Today</div>
+  <h2>Labels are measurements</h2>
+  <div class="agenda"><div class="item"><div><b>Session 1 · What a label measures</b><small>A label is a measurement of a construct, and disagreement shows where the construct is unclear</small></div></div><div class="item"><div><b>Session 2 · Writing a guideline</b><small>Definitions, ordered decision rules, edge cases and the rules for raters' wellbeing, written as a versioned document</small></div></div><div class="item"><div><b>Session 3 · Agreement statistics</b><small>Percent agreement, Cohen's kappa and Krippendorff's alpha, by category, rater and language, with intervals</small></div></div><div class="item"><div><b>Session 4 · Adjudication and revision</b><small>Disagreements decided against the guideline with a reason, and a revision that the next round measures</small></div></div></div>
+</section>
+
+<!-- ======================= SESSION 1 ======================= -->
+<section class="slide section" id="s1" data-auto="section" data-session="1" data-n="8">
+  <div class="kicker">Session 1</div>
+  <h1>What a label measures</h1>
+  <ul class="bullets outcomes"><li>Explain a label as a measurement with a construct, a scale and an error</li><li>Label complaints without a guideline and measure raw agreement with two neighbours</li><li>Name the category pairs where people disagree and why</li></ul>
+  <div class="sess-no">01</div>
+</section>
+
+<section class="slide" data-label="A label" id="label-is-a-measurement" data-lo="LO1" data-n="9" data-session="1">
+  <div class="kicker">What a label is</div>
+  <h2>A label is a measurement, with a construct and an error</h2>
+  <div class="cols cols-3 gap-s">
+    <div class="card c-teal"><h4>Construct</h4><p class="small mb0">What the label is meant to capture: "what the merchant refused", not "what went wrong".</p></div>
+    <div class="card c-cyan"><h4>Instrument</h4><p class="small mb0">A person reading text under a guideline. Change the guideline and you change the instrument.</p></div>
+    <div class="card c-coral"><h4>Error</h4><p class="small mb0">Two people reading the same complaint give different labels. That spread is measurable.</p></div>
+  </div>
+  <div class="callout tip mt"><b>So.</b> A complaint rate by category is only as reliable as the labels under it. The analyst who publishes it owns that reliability.</div>
+  <aside class="notes"><p>Draw the parallel with a thermometer: a construct (temperature), an instrument, and an error you can estimate by measuring twice. Labels work the same way, and almost nobody measures them twice. That is what Day 1 does.</p></aside>
+</section>
+
+<section class="slide" data-label="Who uses labels" id="labels-feed-decisions" data-lo="LO1" data-n="10" data-session="1">
+  <div class="kicker">Why it matters at Bayyin</div>
+  <h2>Labels become figures, and figures become enforcement</h2>
+  <div class="flow">
+    <div class="step c-navy"><b>1 · Complaint</b>free text, any dialect</div>
+    <div class="arrow">→</div>
+    <div class="step c-teal"><b>2 · Label</b>one of six categories</div>
+    <div class="arrow">→</div>
+    <div class="step c-cyan"><b>3 · Figure</b>rate by category, region, merchant</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>4 · Action</b>inspection, warning, public notice</div>
+  </div>
+  <p class="small mt">If raters split REFUND and DEFECT differently from month to month, a rise in refund refusals can be a change of raters, not of merchants.</p>
+  <aside class="notes"><p>Ask the room for a decision at their own organisation that rests on labels someone else made. Common answers: ticket categories, survey codes, document types. The question to keep: would two of your colleagues label it the same way?</p></aside>
+</section>
+
+<section class="slide" data-label="Six categories" id="six-categories" data-lo="LO1" data-n="11" data-session="1">
+  <div class="kicker">The label schema</div>
+  <h2>Six categories, and the overlaps already visible</h2>
+  <table class="t small">
+    <tr><th>Code</th><th>Short name</th><th>Overlaps with</th></tr>
+    <tr><td><b>REFUND</b></td><td>refund refused</td><td>DEFECT, DELIVERY</td></tr>
+    <tr><td><b>DEFECT</b></td><td>defective or not as described</td><td>REFUND, WARRANTY</td></tr>
+    <tr><td><b>DELIVERY</b></td><td>late or missing delivery</td><td>REFUND</td></tr>
+    <tr><td><b>PRICE</b></td><td>charged more than displayed</td><td>AD</td></tr>
+    <tr><td><b>AD</b></td><td>misleading advert or offer</td><td>PRICE</td></tr>
+    <tr><td><b>WARRANTY</b></td><td>warranty or repair refused</td><td>DEFECT</td></tr>
+  </table>
+  <aside class="notes"><p>Do not explain how to resolve the overlaps yet: that is Session 2. Point out that WARRANTY is rare (about 2.5% of complaints in the corpus), which will matter for agreement and for the golden set on Day 2.</p></aside>
+</section>
+
+<section class="slide" data-label="One complaint" id="one-complaint-two-labels" data-lo="LO1" data-n="12" data-session="1">
+  <div class="kicker">The same text, two honest readings</div>
+  <h2>A broken product and a refused refund: which is it?</h2>
+  <div class="cols cols-2">
+    <div class="chat">
+      <div class="msg user"><span class="who">Complaint C103462, Gulf dialect</span><span class="ar">شريت خزانة من الفارس للأثاث المحدودة. خرب بعد 5 أيام. طلبت فلوسي ورفضوا.</span></div>
+    </div>
+    <div class="stack">
+      <div class="card c-teal flat"><h4>Rater who says DEFECT</h4><p class="small mb0">Measured "what is wrong with the product".</p></div>
+      <div class="card c-coral flat"><h4>Rater who says REFUND</h4><p class="small mb0">Measured "what did the merchant refuse".</p></div>
+    </div>
+  </div>
+  <div class="callout note small mt"><b>Neither rater is careless.</b> The schema has not said which question the label answers.</div>
+  <aside class="notes"><p>Read the complaint aloud and translate: "I bought a wardrobe from Al-Faris Furniture Ltd. It broke after 5 days. I asked for my money and they refused." This is pilot item C103462: in round 1, R1 and R2 said DEFECT and R3 said REFUND. Guideline v1.1 says REFUND, so the majority was wrong; Session 4 comes back to it.</p></aside>
+</section>
+
+<section class="slide" data-label="Disagreement is data" id="disagreement-is-signal" data-lo="LO1" data-n="13" data-session="1">
+  <div class="kicker">What to do with a split</div>
+  <h2>Disagreement shows where the construct is unclear</h2>
+  <ul class="bullets">
+    <li><b>Random</b> disagreement: tiredness, a misread word. It spreads over every pair of categories.</li>
+    <li><b>Systematic</b> disagreement: two readings of the schema. It piles up on one pair, such as DEFECT and REFUND.</li>
+    <li>Systematic splits are fixed by the <b>guideline</b>; random ones by training, workload and checks.</li>
+    <li>Some items are genuinely ambiguous: record them as edge cases rather than forcing a vote.</li>
+  </ul>
+  <aside class="notes"><p>This distinction organises the whole day. Session 2 attacks systematic splits with a guideline, Session 3 measures how much is left, Session 4 adjudicates and revises. Day 2 handles the random kind with gold questions and workload limits.</p></aside>
+</section>
+
+<section class="slide" data-label="Our splits" id="forty-complaint-splits" data-lo="LO1" data-n="14" data-session="1">
+  <div class="kicker">The example colleague in Lab 1.1</div>
+  <h2>On 40 complaints, three people agreed on 26</h2>
+  <div class="cols cols-2">
+    <div class="bars">
+      <div class="row"><span>DEFECT and REFUND</span><div class="bar c-coral" style="--w:100%"></div><span class="val">6</span></div>
+      <div class="row"><span>AD and PRICE</span><div class="bar c-coral" style="--w:100%"></div><span class="val">6</span></div>
+      <div class="row"><span>DEFECT and DELIVERY</span><div class="bar c-amber" style="--w:67%"></div><span class="val">4</span></div>
+      <div class="row"><span>DELIVERY and REFUND</span><div class="bar c-amber" style="--w:67%"></div><span class="val">4</span></div>
+      <div class="row"><span>AD and DELIVERY</span><div class="bar c-teal" style="--w:33%"></div><span class="val">2</span></div>
+    </div>
+    <div class="stack">
+      <div class="stat"><div class="big">0.68 to 0.85</div><div class="lbl">pairwise percent agreement</div></div>
+      <p class="small">Pairs of people who disagreed, counted by the two categories they gave.</p>
+    </div>
+  </div>
+  <aside class="notes"><p>These are the numbers from the solution run of Lab 1.1, where the supplied example colleague stands in for a participant. The room's own numbers will differ; collect two or three on the board after the lab and compare the top pair. It is almost always DEFECT and REFUND, or AD and PRICE.</p></aside>
+</section>
+
+<section class="slide" data-label="Annotation tools" id="annotation-tools" data-lo="LO1" data-n="15" data-session="1">
+  <div class="kicker">Where labelling happens</div>
+  <h2>The tool records labels; it does not define them</h2>
+  <div class="cols cols-3 gap-s">
+    <div class="card c-teal"><h4>Annotation platforms</h4><p class="small mb0">Label Studio, Argilla: queues, several raters per item, export with rater ids.</p></div>
+    <div class="card c-cyan"><h4>A locked spreadsheet</h4><p class="small mb0">Validation lists for the codes, protected columns, one sheet per rater.</p></div>
+    <div class="card c-coral"><h4>What all need</h4><p class="small mb0">Rater id, item id, guideline version and time spent on every label.</p></div>
+  </div>
+  <p class="small mt">This week's labs use files with those four fields, so every number can be recomputed on a laptop.</p>
+  <aside class="notes"><p>Tool names are examples, not endorsements; check versions before a cohort (Label Studio and Argilla both released new versions in 2026). Whatever the tool, insist on the export carrying the guideline version: without it, round 1 and round 2 cannot be compared.</p></aside>
+</section>
+
+<section class="slide" id="checkpoint-1" data-lo="LO1" data-n="16" data-session="1">
+  <div class="kicker">Checkpoint</div>
+  <h2>What does a pile of splits on one pair tell you?</h2>
+  <div class="quiz" data-type="single" data-lo="LO1" data-id="checkpoint-1-q1">
+    <p class="lead">In a pilot, 70% of all disagreements fall on DEFECT against REFUND, and the rest spread thinly. What is the most likely cause?</p>
+    <div class="opts">
+      <div class="opt" data-ok data-k="A">The schema does not say which question the label answers</div>
+      <div class="opt" data-why="Treats a systematic pattern as random error: tiredness would spread over every pair" data-k="B">The raters were tired and misread the texts</div>
+      <div class="opt" data-why="Blames the instrument's users when the instrument itself is ambiguous" data-k="C">One rater needs retraining on the six codes</div>
+      <div class="opt" data-why="Confuses the size of a sample with the pattern inside it" data-k="D">The pilot is too small to show anything</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Random error spreads over many pairs. A pile on one pair is two readings of the schema, which a guideline rule fixes.</div>
+  </div>
+  <aside class="notes"><p>Answer: A. If many choose C, ask whether one rater could produce 70% of all splits on one pair while the other two agree with each other: check the pattern by rater before blaming one.</p></aside>
+</section>
+
+<section class="slide lab top" id="lab-1-1" data-auto="lab" data-lab="1.1" data-label="Lab 1.1" data-n="17" data-session="1">
+  <div class="cols cols-2 mid"><div><div class="lab-tag">Lab 1.1 · 25 min</div><h2>Label 40 complaints, then compare</h2><p class="lead small">Label 40 complaints with only the six category names (AI-off), compare with two neighbours' labels, and find the category pairs and complaints that split you.</p><a class="nb" href="../labs/D1_1_label_40_complaints.ipynb">D1_1_label_40_complaints.ipynb</a></div><ul class="checklist"><li>Label 40 complaints with only the six category names <span class="min">12 min</span></li><li>Load two neighbours' labels <span class="min">3 min</span></li><li>Percent agreement and the pairs that split you <span class="min">5 min</span></li><li>Three disagreements: what each of you measured <span class="min">5 min</span></li><li class="stretch">✱ Stretch: Agreement by language variety: Arabic, Gulf dialect, English, mixed</li></ul></div>
+  <aside class="notes"><p>AI off. Give 12 minutes of silent labelling; then pairs swap files (neighbour_a.csv, neighbour_b.csv in artifacts/d1_1) or use the supplied ones. Watch for people who look up "the right answer": there is none yet, which is the point. Early finishers do the stretch by variety.</p></aside>
+</section>
+
+<!-- ======================= SESSION 2 ======================= -->
+<section class="slide section" id="s2" data-auto="section" data-session="2" data-n="18">
+  <div class="kicker">Session 2</div>
+  <h1>Writing a guideline</h1>
+  <ul class="bullets outcomes"><li>Write a definition with includes and excludes for each category</li><li>Order decision rules so that every overlap resolves to one label</li><li>Record edge cases, dialect notes and the limits on distressing content</li></ul>
+  <div class="sess-no">02</div>
+</section>
+
+<section class="slide" data-label="Guideline parts" id="guideline-parts" data-lo="LO1" data-n="19" data-session="2">
+  <div class="kicker">What a labelling guideline holds</div>
+  <h2>A guideline is the instrument, written down</h2>
+  <div class="cols cols-3 gap-s">
+    <div class="card c-teal"><h4>Definitions</h4><p class="small mb0">What each label measures, with includes and excludes.</p></div>
+    <div class="card c-cyan"><h4>Decision rules</h4><p class="small mb0">An order that resolves every overlap to one label.</p></div>
+    <div class="card c-coral"><h4>Edge cases</h4><p class="small mb0">Decided examples raters can match against.</p></div>
+    <div class="card c-purple"><h4>Language notes</h4><p class="small mb0">Dialect words and code-switching that signal a fact.</p></div>
+    <div class="card c-amber"><h4>Wellbeing</h4><p class="small mb0">Who labels distressing content, and for how long.</p></div>
+    <div class="card c-navy"><h4>Version and change log</h4><p class="small mb0">Every label records the version it was made under.</p></div>
+  </div>
+  <aside class="notes"><p>Lab 1.2 writes all six parts as data, renders them to Markdown and lints them. Ask the room which part their own organisation's coding instructions usually lack: it is almost always the decision rules and the change log.</p></aside>
+</section>
+
+<section class="slide" data-label="Definitions" id="definition-with-excludes" data-lo="LO1" data-n="20" data-session="2">
+  <div class="kicker">Writing a definition</div>
+  <h2>An exclude names where the case goes instead</h2>
+  <table class="t small">
+    <tr><th>Part</th><th>DEFECT in guideline v1.0</th></tr>
+    <tr><td><b>Definition</b></td><td>The product is faulty, damaged or not as described, and no refund or warranty repair was refused.</td></tr>
+    <tr><td><b>Includes</b></td><td>arrived broken; a different model from the listing</td></tr>
+    <tr><td><b>Excludes</b></td><td>a refund asked and refused: <b>REFUND</b>; a warranty repair refused: <b>WARRANTY</b></td></tr>
+  </table>
+  <div class="callout warn small mt"><b>What goes wrong.</b> "Excludes: other issues" leaves the rater to guess. The lab's lint fails an exclude that does not name another code.</div>
+  <aside class="notes"><p>The definition itself carries the decision: "and no refund or warranty repair was refused". Show how the excludes make the definition testable. Lint rules in the lab: at least eight words of definition, one include, one exclude that names another category.</p></aside>
+</section>
+
+<section class="slide" data-label="Rule order" id="decision-rules-in-order" data-lo="LO1" data-n="21" data-session="2">
+  <div class="kicker">Resolving overlaps</div>
+  <h2>The first rule that applies decides</h2>
+  <ol class="bullets tight">
+    <li>A repair refused under warranty is <b>WARRANTY</b>, whatever else the complaint says.</li>
+    <li>A refund asked for and refused is <b>REFUND</b>, even when the product was faulty or never arrived.</li>
+    <li>A faulty, damaged or not-as-described product is <b>DEFECT</b>.</li>
+    <li>A late or missing delivery is <b>DELIVERY</b>.</li>
+    <li>A charge above the displayed price is <b>PRICE</b>, even when an advert was involved.</li>
+    <li>An advert or offer not honoured, at the displayed price, is <b>AD</b>.</li>
+  </ol>
+  <aside class="notes"><p>This order states the construct: the label measures the merchant's act the consumer is complaining about, from the most specific remedy (warranty) to the most general claim (advert). Another office could choose another order; what matters is that there is one and that it is written down.</p></aside>
+</section>
+
+<section class="slide" data-label="Rules as code" id="rules-as-code" data-lo="LO1" data-n="22" data-session="2">
+  <div class="kicker">Lab 1.2</div>
+  <h2>Write the rules as code, and test them like code</h2>
+  <div class="cols cols-2">
+    <pre class="code s" data-file="decide(f)"><code class="language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">decide</span>(<span class="hljs-params">f</span>):
+    <span class="hljs-keyword">if</span> f[<span class="hljs-string">&quot;within_warranty&quot;</span>] <span class="hljs-keyword">and</span> f[<span class="hljs-string">&quot;repair_refused&quot;</span>]:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;WARRANTY&quot;</span>
+    <span class="hljs-keyword">if</span> f[<span class="hljs-string">&quot;asked_refund&quot;</span>] <span class="hljs-keyword">and</span> f[<span class="hljs-string">&quot;refund_refused&quot;</span>]:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;REFUND&quot;</span>
+    <span class="hljs-keyword">if</span> f[<span class="hljs-string">&quot;faulty&quot;</span>] <span class="hljs-keyword">or</span> f[<span class="hljs-string">&quot;not_as_described&quot;</span>]:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;DEFECT&quot;</span>
+    ...</code></pre>
+    <div class="stack">
+      <div class="card c-teal flat"><h4>Facts, not words</h4><p class="small mb0">Ten yes-or-no facts a reader takes from the text, in any language.</p></div>
+      <div class="card c-coral flat"><h4>A test set</h4><p class="small mb0">Twelve edge cases Khulood already decided. All twelve must pass.</p></div>
+    </div>
+  </div>
+  <aside class="notes"><p>Separating reading (facts) from deciding (rules) is what makes adjudication in Session 4 fast: an adjudicator who agrees on the facts must agree on the label. Edge case E08 (warranty repair refused and refund refused) is the one participants most often get wrong when they put the refund rule first.</p></aside>
+</section>
+
+<section class="slide" data-label="Dialects" id="dialect-and-code-switching" data-lo="LO1" data-n="23" data-session="2">
+  <div class="kicker">Language notes</div>
+  <h2>The same fact, written four ways</h2>
+  <table class="t small">
+    <tr><th>Variety</th><th>"I asked for a refund and they refused"</th></tr>
+    <tr><td>MSA</td><td class="ar">طلبت استرداد المبلغ فرفضوا.</td></tr>
+    <tr><td>Gulf dialect</td><td class="ar">طلبت فلوسي ورفضوا.</td></tr>
+    <tr><td>Mixed</td><td class="ar">طلبت refund ورفضوا.</td></tr>
+    <tr><td>English</td><td>I asked for a refund and they refused.</td></tr>
+  </table>
+  <p class="small mt-s">About 28% of Bayyin's complaints are in Gulf dialect and 6% mix Arabic and English. A guideline written only for MSA leaves a third of the corpus to guesswork.</p>
+  <aside class="notes"><p>Shares from the generator's summary (labs/data/reference/summary.json). The language notes in the guideline list signal words per variety. Raters who do not read a dialect well should say so; the workflow on Day 2 can route by variety.</p></aside>
+</section>
+
+<section class="slide" data-label="Wellbeing" id="distressing-content-rule" data-lo="LO1" data-n="24" data-session="2">
+  <div class="kicker">Responsible labelling</div>
+  <h2>The guideline says who labels distressing content, and for how long</h2>
+  <div class="cols cols-2">
+    <ul class="bullets">
+      <li>About 3% of complaints describe threats or abuse by a merchant's staff.</li>
+      <li>Only raters who opted in and were briefed label them.</li>
+      <li>A daily limit, 60 minutes at Bayyin, and a break after every 20.</li>
+      <li>A risk to someone's safety goes to the duty officer the same day.</li>
+    </ul>
+    <div class="card c-purple"><h4>Why in the guideline</h4><p class="small mb0">A limit nobody wrote down cannot be enforced or checked. On Day 2 you check it from the workload log.</p></div>
+  </div>
+  <aside class="notes"><p>The 60-minute limit is Bayyin's choice in this case, not a standard; say so. The catalog entry asks that the guideline record who may label distressing content and for how long. Lab 2.3 finds a rater who went past it on one day.</p></aside>
+</section>
+
+<section class="slide" data-label="Versions" id="guideline-versions" data-lo="LO1" data-n="25" data-session="2">
+  <div class="kicker">A guideline changes</div>
+  <h2>Every label carries the guideline version it was made under</h2>
+  <div class="flow">
+    <div class="step c-navy"><b>v0.1</b>category names only: pilot round 1</div>
+    <div class="arrow">→</div>
+    <div class="step c-teal"><b>v1.0</b>definitions, rules, edge cases: Lab 1.2</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>v1.1</b>revised from adjudication: Lab 1.4, pilot round 2</div>
+  </div>
+  <div class="callout tip mt"><b>Rule of thumb.</b> A change that alters what a label means needs a new version; old labels are re-checked or flagged, never silently mixed.</div>
+  <aside class="notes"><p>Version numbers make before-and-after comparisons possible: round 1 against round 2 in Session 4, and on Day 4 the datasheet states which version the prepared table's labels used.</p></aside>
+</section>
+
+<section class="slide" id="checkpoint-2" data-lo="LO1" data-n="26" data-session="2">
+  <div class="kicker">Checkpoint</div>
+  <h2>Which rule decides this complaint?</h2>
+  <div class="quiz" data-type="single" data-lo="LO1" data-id="checkpoint-2-q1">
+    <p class="lead">"The washing machine is still under warranty. The service centre refused to repair it, and the shop also refused my refund." Under guideline v1.0, which label?</p>
+    <div class="opts">
+      <div class="opt" data-why="Applies the rules in the order the facts appear in the text, not the guideline's order" data-k="A">REFUND, because the refund refusal is the last fact stated</div>
+      <div class="opt" data-why="Labels the product's state, the construct the guideline chose not to measure" data-k="B">DEFECT, because the machine is faulty</div>
+      <div class="opt" data-ok data-k="C">WARRANTY, because rule 1 applies first</div>
+      <div class="opt" data-why="Thinks two applicable rules mean the case is outside the schema" data-k="D">None: it must go to adjudication</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> The rules are applied in order and the first that applies decides: a repair refused under warranty is WARRANTY whatever else the complaint says.</div>
+  </div>
+  <aside class="notes"><p>Answer: C. This is edge case E08 of the lab. Option D is a good instinct for genuinely new cases, but here the guideline already decides; adjudication is for cases the rules do not settle or raters misread.</p></aside>
+</section>
+
+<section class="slide lab top" id="lab-1-2" data-auto="lab" data-lab="1.2" data-label="Lab 1.2" data-n="27" data-session="2">
+  <div class="cols cols-2 mid"><div><div class="lab-tag">Lab 1.2 · 25 min</div><h2>Guideline v1.0 for six categories</h2><p class="lead small">Write guideline v1.0 as data, render it to Markdown, lint it for missing parts, and test its decision rules on twelve edge cases.</p><a class="nb" href="../labs/D1_2_write_definitions_rules.ipynb">D1_2_write_definitions_rules.ipynb</a></div><ul class="checklist"><li>Definitions with includes and excludes <span class="min">7 min</span></li><li>Decision rules in order <span class="min">6 min</span></li><li>Edge cases and language notes <span class="min">5 min</span></li><li>Who labels distressing content, and for how long <span class="min">2 min</span></li><li>Test the rules on twelve edge cases <span class="min">5 min</span></li><li class="stretch">✱ Stretch: One Gulf-dialect and one code-switched example per category</li></ul></div>
+  <aside class="notes"><p>The usual failure: the refund rule placed before the warranty rule, which fails E08. The second: excludes that do not name another code, caught by the lint. An assistant may explain a failing test, but the definitions must be the participant's own. Anyone without Lab 1.1's file still has the supplied edge cases.</p></aside>
+</section>
+
+<!-- ======================= SESSION 3 ======================= -->
+<section class="slide section" id="s3" data-auto="section" data-session="3" data-n="28">
+  <div class="kicker">Session 3</div>
+  <h1>Agreement statistics</h1>
+  <ul class="bullets outcomes"><li>Compute kappa for each pair of raters and explain the chance correction</li><li>Compute Krippendorff's alpha from a coincidence matrix</li><li>Report agreement by category and language with bootstrap intervals</li></ul>
+  <div class="sess-no">03</div>
+</section>
+
+<section class="slide" data-label="Percent agreement" id="percent-agreement-flatters" data-lo="LO2" data-n="29" data-session="3">
+  <div class="kicker">The first number everyone computes</div>
+  <h2>Percent agreement counts luck as skill</h2>
+  <div class="cols cols-3">
+    <div class="stat"><div class="big">0.54</div><div class="lbl">all three raters agree, round 1</div></div>
+    <div class="stat"><div class="big">0.65 to 0.70</div><div class="lbl">agreement of each pair</div></div>
+    <div class="stat"><div class="big">0.20</div><div class="lbl">pair agreement expected by chance</div></div>
+  </div>
+  <p class="small mt">Chance agreement for two raters is the sum over categories of p<sub>a</sub>(c) x p<sub>b</sub>(c): how often they would match if each labelled at random with their own frequencies.</p>
+  <aside class="notes"><p>Numbers from the solution run of Lab 1.3 on the 300 pilot complaints, round 1. With six categories of similar size, chance is low (0.20). With one dominant category it can be 0.8 or more, and a high percent agreement means almost nothing. That is the next slide.</p></aside>
+</section>
+
+<section class="slide" data-label="Skewed labels" id="prevalence-paradox" data-lo="LO2" data-n="30" data-session="3">
+  <div class="kicker">Why chance correction matters</div>
+  <h2>With a dominant category, 90% agreement can be worth nothing</h2>
+  <table class="t small">
+    <tr><th></th><th class="num">Rater A says "yes" 90%</th><th class="num">Rater B says "yes" 90%</th></tr>
+    <tr><td>Agreement by chance</td><td class="num" colspan="2">0.9 x 0.9 + 0.1 x 0.1 = 0.82</td></tr>
+    <tr><td>Observed agreement</td><td class="num" colspan="2">0.90</td></tr>
+    <tr class="hl"><td>Kappa</td><td class="num" colspan="2">(0.90 - 0.82) / (1 - 0.82) = 0.44</td></tr>
+  </table>
+  <div class="callout warn small mt"><b>What goes wrong.</b> A rare category such as WARRANTY looks reliable on percent agreement because both raters almost always say "no".</div>
+  <aside class="notes"><p>Worked arithmetic, not a lab number. The opposite effect also exists (the kappa paradoxes: high agreement with low kappa when prevalence is skewed); Artstein and Poesio's survey discusses both. The fix is to report the chance-corrected figure and the prevalence together.</p><p>Sources: Artstein and Poesio, Inter-Coder Agreement for Computational Linguistics (2008).</p></aside>
+</section>
+
+<section class="slide" data-label="Kappa" id="cohen-kappa" data-lo="LO2" data-n="31" data-session="3">
+  <div class="kicker">Two raters</div>
+  <h2>Kappa: the share of possible agreement above chance</h2>
+  <div class="cols cols-2">
+    <pre class="code s" data-file="Lab 1.3"><code class="language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">kappa</span>(<span class="hljs-params">a, b</span>):
+    po = mean(x == y <span class="hljs-keyword">for</span> x, y <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(a, b))
+    pe = chance_agreement(a, b)
+    <span class="hljs-keyword">return</span> (po - pe) / (<span class="hljs-number">1</span> - pe)</code></pre>
+    <div class="bars">
+      <div class="row"><span>R1 and R2</span><div class="bar c-teal" style="--w:60%"></div><span class="val">0.601</span></div>
+      <div class="row"><span>R1 and R3</span><div class="bar c-teal" style="--w:62%"></div><span class="val">0.619</span></div>
+      <div class="row"><span>R2 and R3</span><div class="bar c-teal" style="--w:56%"></div><span class="val">0.564</span></div>
+    </div>
+  </div>
+  <p class="small mt-s">Cohen's kappa compares exactly two raters, each labelling every item. Three raters give three kappas.</p>
+  <aside class="notes"><p>Values from the Lab 1.3 solution run, round 1. Kappa of 0.6 is often called "moderate" or "substantial" in published scales; avoid the adjectives and report the number with an interval and the decision it supports.</p></aside>
+</section>
+
+<section class="slide" data-label="Alpha" id="krippendorff-alpha" data-lo="LO2" data-n="32" data-session="3">
+  <div class="kicker">Any number of raters, missing labels allowed</div>
+  <h2>Krippendorff's alpha compares observed with expected disagreement</h2>
+  <div class="cols cols-2">
+    <ol class="bullets tight">
+      <li>Each complaint with m labels adds 1/(m-1) to the cell of every ordered pair of its labels.</li>
+      <li>D<sub>o</sub>: the off-diagonal share of that coincidence matrix.</li>
+      <li>D<sub>e</sub>: the disagreement expected from the label totals alone.</li>
+      <li>alpha = 1 - D<sub>o</sub> / D<sub>e</sub></li>
+    </ol>
+    <div class="stack">
+      <div class="stat"><div class="big">0.594</div><div class="lbl">alpha, round 1, three raters, 300 complaints</div></div>
+      <div class="card c-teal flat"><p class="small mb0">A rater who skipped twenty complaints changes it only to 0.591: alpha uses whatever labels each item has.</p></div>
+    </div>
+  </div>
+  <aside class="notes"><p>Walk through the four steps on the matrix from the lab. Alpha for nominal data is close to Fleiss' kappa for complete data, and it handles missing labels and other scales (ordinal, interval) with a different distance. The stretch of Lab 1.3 shows the missing-label case.</p><p>Sources: Krippendorff, Computing Krippendorff's Alpha-Reliability.</p></aside>
+</section>
+
+<section class="slide" data-label="Coincidences" id="coincidence-matrix" data-lo="LO2" data-n="33" data-session="3">
+  <div class="kicker">Reading the matrix</div>
+  <h2>The off-diagonal cells name the pairs to fix</h2>
+  <table class="t small">
+    <tr><th>Largest off-diagonal pairs, round 1</th><th class="num">Weight</th><th>The guideline rule that should separate them</th></tr>
+    <tr><td>DEFECT and REFUND</td><td class="num">36.5</td><td>rule 2: a refused refund is REFUND</td></tr>
+    <tr><td>WARRANTY and DEFECT</td><td class="num">20.0</td><td>rule 1: warranty first</td></tr>
+    <tr><td>DELIVERY and REFUND</td><td class="num">19.5</td><td>rule 2: a refused refund is REFUND</td></tr>
+    <tr><td>PRICE and AD</td><td class="num">14.5</td><td>rule 5: compare the charge with the displayed price</td></tr>
+  </table>
+  <p class="small mt-s">Of 40 WARRANTY labels in round 1, the coincidences put 20 against DEFECT and only 8 on WARRANTY itself.</p>
+  <aside class="notes"><p>From the coincidence matrix printed in Lab 1.3 (one off-diagonal cell each; the matrix is symmetric). Ask participants to find their own top pairs in it and compare with the splits of Lab 1.1.</p></aside>
+</section>
+
+<section class="slide" data-label="By category" id="alpha-by-category" data-lo="LO2" data-n="34" data-session="3">
+  <div class="kicker">Lab 1.3, by category, with 95% intervals</div>
+  <h2>One category is barely above chance</h2>
+  <table class="t small">
+    <tr><th>Category</th><th class="num">Labels</th><th class="num">Alpha</th><th class="num">Interval</th></tr>
+    <tr><td>DELIVERY</td><td class="num">221</td><td class="num">0.736</td><td class="num">0.663 to 0.807</td></tr>
+    <tr><td>AD</td><td class="num">118</td><td class="num">0.678</td><td class="num">0.577 to 0.764</td></tr>
+    <tr><td>PRICE</td><td class="num">87</td><td class="num">0.593</td><td class="num">0.437 to 0.703</td></tr>
+    <tr><td>DEFECT</td><td class="num">241</td><td class="num">0.575</td><td class="num">0.473 to 0.653</td></tr>
+    <tr><td>REFUND</td><td class="num">193</td><td class="num">0.512</td><td class="num">0.422 to 0.589</td></tr>
+    <tr class="hl"><td>WARRANTY</td><td class="num">40</td><td class="num">0.164</td><td class="num">0.061 to 0.267</td></tr>
+  </table>
+  <aside class="notes"><p>Each category is a yes-or-no question ("is it this category?") with its own alpha; intervals come from 1,000 bootstrap resamples of complaints. Then the lab's "look at": R3 called DEFECT all 8 complaints that R1 and R2 both called WARRANTY. That is one rater with a different reading, and it shows only when you look by rater.</p></aside>
+</section>
+
+<section class="slide" data-label="By variety" id="alpha-by-variety" data-lo="LO2" data-n="35" data-session="3">
+  <div class="kicker">Lab 1.3, by language variety</div>
+  <h2>Agreement is lowest where the language is least standard</h2>
+  <div class="bars">
+    <div class="row"><span>English (55)</span><div class="bar c-teal" style="--w:67%"></div><span class="val">0.674</span></div>
+    <div class="row"><span>MSA (136)</span><div class="bar c-teal" style="--w:67%"></div><span class="val">0.669</span></div>
+    <div class="row"><span>Gulf dialect (94)</span><div class="bar c-amber" style="--w:47%"></div><span class="val">0.470</span></div>
+    <div class="row"><span>Mixed (15)</span><div class="bar c-coral" style="--w:34%"></div><span class="val">0.340</span></div>
+  </div>
+  <div class="callout warn small mt"><b>Fifteen mixed complaints give an interval from 0.11 to 0.54.</b> Report it, and say it is too wide to rank.</div>
+  <aside class="notes"><p>Agreement by language and dialect is a requirement of the entry's responsible-use line: complainants who write in dialect should not get less reliable labels without anyone knowing. The datasheet on Day 4 carries the round-2 version of this table.</p></aside>
+</section>
+
+<section class="slide" data-label="Report it" id="agreement-report" data-lo="LO2" data-n="36" data-session="3">
+  <div class="kicker">What the agreement report says</div>
+  <h2>Report the number, its interval, and where it is weak</h2>
+  <ul class="bullets">
+    <li>Overall alpha with a bootstrap interval over items.</li>
+    <li>Alpha by category, with the number of labels each rests on.</li>
+    <li>Alpha by rater pair or with each rater left out, to find one reader who differs.</li>
+    <li>Alpha by language variety.</li>
+    <li>The guideline version, the raters and the sample it was measured on.</li>
+  </ul>
+  <aside class="notes"><p>There is no universal threshold. Krippendorff suggests relying on data with alpha of 0.8 or more and drawing tentative conclusions from 0.667 upwards; Bayyin's labelling lead sets her own threshold per use, which is the defensible practice. Avoid quoting a threshold without its source.</p><p>Sources: Krippendorff, Computing Krippendorff's Alpha-Reliability.</p></aside>
+</section>
+
+<section class="slide" id="checkpoint-3" data-lo="LO2" data-n="37" data-session="3">
+  <div class="kicker">Checkpoint</div>
+  <h2>Which agreement figure do you trust?</h2>
+  <div class="quiz" data-type="single" data-lo="LO2" data-id="checkpoint-3-q1">
+    <p class="lead">Two raters label whether a complaint is WARRANTY. They agree on 96% of 300 complaints; each says WARRANTY about 3% of the time. What is the best next step?</p>
+    <div class="opts">
+      <div class="opt" data-why="Takes raw agreement at face value when one answer dominates" data-k="A">Accept: 96% agreement is excellent</div>
+      <div class="opt" data-ok data-k="B">Compute a chance-corrected figure and count the WARRANTY labels it rests on</div>
+      <div class="opt" data-why="Assumes more raters fixes a measure that is misleading by construction" data-k="C">Add a third rater and recompute percent agreement</div>
+      <div class="opt" data-why="Drops the rare category instead of measuring it, losing the cases analysts need" data-k="D">Merge WARRANTY into DEFECT to raise agreement</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> When both say "no" 97% of the time, chance agreement is about 94%; only a chance-corrected figure on enough WARRANTY labels shows whether they agree on the rare cases.</div>
+  </div>
+  <aside class="notes"><p>Answer: B. Chance agreement here is 0.97 x 0.97 + 0.03 x 0.03, about 0.94. Option D is tempting and sometimes right, but it is a decision about the construct, made with Hatoon who uses the WARRANTY figure, not a way to improve a statistic.</p></aside>
+</section>
+
+<section class="slide lab top" id="lab-1-3" data-auto="lab" data-lab="1.3" data-label="Lab 1.3" data-n="38" data-session="3">
+  <div class="cols cols-2 mid"><div><div class="lab-tag">Lab 1.3 · 25 min</div><h2>Kappa and alpha on the pilot</h2><p class="lead small">Compute percent agreement, kappa by pair and Krippendorff's alpha on 300 pilot complaints labelled by three raters, by category and language variety, with bootstrap intervals.</p><a class="nb" href="../labs/D1_3_compute_kappa_alpha.ipynb">D1_3_compute_kappa_alpha.ipynb</a></div><ul class="checklist"><li>Percent agreement, and why it flatters <span class="min">4 min</span></li><li>Cohen's kappa for each pair of raters <span class="min">6 min</span></li><li>Krippendorff's alpha from the coincidence matrix <span class="min">7 min</span></li><li>By category and by variety, with intervals <span class="min">8 min</span></li><li class="stretch">✱ Stretch: Alpha when one rater skipped twenty complaints</li></ul></div>
+  <aside class="notes"><p>Common errors: computing D<sub>e</sub> from the matrix diagonal instead of the row totals; forgetting the 1/(m-1) weight. The reference functions in bayyin.py let participants check their own. Quick mode uses 200 bootstrap resamples instead of 1,000; intervals move in the second decimal.</p></aside>
+</section>
+
+<!-- ======================= SESSION 4 ======================= -->
+<section class="slide section" id="s4" data-auto="section" data-session="4" data-n="39">
+  <div class="kicker">Session 4</div>
+  <h1>Adjudication and revision</h1>
+  <ul class="bullets outcomes"><li>Adjudicate disagreements with a decision and a reason code</li><li>Tie every guideline revision to a measured disagreement in a change log</li><li>Measure whether the revision raised agreement in the next round</li></ul>
+  <div class="sess-no">04</div>
+</section>
+
+<section class="slide" data-label="Majority vote" id="majority-is-not-adjudication" data-lo="LO2" data-n="40" data-session="4">
+  <div class="kicker">Three labels, one decision</div>
+  <h2>A majority of three can be wrong in the same way</h2>
+  <div class="cols cols-2">
+    <div class="stat"><div class="big">8 of 28</div><div class="lbl">majorities in the 30 disagreements that the adjudicator overturned</div></div>
+    <ul class="bullets">
+      <li>Two raters who share a misreading outvote the one who read the rule.</li>
+      <li>A vote has no reason attached, so it teaches the guideline nothing.</li>
+      <li>Adjudication applies the guideline, and records why.</li>
+    </ul>
+  </div>
+  <aside class="notes"><p>From the stretch of Lab 1.4: 28 of the 30 disagreements had a two-against-one majority, and 8 of those majorities were not the adjudicated label. Majority vote is fine for random noise; it fails for systematic misreadings, which is exactly what a pilot surfaces.</p></aside>
+</section>
+
+<section class="slide" data-label="Adjudication" id="adjudication-methods" data-lo="LO2" data-n="41" data-session="4">
+  <div class="kicker">Ways to decide</div>
+  <h2>Choose the adjudication method by the kind of disagreement</h2>
+  <table class="t small">
+    <tr><th>Method</th><th>Good for</th><th>Risk</th></tr>
+    <tr><td>Majority vote</td><td>random slips, many raters</td><td>shared misreadings win</td></tr>
+    <tr><td>Expert adjudicator</td><td>systematic splits, a pilot</td><td>one person's reading becomes the rule</td></tr>
+    <tr><td>Discussion to consensus</td><td>new edge cases</td><td>the loudest voice wins</td></tr>
+    <tr><td>Keep the disagreement</td><td>genuinely ambiguous items</td><td>analysts must handle soft labels</td></tr>
+  </table>
+  <aside class="notes"><p>Bayyin uses an expert adjudicator, Khulood, with reason codes, and keeps a list of genuinely ambiguous items as edge cases. Mention that statistical models of annotators (Dawid and Skene style) estimate rater accuracy without gold; they are out of scope here but worth knowing.</p></aside>
+</section>
+
+<section class="slide" data-label="Reason codes" id="reason-codes" data-lo="LO1 LO2" data-n="42" data-session="4">
+  <div class="kicker">Lab 1.4</div>
+  <h2>Every decision gets a reason code</h2>
+  <div class="cols cols-3 gap-s">
+    <div class="card c-teal"><h4>RULE_ORDER</h4><p class="small mb0">Two categories applied; the order decided. The rule may need an example.</p></div>
+    <div class="card c-cyan"><h4>MISREAD</h4><p class="small mb0">A rater missed a fact, often in dialect or mixed text. The language notes may need a line.</p></div>
+    <div class="card c-coral"><h4>DEFINITION</h4><p class="small mb0">The definition did not cover the case. The guideline must change.</p></div>
+  </div>
+  <p class="small mt">Counted over the 30 disagreements, the codes say which part of the guideline to revise.</p>
+  <aside class="notes"><p>Reason codes turn adjudication into evidence. In the solution run the counts were dominated by RULE_ORDER, then MISREAD, with a few DEFINITION cases around WARRANTY; the room's counts depend on their own adjudication function.</p></aside>
+</section>
+
+<section class="slide" data-label="Adjudicate" id="adjudicate-from-facts" data-lo="LO2" data-n="43" data-session="4">
+  <div class="kicker">One disagreement, decided</div>
+  <h2>Agree on the facts, and the rules give the label</h2>
+  <div class="trace s">
+    <div class="ev user"><b>complaint</b>C103462, Gulf dialect: the wardrobe broke after 5 days; "I asked for my money and they refused"</div>
+    <div class="ev model"><b>raters</b>R1 DEFECT · R2 DEFECT · R3 REFUND</div>
+    <div class="ev call"><b>facts</b><code>faulty=1 asked_refund=1 refund_refused=1</code></div>
+    <div class="ev result"><b>rule</b>rule 2 applies before rule 3</div>
+    <div class="ev final"><b>decision</b>REFUND · reason RULE_ORDER · the majority overturned</div>
+  </div>
+  <aside class="notes"><p>The complaint from Session 1. This row is in artifacts/d1_4/adjudicated30.csv of the solution run. The adjudicator reads the facts once; the decision follows from the rules. When two adjudicators disagree, they disagree about facts, which is a much shorter conversation.</p></aside>
+</section>
+
+<section class="slide" data-label="Change log" id="change-log-with-evidence" data-lo="LO1" data-n="44" data-session="4">
+  <div class="kicker">Guideline v1.1</div>
+  <h2>Each revision cites the disagreement that caused it</h2>
+  <table class="t small">
+    <tr><th>Change</th><th>Evidence from the 30</th></tr>
+    <tr><td>Rule 2 gets the example "broken and refund refused is REFUND"</td><td>DEFECT and REFUND split 5 times</td></tr>
+    <tr><td>DEFECT's excludes name WARRANTY first, with the Gulf wording</td><td>WARRANTY and DEFECT split 5 times; R3 said DEFECT 6 times</td></tr>
+    <tr><td>Rule 5: read the charge against the displayed price first</td><td>AD and PRICE split 3 times</td></tr>
+    <tr><td>Language notes: code-switched "refund", "no refund policy"</td><td>8 MISREAD decisions</td></tr>
+  </table>
+  <aside class="notes"><p>From the Lab 1.4 solution's change log. The lab's check fails any entry without a count. A change log like this is the evidence the entry asks for: a versioned guideline whose change log ties each revision to a measured disagreement.</p></aside>
+</section>
+
+<section class="slide" data-label="Round 2" id="round-two-agreement" data-lo="LO2" data-n="45" data-session="4">
+  <div class="kicker">Did the revision work?</div>
+  <h2>Round 2 under v1.1: alpha from 0.594 to 0.789</h2>
+  <table class="t small">
+    <tr><th>Alpha</th><th class="num">Round 1</th><th class="num">Round 2</th></tr>
+    <tr><td>All categories</td><td class="num">0.594</td><td class="num">0.789</td></tr>
+    <tr><td>WARRANTY</td><td class="num">0.164</td><td class="num">0.680</td></tr>
+    <tr><td>REFUND</td><td class="num">0.512</td><td class="num">0.791</td></tr>
+    <tr><td>Gulf dialect</td><td class="num">0.470</td><td class="num">0.782</td></tr>
+    <tr class="hl"><td>Mixed</td><td class="num">0.340</td><td class="num">0.743</td></tr>
+  </table>
+  <p class="small mt-s">Round 2 interval for all categories: 0.744 to 0.825. Mixed text stays the weakest variety.</p>
+  <aside class="notes"><p>From the Lab 1.4 solution run (agreement_r1_r2.csv). The rise is largest where the change log said it would be, which is the test of a good revision. Caution: in this synthetic case round 2 is simulated with the improvement built in; in real work the same raters labelling the same items a second time also remember them, so use fresh items where you can.</p></aside>
+</section>
+
+<section class="slide" id="checkpoint-4" data-lo="LO1 LO2" data-n="46" data-session="4">
+  <div class="kicker">Checkpoint</div>
+  <h2>Which change-log entry would you accept?</h2>
+  <div class="quiz" data-type="single" data-lo="LO1" data-id="checkpoint-4-q1">
+    <p class="lead">Khulood reviews four proposed entries for guideline v1.1. Which one meets the standard of this course?</p>
+    <div class="opts">
+      <div class="opt" data-why="Describes an intention with no measured disagreement behind it" data-k="A">"Definitions clarified throughout for consistency"</div>
+      <div class="opt" data-why="Cites evidence but changes nothing a rater can apply" data-k="B">"REFUND and DEFECT split 5 of 30: raters to take more care"</div>
+      <div class="opt" data-why="Changes the rule from opinion, with no count to test it against in round 2" data-k="C">"Rule 5 restated because AD seems clearer than PRICE"</div>
+      <div class="opt" data-ok data-k="D">"Rule 2 example added: broken and refund refused is REFUND (split 5 of 30)"</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> An acceptable entry changes something a rater applies and cites the measured disagreement, so round 2 can show whether it worked.</div>
+  </div>
+  <aside class="notes"><p>Answer: D. B is the most common wrong choice: it has a count but no change to the instrument. Asking raters to "take more care" fixes random error at best, and the split here was systematic.</p></aside>
+</section>
+
+<section class="slide lab top" id="lab-1-4" data-auto="lab" data-lab="1.4" data-label="Lab 1.4" data-n="47" data-session="4">
+  <div class="cols cols-2 mid"><div><div class="lab-tag">Lab 1.4 · 25 min</div><h2>Adjudicate 30, revise, measure again</h2><p class="lead small">Adjudicate 30 pilot disagreements with reason codes, revise the guideline to v1.1 with a change log tied to the counts, and compare alpha in round 1 and round 2.</p><a class="nb" href="../labs/D1_4_adjudicate_30_disagreements.ipynb">D1_4_adjudicate_30_disagreements.ipynb</a></div><ul class="checklist"><li>Sort the 30 disagreements by category pair <span class="min">5 min</span></li><li>Adjudicate: a decision and a reason code each <span class="min">8 min</span></li><li>Guideline v1.1: a change log tied to the counts <span class="min">7 min</span></li><li>Round 2: did agreement rise, and where <span class="min">5 min</span></li><li class="stretch">✱ Stretch: How often was the majority of three raters wrong?</li></ul></div>
+  <aside class="notes"><p>Lab 1.4 reads guideline v1.0 from Lab 1.2's output, or the reference copy in labs/data/reference when it is missing. The adjudication check compares with Khulood's decisions in data/reference/adjudicator_decisions.csv: a mismatch is usually a rule order mistake carried over from Lab 1.2.</p></aside>
+</section>
+
+<section class="slide" id="wrap-up" data-n="48" data-session="4">
+  <div class="kicker">Day 1 · wrap-up</div>
+  <h2>Three things to keep</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal"><h4>Labels are measurements</h4><p class="small mb0">A construct, an instrument and an error. Measure the error twice before trusting a figure.</p></div>
+    <div class="card c-coral"><h4>Correct for chance</h4><p class="small mb0">Report alpha with an interval, by category and by language, not percent agreement alone.</p></div>
+    <div class="card c-purple"><h4>Revise with evidence</h4><p class="small mb0">Adjudicate with reasons; tie each change to a count; measure again.</p></div>
+  </div>
+  <aside class="notes"><p>Ask each participant to name the one category pair they would watch in production. Tomorrow the guideline goes to a team of six raters, and the question changes from "is the guideline clear?" to "is each rater still applying it?"</p></aside>
+</section>
+
+<section class="slide dark" id="next" data-label="Next" data-n="49" data-session="4">
+  <div class="kicker">Next</div>
+  <h2>Day 2: Golden sets and labelling operations</h2>
+  <p class="lead">Keep guideline v1.1 and your agreement report. Tomorrow: a golden set, gold checks over six raters, a drifting rater, and the cost of each labelling design.</p>
+  <aside class="notes"><p>For Lab 2.4, participants who want a live model call create a free OpenRouter key tonight and put it in labs/.env as OPENROUTER_API_KEY. Without one, the lab runs on the scripted stand-in and says so.</p></aside>
+</section>
+</div>
+<script type="application/json" id="academy-data">{"v":1,"engine":"1.0.0","build":{"at":"2026-11-15T21:37:37Z","version":"2027.1.0","commit":"7240e93"},"course":{"id":"ds-311","code":"DS-311","title":"Data Quality, Labelling and Pipelines for Analysis","track":"data-science","lang":"en","dir":"ltr","url":"https://sdaiaacademy.github.io/ds-311/","repo":"SDAIAAcademy/ds-311","home":"../index.html"},"deck":{"id":"day1","kind":"day","day":1,"label":"Day 1","title":"Labels are measurements","prev":null,"next":"day2.html","md":"day1.md","alt":{}},"sessions":[{"n":1,"label":"Session 1","title":"What a label measures","slide":"s1","outcomes":["Explain a label as a measurement with a construct, a scale and an error","Label complaints without a guideline and measure raw agreement with two neighbours","Name the category pairs where people disagree and why"],"minutes":50,"lab":{"id":"1.1","title":"Label 40 complaints, then compare","minutes":25,"href":"../labs/D1_1_label_40_complaints.ipynb"}},{"n":2,"label":"Session 2","title":"Writing a guideline","slide":"s2","outcomes":["Write a definition with includes and excludes for each category","Order decision rules so that every overlap resolves to one label","Record edge cases, dialect notes and the limits on distressing content"],"minutes":50,"lab":{"id":"1.2","title":"Guideline v1.0 for six categories","minutes":25,"href":"../labs/D1_2_write_definitions_rules.ipynb"}},{"n":3,"label":"Session 3","title":"Agreement statistics","slide":"s3","outcomes":["Compute kappa for each pair of raters and explain the chance correction","Compute Krippendorff's alpha from a coincidence matrix","Report agreement by category and language with bootstrap intervals"],"minutes":50,"lab":{"id":"1.3","title":"Kappa and alpha on the pilot","minutes":25,"href":"../labs/D1_3_compute_kappa_alpha.ipynb"}},{"n":4,"label":"Session 4","title":"Adjudication and revision","slide":"s4","outcomes":["Adjudicate disagreements with a decision and a reason code","Tie every guideline revision to a measured disagreement in a change log","Measure whether the revision raised agreement in the next round"],"minutes":50,"lab":{"id":"1.4","title":"Adjudicate 30, revise, measure again","minutes":25,"href":"../labs/D1_4_adjudicate_30_disagreements.ipynb"}}],"slides":[{"id":"title","n":1,"title":"Labels are measurements","kind":"title","session":0,"hash":"f196085c","md":"#### [day1#title] Labels are measurements\n\n*SDAIA Academy · Data Quality, Labelling and Pipelines for Analysis*\n\nDay 1: Write, pilot and measure a labelling guideline\n\nData Science Track · 4 teaching days + capstone day · 4 sessions · 4 labs · DS-311","notes":"Welcome the room. Ask two questions by show of hands: who has used a labelled dataset they did not label, and who has seen a published figure change after a data refresh. Both answers frame the week. This is a 300-level course: DS-202 (quality dimensions, matching, a quality report) and FN-102 (git, lock files, CI) are prerequisites, so Day 1 spends its time on labels as measurement, not on pandas.","minutes":null,"lo":[]},{"id":"four-days-one-table","n":2,"title":"Four days build the table an analysis depends on","kind":"content","session":0,"hash":"d9960155","md":"#### [day1#four-days-one-table] Four days build the table an analysis depends on\n\n*The course at a glance*\n\n- **Day 1 · Labels.** A guideline, a pilot, agreement, adjudication and a revision.\n- **Day 2 · Operations.** A golden set, gold checks, review queues, drift and cost.\n- **Day 3 · Rules.** Profiles, severity rules, merchant matching and a contract.\n- **Day 4 · Pipelines.** Steps, gates, lineage, a changed figure and a datasheet.\n\n> **Day 5 · Capstone.** A labelled, quality-gated table for a second case, in a public repository, reviewed live while the assessor seeds a defect.","notes":"One sentence per day. The capstone rubric has five criteria: guideline and agreement 25, rules and contract 25, pipeline 25, incident handling 15, reproducibility 10. Each day builds one or two of them; say so now so participants keep their lab outputs.","minutes":null,"lo":[]},{"id":"measure-then-decide","n":3,"title":"Every claim about the data is measured before it is trusted","kind":"content","session":0,"hash":"e38e466b","md":"#### [day1#measure-then-decide] Every claim about the data is measured before it is trusted\n\n*How this course works*\n\n- **Labels are measurements.** They have a construct, an instrument and an error, like any other measurement.\n- **Rules have owners.** A threshold is a business decision someone signs, not a default in a library.\n- **Runs leave evidence.** Run logs and lineage answer \"why did this number change\" without guessing.\n\n> **AI policy.** AI off for the supervised check and for the first lab of Day 1 and Day 3. In the other labs an assistant may explain an error but not write the guideline or the rules. In the capstone anything goes, and model pre-labels are always checked by a person.","notes":"Say the AI policy and why: Lab 1.1 needs your own disagreements as evidence, and Lab 3.1 needs you to read a profile without help, which is what the supervised check and the live review ask. The policy comes from the catalog entry, not from the trainer.","minutes":null,"lo":[]},{"id":"bayyin-office","n":4,"title":"Bayyin Consumer Protection Office and its complaints","kind":"content","session":0,"hash":"e026851a","md":"#### [day1#bayyin-office] Bayyin Consumer Protection Office and its complaints\n\n*One case study all week*\n\nA fictional regulator with 30,000 synthetic complaints in Arabic and English. Its analysts publish a monthly complaint rate per 100,000 residents by region.\n\n- **Hatoon Al-Furaih.** Head of market monitoring. Owns the monthly rate.\n- **Khulood Bin Saedan.** Labelling lead and adjudicator.\n- **Abdulelah Al-Batal.** Data engineer. Owns the preparation pipeline.\n- **Rihab Al-Mudaimeegh.** Data protection officer.","notes":"Everything is synthetic and generated with a fixed seed (labs/prepare_data.py, seed 311). You play the complaints data analyst. The six raters are R1 to R6; on Day 2 the masked pre-labelling step is called Fahis. Planted problems wait in the data all week; do not reveal them. The capstone moves to a second case, Al-Ghadaf Municipality's maintenance requests.","minutes":null,"lo":[]},{"id":"what-the-data-holds","n":5,"title":"Four kinds of data, one seed","kind":"content","session":0,"hash":"985a7fe0","md":"#### [day1#what-the-data-holds] Four kinds of data, one seed\n\n*What you will work with*\n\n| Data | Size | Used on |\n| --- | --- | --- |\n| Complaint texts in MSA, Gulf dialect, English and mixed | 30,000 | Days 1 and 2 |\n| Pilot labels: three raters, two rounds | 300 x 3 x 2 | Day 1 |\n| An operations round: six raters over ten days | 2,986 labels | Day 2 |\n| Four source tables with seeded defects | 30,300 rows | Days 3 and 4 |\n| Two pipeline runs with lineage records | 2 runs | Day 4 |\n\nAbout 18% of the texts carry planted personal data (phone numbers, e-mail addresses, ID numbers, IBANs). It is masked before any model call on Day 2.","notes":"Numbers come from labs/data/reference/summary.json, written by the generator. The personal data is invented but realistic in form, which is the point: masking on Day 2 has to catch it, including phone numbers written in Arabic-Indic digits.","minutes":null,"lo":[]},{"id":"setup-check","n":6,"title":"Clone, sync, run the setup check","kind":"content","session":0,"hash":"a391cf7c","md":"#### [day1#setup-check] Clone, sync, run the setup check\n\n*Lab environment*\n\n1. Every lab starts from a **supplied reference state**: a file in `labs/data/`. No lab needs an earlier one.\n2. Run `00_setup_check.ipynb` once. It imports every package and reads one file of each kind.\n3. One lab on Day 2 calls a free hosted model. Without a key it runs on a scripted stand-in.\n\n```bash\n# file: terminal (local option)\ngit clone https://github.com/SDAIAAcademy/ds-311\ncd ds-311/labs\nuv sync\nuv run jupyter lab\n```","notes":"In Colab the first cell of every notebook clones the repository and installs requirements-colab.txt. On Windows with a long folder path, set UV_PROJECT_ENVIRONMENT to a short folder before uv sync. Nothing in this course downloads a model; everything runs on a laptop processor.","minutes":null,"lo":[]},{"id":"agenda","n":7,"title":"Labels are measurements","kind":"content","session":0,"hash":"90ff011e","md":"#### [day1#agenda] Labels are measurements\n\n*Today*\n\n- **Session 1 · What a label measures**: A label is a measurement of a construct, and disagreement shows where the construct is unclear\n- **Session 2 · Writing a guideline**: Definitions, ordered decision rules, edge cases and the rules for raters' wellbeing, written as a versioned document\n- **Session 3 · Agreement statistics**: Percent agreement, Cohen's kappa and Krippendorff's alpha, by category, rater and language, with intervals\n- **Session 4 · Adjudication and revision**: Disagreements decided against the guideline with a reason, and a revision that the next round measures","notes":"","minutes":null,"lo":[]},{"id":"s1","n":8,"title":"What a label measures","kind":"section","session":1,"hash":"38f03d9f","md":"#### [day1#s1] What a label measures\n\n*Session 1*\n\n- Explain a label as a measurement with a construct, a scale and an error\n- Label complaints without a guideline and measure raw agreement with two neighbours\n- Name the category pairs where people disagree and why","notes":"","minutes":null,"lo":["LO1"]},{"id":"label-is-a-measurement","n":9,"title":"A label is a measurement, with a construct and an error","kind":"content","session":1,"hash":"badac311","md":"#### [day1#label-is-a-measurement] A label is a measurement, with a construct and an error\n\n*What a label is*\n\n- **Construct.** What the label is meant to capture: \"what the merchant refused\", not \"what went wrong\".\n- **Instrument.** A person reading text under a guideline. Change the guideline and you change the instrument.\n- **Error.** Two people reading the same complaint give different labels. That spread is measurable.\n\n> **So.** A complaint rate by category is only as reliable as the labels under it. The analyst who publishes it owns that reliability.","notes":"Draw the parallel with a thermometer: a construct (temperature), an instrument, and an error you can estimate by measuring twice. Labels work the same way, and almost nobody measures them twice. That is what Day 1 does.","minutes":null,"lo":["LO1"]},{"id":"labels-feed-decisions","n":10,"title":"Labels become figures, and figures become enforcement","kind":"content","session":1,"hash":"ac70f39c","md":"#### [day1#labels-feed-decisions] Labels become figures, and figures become enforcement\n\n*Why it matters at Bayyin*\n\n1. **1 · Complaint** free text, any dialect\n2. **2 · Label** one of six categories\n3. **3 · Figure** rate by category, region, merchant\n4. **4 · Action** inspection, warning, public notice\n\nIf raters split REFUND and DEFECT differently from month to month, a rise in refund refusals can be a change of raters, not of merchants.","notes":"Ask the room for a decision at their own organisation that rests on labels someone else made. Common answers: ticket categories, survey codes, document types. The question to keep: would two of your colleagues label it the same way?","minutes":null,"lo":["LO1"]},{"id":"six-categories","n":11,"title":"Six categories, and the overlaps already visible","kind":"content","session":1,"hash":"b4255922","md":"#### [day1#six-categories] Six categories, and the overlaps already visible\n\n*The label schema*\n\n| Code | Short name | Overlaps with |\n| --- | --- | --- |\n| **REFUND** | refund refused | DEFECT, DELIVERY |\n| **DEFECT** | defective or not as described | REFUND, WARRANTY |\n| **DELIVERY** | late or missing delivery | REFUND |\n| **PRICE** | charged more than displayed | AD |\n| **AD** | misleading advert or offer | PRICE |\n| **WARRANTY** | warranty or repair refused | DEFECT |","notes":"Do not explain how to resolve the overlaps yet: that is Session 2. Point out that WARRANTY is rare (about 2.5% of complaints in the corpus), which will matter for agreement and for the golden set on Day 2.","minutes":null,"lo":["LO1"]},{"id":"one-complaint-two-labels","n":12,"title":"A broken product and a refused refund: which is it?","kind":"content","session":1,"hash":"e58efd19","md":"#### [day1#one-complaint-two-labels] A broken product and a refused refund: which is it?\n\n*The same text, two honest readings*\n\n**Complaint C103462, Gulf dialect:** شريت خزانة من الفارس للأثاث المحدودة. خرب بعد 5 أيام. طلبت فلوسي ورفضوا.\n\n- **Rater who says DEFECT.** Measured \"what is wrong with the product\".\n- **Rater who says REFUND.** Measured \"what did the merchant refuse\".\n\n> **Neither rater is careless.** The schema has not said which question the label answers.","notes":"Read the complaint aloud and translate: \"I bought a wardrobe from Al-Faris Furniture Ltd. It broke after 5 days. I asked for my money and they refused.\" This is pilot item C103462: in round 1, R1 and R2 said DEFECT and R3 said REFUND. Guideline v1.1 says REFUND, so the majority was wrong; Session 4 comes back to it.","minutes":null,"lo":["LO1"]},{"id":"disagreement-is-signal","n":13,"title":"Disagreement shows where the construct is unclear","kind":"content","session":1,"hash":"7aa034e6","md":"#### [day1#disagreement-is-signal] Disagreement shows where the construct is unclear\n\n*What to do with a split*\n\n- **Random** disagreement: tiredness, a misread word. It spreads over every pair of categories.\n- **Systematic** disagreement: two readings of the schema. It piles up on one pair, such as DEFECT and REFUND.\n- Systematic splits are fixed by the **guideline**; random ones by training, workload and checks.\n- Some items are genuinely ambiguous: record them as edge cases rather than forcing a vote.","notes":"This distinction organises the whole day. Session 2 attacks systematic splits with a guideline, Session 3 measures how much is left, Session 4 adjudicates and revises. Day 2 handles the random kind with gold questions and workload limits.","minutes":null,"lo":["LO1"]},{"id":"forty-complaint-splits","n":14,"title":"On 40 complaints, three people agreed on 26","kind":"content","session":1,"hash":"8f35fbfd","md":"#### [day1#forty-complaint-splits] On 40 complaints, three people agreed on 26\n\n*The example colleague in Lab 1.1*\n\n| Item | Value |\n| --- | --- |\n| DEFECT and REFUND | 6 |\n| AD and PRICE | 6 |\n| DEFECT and DELIVERY | 4 |\n| DELIVERY and REFUND | 4 |\n| AD and DELIVERY | 2 |\n\n**0.68 to 0.85** pairwise percent agreement\n\nPairs of people who disagreed, counted by the two categories they gave.","notes":"These are the numbers from the solution run of Lab 1.1, where the supplied example colleague stands in for a participant. The room's own numbers will differ; collect two or three on the board after the lab and compare the top pair. It is almost always DEFECT and REFUND, or AD and PRICE.","minutes":null,"lo":["LO1"]},{"id":"annotation-tools","n":15,"title":"The tool records labels; it does not define them","kind":"content","session":1,"hash":"75d6f3a9","md":"#### [day1#annotation-tools] The tool records labels; it does not define them\n\n*Where labelling happens*\n\n- **Annotation platforms.** Label Studio, Argilla: queues, several raters per item, export with rater ids.\n- **A locked spreadsheet.** Validation lists for the codes, protected columns, one sheet per rater.\n- **What all need.** Rater id, item id, guideline version and time spent on every label.\n\nThis week's labs use files with those four fields, so every number can be recomputed on a laptop.","notes":"Tool names are examples, not endorsements; check versions before a cohort (Label Studio and Argilla both released new versions in 2026). Whatever the tool, insist on the export carrying the guideline version: without it, round 1 and round 2 cannot be compared.","minutes":null,"lo":["LO1"]},{"id":"checkpoint-1","n":16,"title":"What does a pile of splits on one pair tell you?","kind":"quiz","session":1,"hash":"68d5982b","md":"#### [day1#checkpoint-1] What does a pile of splits on one pair tell you?\n\n*Checkpoint*\n\n**Question:** In a pilot, 70% of all disagreements fall on DEFECT against REFUND, and the rest spread thinly. What is the most likely cause?\n\n- A. The schema does not say which question the label answers\n- B. The raters were tired and misread the texts\n- C. One rater needs retraining on the six codes\n- D. The pilot is too small to show anything","notes":"Answer: A. If many choose C, ask whether one rater could produce 70% of all splits on one pair while the other two agree with each other: check the pattern by rater before blaming one.","minutes":null,"lo":["LO1"]},{"id":"lab-1-1","n":17,"title":"Label 40 complaints, then compare","kind":"lab","session":1,"hash":"15a0aafd","md":"#### [day1#lab-1-1] Label 40 complaints, then compare\n\nLab 1.1 · 25 min\n\nLabel 40 complaints with only the six category names (AI-off), compare with two neighbours' labels, and find the category pairs and complaints that split you.\n\n[D1_1_label_40_complaints.ipynb](https://sdaiaacademy.github.io/ds-311/labs/D1_1_label_40_complaints.ipynb)\n\n- [ ] Label 40 complaints with only the six category names (12 min)\n- [ ] Load two neighbours' labels (3 min)\n- [ ] Percent agreement and the pairs that split you (5 min)\n- [ ] Three disagreements: what each of you measured (5 min)\n- [ ] ✱ Stretch: Agreement by language variety: Arabic, Gulf dialect, English, mixed","notes":"AI off. Give 12 minutes of silent labelling; then pairs swap files (neighbour_a.csv, neighbour_b.csv in artifacts/d1_1) or use the supplied ones. Watch for people who look up \"the right answer\": there is none yet, which is the point. Early finishers do the stretch by variety.","minutes":null,"lo":[]},{"id":"s2","n":18,"title":"Writing a guideline","kind":"section","session":2,"hash":"fbf8f66f","md":"#### [day1#s2] Writing a guideline\n\n*Session 2*\n\n- Write a definition with includes and excludes for each category\n- Order decision rules so that every overlap resolves to one label\n- Record edge cases, dialect notes and the limits on distressing content","notes":"","minutes":null,"lo":["LO1"]},{"id":"guideline-parts","n":19,"title":"A guideline is the instrument, written down","kind":"content","session":2,"hash":"41ec5cdb","md":"#### [day1#guideline-parts] A guideline is the instrument, written down\n\n*What a labelling guideline holds*\n\n- **Definitions.** What each label measures, with includes and excludes.\n- **Decision rules.** An order that resolves every overlap to one label.\n- **Edge cases.** Decided examples raters can match against.\n- **Language notes.** Dialect words and code-switching that signal a fact.\n- **Wellbeing.** Who labels distressing content, and for how long.\n- **Version and change log.** Every label records the version it was made under.","notes":"Lab 1.2 writes all six parts as data, renders them to Markdown and lints them. Ask the room which part their own organisation's coding instructions usually lack: it is almost always the decision rules and the change log.","minutes":null,"lo":["LO1"]},{"id":"definition-with-excludes","n":20,"title":"An exclude names where the case goes instead","kind":"content","session":2,"hash":"f5ee3b33","md":"#### [day1#definition-with-excludes] An exclude names where the case goes instead\n\n*Writing a definition*\n\n| Part | DEFECT in guideline v1.0 |\n| --- | --- |\n| **Definition** | The product is faulty, damaged or not as described, and no refund or warranty repair was refused. |\n| **Includes** | arrived broken; a different model from the listing |\n| **Excludes** | a refund asked and refused: **REFUND**; a warranty repair refused: **WARRANTY** |\n\n> **What goes wrong.** \"Excludes: other issues\" leaves the rater to guess. The lab's lint fails an exclude that does not name another code.","notes":"The definition itself carries the decision: \"and no refund or warranty repair was refused\". Show how the excludes make the definition testable. Lint rules in the lab: at least eight words of definition, one include, one exclude that names another category.","minutes":null,"lo":["LO1"]},{"id":"decision-rules-in-order","n":21,"title":"The first rule that applies decides","kind":"content","session":2,"hash":"86987358","md":"#### [day1#decision-rules-in-order] The first rule that applies decides\n\n*Resolving overlaps*\n\n1. A repair refused under warranty is **WARRANTY**, whatever else the complaint says.\n2. A refund asked for and refused is **REFUND**, even when the product was faulty or never arrived.\n3. A faulty, damaged or not-as-described product is **DEFECT**.\n4. A late or missing delivery is **DELIVERY**.\n5. A charge above the displayed price is **PRICE**, even when an advert was involved.\n6. An advert or offer not honoured, at the displayed price, is **AD**.","notes":"This order states the construct: the label measures the merchant's act the consumer is complaining about, from the most specific remedy (warranty) to the most general claim (advert). Another office could choose another order; what matters is that there is one and that it is written down.","minutes":null,"lo":["LO1"]},{"id":"rules-as-code","n":22,"title":"Write the rules as code, and test them like code","kind":"content","session":2,"hash":"99dd2ad7","md":"#### [day1#rules-as-code] Write the rules as code, and test them like code\n\n*Lab 1.2*\n\n```python\n# file: decide(f)\ndef decide(f):\n    if f[\"within_warranty\"] and f[\"repair_refused\"]:\n        return \"WARRANTY\"\n    if f[\"asked_refund\"] and f[\"refund_refused\"]:\n        return \"REFUND\"\n    if f[\"faulty\"] or f[\"not_as_described\"]:\n        return \"DEFECT\"\n    ...\n```\n\n- **Facts, not words.** Ten yes-or-no facts a reader takes from the text, in any language.\n- **A test set.** Twelve edge cases Khulood already decided. All twelve must pass.","notes":"Separating reading (facts) from deciding (rules) is what makes adjudication in Session 4 fast: an adjudicator who agrees on the facts must agree on the label. Edge case E08 (warranty repair refused and refund refused) is the one participants most often get wrong when they put the refund rule first.","minutes":null,"lo":["LO1"]},{"id":"dialect-and-code-switching","n":23,"title":"The same fact, written four ways","kind":"content","session":2,"hash":"c3e0a7e3","md":"#### [day1#dialect-and-code-switching] The same fact, written four ways\n\n*Language notes*\n\n| Variety | \"I asked for a refund and they refused\" |\n| --- | --- |\n| MSA | طلبت استرداد المبلغ فرفضوا. |\n| Gulf dialect | طلبت فلوسي ورفضوا. |\n| Mixed | طلبت refund ورفضوا. |\n| English | I asked for a refund and they refused. |\n\nAbout 28% of Bayyin's complaints are in Gulf dialect and 6% mix Arabic and English. A guideline written only for MSA leaves a third of the corpus to guesswork.","notes":"Shares from the generator's summary (labs/data/reference/summary.json). The language notes in the guideline list signal words per variety. Raters who do not read a dialect well should say so; the workflow on Day 2 can route by variety.","minutes":null,"lo":["LO1"]},{"id":"distressing-content-rule","n":24,"title":"The guideline says who labels distressing content, and for how long","kind":"content","session":2,"hash":"c839947f","md":"#### [day1#distressing-content-rule] The guideline says who labels distressing content, and for how long\n\n*Responsible labelling*\n\n- About 3% of complaints describe threats or abuse by a merchant's staff.\n- Only raters who opted in and were briefed label them.\n- A daily limit, 60 minutes at Bayyin, and a break after every 20.\n- A risk to someone's safety goes to the duty officer the same day.\n\n- **Why in the guideline.** A limit nobody wrote down cannot be enforced or checked. On Day 2 you check it from the workload log.","notes":"The 60-minute limit is Bayyin's choice in this case, not a standard; say so. The catalog entry asks that the guideline record who may label distressing content and for how long. Lab 2.3 finds a rater who went past it on one day.","minutes":null,"lo":["LO1"]},{"id":"guideline-versions","n":25,"title":"Every label carries the guideline version it was made under","kind":"content","session":2,"hash":"9a7e6319","md":"#### [day1#guideline-versions] Every label carries the guideline version it was made under\n\n*A guideline changes*\n\n1. **v0.1** category names only: pilot round 1\n2. **v1.0** definitions, rules, edge cases: Lab 1.2\n3. **v1.1** revised from adjudication: Lab 1.4, pilot round 2\n\n> **Rule of thumb.** A change that alters what a label means needs a new version; old labels are re-checked or flagged, never silently mixed.","notes":"Version numbers make before-and-after comparisons possible: round 1 against round 2 in Session 4, and on Day 4 the datasheet states which version the prepared table's labels used.","minutes":null,"lo":["LO1"]},{"id":"checkpoint-2","n":26,"title":"Which rule decides this complaint?","kind":"quiz","session":2,"hash":"dfbd06d1","md":"#### [day1#checkpoint-2] Which rule decides this complaint?\n\n*Checkpoint*\n\n**Question:** \"The washing machine is still under warranty. The service centre refused to repair it, and the shop also refused my refund.\" Under guideline v1.0, which label?\n\n- A. REFUND, because the refund refusal is the last fact stated\n- B. DEFECT, because the machine is faulty\n- C. WARRANTY, because rule 1 applies first\n- D. None: it must go to adjudication","notes":"Answer: C. This is edge case E08 of the lab. Option D is a good instinct for genuinely new cases, but here the guideline already decides; adjudication is for cases the rules do not settle or raters misread.","minutes":null,"lo":["LO1"]},{"id":"lab-1-2","n":27,"title":"Guideline v1.0 for six categories","kind":"lab","session":2,"hash":"05bb7655","md":"#### [day1#lab-1-2] Guideline v1.0 for six categories\n\nLab 1.2 · 25 min\n\nWrite guideline v1.0 as data, render it to Markdown, lint it for missing parts, and test its decision rules on twelve edge cases.\n\n[D1_2_write_definitions_rules.ipynb](https://sdaiaacademy.github.io/ds-311/labs/D1_2_write_definitions_rules.ipynb)\n\n- [ ] Definitions with includes and excludes (7 min)\n- [ ] Decision rules in order (6 min)\n- [ ] Edge cases and language notes (5 min)\n- [ ] Who labels distressing content, and for how long (2 min)\n- [ ] Test the rules on twelve edge cases (5 min)\n- [ ] ✱ Stretch: One Gulf-dialect and one code-switched example per category","notes":"The usual failure: the refund rule placed before the warranty rule, which fails E08. The second: excludes that do not name another code, caught by the lint. An assistant may explain a failing test, but the definitions must be the participant's own. Anyone without Lab 1.1's file still has the supplied edge cases.","minutes":null,"lo":[]},{"id":"s3","n":28,"title":"Agreement statistics","kind":"section","session":3,"hash":"21c97fc6","md":"#### [day1#s3] Agreement statistics\n\n*Session 3*\n\n- Compute kappa for each pair of raters and explain the chance correction\n- Compute Krippendorff's alpha from a coincidence matrix\n- Report agreement by category and language with bootstrap intervals","notes":"","minutes":null,"lo":["LO2"]},{"id":"percent-agreement-flatters","n":29,"title":"Percent agreement counts luck as skill","kind":"content","session":3,"hash":"ee1e56be","md":"#### [day1#percent-agreement-flatters] Percent agreement counts luck as skill\n\n*The first number everyone computes*\n\n- **0.54** all three raters agree, round 1\n- **0.65 to 0.70** agreement of each pair\n- **0.20** pair agreement expected by chance\n\nChance agreement for two raters is the sum over categories of pa(c) x pb(c): how often they would match if each labelled at random with their own frequencies.","notes":"Numbers from the solution run of Lab 1.3 on the 300 pilot complaints, round 1. With six categories of similar size, chance is low (0.20). With one dominant category it can be 0.8 or more, and a high percent agreement means almost nothing. That is the next slide.","minutes":null,"lo":["LO2"]},{"id":"prevalence-paradox","n":30,"title":"With a dominant category, 90% agreement can be worth nothing","kind":"content","session":3,"hash":"12c5e56c","md":"#### [day1#prevalence-paradox] With a dominant category, 90% agreement can be worth nothing\n\n*Why chance correction matters*\n\n|  | Rater A says \"yes\" 90% | Rater B says \"yes\" 90% |\n| --- | --- | --- |\n| Agreement by chance | 0.9 x 0.9 + 0.1 x 0.1 = 0.82 |  |\n| Observed agreement | 0.90 |  |\n| Kappa | (0.90 - 0.82) / (1 - 0.82) = 0.44 |  |\n\n> **What goes wrong.** A rare category such as WARRANTY looks reliable on percent agreement because both raters almost always say \"no\".","notes":"Worked arithmetic, not a lab number. The opposite effect also exists (the kappa paradoxes: high agreement with low kappa when prevalence is skewed); Artstein and Poesio's survey discusses both. The fix is to report the chance-corrected figure and the prevalence together.\n\nSources: Artstein and Poesio, Inter-Coder Agreement for Computational Linguistics (2008).","minutes":null,"lo":["LO2"]},{"id":"cohen-kappa","n":31,"title":"Kappa: the share of possible agreement above chance","kind":"content","session":3,"hash":"36f18988","md":"#### [day1#cohen-kappa] Kappa: the share of possible agreement above chance\n\n*Two raters*\n\n```python\n# file: Lab 1.3\ndef kappa(a, b):\n    po = mean(x == y for x, y in zip(a, b))\n    pe = chance_agreement(a, b)\n    return (po - pe) / (1 - pe)\n```\n\n| Item | Value |\n| --- | --- |\n| R1 and R2 | 0.601 |\n| R1 and R3 | 0.619 |\n| R2 and R3 | 0.564 |\n\nCohen's kappa compares exactly two raters, each labelling every item. Three raters give three kappas.","notes":"Values from the Lab 1.3 solution run, round 1. Kappa of 0.6 is often called \"moderate\" or \"substantial\" in published scales; avoid the adjectives and report the number with an interval and the decision it supports.","minutes":null,"lo":["LO2"]},{"id":"krippendorff-alpha","n":32,"title":"Krippendorff's alpha compares observed with expected disagreement","kind":"content","session":3,"hash":"631d9964","md":"#### [day1#krippendorff-alpha] Krippendorff's alpha compares observed with expected disagreement\n\n*Any number of raters, missing labels allowed*\n\n1. Each complaint with m labels adds 1/(m-1) to the cell of every ordered pair of its labels.\n2. Do: the off-diagonal share of that coincidence matrix.\n3. De: the disagreement expected from the label totals alone.\n4. alpha = 1 - Do / De\n\n**0.594** alpha, round 1, three raters, 300 complaints\n\n- A rater who skipped twenty complaints changes it only to 0.591: alpha uses whatever labels each item has.","notes":"Walk through the four steps on the matrix from the lab. Alpha for nominal data is close to Fleiss' kappa for complete data, and it handles missing labels and other scales (ordinal, interval) with a different distance. The stretch of Lab 1.3 shows the missing-label case.\n\nSources: Krippendorff, Computing Krippendorff's Alpha-Reliability.","minutes":null,"lo":["LO2"]},{"id":"coincidence-matrix","n":33,"title":"The off-diagonal cells name the pairs to fix","kind":"content","session":3,"hash":"7a3bdbf6","md":"#### [day1#coincidence-matrix] The off-diagonal cells name the pairs to fix\n\n*Reading the matrix*\n\n| Largest off-diagonal pairs, round 1 | Weight | The guideline rule that should separate them |\n| --- | --- | --- |\n| DEFECT and REFUND | 36.5 | rule 2: a refused refund is REFUND |\n| WARRANTY and DEFECT | 20.0 | rule 1: warranty first |\n| DELIVERY and REFUND | 19.5 | rule 2: a refused refund is REFUND |\n| PRICE and AD | 14.5 | rule 5: compare the charge with the displayed price |\n\nOf 40 WARRANTY labels in round 1, the coincidences put 20 against DEFECT and only 8 on WARRANTY itself.","notes":"From the coincidence matrix printed in Lab 1.3 (one off-diagonal cell each; the matrix is symmetric). Ask participants to find their own top pairs in it and compare with the splits of Lab 1.1.","minutes":null,"lo":["LO2"]},{"id":"alpha-by-category","n":34,"title":"One category is barely above chance","kind":"content","session":3,"hash":"d9681a73","md":"#### [day1#alpha-by-category] One category is barely above chance\n\n*Lab 1.3, by category, with 95% intervals*\n\n| Category | Labels | Alpha | Interval |\n| --- | --- | --- | --- |\n| DELIVERY | 221 | 0.736 | 0.663 to 0.807 |\n| AD | 118 | 0.678 | 0.577 to 0.764 |\n| PRICE | 87 | 0.593 | 0.437 to 0.703 |\n| DEFECT | 241 | 0.575 | 0.473 to 0.653 |\n| REFUND | 193 | 0.512 | 0.422 to 0.589 |\n| WARRANTY | 40 | 0.164 | 0.061 to 0.267 |","notes":"Each category is a yes-or-no question (\"is it this category?\") with its own alpha; intervals come from 1,000 bootstrap resamples of complaints. Then the lab's \"look at\": R3 called DEFECT all 8 complaints that R1 and R2 both called WARRANTY. That is one rater with a different reading, and it shows only when you look by rater.","minutes":null,"lo":["LO2"]},{"id":"alpha-by-variety","n":35,"title":"Agreement is lowest where the language is least standard","kind":"content","session":3,"hash":"42a2fa97","md":"#### [day1#alpha-by-variety] Agreement is lowest where the language is least standard\n\n*Lab 1.3, by language variety*\n\n| Item | Value |\n| --- | --- |\n| English (55) | 0.674 |\n| MSA (136) | 0.669 |\n| Gulf dialect (94) | 0.470 |\n| Mixed (15) | 0.340 |\n\n> **Fifteen mixed complaints give an interval from 0.11 to 0.54.** Report it, and say it is too wide to rank.","notes":"Agreement by language and dialect is a requirement of the entry's responsible-use line: complainants who write in dialect should not get less reliable labels without anyone knowing. The datasheet on Day 4 carries the round-2 version of this table.","minutes":null,"lo":["LO2"]},{"id":"agreement-report","n":36,"title":"Report the number, its interval, and where it is weak","kind":"content","session":3,"hash":"57d0e3b6","md":"#### [day1#agreement-report] Report the number, its interval, and where it is weak\n\n*What the agreement report says*\n\n- Overall alpha with a bootstrap interval over items.\n- Alpha by category, with the number of labels each rests on.\n- Alpha by rater pair or with each rater left out, to find one reader who differs.\n- Alpha by language variety.\n- The guideline version, the raters and the sample it was measured on.","notes":"There is no universal threshold. Krippendorff suggests relying on data with alpha of 0.8 or more and drawing tentative conclusions from 0.667 upwards; Bayyin's labelling lead sets her own threshold per use, which is the defensible practice. Avoid quoting a threshold without its source.\n\nSources: Krippendorff, Computing Krippendorff's Alpha-Reliability.","minutes":null,"lo":["LO2"]},{"id":"checkpoint-3","n":37,"title":"Which agreement figure do you trust?","kind":"quiz","session":3,"hash":"31e3e4f1","md":"#### [day1#checkpoint-3] Which agreement figure do you trust?\n\n*Checkpoint*\n\n**Question:** Two raters label whether a complaint is WARRANTY. They agree on 96% of 300 complaints; each says WARRANTY about 3% of the time. What is the best next step?\n\n- A. Accept: 96% agreement is excellent\n- B. Compute a chance-corrected figure and count the WARRANTY labels it rests on\n- C. Add a third rater and recompute percent agreement\n- D. Merge WARRANTY into DEFECT to raise agreement","notes":"Answer: B. Chance agreement here is 0.97 x 0.97 + 0.03 x 0.03, about 0.94. Option D is tempting and sometimes right, but it is a decision about the construct, made with Hatoon who uses the WARRANTY figure, not a way to improve a statistic.","minutes":null,"lo":["LO2"]},{"id":"lab-1-3","n":38,"title":"Kappa and alpha on the pilot","kind":"lab","session":3,"hash":"6d7692cb","md":"#### [day1#lab-1-3] Kappa and alpha on the pilot\n\nLab 1.3 · 25 min\n\nCompute percent agreement, kappa by pair and Krippendorff's alpha on 300 pilot complaints labelled by three raters, by category and language variety, with bootstrap intervals.\n\n[D1_3_compute_kappa_alpha.ipynb](https://sdaiaacademy.github.io/ds-311/labs/D1_3_compute_kappa_alpha.ipynb)\n\n- [ ] Percent agreement, and why it flatters (4 min)\n- [ ] Cohen's kappa for each pair of raters (6 min)\n- [ ] Krippendorff's alpha from the coincidence matrix (7 min)\n- [ ] By category and by variety, with intervals (8 min)\n- [ ] ✱ Stretch: Alpha when one rater skipped twenty complaints","notes":"Common errors: computing De from the matrix diagonal instead of the row totals; forgetting the 1/(m-1) weight. The reference functions in bayyin.py let participants check their own. Quick mode uses 200 bootstrap resamples instead of 1,000; intervals move in the second decimal.","minutes":null,"lo":[]},{"id":"s4","n":39,"title":"Adjudication and revision","kind":"section","session":4,"hash":"e17a6105","md":"#### [day1#s4] Adjudication and revision\n\n*Session 4*\n\n- Adjudicate disagreements with a decision and a reason code\n- Tie every guideline revision to a measured disagreement in a change log\n- Measure whether the revision raised agreement in the next round","notes":"","minutes":null,"lo":["LO1","LO2"]},{"id":"majority-is-not-adjudication","n":40,"title":"A majority of three can be wrong in the same way","kind":"content","session":4,"hash":"74d85c8d","md":"#### [day1#majority-is-not-adjudication] A majority of three can be wrong in the same way\n\n*Three labels, one decision*\n\n**8 of 28** majorities in the 30 disagreements that the adjudicator overturned\n\n- Two raters who share a misreading outvote the one who read the rule.\n- A vote has no reason attached, so it teaches the guideline nothing.\n- Adjudication applies the guideline, and records why.","notes":"From the stretch of Lab 1.4: 28 of the 30 disagreements had a two-against-one majority, and 8 of those majorities were not the adjudicated label. Majority vote is fine for random noise; it fails for systematic misreadings, which is exactly what a pilot surfaces.","minutes":null,"lo":["LO2"]},{"id":"adjudication-methods","n":41,"title":"Choose the adjudication method by the kind of disagreement","kind":"content","session":4,"hash":"0fd52ce6","md":"#### [day1#adjudication-methods] Choose the adjudication method by the kind of disagreement\n\n*Ways to decide*\n\n| Method | Good for | Risk |\n| --- | --- | --- |\n| Majority vote | random slips, many raters | shared misreadings win |\n| Expert adjudicator | systematic splits, a pilot | one person's reading becomes the rule |\n| Discussion to consensus | new edge cases | the loudest voice wins |\n| Keep the disagreement | genuinely ambiguous items | analysts must handle soft labels |","notes":"Bayyin uses an expert adjudicator, Khulood, with reason codes, and keeps a list of genuinely ambiguous items as edge cases. Mention that statistical models of annotators (Dawid and Skene style) estimate rater accuracy without gold; they are out of scope here but worth knowing.","minutes":null,"lo":["LO2"]},{"id":"reason-codes","n":42,"title":"Every decision gets a reason code","kind":"content","session":4,"hash":"c2a525f3","md":"#### [day1#reason-codes] Every decision gets a reason code\n\n*Lab 1.4*\n\n- **RULE_ORDER.** Two categories applied; the order decided. The rule may need an example.\n- **MISREAD.** A rater missed a fact, often in dialect or mixed text. The language notes may need a line.\n- **DEFINITION.** The definition did not cover the case. The guideline must change.\n\nCounted over the 30 disagreements, the codes say which part of the guideline to revise.","notes":"Reason codes turn adjudication into evidence. In the solution run the counts were dominated by RULE_ORDER, then MISREAD, with a few DEFINITION cases around WARRANTY; the room's counts depend on their own adjudication function.","minutes":null,"lo":["LO1","LO2"]},{"id":"adjudicate-from-facts","n":43,"title":"Agree on the facts, and the rules give the label","kind":"content","session":4,"hash":"a31ec98b","md":"#### [day1#adjudicate-from-facts] Agree on the facts, and the rules give the label\n\n*One disagreement, decided*\n\n- complaint: C103462, Gulf dialect: the wardrobe broke after 5 days; \"I asked for my money and they refused\"\n- raters: R1 DEFECT · R2 DEFECT · R3 REFUND\n- facts: `faulty=1 asked_refund=1 refund_refused=1`\n- rule: rule 2 applies before rule 3\n- decision: REFUND · reason RULE_ORDER · the majority overturned","notes":"The complaint from Session 1. This row is in artifacts/d1_4/adjudicated30.csv of the solution run. The adjudicator reads the facts once; the decision follows from the rules. When two adjudicators disagree, they disagree about facts, which is a much shorter conversation.","minutes":null,"lo":["LO2"]},{"id":"change-log-with-evidence","n":44,"title":"Each revision cites the disagreement that caused it","kind":"content","session":4,"hash":"6e2bc81d","md":"#### [day1#change-log-with-evidence] Each revision cites the disagreement that caused it\n\n*Guideline v1.1*\n\n| Change | Evidence from the 30 |\n| --- | --- |\n| Rule 2 gets the example \"broken and refund refused is REFUND\" | DEFECT and REFUND split 5 times |\n| DEFECT's excludes name WARRANTY first, with the Gulf wording | WARRANTY and DEFECT split 5 times; R3 said DEFECT 6 times |\n| Rule 5: read the charge against the displayed price first | AD and PRICE split 3 times |\n| Language notes: code-switched \"refund\", \"no refund policy\" | 8 MISREAD decisions |","notes":"From the Lab 1.4 solution's change log. The lab's check fails any entry without a count. A change log like this is the evidence the entry asks for: a versioned guideline whose change log ties each revision to a measured disagreement.","minutes":null,"lo":["LO1"]},{"id":"round-two-agreement","n":45,"title":"Round 2 under v1.1: alpha from 0.594 to 0.789","kind":"content","session":4,"hash":"b8eb79e8","md":"#### [day1#round-two-agreement] Round 2 under v1.1: alpha from 0.594 to 0.789\n\n*Did the revision work?*\n\n| Alpha | Round 1 | Round 2 |\n| --- | --- | --- |\n| All categories | 0.594 | 0.789 |\n| WARRANTY | 0.164 | 0.680 |\n| REFUND | 0.512 | 0.791 |\n| Gulf dialect | 0.470 | 0.782 |\n| Mixed | 0.340 | 0.743 |\n\nRound 2 interval for all categories: 0.744 to 0.825. Mixed text stays the weakest variety.","notes":"From the Lab 1.4 solution run (agreement_r1_r2.csv). The rise is largest where the change log said it would be, which is the test of a good revision. Caution: in this synthetic case round 2 is simulated with the improvement built in; in real work the same raters labelling the same items a second time also remember them, so use fresh items where you can.","minutes":null,"lo":["LO2"]},{"id":"checkpoint-4","n":46,"title":"Which change-log entry would you accept?","kind":"quiz","session":4,"hash":"00360752","md":"#### [day1#checkpoint-4] Which change-log entry would you accept?\n\n*Checkpoint*\n\n**Question:** Khulood reviews four proposed entries for guideline v1.1. Which one meets the standard of this course?\n\n- A. \"Definitions clarified throughout for consistency\"\n- B. \"REFUND and DEFECT split 5 of 30: raters to take more care\"\n- C. \"Rule 5 restated because AD seems clearer than PRICE\"\n- D. \"Rule 2 example added: broken and refund refused is REFUND (split 5 of 30)\"","notes":"Answer: D. B is the most common wrong choice: it has a count but no change to the instrument. Asking raters to \"take more care\" fixes random error at best, and the split here was systematic.","minutes":null,"lo":["LO1","LO2"]},{"id":"lab-1-4","n":47,"title":"Adjudicate 30, revise, measure again","kind":"lab","session":4,"hash":"0a113ea3","md":"#### [day1#lab-1-4] Adjudicate 30, revise, measure again\n\nLab 1.4 · 25 min\n\nAdjudicate 30 pilot disagreements with reason codes, revise the guideline to v1.1 with a change log tied to the counts, and compare alpha in round 1 and round 2.\n\n[D1_4_adjudicate_30_disagreements.ipynb](https://sdaiaacademy.github.io/ds-311/labs/D1_4_adjudicate_30_disagreements.ipynb)\n\n- [ ] Sort the 30 disagreements by category pair (5 min)\n- [ ] Adjudicate: a decision and a reason code each (8 min)\n- [ ] Guideline v1.1: a change log tied to the counts (7 min)\n- [ ] Round 2: did agreement rise, and where (5 min)\n- [ ] ✱ Stretch: How often was the majority of three raters wrong?","notes":"Lab 1.4 reads guideline v1.0 from Lab 1.2's output, or the reference copy in labs/data/reference when it is missing. The adjudication check compares with Khulood's decisions in data/reference/adjudicator_decisions.csv: a mismatch is usually a rule order mistake carried over from Lab 1.2.","minutes":null,"lo":[]},{"id":"wrap-up","n":48,"title":"Three things to keep","kind":"content","session":4,"hash":"a91d9d90","md":"#### [day1#wrap-up] Three things to keep\n\n*Day 1 · wrap-up*\n\n- **Labels are measurements.** A construct, an instrument and an error. Measure the error twice before trusting a figure.\n- **Correct for chance.** Report alpha with an interval, by category and by language, not percent agreement alone.\n- **Revise with evidence.** Adjudicate with reasons; tie each change to a count; measure again.","notes":"Ask each participant to name the one category pair they would watch in production. Tomorrow the guideline goes to a team of six raters, and the question changes from \"is the guideline clear?\" to \"is each rater still applying it?\"","minutes":null,"lo":[]},{"id":"next","n":49,"title":"Day 2: Golden sets and labelling operations","kind":"content","session":4,"hash":"ff6ed2f2","md":"#### [day1#next] Day 2: Golden sets and labelling operations\n\n*Next*\n\nKeep guideline v1.1 and your agreement report. Tomorrow: a golden set, gold checks over six raters, a drifting rater, and the cost of each labelling design.","notes":"For Lab 2.4, participants who want a live model call create a free OpenRouter key tonight and put it in labs/.env as OPENROUTER_API_KEY. Without one, the lab runs on the scripted stand-in and says so.","minutes":null,"lo":[]}],"activities":[{"id":"checkpoint-1-q1","slide":"checkpoint-1","type":"single","prompt":"In a pilot, 70% of all disagreements fall on DEFECT against REFUND, and the rest spread thinly. What is the most likely cause?","options":[{"key":"A","text":"The schema does not say which question the label answers"},{"key":"B","text":"The raters were tired and misread the texts"},{"key":"C","text":"One rater needs retraining on the six codes"},{"key":"D","text":"The pilot is too small to show anything"}],"correct":[0],"explanation":"Random error spreads over many pairs. A pile on one pair is two readings of the schema, which a guideline rule fixes.","misconceptions":["","Treats a systematic pattern as random error: tiredness would spread over every pair","Blames the instrument's users when the instrument itself is ambiguous","Confuses the size of a sample with the pattern inside it"],"lo":["LO1"]},{"id":"checkpoint-2-q1","slide":"checkpoint-2","type":"single","prompt":"\"The washing machine is still under warranty. The service centre refused to repair it, and the shop also refused my refund.\" Under guideline v1.0, which label?","options":[{"key":"A","text":"REFUND, because the refund refusal is the last fact stated"},{"key":"B","text":"DEFECT, because the machine is faulty"},{"key":"C","text":"WARRANTY, because rule 1 applies first"},{"key":"D","text":"None: it must go to adjudication"}],"correct":[2],"explanation":"The rules are applied in order and the first that applies decides: a repair refused under warranty is WARRANTY whatever else the complaint says.","misconceptions":["Applies the rules in the order the facts appear in the text, not the guideline's order","Labels the product's state, the construct the guideline chose not to measure","","Thinks two applicable rules mean the case is outside the schema"],"lo":["LO1"]},{"id":"checkpoint-3-q1","slide":"checkpoint-3","type":"single","prompt":"Two raters label whether a complaint is WARRANTY. They agree on 96% of 300 complaints; each says WARRANTY about 3% of the time. What is the best next step?","options":[{"key":"A","text":"Accept: 96% agreement is excellent"},{"key":"B","text":"Compute a chance-corrected figure and count the WARRANTY labels it rests on"},{"key":"C","text":"Add a third rater and recompute percent agreement"},{"key":"D","text":"Merge WARRANTY into DEFECT to raise agreement"}],"correct":[1],"explanation":"When both say \"no\" 97% of the time, chance agreement is about 94%; only a chance-corrected figure on enough WARRANTY labels shows whether they agree on the rare cases.","misconceptions":["Takes raw agreement at face value when one answer dominates","","Assumes more raters fixes a measure that is misleading by construction","Drops the rare category instead of measuring it, losing the cases analysts need"],"lo":["LO2"]},{"id":"checkpoint-4-q1","slide":"checkpoint-4","type":"single","prompt":"Khulood reviews four proposed entries for guideline v1.1. Which one meets the standard of this course?","options":[{"key":"A","text":"\"Definitions clarified throughout for consistency\""},{"key":"B","text":"\"REFUND and DEFECT split 5 of 30: raters to take more care\""},{"key":"C","text":"\"Rule 5 restated because AD seems clearer than PRICE\""},{"key":"D","text":"\"Rule 2 example added: broken and refund refused is REFUND (split 5 of 30)\""}],"correct":[3],"explanation":"An acceptable entry changes something a rater applies and cites the measured disagreement, so round 2 can show whether it worked.","misconceptions":["Describes an intention with no measured disagreement behind it","Cites evidence but changes nothing a rater can apply","Changes the rule from opinion, with no count to test it against in round 2",""],"lo":["LO1"]}],"ai":{"context":{"course":"../context/course.md","courseJs":"../context/course.js","day":"day1.md","llms":"../llms.txt"},"tasks":[],"tools":[]},"bridge":{"allowedOrigins":[]},"features":{},"strings":{}}</script>
+<script src="../_engine/academy.js"></script>
+</body>
+</html>

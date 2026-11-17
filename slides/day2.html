@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-ax="deck" data-track="data-science">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Day 2 · Golden sets and labelling operations · Data Quality, Labelling and Pipelines for Analysis</title>
+<meta name="generator" content="SDAIA Academy engine 1.0.0">
+<link rel="icon" href="../_engine/icon.svg">
+<link rel="alternate" type="text/markdown" href="day2.md">
+<link rel="describedby" href="../llms.txt">
+<link rel="stylesheet" href="../_engine/academy.css">
+</head>
+<body>
+<div class="deck" data-course="Data Quality, Labelling and Pipelines for Analysis" data-track="data-science" data-day="Day 2">
+<!-- ======================= OPENING ======================= -->
+<section class="slide title" id="title" data-auto="title" data-label="Welcome" data-n="1">
+  <div class="kicker">SDAIA Academy · Data Quality, Labelling and Pipelines for Analysis</div>
+  <h1>Golden sets and labelling operations</h1>
+  <p class="lead mt">Day 2: Run a rater team with gold questions, queues and a cost</p>
+  <div class="meta"><span class="track">Data Science Track</span><span>4 teaching days + capstone day</span><span>4 sessions · 4 labs</span><span>DS-311</span></div>
+  <aside class="notes"><p>Yesterday the guideline was tested by three raters on 300 complaints. Today it goes into operation: six raters, ten days, 2,000 items. The question changes from "is the guideline clear?" to "is each rater still applying it, at what cost?"</p></aside>
+</section>
+
+<section class="slide" id="review-day1" data-lo="LO2" data-n="2">
+  <div class="kicker">Review of Day 1</div>
+  <h2>Which number goes in the agreement report?</h2>
+  <div class="quiz" data-type="single" data-lo="LO2" data-id="review-day1-q1">
+    <p class="lead">Round 2 of the pilot gives alpha 0.789 overall, with an interval from 0.744 to 0.825, and 0.743 for mixed text from 15 complaints. Which sentence belongs in the report?</p>
+    <div class="opts">
+      <div class="opt" data-why="Reports a point estimate without the uncertainty the report must carry" data-k="A">"Agreement is 0.789."</div>
+      <div class="opt" data-why="Hides the weakest variety behind the overall figure" data-k="B">"Agreement is 0.789 (0.744 to 0.825), so every variety is reliable."</div>
+      <div class="opt" data-ok data-k="C">"Agreement is 0.789 (0.744 to 0.825); mixed text is lowest, on only 15 complaints."</div>
+      <div class="opt" data-why="Treats a small subgroup as no information instead of reporting it with its size" data-k="D">"Mixed text is excluded because 15 complaints are too few."</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> The report gives the estimate, its interval and where it is weakest, with the number of items behind the weak group.</div>
+  </div>
+  <aside class="notes"><p>Answer: C. Numbers from Lab 1.4. Use this to remind the room that today's quality-control report follows the same habit: every figure with its interval and its base.</p></aside>
+</section>
+
+<section class="slide" id="agenda" data-auto="agenda" data-label="Agenda" data-n="3">
+  <div class="kicker">Today</div>
+  <h2>Golden sets and labelling operations</h2>
+  <div class="agenda"><div class="item"><div><b>Session 1 · Sampling a golden set</b><small>A golden set stratified on what is known before labelling, with floors for rare categories and dialects</small></div></div><div class="item"><div><b>Session 2 · Gold questions and review queues</b><small>Gold questions mixed into the work, a pass rule with a minimum count, and routing rules that send each item where it belongs</small></div></div><div class="item"><div><b>Session 3 · Rater drift and workload</b><small>Each rater against their own baseline, drift told apart from steady low accuracy, and workload against the guideline's limits</small></div></div><div class="item"><div><b>Session 4 · Cost and model pre-labels</b><small>Cost per accepted label across three designs, with personal data masked and classified before any model call</small></div></div></div>
+</section>
+
+<!-- ======================= SESSION 1 ======================= -->
+<section class="slide section" id="s1" data-auto="section" data-session="1" data-n="4">
+  <div class="kicker">Session 1</div>
+  <h1>Sampling a golden set</h1>
+  <ul class="bullets outcomes"><li>Explain why a simple random sample misses rare categories and dialects</li><li>Stratify on fields known before labelling, with a floor per stratum</li><li>Weight a stratified sample back to the population</li></ul>
+  <div class="sess-no">01</div>
+</section>
+
+<section class="slide" data-label="Why gold" id="what-gold-is-for" data-lo="LO3" data-n="5" data-session="1">
+  <div class="kicker">A golden set</div>
+  <h2>Gold questions measure each rater against a known answer</h2>
+  <div class="cols cols-3 gap-s">
+    <div class="card c-teal"><h4>What it is</h4><p class="small mb0">Complaints labelled by experts and adjudicated: the expected answer is known.</p></div>
+    <div class="card c-cyan"><h4>How it is used</h4><p class="small mb0">Mixed into each rater's work, unmarked. Accuracy on them estimates accuracy on the rest.</p></div>
+    <div class="card c-coral"><h4>What it must cover</h4><p class="small mb0">Every category and every language variety, including the rare ones a rater might miss.</p></div>
+  </div>
+  <div class="callout warn small mt"><b>What goes wrong.</b> A golden set of easy, common complaints scores everyone highly and tests nothing.</div>
+  <aside class="notes"><p>Agreement (Day 1) says whether raters agree with each other; gold says whether they agree with the expected answer. Both matter: two raters can agree on the wrong label. Bayyin's gold answers come from Khulood and an expert panel.</p></aside>
+</section>
+
+<section class="slide" data-label="Random misses" id="random-sample-misses" data-lo="LO3" data-n="6" data-session="1">
+  <div class="kicker">Lab 2.1, a simple random sample of 240</div>
+  <h2>A random sample holds four WARRANTY complaints</h2>
+  <div class="cols cols-3">
+    <div class="stat"><div class="big">4</div><div class="lbl">WARRANTY complaints of 240</div></div>
+    <div class="stat"><div class="big">18</div><div class="lbl">mixed Arabic and English</div></div>
+    <div class="stat"><div class="big">2</div><div class="lbl">WARRANTY in mixed text</div></div>
+  </div>
+  <p class="small mt">A rater who misses every WARRANTY complaint still scores above 98% on this gold set.</p>
+  <aside class="notes"><p>From the solution run of Lab 2.1 (random_state 311). WARRANTY is about 2.5% of the corpus and mixed text about 6%. The arithmetic: missing all 4 WARRANTY items costs 4 of 240 points, under 2%.</p></aside>
+</section>
+
+<section class="slide" data-label="Strata" id="stratify-on-known-fields" data-lo="LO3" data-n="7" data-session="1">
+  <div class="kicker">What you can stratify on</div>
+  <h2>Stratify on what is known before labelling</h2>
+  <div class="cols cols-2">
+    <ul class="bullets">
+      <li>The <b>true category</b> is what labelling produces: not available yet.</li>
+      <li>The <b>language variety</b> is known from language detection.</li>
+      <li>A <b>pre-label</b> from keywords or a model is known, and right about four times in five.</li>
+      <li>24 strata: four varieties times six pre-labels.</li>
+    </ul>
+    <div class="card c-teal"><h4>The smallest strata</h4><p class="small mb0">Mixed text pre-labelled WARRANTY, English pre-labelled WARRANTY: the ones that matter most for gold.</p></div>
+  </div>
+  <aside class="notes"><p>A pre-label is imperfect, so the stratified sample's coverage is checked after experts label it (task 4 of the lab). Stratifying on a proxy is common practice in survey sampling: it raises the chance of rare cases without needing to know them.</p></aside>
+</section>
+
+<section class="slide" data-label="Allocation" id="floor-per-stratum" data-lo="LO3" data-n="8" data-session="1">
+  <div class="kicker">How many from each stratum</div>
+  <h2>A floor per stratum, the rest in proportion</h2>
+  <div class="flow">
+    <div class="step c-navy"><b>1 · Floor</b>min(6, stratum size) each</div>
+    <div class="arrow">→</div>
+    <div class="step c-teal"><b>2 · Share the rest</b>in proportion to what is left</div>
+    <div class="arrow">→</div>
+    <div class="step c-cyan"><b>3 · Round</b>so the total is exactly 240</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>4 · Draw</b>with a fixed seed</div>
+  </div>
+  <div class="callout tip mt"><b>The trade.</b> A floor costs precision in the large strata and buys enough rare cases to test raters on them.</div>
+  <aside class="notes"><p>Proportional allocation alone would give the mixed-WARRANTY stratum (111 of 30,000) under one item. The floor of six is Bayyin's choice; a larger golden set or a higher floor are both defensible. Ask the room what floor their rarest category would need.</p></aside>
+</section>
+
+<section class="slide" data-label="Coverage" id="stratified-coverage" data-lo="LO3" data-n="9" data-session="1">
+  <div class="kicker">Lab 2.1, after expert labelling</div>
+  <h2>The stratified set holds seven times the WARRANTY complaints</h2>
+  <table class="t small">
+    <tr><th>240 complaints</th><th class="num">WARRANTY</th><th class="num">Mixed text</th><th class="num">WARRANTY in mixed</th></tr>
+    <tr><td>Simple random sample</td><td class="num">4</td><td class="num">18</td><td class="num">2</td></tr>
+    <tr class="hl"><td>Stratified, floor of six</td><td class="num">29</td><td class="num">42</td><td class="num">7</td></tr>
+  </table>
+  <p class="small mt-s">Coverage is counted on the experts' labels, not on the pre-labels the strata used.</p>
+  <aside class="notes"><p>From the Lab 2.1 solution run. The pre-label for WARRANTY is precise (keywords rarely invent a warranty), which is why stratifying on it works so well here; a noisier pre-label would buy less. Always check coverage on the true labels.</p></aside>
+</section>
+
+<section class="slide" data-label="Weights" id="weight-back" data-lo="LO3" data-n="10" data-session="1">
+  <div class="kicker">Using gold for estimates</div>
+  <h2>An oversampled set must be weighted before it estimates shares</h2>
+  <div class="bars">
+    <div class="row"><span>WARRANTY, unweighted</span><div class="bar c-coral" style="--w:100%"></div><span class="val">12.1%</span></div>
+    <div class="row"><span>WARRANTY, weighted</span><div class="bar c-teal" style="--w:28%"></div><span class="val">3.4%</span></div>
+    <div class="row"><span>WARRANTY, whole corpus</span><div class="bar c-navy" style="--w:21%"></div><span class="val">2.5%</span></div>
+  </div>
+  <p class="small mt">Each drawn complaint stands for N<sub>h</sub> / n<sub>h</sub> complaints of its stratum.</p>
+  <aside class="notes"><p>Scoring a rater item by item needs no weights. Estimating anything about the population from the golden set (category shares, error rates of the whole round) does. The weighted share is closer to the corpus but not equal: 240 items still carry sampling error.</p></aside>
+</section>
+
+<section class="slide" data-label="Keep it fresh" id="hidden-gold" data-lo="LO3" data-n="11" data-session="1">
+  <div class="kicker">Gold that stays useful</div>
+  <h2>Raters learn gold questions they see too often</h2>
+  <ul class="bullets">
+    <li>Draw gold from the same mix of varieties and lengths as the work, so it cannot be spotted.</li>
+    <li>Rotate: each gold item appears to a rater at most a few times.</li>
+    <li>Keep a hidden half for audits nobody has seen.</li>
+    <li>Version the golden set with the guideline: a changed rule changes some gold answers.</li>
+  </ul>
+  <aside class="notes"><p>The stretch of Lab 2.1 splits the set into two halves balanced by stratum (15 and 14 WARRANTY items in the solution run). Lab 2.2's stretch checks that Bayyin's gold questions look like the work: same variety mix, same median time (41 seconds for both).</p></aside>
+</section>
+
+<section class="slide" id="checkpoint-1" data-lo="LO3" data-n="12" data-session="1">
+  <div class="kicker">Checkpoint</div>
+  <h2>How do you get enough rare cases into the golden set?</h2>
+  <div class="quiz" data-type="single" data-lo="LO3" data-id="checkpoint-1-q1">
+    <p class="lead">Bayyin must build a 240-complaint golden set that tests raters on WARRANTY, about 2.5% of complaints. No complaint is labelled yet. What do you stratify on?</p>
+    <div class="opts">
+      <div class="opt" data-why="Uses information that only exists after the labelling the gold set is meant to check" data-k="A">The true category of each complaint</div>
+      <div class="opt" data-why="Assumes a larger random sample fixes rarity; it scales the rare count only slowly" data-k="B">Nothing: draw a random sample of 480 instead</div>
+      <div class="opt" data-why="Balances something that does not predict the rare category" data-k="C">The channel the complaint came through</div>
+      <div class="opt" data-ok data-k="D">The language variety and a pre-label, with a floor per stratum</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Strata must use fields known before labelling; a pre-label that predicts WARRANTY, with a floor, raises the count of the rare category.</div>
+  </div>
+  <aside class="notes"><p>Answer: D. B doubles the expected WARRANTY count to about 12 at twice the expert cost; the stratified 240 gave 29 in the lab.</p></aside>
+</section>
+
+<section class="slide lab top" id="lab-2-1" data-auto="lab" data-lab="2.1" data-label="Lab 2.1" data-n="13" data-session="1">
+  <div class="cols cols-2 mid"><div><div class="lab-tag">Lab 2.1 · 25 min</div><h2>A stratified golden set</h2><p class="lead small">Draw a 240-complaint golden set stratified by language variety and pre-label with a floor per stratum, compare its coverage with a random sample, and weight it back to the population.</p><a class="nb" href="../labs/D2_1_draw_stratified_golden.ipynb">D2_1_draw_stratified_golden.ipynb</a></div><ul class="checklist"><li>What a random sample of 240 misses <span class="min">4 min</span></li><li>Strata from what is known before labelling <span class="min">6 min</span></li><li>Allocate with a floor per stratum, and draw <span class="min">8 min</span></li><li>Coverage under expert labels, and the weights <span class="min">7 min</span></li><li class="stretch">✱ Stretch: Keep half of the gold hidden for later audits</li></ul></div>
+  <aside class="notes"><p>The allocation function is where people stall: rounding leaves the total at 239 or 241. The solution fixes the rounding one unit at a time from the largest stratum. Expert labels come from B.expert_labels, which stands for the expert panel's work; remind the room that in real life that call costs days.</p></aside>
+</section>
+
+<!-- ======================= SESSION 2 ======================= -->
+<section class="slide section" id="s2" data-auto="section" data-session="2" data-n="14">
+  <div class="kicker">Session 2</div>
+  <h1>Gold questions and review queues</h1>
+  <ul class="bullets outcomes"><li>Estimate each rater's gold accuracy with an interval</li><li>Set a pass rule that needs a minimum number of gold answers</li><li>Route items to acceptance, adjudication or a restricted queue</li></ul>
+  <div class="sess-no">02</div>
+</section>
+
+<section class="slide" data-label="The round" id="operations-round" data-lo="LO3" data-n="15" data-session="2">
+  <div class="kicker">The operations round</div>
+  <h2>Ten days, six raters, eight gold questions each a day</h2>
+  <div class="cols cols-4 gap-s">
+    <div class="stat"><div class="big">2,015</div><div class="lbl">work items</div></div>
+    <div class="stat"><div class="big">2,986</div><div class="lbl">labels in all</div></div>
+    <div class="stat"><div class="big">480</div><div class="lbl">gold answers</div></div>
+    <div class="stat"><div class="big">1 in 4</div><div class="lbl">items labelled twice</div></div>
+  </div>
+  <p class="small mt">Distressing complaints go only to the two raters approved for them, R2 and R4.</p>
+  <aside class="notes"><p>From data/ops/ops_round.csv as Lab 2.2 loads it. The design (gold rate, double-label rate) is Bayyin's choice; 10% gold is a common starting point in labelling operations, but nothing makes it a standard. The same structure runs in a labelling platform's queue settings.</p></aside>
+</section>
+
+<section class="slide" data-label="Gold scores" id="gold-accuracy-interval" data-lo="LO3" data-n="16" data-session="2">
+  <div class="kicker">Lab 2.2, 80 gold answers per rater</div>
+  <h2>Three raters fall below the line, one of them by a hair</h2>
+  <table class="t small">
+    <tr><th>Rater</th><th class="num">Right</th><th class="num">Accuracy</th><th class="num">95% interval</th></tr>
+    <tr><td>R1</td><td class="num">76</td><td class="num">0.950</td><td class="num">0.878 to 0.980</td></tr>
+    <tr><td>R2</td><td class="num">75</td><td class="num">0.938</td><td class="num">0.862 to 0.973</td></tr>
+    <tr class="hl"><td>R3</td><td class="num">71</td><td class="num">0.888</td><td class="num">0.7998 to 0.940</td></tr>
+    <tr><td>R4</td><td class="num">72</td><td class="num">0.900</td><td class="num">0.815 to 0.948</td></tr>
+    <tr class="hl"><td>R5</td><td class="num">57</td><td class="num">0.712</td><td class="num">0.605 to 0.800</td></tr>
+    <tr class="hl"><td>R6</td><td class="num">58</td><td class="num">0.725</td><td class="num">0.619 to 0.811</td></tr>
+  </table>
+  <aside class="notes"><p>Wilson intervals, from the Lab 2.2 solution run. The Wilson interval behaves well near 0 and 1 and with small counts, unlike the plus-or-minus normal formula. R3 is the lesson of the rounding: its lower bound is 0.7998, which a three-decimal table shows as 0.800, so it misses the 0.80 line by a hair. Round for display, never before a decision. R5 and R6 look alike here; Session 3 shows they are not.</p></aside>
+</section>
+
+<section class="slide" data-label="Pass rule" id="pass-rule-minimum" data-lo="LO3" data-n="17" data-session="2">
+  <div class="kicker">Turning scores into a decision</div>
+  <h2>Judge the lower end of the interval, after a minimum count</h2>
+  <div class="cols cols-2">
+    <pre class="code s" data-file="Lab 2.2"><code class="language-python">MIN_GOLD, LOWER = <span class="hljs-number">30</span>, <span class="hljs-number">0.80</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">status</span>(<span class="hljs-params">row</span>):
+    <span class="hljs-keyword">if</span> row.n &lt; MIN_GOLD:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;too few&quot;</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;pass&quot;</span> <span class="hljs-keyword">if</span> row.lo &gt;= LOWER <span class="hljs-keyword">else</span> <span class="hljs-string">&quot;watch&quot;</span></code></pre>
+    <div class="stack">
+      <div class="card c-teal flat"><h4>Why a minimum</h4><p class="small mb0">9 of 9 right has an interval reaching down to about 0.70.</p></div>
+      <div class="card c-coral flat"><h4>Why the lower bound</h4><p class="small mb0">A rater passes when we are fairly sure they are good enough, not when they might be.</p></div>
+    </div>
+  </div>
+  <aside class="notes"><p>The thresholds (30 gold answers, 0.80) are Bayyin's choices and belong in the guideline's operations section. Ask: what does a rater on "watch" do tomorrow? At Bayyin, their single labels go to a re-label queue until they pass again.</p></aside>
+</section>
+
+<section class="slide" data-label="Routing" id="routing-rules" data-lo="LO3" data-n="18" data-session="2">
+  <div class="kicker">Review queues</div>
+  <h2>Every item goes to exactly one queue</h2>
+  <div class="flow v">
+    <div class="step c-purple"><b>Distressing?</b>restricted queue: approved raters only</div>
+    <div class="arrow">↓</div>
+    <div class="step c-coral"><b>Two labels that disagree?</b>adjudication</div>
+    <div class="arrow">↓</div>
+    <div class="step c-amber"><b>One label from a rater on watch?</b>re-label</div>
+    <div class="arrow">↓</div>
+    <div class="step c-teal"><b>Otherwise</b>accept</div>
+  </div>
+  <aside class="notes"><p>Order matters, as in the guideline: the wellbeing constraint comes first because it holds whatever the label. Labelling platforms express this as queue rules or task routing; the logic is the same.</p></aside>
+</section>
+
+<section class="slide" data-label="Queue sizes" id="queue-sizes" data-lo="LO3" data-n="19" data-session="2">
+  <div class="kicker">Lab 2.2, 2,015 work items</div>
+  <h2>Almost half of the round needs a second look</h2>
+  <div class="bars">
+    <div class="row"><span>Accept</span><div class="bar c-teal" style="--w:100%"></div><span class="val">1,081</span></div>
+    <div class="row"><span>Re-label</span><div class="bar c-amber" style="--w:68%"></div><span class="val">731</span></div>
+    <div class="row"><span>Adjudicate</span><div class="bar c-coral" style="--w:13%"></div><span class="val">139</span></div>
+    <div class="row"><span>Restricted</span><div class="bar c-purple" style="--w:6%"></div><span class="val">64</span></div>
+  </div>
+  <p class="small mt">Tomorrow's work: 3.5 adjudicator hours, 8.3 hours of re-labelling, 3.6 hours in the restricted queue.</p>
+  <aside class="notes"><p>From the Lab 2.2 solution run, with 90 seconds per adjudication and the team's median time per re-label. The re-label queue is large because three raters are on watch, R3 by a hair; fixing R5's drift (Session 3) shrinks it more than hiring.</p></aside>
+</section>
+
+<section class="slide" data-label="Compliance" id="restricted-compliance" data-lo="LO3" data-n="20" data-session="2">
+  <div class="kicker">Checking the wellbeing rule</div>
+  <h2>The restricted queue is audited, not assumed</h2>
+  <div class="cols cols-2">
+    <div class="stat"><div class="big">0</div><div class="lbl">restricted items labelled by a rater who is not approved</div></div>
+    <ul class="bullets">
+      <li>The check reads the labels, not the routing settings.</li>
+      <li>A zero is evidence; an unchecked setting is a hope.</li>
+      <li>The time limit is checked separately, per rater and day, in Session 3.</li>
+    </ul>
+  </div>
+  <aside class="notes"><p>Who labelled what is in the export; the check takes one line. Make the point that a guideline rule without a check is decoration: the entry's responsible-use line asks that the guideline record who may label distressing content and for how long, and the workflow is where it is enforced.</p></aside>
+</section>
+
+<section class="slide" id="checkpoint-2" data-lo="LO3" data-n="21" data-session="2">
+  <div class="kicker">Checkpoint</div>
+  <h2>Does this rater pass?</h2>
+  <div class="quiz" data-type="single" data-lo="LO3" data-id="checkpoint-2-q1">
+    <p class="lead">A new rater has answered 12 gold questions and got all 12 right. Bayyin's rule needs 30 gold answers and a lower bound of at least 0.80. What is their status?</p>
+    <div class="opts">
+      <div class="opt" data-why="Reads a perfect score on a few items as a precise estimate" data-k="A">Pass: 100% accuracy</div>
+      <div class="opt" data-ok data-k="B">Too few: keep giving gold questions until 30</div>
+      <div class="opt" data-why="Applies the interval rule before the count rule that comes first" data-k="C">Watch: the interval is too wide</div>
+      <div class="opt" data-why="Treats lack of evidence as evidence of poor work" data-k="D">Re-label all their work</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Below the minimum count the rule does not judge at all; twelve answers cannot separate a good rater from a lucky one.</div>
+  </div>
+  <aside class="notes"><p>Answer: B. The Wilson interval for 12 of 12 reaches down to about 0.76, so a judgement would be premature either way.</p></aside>
+</section>
+
+<section class="slide lab top" id="lab-2-2" data-auto="lab" data-lab="2.2" data-label="Lab 2.2" data-n="22" data-session="2">
+  <div class="cols cols-2 mid"><div><div class="lab-tag">Lab 2.2 · 25 min</div><h2>Gold checks and routing</h2><p class="lead small">Score six raters on the gold questions of a 2,000-item round with Wilson intervals, set a pass rule, and route every item to acceptance, adjudication or the restricted queue.</p><a class="nb" href="../labs/D2_2_set_gold_question.ipynb">D2_2_set_gold_question.ipynb</a></div><ul class="checklist"><li>Gold accuracy per rater, with an interval <span class="min">6 min</span></li><li>A pass rule with a minimum count <span class="min">5 min</span></li><li>Routing: accept, adjudicate, restricted queue <span class="min">8 min</span></li><li>Queue sizes and adjudicator hours <span class="min">6 min</span></li><li class="stretch">✱ Stretch: Gold questions a rater cannot spot</li></ul></div>
+  <aside class="notes"><p>Common error: computing gold accuracy over all labels instead of gold rows only. Another: routing a distressing item to adjudication because its two labels differ; the restricted check must come first. Participants who did not finish task 1 get the reference scores and can still route.</p></aside>
+</section>
+
+<!-- ======================= SESSION 3 ======================= -->
+<section class="slide section" id="s3" data-auto="section" data-session="3" data-n="23">
+  <div class="kicker">Session 3</div>
+  <h1>Rater drift and workload</h1>
+  <ul class="bullets outcomes"><li>Track gold accuracy per rater over time</li><li>Flag drift against a rater's own baseline, not the team average</li><li>Check workload and distressing-content time against the guideline</li></ul>
+  <div class="sess-no">03</div>
+</section>
+
+<section class="slide" data-label="Two kinds of low" id="drift-versus-steady" data-lo="LO3" data-n="24" data-session="3">
+  <div class="kicker">Two raters far below the line</div>
+  <h2>The same average can come from two different problems</h2>
+  <div class="cols cols-2">
+    <div class="card c-coral"><h4>Steadily low</h4><p class="small mb0">Always below the team. Needs coaching and double labelling; past work is as good as it ever was.</p></div>
+    <div class="card c-purple"><h4>Drift</h4><p class="small mb0">Was good, then changed. Needs a conversation about what changed, and recent work re-checked.</p></div>
+  </div>
+  <p class="small mt">R5 ends at 0.712 and R6 at 0.725 over ten days. Only the daily picture tells them apart.</p>
+  <aside class="notes"><p>Ask the room what could make a good rater drift: a misread update to the guideline, fatigue, a new batch with a different mix, a shortcut learned from a colleague. Each needs a different fix, which is why detection comes before blame.</p></aside>
+</section>
+
+<section class="slide" data-label="Daily accuracy" id="daily-accuracy" data-lo="LO3" data-n="25" data-session="3">
+  <div class="kicker">Lab 2.3, gold accuracy by day (eight answers a day)</div>
+  <h2>R5 falls from day 6; R6 was low from the start</h2>
+  <table class="t small">
+    <tr><th>Rater</th><th class="num">D1</th><th class="num">D2</th><th class="num">D3</th><th class="num">D4</th><th class="num">D5</th><th class="num">D6</th><th class="num">D7</th><th class="num">D8</th><th class="num">D9</th><th class="num">D10</th></tr>
+    <tr><td>R1</td><td class="num">1.00</td><td class="num">0.88</td><td class="num">1.00</td><td class="num">1.00</td><td class="num">1.00</td><td class="num">1.00</td><td class="num">1.00</td><td class="num">0.88</td><td class="num">0.88</td><td class="num">0.88</td></tr>
+    <tr class="hl"><td>R5</td><td class="num">1.00</td><td class="num">1.00</td><td class="num">1.00</td><td class="num">1.00</td><td class="num">0.88</td><td class="num">0.50</td><td class="num">0.62</td><td class="num">0.50</td><td class="num">0.38</td><td class="num">0.25</td></tr>
+    <tr><td>R6</td><td class="num">0.38</td><td class="num">0.75</td><td class="num">0.75</td><td class="num">0.75</td><td class="num">0.75</td><td class="num">0.75</td><td class="num">0.75</td><td class="num">0.75</td><td class="num">0.75</td><td class="num">0.88</td></tr>
+  </table>
+  <p class="small mt-s">Eight gold answers a day make each cell coarse: one answer moves it by 0.125.</p>
+  <aside class="notes"><p>Three rows of the table Lab 2.3 prints; the lab shows all six. Do not draw conclusions from one cell; that is why the rule on the next slide pools days.</p></aside>
+</section>
+
+<section class="slide" data-label="Drift rule" id="own-baseline-rule" data-lo="LO3" data-n="26" data-session="3">
+  <div class="kicker">A drift rule</div>
+  <h2>Compare each rater with their own first days</h2>
+  <div class="cols cols-2">
+    <ol class="bullets tight">
+      <li>Baseline: days 1 to 5, 40 gold answers.</li>
+      <li>Recent: days 8 to 10, 24 gold answers.</li>
+      <li>One-sided two-proportion test on the drop.</li>
+      <li>Flag when the drop is at least 0.10 and z is at least 2.</li>
+    </ol>
+    <table class="t small">
+      <tr><th>Rater</th><th class="num">Base</th><th class="num">Recent</th><th class="num">z</th></tr>
+      <tr class="hl"><td>R5</td><td class="num">0.975</td><td class="num">0.375</td><td class="num">5.37</td></tr>
+      <tr><td>R4</td><td class="num">0.925</td><td class="num">0.792</td><td class="num">1.56</td></tr>
+      <tr><td>R6</td><td class="num">0.675</td><td class="num">0.792</td><td class="num">-1.00</td></tr>
+    </table>
+  </div>
+  <aside class="notes"><p>From the Lab 2.3 solution run. R4 dropped by 0.13 but z is 1.56: not flagged, but worth a look tomorrow, and note it coincides with R4's overloaded day 7. Other drift detectors (a CUSUM chart, a rolling window with a control limit) do the same job; what matters is the own-baseline comparison and a rule that pools days.</p></aside>
+</section>
+
+<section class="slide" data-label="Team rule" id="team-rule-fails" data-lo="LO3" data-n="27" data-session="3">
+  <div class="kicker">Why not a team-average rule?</div>
+  <h2>A team rule flags who is lowest, not who changed</h2>
+  <table class="t small">
+    <tr><th>Rater</th><th class="num">Ten-day accuracy</th><th>Team rule</th><th>Own-baseline rule</th><th>Diagnosis</th></tr>
+    <tr><td>R5</td><td class="num">0.712</td><td>flagged</td><td>flagged</td><td><b>drift</b></td></tr>
+    <tr><td>R6</td><td class="num">0.725</td><td>flagged</td><td>not flagged</td><td><b>steady-low</b></td></tr>
+  </table>
+  <div class="callout tip mt"><b>The response follows the diagnosis.</b> R5's 211 work labels since day 6 go back for re-checking; R6 stays on double labelling and gets coaching.</div>
+  <aside class="notes"><p>From the Lab 2.3 solution run. The team rule is not wrong, it answers a different question. Run both and read them together: the team rule catches someone never good enough, the own-baseline rule catches someone who changed.</p></aside>
+</section>
+
+<section class="slide" data-label="Confusions" id="what-r5-confuses" data-lo="LO3" data-n="28" data-session="3">
+  <div class="kicker">Lab 2.3 stretch</div>
+  <h2>After day 6, R5 calls defects and deliveries refunds</h2>
+  <table class="t small">
+    <tr><th>Gold label, days 6 to 10</th><th class="num">R5 said REFUND</th><th class="num">R5 right</th></tr>
+    <tr><td>DEFECT</td><td class="num">8</td><td class="num">2</td></tr>
+    <tr><td>DELIVERY</td><td class="num">7</td><td class="num">1</td></tr>
+    <tr><td>REFUND</td><td class="num">6</td><td class="num">6</td></tr>
+  </table>
+  <p class="small mt-s">A pattern like this points at a reading of rule 2 that spread too far: "any mention of money is REFUND".</p>
+  <aside class="notes"><p>From the stretch cross-tabulation. The conversation with R5 starts from this table, not from the accuracy number. It may also show a guideline gap: if R5 read the v1.1 change log entry on rule 2 as a broadening, the wording needs another edit.</p></aside>
+</section>
+
+<section class="slide" data-label="Workload" id="workload-and-limits" data-lo="LO3" data-n="29" data-session="3">
+  <div class="kicker">Workload against the guideline</div>
+  <h2>One rater went past the distressing-content limit</h2>
+  <div class="cols cols-2">
+    <div class="stat"><div class="big">69 min</div><div class="lbl">R4 on day 7, against a limit of 60</div></div>
+    <div class="bars">
+      <div class="row"><span>R6</span><div class="bar c-coral" style="--w:100%"></div><span class="val">150 an hour</span></div>
+      <div class="row"><span>R1</span><div class="bar c-teal" style="--w:62%"></div><span class="val">93</span></div>
+      <div class="row"><span>R5</span><div class="bar c-teal" style="--w:59%"></div><span class="val">89</span></div>
+      <div class="row"><span>R2</span><div class="bar c-teal" style="--w:37%"></div><span class="val">56</span></div>
+    </div>
+  </div>
+  <p class="small mt">R6 labels almost three times as fast as R2 and is the least accurate: speed is a quality signal too.</p>
+  <aside class="notes"><p>From the Lab 2.3 solution run. The breach is the workflow's fault: routing sent R4 extra restricted items on day 7. The fix is a routing cap and a check on R4, not a reprimand. Labels per hour comes from the seconds recorded on each label.</p></aside>
+</section>
+
+<section class="slide" id="checkpoint-3" data-lo="LO3" data-n="30" data-session="3">
+  <div class="kicker">Checkpoint</div>
+  <h2>Which response fits R5?</h2>
+  <div class="quiz" data-type="single" data-lo="LO3" data-id="checkpoint-3-q1">
+    <p class="lead">R5 scored 0.975 on gold for five days and 0.375 for the last three. R6 has scored about 0.72 throughout. What should happen to R5's work?</p>
+    <div class="opts">
+      <div class="opt" data-why="Applies the steady-low response to a rater whose problem is recent" data-k="A">Put R5 on double labelling from now on, like R6</div>
+      <div class="opt" data-why="Discards good work from before the change" data-k="B">Re-label everything R5 has ever labelled</div>
+      <div class="opt" data-ok data-k="C">Re-check R5's work since the drift began, and find out what changed</div>
+      <div class="opt" data-why="Lets an average over all ten days hide the recent fall" data-k="D">Nothing: R5's ten-day average is close to R6's</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Drift means the work before the change is sound and the work after is not; the response targets the period and the cause.</div>
+  </div>
+  <aside class="notes"><p>Answer: C. In the lab that is 211 work labels from day 6 on.</p></aside>
+</section>
+
+<section class="slide lab top" id="lab-2-3" data-auto="lab" data-lab="2.3" data-label="Lab 2.3" data-n="31" data-session="3">
+  <div class="cols cols-2 mid"><div><div class="lab-tag">Lab 2.3 · 25 min</div><h2>Find the drifting rater</h2><p class="lead small">Track gold accuracy per rater over ten days, flag the rater who drifts against their own baseline, tell drift from steady low accuracy, and check distressing-content minutes against the guideline.</p><a class="nb" href="../labs/D2_3_find_drifting_rater.ipynb">D2_3_find_drifting_rater.ipynb</a></div><ul class="checklist"><li>Gold accuracy by rater and day <span class="min">5 min</span></li><li>A drift rule against each rater's own baseline <span class="min">8 min</span></li><li>Drift or steadily low? <span class="min">5 min</span></li><li>Workload and distressing-content minutes <span class="min">7 min</span></li><li class="stretch">✱ Stretch: Which categories does the drifting rater now confuse?</li></ul></div>
+  <aside class="notes"><p>Common error: a drift rule with the team mean as baseline, which flags R6. Another: testing day by day, which flags someone every day by chance. The lab pools five baseline days and three recent ones. Participants without Lab 2.2 lose nothing: this lab starts again from ops_round.csv.</p></aside>
+</section>
+
+<!-- ======================= SESSION 4 ======================= -->
+<section class="slide section" id="s4" data-auto="section" data-session="4" data-n="32">
+  <div class="kicker">Session 4</div>
+  <h1>Cost and model pre-labels</h1>
+  <ul class="bullets outcomes"><li>Compute cost per accepted label for a labelling design</li><li>Mask personal data and classify what may leave the organisation before a model call</li><li>Compare double, audited single and model-assisted labelling on cost and error</li></ul>
+  <div class="sess-no">04</div>
+</section>
+
+<section class="slide" data-label="Cost per label" id="cost-per-accepted-label" data-lo="LO3" data-n="33" data-session="4">
+  <div class="kicker">What a label costs</div>
+  <h2>Cost per accepted label counts every check, not only the first pass</h2>
+  <div class="cols cols-3 gap-s">
+    <div class="card c-teal"><h4>Rater time</h4><p class="small mb0">Seconds per label times the hourly rate, for every label made.</p></div>
+    <div class="card c-cyan"><h4>Review time</h4><p class="small mb0">Audits and adjudication: 90 seconds of a more senior person.</p></div>
+    <div class="card c-coral"><h4>Divide by accepted</h4><p class="small mb0">Only labels that passed the design's own checks count.</p></div>
+  </div>
+  <div class="callout warn small mt"><b>What goes wrong.</b> A cheap first pass whose error is too high is not cheap: the analysts pay for it later in a wrong figure.</div>
+  <aside class="notes"><p>Bayyin's rates in the case: SAR 60 an hour for raters, SAR 120 an hour for the adjudicator. These are case assumptions, not market rates. A paid model would add its price per token; the free tier used in the lab adds nothing per call but has rate limits.</p></aside>
+</section>
+
+<section class="slide" data-label="Before any call" id="mask-and-classify" data-lo="LO3" data-n="34" data-session="4">
+  <div class="kicker">Before any model call</div>
+  <h2>Mask, then classify: only what is safe leaves the office</h2>
+  <div class="flow">
+    <div class="step c-navy"><b>Raw text</b>Restricted: names, phones, IDs, IBANs</div>
+    <div class="arrow">→</div>
+    <div class="step c-teal"><b>Mask</b>identifiers replaced by tags</div>
+    <div class="arrow">→</div>
+    <div class="step c-amber"><b>Classify</b>anything that still looks like an identifier stays Restricted</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>Send</b>only what the owner cleared</div>
+  </div>
+  <p class="small mt">SDAIA's Generative AI Guidelines for Government tell staff not to enter data classified Restricted or higher into generative AI tools.</p>
+  <aside class="notes"><p>The guideline's text (read for this course): employees must refrain from entering data classified restricted or higher, and use of generative AI tools should be limited to data classified public. In the case, Rihab Al-Mudaimeegh and the data owner ruled that masked complaint text with no identifier left may be sent to the approved model; that ruling is the case's assumption, and in real work it is the data owner's decision under the Data Classification Policy.</p><p>Sources: SDAIA, Generative AI Guidelines for Government; NDMO Data Classification Policy.</p></aside>
+</section>
+
+<section class="slide" data-label="Two digit sets" id="arabic-digits-leak" data-lo="LO3" data-n="35" data-session="4">
+  <div class="kicker">Lab 2.4</div>
+  <h2>A pattern for Latin digits misses numbers written in Arabic-Indic digits</h2>
+  <div class="cols cols-2">
+    <pre class="code s" data-file="mask(text)"><code class="language-python">t = text.translate(B.TO_LATIN)   <span class="hljs-comment"># ٠١٢ → 012</span>
+<span class="hljs-keyword">for</span> name <span class="hljs-keyword">in</span> [<span class="hljs-string">&quot;IBAN&quot;</span>, <span class="hljs-string">&quot;EMAIL&quot;</span>, <span class="hljs-string">&quot;PHONE&quot;</span>,
+             <span class="hljs-string">&quot;NATIONAL_ID&quot;</span>]:
+    t = re.sub(B.PII_PATTERNS[name],
+               <span class="hljs-string">f&quot;[<span class="hljs-subst">{name}</span>]&quot;</span>, t)</code></pre>
+    <div class="stack">
+      <div class="stat"><div class="big">19 of 40</div><div class="lbl">complaints still carry an identifier after a naive phone pattern</div></div>
+      <div class="card c-teal flat"><p class="small mb0">After full masking, 40 of 40 are classified safe to send.</p></div>
+    </div>
+  </div>
+  <aside class="notes"><p>From the Lab 2.4 solution run. The naive pattern only replaces Latin-digit mobile numbers, so IBANs, ID numbers and Arabic-Indic phone numbers pass. The residual check (seven digits in a row, in either digit set) is the safety net under the patterns: it fails closed.</p></aside>
+</section>
+
+<section class="slide" data-label="Pre-labels" id="prelabel-call" data-lo="LO3" data-n="36" data-session="4">
+  <div class="kicker">Fahis, the pre-labelling step</div>
+  <h2>One chat-completions call per masked complaint</h2>
+  <div class="cols cols-2">
+    <div class="prompt s" data-tool="System message">You label consumer complaints for a consumer protection office. Reply with exactly one code: REFUND, DEFECT, DELIVERY, PRICE, AD or WARRANTY. Rules in order: warranty repair refused is WARRANTY; refund asked and refused is REFUND; …</div>
+    <div class="stack">
+      <div class="card c-teal flat"><h4>A free hosted model</h4><p class="small mb0">An open-weight model through OpenRouter's free tier; any OpenAI-style endpoint works.</p></div>
+      <div class="card c-coral flat"><h4>Without a key</h4><p class="small mb0">A scripted stand-in answers, and the notebook says so. Its labels are keyword rules, not a model's.</p></div>
+    </div>
+  </div>
+  <aside class="notes"><p>The default model id is in labs/bayyin.py and .env.example; free model ids change often, so check the list the week before a cohort. In the course's own run no working key was available, so the recorded pre-labels came from the stand-in: do not quote its accuracy as a model's. Measuring how good a model is as an annotator is DS-306's subject; here the question is the cost of a design where people check every pre-label.</p></aside>
+</section>
+
+<section class="slide" data-label="Three designs" id="three-designs-cost" data-lo="LO3" data-n="37" data-session="4">
+  <div class="kicker">Lab 2.4, a trial on 300 gold complaints</div>
+  <h2>The cheapest design is also the least accurate</h2>
+  <table class="t small">
+    <tr><th>Design</th><th class="num">SAR per accepted label</th><th class="num">Error against gold</th><th class="num">Adjudicated</th></tr>
+    <tr><td>Double labelling</td><td class="num">1.94</td><td class="num">0.3%</td><td class="num">51</td></tr>
+    <tr class="hl"><td>Audited single (15% audit)</td><td class="num">0.93</td><td class="num">5.0%</td><td class="num">5</td></tr>
+    <tr><td>Model-assisted, every pre-label checked</td><td class="num">0.37</td><td class="num">10.0%</td><td class="num">0</td></tr>
+  </table>
+  <p class="small mt-s">With a limit of 5% wrong labels, audited single labelling is the cheapest design that qualifies.</p>
+  <aside class="notes"><p>From the Lab 2.4 solution run on the synthetic trial (data/ops/design_trial.csv). The trial's seconds and error rates are generated, so the ranking is the lesson, not the exact SAR values. Audited single sits exactly on the limit: a sensible trainer asks whether the decision should hold at 5.0%.</p></aside>
+</section>
+
+<section class="slide" data-label="Anchoring" id="anchoring" data-lo="LO3" data-n="38" data-session="4">
+  <div class="kicker">Why model-assisted errs</div>
+  <h2>People confirm a wrong pre-label more often than they should</h2>
+  <div class="cols cols-2">
+    <div class="stat"><div class="big">28%</div><div class="lbl">of 60 wrong pre-labels confirmed by the person checking</div></div>
+    <ul class="bullets">
+      <li>Confirming is fast; disagreeing takes thought.</li>
+      <li>Hide the pre-label on a sample of items to measure the effect.</li>
+      <li>Never accept a pre-label unseen: the entry's AI policy and the office's.</li>
+    </ul>
+  </div>
+  <aside class="notes"><p>From the Lab 2.4 stretch. Anchoring on a suggested answer is a well-known effect in assisted labelling; the trial makes it measurable. One countermeasure: show the pre-label only after the person has chosen, on a random fraction of items, and compare.</p></aside>
+</section>
+
+<section class="slide" data-label="QC report" id="qc-report" data-lo="LO3" data-n="39" data-session="4">
+  <div class="kicker">The evidence for LO3</div>
+  <h2>The quality-control report in five lines</h2>
+  <ol class="bullets tight">
+    <li>Gold accuracy per rater with intervals; R3 (by a hair), R5 and R6 on watch.</li>
+    <li>R5 drifted from day 6; 211 work labels re-checked. R6 steadily low: coaching and double labelling.</li>
+    <li>Queues: 1,081 accepted, 731 re-label, 139 adjudication, 64 restricted; 15 hours of review.</li>
+    <li>One breach of the distressing-content limit (R4, day 7, 69 minutes); routing cap added.</li>
+    <li>Audited single labelling at SAR 0.93 per accepted label and 5.0% error.</li>
+  </ol>
+  <aside class="notes"><p>Participants assemble this from artifacts/d2_2, d2_3 and d2_4. It is the evidence the entry asks for: a quality-control report that flags the drifting rater and states cost per accepted label. The capstone README reports the same for Al-Ghadaf.</p></aside>
+</section>
+
+<section class="slide" id="checkpoint-4" data-lo="LO3" data-n="40" data-session="4">
+  <div class="kicker">Checkpoint</div>
+  <h2>Which design would you choose?</h2>
+  <div class="quiz" data-type="single" data-lo="LO3" data-id="checkpoint-4-q1">
+    <p class="lead">Analysts accept at most 5% wrong labels. Double labelling costs SAR 1.94 at 0.3% error; audited single SAR 0.93 at 5.0%; model-assisted SAR 0.37 at 10.0%. Which design, and why?</p>
+    <div class="opts">
+      <div class="opt" data-why="Compares costs without first applying the error limit" data-k="A">Model-assisted: it is the cheapest</div>
+      <div class="opt" data-why="Pays twice the cost for accuracy beyond what the analysts need" data-k="B">Double labelling: it has the fewest errors</div>
+      <div class="opt" data-why="Averages designs that do different things, which no team can run" data-k="C">A mix of all three in equal shares</div>
+      <div class="opt" data-ok data-k="D">Audited single: the cheapest design within the error limit</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Cost per accepted label is compared only among designs that meet the error limit; then the cheapest wins.</div>
+  </div>
+  <aside class="notes"><p>Answer: D. Ask what would change the choice: a better pre-label prompt or an anchoring countermeasure that brings model-assisted error to 5% or less on a new trial.</p></aside>
+</section>
+
+<section class="slide lab top" id="lab-2-4" data-auto="lab" data-lab="2.4" data-label="Lab 2.4" data-n="41" data-session="4">
+  <div class="cols cols-2 mid"><div><div class="lab-tag">Lab 2.4 · 25 min</div><h2>Cost per accepted label</h2><p class="lead small">Mask and classify complaints before any model call, pre-label the masked ones through a chat-completions endpoint, and compare cost per accepted label and error across double, audited single and model-assisted labelling.</p><a class="nb" href="../labs/D2_4_compare_cost_per.ipynb">D2_4_compare_cost_per.ipynb</a></div><ul class="checklist"><li>Mask personal data; classify what may leave <span class="min">7 min</span></li><li>Pre-label masked complaints through the endpoint <span class="min">5 min</span></li><li>Cost and error of three designs <span class="min">9 min</span></li><li>Choose a design, and the condition that would change it <span class="min">4 min</span></li><li class="stretch">✱ Stretch: Anchoring: how often do people confirm a wrong pre-label?</li></ul></div>
+  <aside class="notes"><p>Participants with a free key see the model's answers; without one, the stand-in. Common failures: a 401 from a badly pasted key (the notebook falls back), a 429 from a busy free model (the fallback model list takes over). Check that nobody sends text before masking: the check at the end of task 2 fails if anything Restricted was sent.</p></aside>
+</section>
+
+<section class="slide" id="wrap-up" data-n="42" data-session="4">
+  <div class="kicker">Day 2 · wrap-up</div>
+  <h2>Three things to keep</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal"><h4>Gold that covers the rare</h4><p class="small mb0">Stratify on what you know before labelling, with a floor; weight before you estimate.</p></div>
+    <div class="card c-coral"><h4>Own baseline for drift</h4><p class="small mb0">A team rule finds the lowest; an own-baseline rule finds who changed.</p></div>
+    <div class="card c-purple"><h4>Mask, classify, then count cost</h4><p class="small mb0">Nothing Restricted leaves; cost is compared within the error limit.</p></div>
+  </div>
+  <aside class="notes"><p>Tomorrow the labels join the office's other data. The questions move from "is this label right?" to "is this table fit to publish from?", with rules, owners and a contract.</p></aside>
+</section>
+
+<section class="slide dark" id="next" data-label="Next" data-n="43" data-session="4">
+  <div class="kicker">Next</div>
+  <h2>Day 3: Rules and contracts</h2>
+  <p class="lead">Four source tables with seeded defects. The first lab is AI-off: read a profile and propose rules on your own.</p>
+  <aside class="notes"><p>Nothing to install: DuckDB is already in the environment. Ask participants to re-read the six quality dimensions from DS-202 (completeness, uniqueness, timeliness, validity, accuracy, consistency) if they took that course.</p></aside>
+</section>
+</div>
+<script type="application/json" id="academy-data">{"v":1,"engine":"1.0.0","build":{"at":"2026-11-15T21:37:37Z","version":"2027.1.0","commit":"7240e93"},"course":{"id":"ds-311","code":"DS-311","title":"Data Quality, Labelling and Pipelines for Analysis","track":"data-science","lang":"en","dir":"ltr","url":"https://sdaiaacademy.github.io/ds-311/","repo":"SDAIAAcademy/ds-311","home":"../index.html"},"deck":{"id":"day2","kind":"day","day":2,"label":"Day 2","title":"Golden sets and labelling operations","prev":"day1.html","next":"day3.html","md":"day2.md","alt":{}},"sessions":[{"n":1,"label":"Session 1","title":"Sampling a golden set","slide":"s1","outcomes":["Explain why a simple random sample misses rare categories and dialects","Stratify on fields known before labelling, with a floor per stratum","Weight a stratified sample back to the population"],"minutes":50,"lab":{"id":"2.1","title":"A stratified golden set","minutes":25,"href":"../labs/D2_1_draw_stratified_golden.ipynb"}},{"n":2,"label":"Session 2","title":"Gold questions and review queues","slide":"s2","outcomes":["Estimate each rater's gold accuracy with an interval","Set a pass rule that needs a minimum number of gold answers","Route items to acceptance, adjudication or a restricted queue"],"minutes":50,"lab":{"id":"2.2","title":"Gold checks and routing","minutes":25,"href":"../labs/D2_2_set_gold_question.ipynb"}},{"n":3,"label":"Session 3","title":"Rater drift and workload","slide":"s3","outcomes":["Track gold accuracy per rater over time","Flag drift against a rater's own baseline, not the team average","Check workload and distressing-content time against the guideline"],"minutes":50,"lab":{"id":"2.3","title":"Find the drifting rater","minutes":25,"href":"../labs/D2_3_find_drifting_rater.ipynb"}},{"n":4,"label":"Session 4","title":"Cost and model pre-labels","slide":"s4","outcomes":["Compute cost per accepted label for a labelling design","Mask personal data and classify what may leave the organisation before a model call","Compare double, audited single and model-assisted labelling on cost and error"],"minutes":50,"lab":{"id":"2.4","title":"Cost per accepted label","minutes":25,"href":"../labs/D2_4_compare_cost_per.ipynb"}}],"slides":[{"id":"title","n":1,"title":"Golden sets and labelling operations","kind":"title","session":0,"hash":"e95b7076","md":"#### [day2#title] Golden sets and labelling operations\n\n*SDAIA Academy · Data Quality, Labelling and Pipelines for Analysis*\n\nDay 2: Run a rater team with gold questions, queues and a cost\n\nData Science Track · 4 teaching days + capstone day · 4 sessions · 4 labs · DS-311","notes":"Yesterday the guideline was tested by three raters on 300 complaints. Today it goes into operation: six raters, ten days, 2,000 items. The question changes from \"is the guideline clear?\" to \"is each rater still applying it, at what cost?\"","minutes":null,"lo":[]},{"id":"review-day1","n":2,"title":"Which number goes in the agreement report?","kind":"quiz","session":0,"hash":"915edb13","md":"#### [day2#review-day1] Which number goes in the agreement report?\n\n*Review of Day 1*\n\n**Question:** Round 2 of the pilot gives alpha 0.789 overall, with an interval from 0.744 to 0.825, and 0.743 for mixed text from 15 complaints. Which sentence belongs in the report?\n\n- A. \"Agreement is 0.789.\"\n- B. \"Agreement is 0.789 (0.744 to 0.825), so every variety is reliable.\"\n- C. \"Agreement is 0.789 (0.744 to 0.825); mixed text is lowest, on only 15 complaints.\"\n- D. \"Mixed text is excluded because 15 complaints are too few.\"","notes":"Answer: C. Numbers from Lab 1.4. Use this to remind the room that today's quality-control report follows the same habit: every figure with its interval and its base.","minutes":null,"lo":["LO2"]},{"id":"agenda","n":3,"title":"Golden sets and labelling operations","kind":"content","session":0,"hash":"409f93d2","md":"#### [day2#agenda] Golden sets and labelling operations\n\n*Today*\n\n- **Session 1 · Sampling a golden set**: A golden set stratified on what is known before labelling, with floors for rare categories and dialects\n- **Session 2 · Gold questions and review queues**: Gold questions mixed into the work, a pass rule with a minimum count, and routing rules that send each item where it belongs\n- **Session 3 · Rater drift and workload**: Each rater against their own baseline, drift told apart from steady low accuracy, and workload against the guideline's limits\n- **Session 4 · Cost and model pre-labels**: Cost per accepted label across three designs, with personal data masked and classified before any model call","notes":"","minutes":null,"lo":[]},{"id":"s1","n":4,"title":"Sampling a golden set","kind":"section","session":1,"hash":"f16ea1cd","md":"#### [day2#s1] Sampling a golden set\n\n*Session 1*\n\n- Explain why a simple random sample misses rare categories and dialects\n- Stratify on fields known before labelling, with a floor per stratum\n- Weight a stratified sample back to the population","notes":"","minutes":null,"lo":["LO3"]},{"id":"what-gold-is-for","n":5,"title":"Gold questions measure each rater against a known answer","kind":"content","session":1,"hash":"a767ed35","md":"#### [day2#what-gold-is-for] Gold questions measure each rater against a known answer\n\n*A golden set*\n\n- **What it is.** Complaints labelled by experts and adjudicated: the expected answer is known.\n- **How it is used.** Mixed into each rater's work, unmarked. Accuracy on them estimates accuracy on the rest.\n- **What it must cover.** Every category and every language variety, including the rare ones a rater might miss.\n\n> **What goes wrong.** A golden set of easy, common complaints scores everyone highly and tests nothing.","notes":"Agreement (Day 1) says whether raters agree with each other; gold says whether they agree with the expected answer. Both matter: two raters can agree on the wrong label. Bayyin's gold answers come from Khulood and an expert panel.","minutes":null,"lo":["LO3"]},{"id":"random-sample-misses","n":6,"title":"A random sample holds four WARRANTY complaints","kind":"content","session":1,"hash":"39b54191","md":"#### [day2#random-sample-misses] A random sample holds four WARRANTY complaints\n\n*Lab 2.1, a simple random sample of 240*\n\n- **4** WARRANTY complaints of 240\n- **18** mixed Arabic and English\n- **2** WARRANTY in mixed text\n\nA rater who misses every WARRANTY complaint still scores above 98% on this gold set.","notes":"From the solution run of Lab 2.1 (random_state 311). WARRANTY is about 2.5% of the corpus and mixed text about 6%. The arithmetic: missing all 4 WARRANTY items costs 4 of 240 points, under 2%.","minutes":null,"lo":["LO3"]},{"id":"stratify-on-known-fields","n":7,"title":"Stratify on what is known before labelling","kind":"content","session":1,"hash":"03f5d038","md":"#### [day2#stratify-on-known-fields] Stratify on what is known before labelling\n\n*What you can stratify on*\n\n- The **true category** is what labelling produces: not available yet.\n- The **language variety** is known from language detection.\n- A **pre-label** from keywords or a model is known, and right about four times in five.\n- 24 strata: four varieties times six pre-labels.\n\n- **The smallest strata.** Mixed text pre-labelled WARRANTY, English pre-labelled WARRANTY: the ones that matter most for gold.","notes":"A pre-label is imperfect, so the stratified sample's coverage is checked after experts label it (task 4 of the lab). Stratifying on a proxy is common practice in survey sampling: it raises the chance of rare cases without needing to know them.","minutes":null,"lo":["LO3"]},{"id":"floor-per-stratum","n":8,"title":"A floor per stratum, the rest in proportion","kind":"content","session":1,"hash":"e82ae490","md":"#### [day2#floor-per-stratum] A floor per stratum, the rest in proportion\n\n*How many from each stratum*\n\n1. **1 · Floor** min(6, stratum size) each\n2. **2 · Share the rest** in proportion to what is left\n3. **3 · Round** so the total is exactly 240\n4. **4 · Draw** with a fixed seed\n\n> **The trade.** A floor costs precision in the large strata and buys enough rare cases to test raters on them.","notes":"Proportional allocation alone would give the mixed-WARRANTY stratum (111 of 30,000) under one item. The floor of six is Bayyin's choice; a larger golden set or a higher floor are both defensible. Ask the room what floor their rarest category would need.","minutes":null,"lo":["LO3"]},{"id":"stratified-coverage","n":9,"title":"The stratified set holds seven times the WARRANTY complaints","kind":"content","session":1,"hash":"aa2bfadd","md":"#### [day2#stratified-coverage] The stratified set holds seven times the WARRANTY complaints\n\n*Lab 2.1, after expert labelling*\n\n| 240 complaints | WARRANTY | Mixed text | WARRANTY in mixed |\n| --- | --- | --- | --- |\n| Simple random sample | 4 | 18 | 2 |\n| Stratified, floor of six | 29 | 42 | 7 |\n\nCoverage is counted on the experts' labels, not on the pre-labels the strata used.","notes":"From the Lab 2.1 solution run. The pre-label for WARRANTY is precise (keywords rarely invent a warranty), which is why stratifying on it works so well here; a noisier pre-label would buy less. Always check coverage on the true labels.","minutes":null,"lo":["LO3"]},{"id":"weight-back","n":10,"title":"An oversampled set must be weighted before it estimates shares","kind":"content","session":1,"hash":"8e5a1629","md":"#### [day2#weight-back] An oversampled set must be weighted before it estimates shares\n\n*Using gold for estimates*\n\n| Item | Value |\n| --- | --- |\n| WARRANTY, unweighted | 12.1% |\n| WARRANTY, weighted | 3.4% |\n| WARRANTY, whole corpus | 2.5% |\n\nEach drawn complaint stands for Nh / nh complaints of its stratum.","notes":"Scoring a rater item by item needs no weights. Estimating anything about the population from the golden set (category shares, error rates of the whole round) does. The weighted share is closer to the corpus but not equal: 240 items still carry sampling error.","minutes":null,"lo":["LO3"]},{"id":"hidden-gold","n":11,"title":"Raters learn gold questions they see too often","kind":"content","session":1,"hash":"743596c3","md":"#### [day2#hidden-gold] Raters learn gold questions they see too often\n\n*Gold that stays useful*\n\n- Draw gold from the same mix of varieties and lengths as the work, so it cannot be spotted.\n- Rotate: each gold item appears to a rater at most a few times.\n- Keep a hidden half for audits nobody has seen.\n- Version the golden set with the guideline: a changed rule changes some gold answers.","notes":"The stretch of Lab 2.1 splits the set into two halves balanced by stratum (15 and 14 WARRANTY items in the solution run). Lab 2.2's stretch checks that Bayyin's gold questions look like the work: same variety mix, same median time (41 seconds for both).","minutes":null,"lo":["LO3"]},{"id":"checkpoint-1","n":12,"title":"How do you get enough rare cases into the golden set?","kind":"quiz","session":1,"hash":"808f6044","md":"#### [day2#checkpoint-1] How do you get enough rare cases into the golden set?\n\n*Checkpoint*\n\n**Question:** Bayyin must build a 240-complaint golden set that tests raters on WARRANTY, about 2.5% of complaints. No complaint is labelled yet. What do you stratify on?\n\n- A. The true category of each complaint\n- B. Nothing: draw a random sample of 480 instead\n- C. The channel the complaint came through\n- D. The language variety and a pre-label, with a floor per stratum","notes":"Answer: D. B doubles the expected WARRANTY count to about 12 at twice the expert cost; the stratified 240 gave 29 in the lab.","minutes":null,"lo":["LO3"]},{"id":"lab-2-1","n":13,"title":"A stratified golden set","kind":"lab","session":1,"hash":"b08ec5c3","md":"#### [day2#lab-2-1] A stratified golden set\n\nLab 2.1 · 25 min\n\nDraw a 240-complaint golden set stratified by language variety and pre-label with a floor per stratum, compare its coverage with a random sample, and weight it back to the population.\n\n[D2_1_draw_stratified_golden.ipynb](https://sdaiaacademy.github.io/ds-311/labs/D2_1_draw_stratified_golden.ipynb)\n\n- [ ] What a random sample of 240 misses (4 min)\n- [ ] Strata from what is known before labelling (6 min)\n- [ ] Allocate with a floor per stratum, and draw (8 min)\n- [ ] Coverage under expert labels, and the weights (7 min)\n- [ ] ✱ Stretch: Keep half of the gold hidden for later audits","notes":"The allocation function is where people stall: rounding leaves the total at 239 or 241. The solution fixes the rounding one unit at a time from the largest stratum. Expert labels come from B.expert_labels, which stands for the expert panel's work; remind the room that in real life that call costs days.","minutes":null,"lo":[]},{"id":"s2","n":14,"title":"Gold questions and review queues","kind":"section","session":2,"hash":"3d23c639","md":"#### [day2#s2] Gold questions and review queues\n\n*Session 2*\n\n- Estimate each rater's gold accuracy with an interval\n- Set a pass rule that needs a minimum number of gold answers\n- Route items to acceptance, adjudication or a restricted queue","notes":"","minutes":null,"lo":["LO3"]},{"id":"operations-round","n":15,"title":"Ten days, six raters, eight gold questions each a day","kind":"content","session":2,"hash":"62bb6dc3","md":"#### [day2#operations-round] Ten days, six raters, eight gold questions each a day\n\n*The operations round*\n\n- **2,015** work items\n- **2,986** labels in all\n- **480** gold answers\n- **1 in 4** items labelled twice\n\nDistressing complaints go only to the two raters approved for them, R2 and R4.","notes":"From data/ops/ops_round.csv as Lab 2.2 loads it. The design (gold rate, double-label rate) is Bayyin's choice; 10% gold is a common starting point in labelling operations, but nothing makes it a standard. The same structure runs in a labelling platform's queue settings.","minutes":null,"lo":["LO3"]},{"id":"gold-accuracy-interval","n":16,"title":"Three raters fall below the line, one of them by a hair","kind":"content","session":2,"hash":"a11c1646","md":"#### [day2#gold-accuracy-interval] Three raters fall below the line, one of them by a hair\n\n*Lab 2.2, 80 gold answers per rater*\n\n| Rater | Right | Accuracy | 95% interval |\n| --- | --- | --- | --- |\n| R1 | 76 | 0.950 | 0.878 to 0.980 |\n| R2 | 75 | 0.938 | 0.862 to 0.973 |\n| R3 | 71 | 0.888 | 0.7998 to 0.940 |\n| R4 | 72 | 0.900 | 0.815 to 0.948 |\n| R5 | 57 | 0.712 | 0.605 to 0.800 |\n| R6 | 58 | 0.725 | 0.619 to 0.811 |","notes":"Wilson intervals, from the Lab 2.2 solution run. The Wilson interval behaves well near 0 and 1 and with small counts, unlike the plus-or-minus normal formula. R3 is the lesson of the rounding: its lower bound is 0.7998, which a three-decimal table shows as 0.800, so it misses the 0.80 line by a hair. Round for display, never before a decision. R5 and R6 look alike here; Session 3 shows they are not.","minutes":null,"lo":["LO3"]},{"id":"pass-rule-minimum","n":17,"title":"Judge the lower end of the interval, after a minimum count","kind":"content","session":2,"hash":"3c799404","md":"#### [day2#pass-rule-minimum] Judge the lower end of the interval, after a minimum count\n\n*Turning scores into a decision*\n\n```python\n# file: Lab 2.2\nMIN_GOLD, LOWER = 30, 0.80\n\ndef status(row):\n    if row.n \u003c MIN_GOLD:\n        return \"too few\"\n    return \"pass\" if row.lo >= LOWER else \"watch\"\n```\n\n- **Why a minimum.** 9 of 9 right has an interval reaching down to about 0.70.\n- **Why the lower bound.** A rater passes when we are fairly sure they are good enough, not when they might be.","notes":"The thresholds (30 gold answers, 0.80) are Bayyin's choices and belong in the guideline's operations section. Ask: what does a rater on \"watch\" do tomorrow? At Bayyin, their single labels go to a re-label queue until they pass again.","minutes":null,"lo":["LO3"]},{"id":"routing-rules","n":18,"title":"Every item goes to exactly one queue","kind":"content","session":2,"hash":"ef761e14","md":"#### [day2#routing-rules] Every item goes to exactly one queue\n\n*Review queues*\n\n1. **Distressing?** restricted queue: approved raters only\n2. **Two labels that disagree?** adjudication\n3. **One label from a rater on watch?** re-label\n4. **Otherwise** accept","notes":"Order matters, as in the guideline: the wellbeing constraint comes first because it holds whatever the label. Labelling platforms express this as queue rules or task routing; the logic is the same.","minutes":null,"lo":["LO3"]},{"id":"queue-sizes","n":19,"title":"Almost half of the round needs a second look","kind":"content","session":2,"hash":"5942a234","md":"#### [day2#queue-sizes] Almost half of the round needs a second look\n\n*Lab 2.2, 2,015 work items*\n\n| Item | Value |\n| --- | --- |\n| Accept | 1,081 |\n| Re-label | 731 |\n| Adjudicate | 139 |\n| Restricted | 64 |\n\nTomorrow's work: 3.5 adjudicator hours, 8.3 hours of re-labelling, 3.6 hours in the restricted queue.","notes":"From the Lab 2.2 solution run, with 90 seconds per adjudication and the team's median time per re-label. The re-label queue is large because three raters are on watch, R3 by a hair; fixing R5's drift (Session 3) shrinks it more than hiring.","minutes":null,"lo":["LO3"]},{"id":"restricted-compliance","n":20,"title":"The restricted queue is audited, not assumed","kind":"content","session":2,"hash":"8f57f23d","md":"#### [day2#restricted-compliance] The restricted queue is audited, not assumed\n\n*Checking the wellbeing rule*\n\n**0** restricted items labelled by a rater who is not approved\n\n- The check reads the labels, not the routing settings.\n- A zero is evidence; an unchecked setting is a hope.\n- The time limit is checked separately, per rater and day, in Session 3.","notes":"Who labelled what is in the export; the check takes one line. Make the point that a guideline rule without a check is decoration: the entry's responsible-use line asks that the guideline record who may label distressing content and for how long, and the workflow is where it is enforced.","minutes":null,"lo":["LO3"]},{"id":"checkpoint-2","n":21,"title":"Does this rater pass?","kind":"quiz","session":2,"hash":"fd196f33","md":"#### [day2#checkpoint-2] Does this rater pass?\n\n*Checkpoint*\n\n**Question:** A new rater has answered 12 gold questions and got all 12 right. Bayyin's rule needs 30 gold answers and a lower bound of at least 0.80. What is their status?\n\n- A. Pass: 100% accuracy\n- B. Too few: keep giving gold questions until 30\n- C. Watch: the interval is too wide\n- D. Re-label all their work","notes":"Answer: B. The Wilson interval for 12 of 12 reaches down to about 0.76, so a judgement would be premature either way.","minutes":null,"lo":["LO3"]},{"id":"lab-2-2","n":22,"title":"Gold checks and routing","kind":"lab","session":2,"hash":"aebb99da","md":"#### [day2#lab-2-2] Gold checks and routing\n\nLab 2.2 · 25 min\n\nScore six raters on the gold questions of a 2,000-item round with Wilson intervals, set a pass rule, and route every item to acceptance, adjudication or the restricted queue.\n\n[D2_2_set_gold_question.ipynb](https://sdaiaacademy.github.io/ds-311/labs/D2_2_set_gold_question.ipynb)\n\n- [ ] Gold accuracy per rater, with an interval (6 min)\n- [ ] A pass rule with a minimum count (5 min)\n- [ ] Routing: accept, adjudicate, restricted queue (8 min)\n- [ ] Queue sizes and adjudicator hours (6 min)\n- [ ] ✱ Stretch: Gold questions a rater cannot spot","notes":"Common error: computing gold accuracy over all labels instead of gold rows only. Another: routing a distressing item to adjudication because its two labels differ; the restricted check must come first. Participants who did not finish task 1 get the reference scores and can still route.","minutes":null,"lo":[]},{"id":"s3","n":23,"title":"Rater drift and workload","kind":"section","session":3,"hash":"7998a45c","md":"#### [day2#s3] Rater drift and workload\n\n*Session 3*\n\n- Track gold accuracy per rater over time\n- Flag drift against a rater's own baseline, not the team average\n- Check workload and distressing-content time against the guideline","notes":"","minutes":null,"lo":["LO3"]},{"id":"drift-versus-steady","n":24,"title":"The same average can come from two different problems","kind":"content","session":3,"hash":"d499c9a5","md":"#### [day2#drift-versus-steady] The same average can come from two different problems\n\n*Two raters far below the line*\n\n- **Steadily low.** Always below the team. Needs coaching and double labelling; past work is as good as it ever was.\n- **Drift.** Was good, then changed. Needs a conversation about what changed, and recent work re-checked.\n\nR5 ends at 0.712 and R6 at 0.725 over ten days. Only the daily picture tells them apart.","notes":"Ask the room what could make a good rater drift: a misread update to the guideline, fatigue, a new batch with a different mix, a shortcut learned from a colleague. Each needs a different fix, which is why detection comes before blame.","minutes":null,"lo":["LO3"]},{"id":"daily-accuracy","n":25,"title":"R5 falls from day 6; R6 was low from the start","kind":"content","session":3,"hash":"b6ba3c5b","md":"#### [day2#daily-accuracy] R5 falls from day 6; R6 was low from the start\n\n*Lab 2.3, gold accuracy by day (eight answers a day)*\n\n| Rater | D1 | D2 | D3 | D4 | D5 | D6 | D7 | D8 | D9 | D10 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| R1 | 1.00 | 0.88 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 0.88 | 0.88 | 0.88 |\n| R5 | 1.00 | 1.00 | 1.00 | 1.00 | 0.88 | 0.50 | 0.62 | 0.50 | 0.38 | 0.25 |\n| R6 | 0.38 | 0.75 | 0.75 | 0.75 | 0.75 | 0.75 | 0.75 | 0.75 | 0.75 | 0.88 |\n\nEight gold answers a day make each cell coarse: one answer moves it by 0.125.","notes":"Three rows of the table Lab 2.3 prints; the lab shows all six. Do not draw conclusions from one cell; that is why the rule on the next slide pools days.","minutes":null,"lo":["LO3"]},{"id":"own-baseline-rule","n":26,"title":"Compare each rater with their own first days","kind":"content","session":3,"hash":"3b4bff57","md":"#### [day2#own-baseline-rule] Compare each rater with their own first days\n\n*A drift rule*\n\n1. Baseline: days 1 to 5, 40 gold answers.\n2. Recent: days 8 to 10, 24 gold answers.\n3. One-sided two-proportion test on the drop.\n4. Flag when the drop is at least 0.10 and z is at least 2.\n\n| Rater | Base | Recent | z |\n| --- | --- | --- | --- |\n| R5 | 0.975 | 0.375 | 5.37 |\n| R4 | 0.925 | 0.792 | 1.56 |\n| R6 | 0.675 | 0.792 | -1.00 |","notes":"From the Lab 2.3 solution run. R4 dropped by 0.13 but z is 1.56: not flagged, but worth a look tomorrow, and note it coincides with R4's overloaded day 7. Other drift detectors (a CUSUM chart, a rolling window with a control limit) do the same job; what matters is the own-baseline comparison and a rule that pools days.","minutes":null,"lo":["LO3"]},{"id":"team-rule-fails","n":27,"title":"A team rule flags who is lowest, not who changed","kind":"content","session":3,"hash":"74d4c238","md":"#### [day2#team-rule-fails] A team rule flags who is lowest, not who changed\n\n*Why not a team-average rule?*\n\n| Rater | Ten-day accuracy | Team rule | Own-baseline rule | Diagnosis |\n| --- | --- | --- | --- | --- |\n| R5 | 0.712 | flagged | flagged | **drift** |\n| R6 | 0.725 | flagged | not flagged | **steady-low** |\n\n> **The response follows the diagnosis.** R5's 211 work labels since day 6 go back for re-checking; R6 stays on double labelling and gets coaching.","notes":"From the Lab 2.3 solution run. The team rule is not wrong, it answers a different question. Run both and read them together: the team rule catches someone never good enough, the own-baseline rule catches someone who changed.","minutes":null,"lo":["LO3"]},{"id":"what-r5-confuses","n":28,"title":"After day 6, R5 calls defects and deliveries refunds","kind":"content","session":3,"hash":"7903a433","md":"#### [day2#what-r5-confuses] After day 6, R5 calls defects and deliveries refunds\n\n*Lab 2.3 stretch*\n\n| Gold label, days 6 to 10 | R5 said REFUND | R5 right |\n| --- | --- | --- |\n| DEFECT | 8 | 2 |\n| DELIVERY | 7 | 1 |\n| REFUND | 6 | 6 |\n\nA pattern like this points at a reading of rule 2 that spread too far: \"any mention of money is REFUND\".","notes":"From the stretch cross-tabulation. The conversation with R5 starts from this table, not from the accuracy number. It may also show a guideline gap: if R5 read the v1.1 change log entry on rule 2 as a broadening, the wording needs another edit.","minutes":null,"lo":["LO3"]},{"id":"workload-and-limits","n":29,"title":"One rater went past the distressing-content limit","kind":"content","session":3,"hash":"2843b084","md":"#### [day2#workload-and-limits] One rater went past the distressing-content limit\n\n*Workload against the guideline*\n\n**69 min** R4 on day 7, against a limit of 60\n\n| Item | Value |\n| --- | --- |\n| R6 | 150 an hour |\n| R1 | 93 |\n| R5 | 89 |\n| R2 | 56 |\n\nR6 labels almost three times as fast as R2 and is the least accurate: speed is a quality signal too.","notes":"From the Lab 2.3 solution run. The breach is the workflow's fault: routing sent R4 extra restricted items on day 7. The fix is a routing cap and a check on R4, not a reprimand. Labels per hour comes from the seconds recorded on each label.","minutes":null,"lo":["LO3"]},{"id":"checkpoint-3","n":30,"title":"Which response fits R5?","kind":"quiz","session":3,"hash":"703aa75c","md":"#### [day2#checkpoint-3] Which response fits R5?\n\n*Checkpoint*\n\n**Question:** R5 scored 0.975 on gold for five days and 0.375 for the last three. R6 has scored about 0.72 throughout. What should happen to R5's work?\n\n- A. Put R5 on double labelling from now on, like R6\n- B. Re-label everything R5 has ever labelled\n- C. Re-check R5's work since the drift began, and find out what changed\n- D. Nothing: R5's ten-day average is close to R6's","notes":"Answer: C. In the lab that is 211 work labels from day 6 on.","minutes":null,"lo":["LO3"]},{"id":"lab-2-3","n":31,"title":"Find the drifting rater","kind":"lab","session":3,"hash":"dbd52234","md":"#### [day2#lab-2-3] Find the drifting rater\n\nLab 2.3 · 25 min\n\nTrack gold accuracy per rater over ten days, flag the rater who drifts against their own baseline, tell drift from steady low accuracy, and check distressing-content minutes against the guideline.\n\n[D2_3_find_drifting_rater.ipynb](https://sdaiaacademy.github.io/ds-311/labs/D2_3_find_drifting_rater.ipynb)\n\n- [ ] Gold accuracy by rater and day (5 min)\n- [ ] A drift rule against each rater's own baseline (8 min)\n- [ ] Drift or steadily low? (5 min)\n- [ ] Workload and distressing-content minutes (7 min)\n- [ ] ✱ Stretch: Which categories does the drifting rater now confuse?","notes":"Common error: a drift rule with the team mean as baseline, which flags R6. Another: testing day by day, which flags someone every day by chance. The lab pools five baseline days and three recent ones. Participants without Lab 2.2 lose nothing: this lab starts again from ops_round.csv.","minutes":null,"lo":[]},{"id":"s4","n":32,"title":"Cost and model pre-labels","kind":"section","session":4,"hash":"93985970","md":"#### [day2#s4] Cost and model pre-labels\n\n*Session 4*\n\n- Compute cost per accepted label for a labelling design\n- Mask personal data and classify what may leave the organisation before a model call\n- Compare double, audited single and model-assisted labelling on cost and error","notes":"","minutes":null,"lo":["LO3"]},{"id":"cost-per-accepted-label","n":33,"title":"Cost per accepted label counts every check, not only the first pass","kind":"content","session":4,"hash":"3c09de2b","md":"#### [day2#cost-per-accepted-label] Cost per accepted label counts every check, not only the first pass\n\n*What a label costs*\n\n- **Rater time.** Seconds per label times the hourly rate, for every label made.\n- **Review time.** Audits and adjudication: 90 seconds of a more senior person.\n- **Divide by accepted.** Only labels that passed the design's own checks count.\n\n> **What goes wrong.** A cheap first pass whose error is too high is not cheap: the analysts pay for it later in a wrong figure.","notes":"Bayyin's rates in the case: SAR 60 an hour for raters, SAR 120 an hour for the adjudicator. These are case assumptions, not market rates. A paid model would add its price per token; the free tier used in the lab adds nothing per call but has rate limits.","minutes":null,"lo":["LO3"]},{"id":"mask-and-classify","n":34,"title":"Mask, then classify: only what is safe leaves the office","kind":"content","session":4,"hash":"6f3736ae","md":"#### [day2#mask-and-classify] Mask, then classify: only what is safe leaves the office\n\n*Before any model call*\n\n1. **Raw text** Restricted: names, phones, IDs, IBANs\n2. **Mask** identifiers replaced by tags\n3. **Classify** anything that still looks like an identifier stays Restricted\n4. **Send** only what the owner cleared\n\nSDAIA's Generative AI Guidelines for Government tell staff not to enter data classified Restricted or higher into generative AI tools.","notes":"The guideline's text (read for this course): employees must refrain from entering data classified restricted or higher, and use of generative AI tools should be limited to data classified public. In the case, Rihab Al-Mudaimeegh and the data owner ruled that masked complaint text with no identifier left may be sent to the approved model; that ruling is the case's assumption, and in real work it is the data owner's decision under the Data Classification Policy.\n\nSources: SDAIA, Generative AI Guidelines for Government; NDMO Data Classification Policy.","minutes":null,"lo":["LO3"]},{"id":"arabic-digits-leak","n":35,"title":"A pattern for Latin digits misses numbers written in Arabic-Indic digits","kind":"content","session":4,"hash":"88414a49","md":"#### [day2#arabic-digits-leak] A pattern for Latin digits misses numbers written in Arabic-Indic digits\n\n*Lab 2.4*\n\n```python\n# file: mask(text)\nt = text.translate(B.TO_LATIN)   # ٠١٢ → 012\nfor name in [\"IBAN\", \"EMAIL\", \"PHONE\",\n             \"NATIONAL_ID\"]:\n    t = re.sub(B.PII_PATTERNS[name],\n               f\"[{name}]\", t)\n```\n\n**19 of 40** complaints still carry an identifier after a naive phone pattern\n\n- After full masking, 40 of 40 are classified safe to send.","notes":"From the Lab 2.4 solution run. The naive pattern only replaces Latin-digit mobile numbers, so IBANs, ID numbers and Arabic-Indic phone numbers pass. The residual check (seven digits in a row, in either digit set) is the safety net under the patterns: it fails closed.","minutes":null,"lo":["LO3"]},{"id":"prelabel-call","n":36,"title":"One chat-completions call per masked complaint","kind":"content","session":4,"hash":"1c723546","md":"#### [day2#prelabel-call] One chat-completions call per masked complaint\n\n*Fahis, the pre-labelling step*\n\nPrompt for System message:\n\n```text\nYou label consumer complaints for a consumer protection office. Reply with exactly one code: REFUND, DEFECT, DELIVERY, PRICE, AD or WARRANTY. Rules in order: warranty repair refused is WARRANTY; refund asked and refused is REFUND; …\n```\n\n- **A free hosted model.** An open-weight model through OpenRouter's free tier; any OpenAI-style endpoint works.\n- **Without a key.** A scripted stand-in answers, and the notebook says so. Its labels are keyword rules, not a model's.","notes":"The default model id is in labs/bayyin.py and .env.example; free model ids change often, so check the list the week before a cohort. In the course's own run no working key was available, so the recorded pre-labels came from the stand-in: do not quote its accuracy as a model's. Measuring how good a model is as an annotator is DS-306's subject; here the question is the cost of a design where people check every pre-label.","minutes":null,"lo":["LO3"]},{"id":"three-designs-cost","n":37,"title":"The cheapest design is also the least accurate","kind":"content","session":4,"hash":"e182c861","md":"#### [day2#three-designs-cost] The cheapest design is also the least accurate\n\n*Lab 2.4, a trial on 300 gold complaints*\n\n| Design | SAR per accepted label | Error against gold | Adjudicated |\n| --- | --- | --- | --- |\n| Double labelling | 1.94 | 0.3% | 51 |\n| Audited single (15% audit) | 0.93 | 5.0% | 5 |\n| Model-assisted, every pre-label checked | 0.37 | 10.0% | 0 |\n\nWith a limit of 5% wrong labels, audited single labelling is the cheapest design that qualifies.","notes":"From the Lab 2.4 solution run on the synthetic trial (data/ops/design_trial.csv). The trial's seconds and error rates are generated, so the ranking is the lesson, not the exact SAR values. Audited single sits exactly on the limit: a sensible trainer asks whether the decision should hold at 5.0%.","minutes":null,"lo":["LO3"]},{"id":"anchoring","n":38,"title":"People confirm a wrong pre-label more often than they should","kind":"content","session":4,"hash":"6be9ff02","md":"#### [day2#anchoring] People confirm a wrong pre-label more often than they should\n\n*Why model-assisted errs*\n\n**28%** of 60 wrong pre-labels confirmed by the person checking\n\n- Confirming is fast; disagreeing takes thought.\n- Hide the pre-label on a sample of items to measure the effect.\n- Never accept a pre-label unseen: the entry's AI policy and the office's.","notes":"From the Lab 2.4 stretch. Anchoring on a suggested answer is a well-known effect in assisted labelling; the trial makes it measurable. One countermeasure: show the pre-label only after the person has chosen, on a random fraction of items, and compare.","minutes":null,"lo":["LO3"]},{"id":"qc-report","n":39,"title":"The quality-control report in five lines","kind":"content","session":4,"hash":"825b33b7","md":"#### [day2#qc-report] The quality-control report in five lines\n\n*The evidence for LO3*\n\n1. Gold accuracy per rater with intervals; R3 (by a hair), R5 and R6 on watch.\n2. R5 drifted from day 6; 211 work labels re-checked. R6 steadily low: coaching and double labelling.\n3. Queues: 1,081 accepted, 731 re-label, 139 adjudication, 64 restricted; 15 hours of review.\n4. One breach of the distressing-content limit (R4, day 7, 69 minutes); routing cap added.\n5. Audited single labelling at SAR 0.93 per accepted label and 5.0% error.","notes":"Participants assemble this from artifacts/d2_2, d2_3 and d2_4. It is the evidence the entry asks for: a quality-control report that flags the drifting rater and states cost per accepted label. The capstone README reports the same for Al-Ghadaf.","minutes":null,"lo":["LO3"]},{"id":"checkpoint-4","n":40,"title":"Which design would you choose?","kind":"quiz","session":4,"hash":"dd154cd6","md":"#### [day2#checkpoint-4] Which design would you choose?\n\n*Checkpoint*\n\n**Question:** Analysts accept at most 5% wrong labels. Double labelling costs SAR 1.94 at 0.3% error; audited single SAR 0.93 at 5.0%; model-assisted SAR 0.37 at 10.0%. Which design, and why?\n\n- A. Model-assisted: it is the cheapest\n- B. Double labelling: it has the fewest errors\n- C. A mix of all three in equal shares\n- D. Audited single: the cheapest design within the error limit","notes":"Answer: D. Ask what would change the choice: a better pre-label prompt or an anchoring countermeasure that brings model-assisted error to 5% or less on a new trial.","minutes":null,"lo":["LO3"]},{"id":"lab-2-4","n":41,"title":"Cost per accepted label","kind":"lab","session":4,"hash":"5e9227c8","md":"#### [day2#lab-2-4] Cost per accepted label\n\nLab 2.4 · 25 min\n\nMask and classify complaints before any model call, pre-label the masked ones through a chat-completions endpoint, and compare cost per accepted label and error across double, audited single and model-assisted labelling.\n\n[D2_4_compare_cost_per.ipynb](https://sdaiaacademy.github.io/ds-311/labs/D2_4_compare_cost_per.ipynb)\n\n- [ ] Mask personal data; classify what may leave (7 min)\n- [ ] Pre-label masked complaints through the endpoint (5 min)\n- [ ] Cost and error of three designs (9 min)\n- [ ] Choose a design, and the condition that would change it (4 min)\n- [ ] ✱ Stretch: Anchoring: how often do people confirm a wrong pre-label?","notes":"Participants with a free key see the model's answers; without one, the stand-in. Common failures: a 401 from a badly pasted key (the notebook falls back), a 429 from a busy free model (the fallback model list takes over). Check that nobody sends text before masking: the check at the end of task 2 fails if anything Restricted was sent.","minutes":null,"lo":[]},{"id":"wrap-up","n":42,"title":"Three things to keep","kind":"content","session":4,"hash":"97172e88","md":"#### [day2#wrap-up] Three things to keep\n\n*Day 2 · wrap-up*\n\n- **Gold that covers the rare.** Stratify on what you know before labelling, with a floor; weight before you estimate.\n- **Own baseline for drift.** A team rule finds the lowest; an own-baseline rule finds who changed.\n- **Mask, classify, then count cost.** Nothing Restricted leaves; cost is compared within the error limit.","notes":"Tomorrow the labels join the office's other data. The questions move from \"is this label right?\" to \"is this table fit to publish from?\", with rules, owners and a contract.","minutes":null,"lo":[]},{"id":"next","n":43,"title":"Day 3: Rules and contracts","kind":"content","session":4,"hash":"001ae436","md":"#### [day2#next] Day 3: Rules and contracts\n\n*Next*\n\nFour source tables with seeded defects. The first lab is AI-off: read a profile and propose rules on your own.","notes":"Nothing to install: DuckDB is already in the environment. Ask participants to re-read the six quality dimensions from DS-202 (completeness, uniqueness, timeliness, validity, accuracy, consistency) if they took that course.","minutes":null,"lo":[]}],"activities":[{"id":"review-day1-q1","slide":"review-day1","type":"single","prompt":"Round 2 of the pilot gives alpha 0.789 overall, with an interval from 0.744 to 0.825, and 0.743 for mixed text from 15 complaints. Which sentence belongs in the report?","options":[{"key":"A","text":"\"Agreement is 0.789.\""},{"key":"B","text":"\"Agreement is 0.789 (0.744 to 0.825), so every variety is reliable.\""},{"key":"C","text":"\"Agreement is 0.789 (0.744 to 0.825); mixed text is lowest, on only 15 complaints.\""},{"key":"D","text":"\"Mixed text is excluded because 15 complaints are too few.\""}],"correct":[2],"explanation":"The report gives the estimate, its interval and where it is weakest, with the number of items behind the weak group.","misconceptions":["Reports a point estimate without the uncertainty the report must carry","Hides the weakest variety behind the overall figure","","Treats a small subgroup as no information instead of reporting it with its size"],"lo":["LO2"]},{"id":"checkpoint-1-q1","slide":"checkpoint-1","type":"single","prompt":"Bayyin must build a 240-complaint golden set that tests raters on WARRANTY, about 2.5% of complaints. No complaint is labelled yet. What do you stratify on?","options":[{"key":"A","text":"The true category of each complaint"},{"key":"B","text":"Nothing: draw a random sample of 480 instead"},{"key":"C","text":"The channel the complaint came through"},{"key":"D","text":"The language variety and a pre-label, with a floor per stratum"}],"correct":[3],"explanation":"Strata must use fields known before labelling; a pre-label that predicts WARRANTY, with a floor, raises the count of the rare category.","misconceptions":["Uses information that only exists after the labelling the gold set is meant to check","Assumes a larger random sample fixes rarity; it scales the rare count only slowly","Balances something that does not predict the rare category",""],"lo":["LO3"]},{"id":"checkpoint-2-q1","slide":"checkpoint-2","type":"single","prompt":"A new rater has answered 12 gold questions and got all 12 right. Bayyin's rule needs 30 gold answers and a lower bound of at least 0.80. What is their status?","options":[{"key":"A","text":"Pass: 100% accuracy"},{"key":"B","text":"Too few: keep giving gold questions until 30"},{"key":"C","text":"Watch: the interval is too wide"},{"key":"D","text":"Re-label all their work"}],"correct":[1],"explanation":"Below the minimum count the rule does not judge at all; twelve answers cannot separate a good rater from a lucky one.","misconceptions":["Reads a perfect score on a few items as a precise estimate","","Applies the interval rule before the count rule that comes first","Treats lack of evidence as evidence of poor work"],"lo":["LO3"]},{"id":"checkpoint-3-q1","slide":"checkpoint-3","type":"single","prompt":"R5 scored 0.975 on gold for five days and 0.375 for the last three. R6 has scored about 0.72 throughout. What should happen to R5's work?","options":[{"key":"A","text":"Put R5 on double labelling from now on, like R6"},{"key":"B","text":"Re-label everything R5 has ever labelled"},{"key":"C","text":"Re-check R5's work since the drift began, and find out what changed"},{"key":"D","text":"Nothing: R5's ten-day average is close to R6's"}],"correct":[2],"explanation":"Drift means the work before the change is sound and the work after is not; the response targets the period and the cause.","misconceptions":["Applies the steady-low response to a rater whose problem is recent","Discards good work from before the change","","Lets an average over all ten days hide the recent fall"],"lo":["LO3"]},{"id":"checkpoint-4-q1","slide":"checkpoint-4","type":"single","prompt":"Analysts accept at most 5% wrong labels. Double labelling costs SAR 1.94 at 0.3% error; audited single SAR 0.93 at 5.0%; model-assisted SAR 0.37 at 10.0%. Which design, and why?","options":[{"key":"A","text":"Model-assisted: it is the cheapest"},{"key":"B","text":"Double labelling: it has the fewest errors"},{"key":"C","text":"A mix of all three in equal shares"},{"key":"D","text":"Audited single: the cheapest design within the error limit"}],"correct":[3],"explanation":"Cost per accepted label is compared only among designs that meet the error limit; then the cheapest wins.","misconceptions":["Compares costs without first applying the error limit","Pays twice the cost for accuracy beyond what the analysts need","Averages designs that do different things, which no team can run",""],"lo":["LO3"]}],"ai":{"context":{"course":"../context/course.md","courseJs":"../context/course.js","day":"day2.md","llms":"../llms.txt"},"tasks":[],"tools":[]},"bridge":{"allowedOrigins":[]},"features":{},"strings":{}}</script>
+<script src="../_engine/academy.js"></script>
+</body>
+</html>

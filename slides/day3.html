@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-ax="deck" data-track="data-science">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Day 3 · Rules and contracts · Data Quality, Labelling and Pipelines for Analysis</title>
+<meta name="generator" content="SDAIA Academy engine 1.0.0">
+<link rel="icon" href="../_engine/icon.svg">
+<link rel="alternate" type="text/markdown" href="day3.md">
+<link rel="describedby" href="../llms.txt">
+<link rel="stylesheet" href="../_engine/academy.css">
+</head>
+<body>
+<div class="deck" data-course="Data Quality, Labelling and Pipelines for Analysis" data-track="data-science" data-day="Day 3">
+<!-- ======================= OPENING ======================= -->
+<section class="slide title" id="title" data-auto="title" data-label="Welcome" data-n="1">
+  <div class="kicker">SDAIA Academy · Data Quality, Labelling and Pipelines for Analysis</div>
+  <h1>Rules and contracts</h1>
+  <p class="lead mt">Day 3: Turn analysts' requirements into rules and a contract</p>
+  <div class="meta"><span class="track">Data Science Track</span><span>4 teaching days + capstone day</span><span>4 sessions · 4 labs</span><span>DS-311</span></div>
+  <aside class="notes"><p>Two days on labels. Today the labels join the office's other data: the portal extract, the merchant registry, the regions table and the case-action log. The question becomes "is this table fit to publish a rate from?" Hatoon's monthly rate per 100,000 residents is the figure everything today protects.</p></aside>
+</section>
+
+<section class="slide" id="review-day2" data-lo="LO3" data-n="2">
+  <div class="kicker">Review of Day 2</div>
+  <h2>Who needs which response?</h2>
+  <div class="quiz" data-type="single" data-lo="LO3" data-id="review-day2-q1">
+    <p class="lead">Over ten days R5 and R6 both average about 0.72 on gold. R5 scored 0.975 in the first five days and 0.375 in the last three; R6 stayed between 0.68 and 0.79. What do you do?</p>
+    <div class="opts">
+      <div class="opt" data-why="Lets two similar averages hide two different histories" data-k="A">Coach both raters the same way</div>
+      <div class="opt" data-ok data-k="B">Re-check R5's recent labels; coach R6 and double-label its work</div>
+      <div class="opt" data-why="Reads a steady, low rater as the one who changed" data-k="C">Re-check R6's recent labels; leave R5, whose average is the same</div>
+      <div class="opt" data-why="Ignores that pooled days give enough gold answers to judge" data-k="D">Wait for more gold answers before doing anything</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Drift is judged against each rater's own baseline: R5 changed, so its recent work is suspect; R6 is steadily low, which calls for coaching.</div>
+  </div>
+  <aside class="notes"><p>Answer: B. Numbers from Lab 2.3: R5 fell from 0.975 to 0.375 (z = 5.37) and 211 labels went back for re-checking. Bridge: today the same habit, a baseline and a threshold, is applied to tables instead of raters.</p></aside>
+</section>
+
+<section class="slide" id="agenda" data-auto="agenda" data-label="Agenda" data-n="3">
+  <div class="kicker">Today</div>
+  <h2>Rules and contracts</h2>
+  <div class="agenda"><div class="item"><div><b>Session 1 · Profiling to rules</b><small>A profile of each source table, read against the six quality dimensions, becomes rules with owners and thresholds</small></div></div><div class="item"><div><b>Session 2 · Rules with severity</b><small>Warn, quarantine or block: a rule as a query that returns failing rows, judged on seeded defects and on clean data</small></div></div><div class="item"><div><b>Session 3 · Duplicates and merchant matching</b><small>Exact and near duplicates, and merchant names matched across Arabic and Latin spellings with measured precision</small></div></div><div class="item"><div><b>Session 4 · A data contract</b><small>A contract in an open standard that the producer and the consumer of the prepared table both check</small></div></div></div>
+</section>
+
+<!-- ======================= SESSION 1 ======================= -->
+<section class="slide section" id="s1" data-auto="section" data-session="1" data-n="4">
+  <div class="kicker">Session 1</div>
+  <h1>Profiling to rules</h1>
+  <ul class="bullets outcomes"><li>Profile tables for completeness, uniqueness, validity, consistency, accuracy and timeliness</li><li>Read anomalies from a profile without help</li><li>Write a rule with an owner, a dimension, a threshold and a business reason</li></ul>
+  <div class="sess-no">01</div>
+</section>
+
+<section class="slide" data-label="Four tables" id="four-tables" data-lo="LO4" data-n="5" data-session="1">
+  <div class="kicker">What Bayyin prepares every month</div>
+  <h2>Four tables feed one published rate</h2>
+  <div class="cols cols-4 gap-s">
+    <div class="card c-teal"><h4>Complaints</h4><p class="small mb0">The portal extract of 5 September: 30,300 rows, one per complaint, with its category from the labels.</p></div>
+    <div class="card c-cyan"><h4>Merchants</h4><p class="small mb0">The registry: 153 rows, Arabic and English names, a commercial registration number.</p></div>
+    <div class="card c-purple"><h4>Regions</h4><p class="small mb0">Thirteen regions with their populations: the denominator of the rate.</p></div>
+    <div class="card c-coral"><h4>Case actions</h4><p class="small mb0">30,148 actions taken by officers: warnings, referrals, refunds.</p></div>
+  </div>
+  <div class="callout warn small mt"><b>What goes wrong.</b> Each table can be correct on its own and the join still wrong: a missing region drops a complaint from the rate silently.</div>
+  <aside class="notes"><p>The extract is synthetic and seeded with nine kinds of defect. Participants do not see the list of defects until Lab 3.2: in Lab 3.1 they find them from the profile. The figure at stake: complaints per 100,000 residents, by region and month.</p></aside>
+</section>
+
+<section class="slide" data-label="Six dimensions" id="six-dimensions" data-lo="LO4" data-n="6" data-session="1">
+  <div class="kicker">The NDMO Data Quality domain</div>
+  <h2>Six dimensions organise what a profile can show</h2>
+  <table class="t small">
+    <tr><th>Dimension</th><th>The question</th><th>In Bayyin's extract</th></tr>
+    <tr><td>Completeness</td><td>Is the value there?</td><td>Region empty on 414 complaints</td></tr>
+    <tr><td>Uniqueness</td><td>Is each thing recorded once?</td><td>60 complaint ids appear twice</td></tr>
+    <tr><td>Validity</td><td>Is the value allowed?</td><td>Category "defect" and "C7"; region R99</td></tr>
+    <tr><td>Consistency</td><td>Do related values agree?</td><td>85 closed before they were received</td></tr>
+    <tr><td>Accuracy</td><td>Is the value true?</td><td>Amounts of SAR 694,783</td></tr>
+    <tr><td>Timeliness</td><td>Is it recent enough?</td><td>Newest complaint against the extract date</td></tr>
+  </table>
+  <aside class="notes"><p>The six are the dimensions named in the NDMO Data Management and Personal Data Protection Standards' Data Quality domain; DS-202 already wrote type, range, uniqueness and completeness rules from a data dictionary and matched names at three thresholds: treat this as a recap. What is new here is the owner, the threshold and the severity of each rule, accuracy and timeliness, and rules that run inside a pipeline every month. Point out that accuracy is the hardest: it needs a reference outside the table.</p></aside>
+</section>
+
+<section class="slide" data-label="Load as text" id="profile-as-text" data-lo="LO4" data-n="7" data-session="1">
+  <div class="kicker">Lab 3.1, before any rule</div>
+  <h2>Profile the values as they arrived, loaded as text</h2>
+  <div class="cols cols-2">
+    <pre class="code s" data-file="profile(table)"><code class="language-sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">count</span>(<span class="hljs-operator">*</span>) <span class="hljs-keyword">FILTER</span> (<span class="hljs-keyword">WHERE</span> c <span class="hljs-keyword">IS</span> <span class="hljs-keyword">NULL</span>
+                         <span class="hljs-keyword">OR</span> <span class="hljs-built_in">trim</span>(c) <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;&#x27;</span>) <span class="hljs-keyword">AS</span> <span class="hljs-keyword">empty</span>,
+       <span class="hljs-built_in">count</span>(<span class="hljs-keyword">DISTINCT</span> c)  <span class="hljs-keyword">AS</span> distinct_values,
+       <span class="hljs-built_in">min</span>(c), <span class="hljs-built_in">max</span>(c), mode(c),
+       <span class="hljs-built_in">min</span>(TRY_CAST(c <span class="hljs-keyword">AS</span> <span class="hljs-keyword">DOUBLE</span>)),
+       <span class="hljs-built_in">max</span>(TRY_CAST(c <span class="hljs-keyword">AS</span> <span class="hljs-keyword">DOUBLE</span>))
+<span class="hljs-keyword">FROM</span> complaints</code></pre>
+    <div class="stack">
+      <div class="card c-teal flat"><h4>Why text</h4><p class="small mb0">A typed load turns "warranty" or "2027-06-25" into an error or a NULL before anyone sees it.</p></div>
+      <div class="card c-coral flat"><h4>AI-off</h4><p class="small mb0">Lab 3.1 is done without an assistant: reading a profile is the skill.</p></div>
+    </div>
+  </div>
+  <aside class="notes"><p>DuckDB reads the gzip CSVs directly; all_varchar keeps every value as written. The profile is one row per column: empty, distinct, min, max, most common, and numeric min and max where the cast works. Ask: which column would you look at first, and why?</p></aside>
+</section>
+
+<section class="slide" data-label="What it shows" id="profile-findings" data-lo="LO4" data-n="8" data-session="1">
+  <div class="kicker">Lab 3.1, read from the profile</div>
+  <h2>The profile points at the anomalies; one query confirms each</h2>
+  <table class="t small">
+    <tr><th>What the profile shows</th><th>Confirmed by</th><th class="num">Rows</th></tr>
+    <tr><td>30,300 rows, 30,240 distinct ids</td><td>count minus count distinct</td><td class="num">60</td></tr>
+    <tr><td>13 category codes for six categories</td><td>codes outside the six</td><td class="num">170</td></tr>
+    <tr><td>Maximum amount SAR 694,783</td><td>amounts above SAR 50,000</td><td class="num">619</td></tr>
+    <tr><td>Latest received date 2027-06-25</td><td>after the extract date</td><td class="num">12</td></tr>
+    <tr><td>14 region codes for 13 regions; 414 empty</td><td>not in the regions table</td><td class="num">600</td></tr>
+    <tr><td>Actions for 22,676 complaint ids</td><td>action without a complaint</td><td class="num">150</td></tr>
+  </table>
+  <aside class="notes"><p>All counts from the Lab 3.1 solution run. The category codes include lower-case variants ("defect", "price", "ad", "warranty") and a legacy code from the old portal. The registry has 153 rows for 150 registration numbers: three merchants registered twice.</p></aside>
+</section>
+
+<section class="slide" data-label="Batch error" id="halala-batch" data-lo="LO4" data-n="9" data-session="1">
+  <div class="kicker">The anomaly the maximum hides</div>
+  <h2>August's app batch arrived in halalas</h2>
+  <div class="bars">
+    <div class="row"><span>App, June</span><div class="bar c-teal" style="--w:1%"></div><span class="val">SAR 545</span></div>
+    <div class="row"><span>App, July</span><div class="bar c-teal" style="--w:1.3%"></div><span class="val">SAR 694</span></div>
+    <div class="row"><span>App, August</span><div class="bar c-coral" style="--w:100%"></div><span class="val">SAR 54,706</span></div>
+    <div class="row"><span>Web, August</span><div class="bar c-teal" style="--w:1%"></div><span class="val">SAR 530</span></div>
+  </div>
+  <p class="small mt">Median amount by month and channel. Multiplied by 100, only 619 of the 1,195 amounts pass SAR 50,000.</p>
+  <aside class="notes"><p>The app vendor changed its export in August and sent amounts in halalas. A row-level rule on the maximum sees only the larger amounts; the batch moved as a whole. This is why Lab 3.2 has a second accuracy rule on the monthly median by channel. Ask: what would the August refund figures have shown?</p></aside>
+</section>
+
+<section class="slide" data-label="A rule" id="rule-anatomy" data-lo="LO4" data-n="10" data-session="1">
+  <div class="kicker">What a rule must state</div>
+  <h2>A rule names its owner, dimension, attributes and threshold</h2>
+  <div class="cols cols-2">
+    <pre class="code s" data-file="pipeline/rules.py"><code class="language-python"><span class="hljs-built_in">dict</span>(<span class="hljs-built_in">id</span>=<span class="hljs-string">&quot;C01&quot;</span>, dimension=<span class="hljs-string">&quot;completeness&quot;</span>,
+     owner=<span class="hljs-string">&quot;Hatoon Al-Furaih&quot;</span>,
+     table=<span class="hljs-string">&quot;complaints&quot;</span>,
+     description=<span class="hljs-string">&quot;Every complaint has a region: &quot;</span>
+                 <span class="hljs-string">&quot;the rate is published by region&quot;</span>,
+     attributes=[<span class="hljs-string">&quot;region_code&quot;</span>],
+     severity=<span class="hljs-string">&quot;quarantine&quot;</span>, max_rate=<span class="hljs-number">0.03</span>,
+     sql=<span class="hljs-string">&quot;SELECT rid FROM complaints WHERE &quot;</span>
+         <span class="hljs-string">&quot;region_code IS NULL OR trim(region_code) = &#x27;&#x27;&quot;</span>)</code></pre>
+    <div class="stack">
+      <div class="card c-teal flat"><h4>Owner</h4><p class="small mb0">Who accepts the threshold and answers when the rule fires.</p></div>
+      <div class="card c-cyan flat"><h4>Business description</h4><p class="small mb0">Why the figure needs it, in the user's words.</p></div>
+      <div class="card c-purple flat"><h4>Threshold</h4><p class="small mb0">The share of failing rows the owner accepts.</p></div>
+    </div>
+  </div>
+  <aside class="notes"><p>The NDMO Data Quality domain asks each data-quality rule to identify its owner, describe the business requirement, assign a dimension, list the attributes and define the metric. Bayyin's rules carry exactly those fields. The owners: Hatoon uses the rate, Abdulelah runs the pipeline, Khulood leads labelling.</p></aside>
+</section>
+
+<section class="slide" id="checkpoint-1" data-lo="LO4" data-n="11" data-session="1">
+  <div class="kicker">Checkpoint</div>
+  <h2>Is the maximum enough?</h2>
+  <div class="quiz" data-type="single" data-lo="LO4" data-id="checkpoint-1-q1">
+    <p class="lead">The profile shows a maximum amount of SAR 694,783. Abdulelah proposes one rule: "no amount above SAR 50,000". August's app batch was sent in halalas. What does his rule miss?</p>
+    <div class="opts">
+      <div class="opt" data-ok data-k="A">The halala amounts that stayed under SAR 50,000; a rule on the batch's median catches them</div>
+      <div class="opt" data-why="Assumes multiplying by 100 pushes every amount over the limit" data-k="B">Nothing: every halala amount is above SAR 50,000</div>
+      <div class="opt" data-why="Confuses a unit error with a duplicate" data-k="C">The duplicated complaints of August</div>
+      <div class="opt" data-why="Thinks the threshold, not the level of the check, is the problem" data-k="D">Only amounts between SAR 40,000 and 50,000; lower the limit to 40,000</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> A unit error moves the whole batch; a row rule sees only the rows it pushes past the limit. 619 of 1,195 rows passed SAR 50,000.</div>
+  </div>
+  <aside class="notes"><p>Answer: A. D is tempting: any fixed limit still misses small purchases multiplied by 100. Look at the medians by month and channel instead.</p></aside>
+</section>
+
+<section class="slide lab top" id="lab-3-1" data-auto="lab" data-lab="3.1" data-label="Lab 3.1" data-n="12" data-session="1">
+  <div class="cols cols-2 mid"><div><div class="lab-tag">Lab 3.1 · 25 min</div><h2>Profile four tables, propose rules</h2><p class="lead small">Profile four source tables in DuckDB without AI help, find the anomalies, and propose rules with a dimension, an owner, a threshold and a reason.</p><a class="nb" href="../labs/D3_1_profile_four_source.ipynb">D3_1_profile_four_source.ipynb</a></div><ul class="checklist"><li>Profile each table in DuckDB <span class="min">8 min</span></li><li>Five anomalies from the profile <span class="min">7 min</span></li><li>Rules with dimension, owner and threshold <span class="min">10 min</span></li><li class="stretch">✱ Stretch: Timeliness: how old is the newest complaint in each extract?</li></ul></div>
+  <aside class="notes"><p>AI-off: assistants closed. Walk the room during task 2; people who stall usually have not looked at min and max of the date columns. The profile function is the slow part; anyone stuck after eight minutes can load the reference profile (the safety net does it) and go on to the anomalies.</p></aside>
+</section>
+
+<!-- ======================= SESSION 2 ======================= -->
+<section class="slide section" id="s2" data-auto="section" data-session="2" data-n="13">
+  <div class="kicker">Session 2</div>
+  <h1>Rules with severity</h1>
+  <ul class="bullets outcomes"><li>Write a rule as a query that returns the failing rows</li><li>Give each rule a severity: warn, quarantine or block</li><li>Show that the rules catch each seeded defect and stay quiet on clean data</li></ul>
+  <div class="sess-no">02</div>
+</section>
+
+<section class="slide" data-label="Failing rows" id="rule-as-query" data-lo="LO4" data-n="14" data-session="2">
+  <div class="kicker">One shape for every rule</div>
+  <h2>A rule is a query that returns the failing rows</h2>
+  <div class="cols cols-2">
+    <pre class="code s" data-file="K01"><code class="language-sql"><span class="hljs-keyword">SELECT</span> rid <span class="hljs-keyword">FROM</span> complaints
+<span class="hljs-keyword">WHERE</span> <span class="hljs-built_in">coalesce</span>(closed_date, <span class="hljs-string">&#x27;&#x27;</span>) <span class="hljs-operator">&lt;&gt;</span> <span class="hljs-string">&#x27;&#x27;</span>
+  <span class="hljs-keyword">AND</span> TRY_CAST(closed_date <span class="hljs-keyword">AS</span> <span class="hljs-type">DATE</span>)
+    <span class="hljs-operator">&lt;</span> TRY_CAST(received_date <span class="hljs-keyword">AS</span> <span class="hljs-type">DATE</span>)</code></pre>
+    <ul class="bullets">
+      <li>The same query <b>counts</b> failures, <b>lists</b> them and <b>moves</b> them to quarantine.</li>
+      <li>Every table gets a row id, <code>rid</code>, so a failing row can be named.</li>
+      <li>Rules run on text: a bad value fails the rule, not the load.</li>
+    </ul>
+  </div>
+  <aside class="notes"><p>K01 is the participants' first exercise in Lab 3.2. TRY_CAST returns NULL instead of an error, so a malformed date does not stop the rule run; V03 catches malformed or future received dates separately.</p></aside>
+</section>
+
+<section class="slide" data-label="Severity" id="severity-ladder" data-lo="LO4" data-n="15" data-session="2">
+  <div class="kicker">What happens when a rule fails</div>
+  <h2>Warn, quarantine or block</h2>
+  <div class="flow">
+    <div class="step c-teal"><b>Warn</b>log it; the run goes on</div>
+    <div class="arrow">→</div>
+    <div class="step c-amber"><b>Quarantine</b>set the failing rows aside with the rule id; stop above the threshold</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>Block</b>stop before anything is published</div>
+  </div>
+  <div class="callout tip mt"><b>Choosing.</b> Quarantine when the remaining rows are still right; block when the error could be in rows that look fine.</div>
+  <aside class="notes"><p>A missing region affects only that row: quarantine it and publish the rest. A unit error in a batch may affect rows the rule cannot see: block. The threshold on a quarantine rule protects against quarantining so many rows that the published figure becomes unrepresentative.</p></aside>
+</section>
+
+<section class="slide" data-label="Results" id="rule-results" data-lo="LO4" data-n="16" data-session="2">
+  <div class="kicker">Lab 3.2, the seeded extract</div>
+  <h2>Two accuracy rules stop the run; the rest quarantine or log</h2>
+  <table class="t small">
+    <tr><th>Rule</th><th>Dimension</th><th>Owner</th><th class="num">Failing</th><th class="num">Threshold</th><th>Action</th></tr>
+    <tr><td>U01 one row per id</td><td>uniqueness</td><td>Abdulelah</td><td class="num">60</td><td class="num">0.5%</td><td>quarantined</td></tr>
+    <tr><td>C01 region present</td><td>completeness</td><td>Hatoon</td><td class="num">414</td><td class="num">3%</td><td>quarantined</td></tr>
+    <tr><td>V02 category valid</td><td>validity</td><td>Khulood</td><td class="num">170</td><td class="num">1%</td><td>quarantined</td></tr>
+    <tr><td>K01 closed after received</td><td>consistency</td><td>Abdulelah</td><td class="num">85</td><td class="num">0.5%</td><td>quarantined</td></tr>
+    <tr class="hl"><td>A01 amount ≤ SAR 50,000</td><td>accuracy</td><td>Hatoon</td><td class="num">619</td><td class="num">0.1%</td><td>stop</td></tr>
+    <tr class="hl"><td>A02 monthly median by channel</td><td>accuracy</td><td>Hatoon</td><td class="num">1,195</td><td class="num">0.1%</td><td>stop</td></tr>
+    <tr><td>U02 one entry per CR number</td><td>uniqueness</td><td>Abdulelah</td><td class="num">3</td><td class="num">0</td><td>logged</td></tr>
+  </table>
+  <aside class="notes"><p>Seven of the eleven rules shown; V01 (186, region not in the table), V03 (12, future dates), I01 (150, orphan actions) and T01 (0, timeliness) are in the lab's table. U02 is a warning: duplicated registry entries do not change the complaint rate, so Abdulelah logs them and the registry team fixes them.</p></aside>
+</section>
+
+<section class="slide" data-label="Both ways" id="judge-both-ways" data-lo="LO4" data-n="17" data-session="2">
+  <div class="kicker">How a rule set is judged</div>
+  <h2>Catch every seeded defect, and stay quiet on clean data</h2>
+  <div class="cols cols-2">
+    <div class="card c-teal"><h4>On the seeded extract</h4><p class="small mb0">Eight listed defects, each caught in full by the rule meant for it: 60 duplicates, 600 regions, 170 codes, 85 dates out of order, 1,195 halala amounts, 12 future dates, 150 orphan actions, 3 registry duplicates.</p></div>
+    <div class="card c-coral"><h4>On the clean extract</h4><p class="small mb0">The same eleven rules on the same month without defects: no rule fails a single row.</p></div>
+  </div>
+  <div class="callout warn small mt"><b>What goes wrong.</b> A rule that fires on good data trains people to ignore it, and then to switch it off.</div>
+  <aside class="notes"><p>The trainer's list of seeded defects is in data/reference/seeded_defects.json. The ninth defect, 240 resubmissions, is valid row by row: no rule catches it. That is the next session.</p></aside>
+</section>
+
+<section class="slide" data-label="Frameworks" id="pandera" data-lo="LO4" data-n="18" data-session="2">
+  <div class="kicker">The same checks in a framework</div>
+  <h2>A validation library expresses the same rules as a schema</h2>
+  <div class="cols cols-2">
+    <pre class="code s" data-file="Pandera, stretch of Lab 3.2"><code class="language-python">pa.DataFrameSchema({
+  <span class="hljs-string">&quot;complaint_id&quot;</span>: pa.Column(<span class="hljs-built_in">str</span>, unique=<span class="hljs-literal">True</span>),
+  <span class="hljs-string">&quot;category_code&quot;</span>: pa.Column(<span class="hljs-built_in">str</span>,
+      pa.Check.isin(SIX)),
+  <span class="hljs-string">&quot;amount_sar&quot;</span>: pa.Column(<span class="hljs-built_in">float</span>,
+      pa.Check.le(<span class="hljs-number">50000</span>), nullable=<span class="hljs-literal">True</span>),
+})</code></pre>
+    <ul class="bullets">
+      <li>Finds the same failures: 120 rows in duplicated ids, 170 codes, 619 amounts.</li>
+      <li>Keeps owners, severities and thresholds outside the schema: you still need them.</li>
+      <li>The SQL rules run where the data is; the schema runs where the DataFrame is.</li>
+    </ul>
+  </div>
+  <aside class="notes"><p>Pandera counts both copies of a duplicated id (120), the SQL rule counts the second copy only (60). Either is fine if the report says which. Frameworks such as Pandera, Great Expectations or Soda are worth using; none of them decides the owner or the threshold for you.</p></aside>
+</section>
+
+<section class="slide" id="checkpoint-2" data-lo="LO4" data-n="19" data-session="2">
+  <div class="kicker">Checkpoint</div>
+  <h2>What should C01 do?</h2>
+  <div class="quiz" data-type="single" data-lo="LO4" data-id="checkpoint-2-q1">
+    <p class="lead">C01 (region present) is a quarantine rule with a 3% threshold. This month 414 of 30,300 complaints, 1.4%, have no region. What happens to the run?</p>
+    <div class="opts">
+      <div class="opt" data-why="Treats every failure as a reason to stop, whatever the severity" data-k="A">The run stops before publishing</div>
+      <div class="opt" data-why="Forgets that quarantine removes the failing rows from the published table" data-k="B">The rows are published with an empty region and a warning</div>
+      <div class="opt" data-ok data-k="C">The 414 rows go to quarantine with C01; the run goes on</div>
+      <div class="opt" data-why="Invents a repair the rule does not make" data-k="D">The rows are given the most common region and published</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Under the 3% threshold, quarantine sets the failing rows aside with the rule that caught them and lets the rest be published; above 3% the run would stop.</div>
+  </div>
+  <aside class="notes"><p>Answer: C. D is a real temptation in practice: imputing a region changes the rate of the region it lands in. The quarantine file keeps the rows for whoever can fix them at source.</p></aside>
+</section>
+
+<section class="slide lab top" id="lab-3-2" data-auto="lab" data-lab="3.2" data-label="Lab 3.2" data-n="20" data-session="2">
+  <div class="cols cols-2 mid"><div><div class="lab-tag">Lab 3.2 · 25 min</div><h2>Warning and blocking rules</h2><p class="lead small">Implement the rule set as SQL with thresholds and severities, catch every seeded defect in the four tables, and show no false alarm on the clean tables.</p><a class="nb" href="../labs/D3_2_implement_warning_blocking.ipynb">D3_2_implement_warning_blocking.ipynb</a></div><ul class="checklist"><li>A rule as a query that returns failing rows <span class="min">5 min</span></li><li>The rule set with thresholds and severities <span class="min">9 min</span></li><li>Every seeded defect caught <span class="min">6 min</span></li><li>No alarm on the clean tables <span class="min">5 min</span></li><li class="stretch">✱ Stretch: Three of the rules again in Pandera</li></ul></div>
+  <aside class="notes"><p>AI-tutor: an assistant may explain a SQL error, not write the rules. A02 is the hardest query; anyone stuck can use the reference query, which the safety net loads, and move on to task 3. Check that participants compare counts with the trainer's list, not just "caught: yes".</p></aside>
+</section>
+
+<!-- ======================= SESSION 3 ======================= -->
+<section class="slide section" id="s3" data-auto="section" data-session="3" data-n="21">
+  <div class="kicker">Session 3</div>
+  <h1>Duplicates and merchant matching</h1>
+  <ul class="bullets outcomes"><li>Tell exact duplicates from resubmissions</li><li>Normalise Arabic and Latin names and compare them through a transliteration key</li><li>Choose a match threshold from precision and recall on labelled pairs</li></ul>
+  <div class="sess-no">03</div>
+</section>
+
+<section class="slide" data-label="Two kinds" id="exact-vs-near" data-lo="LO4" data-n="22" data-session="3">
+  <div class="kicker">Duplicates</div>
+  <h2>An exact duplicate is an export fault; a resubmission is a person</h2>
+  <div class="cols cols-2">
+    <div class="card c-teal"><h4>Exact duplicates: 60</h4><p class="small mb0">The same complaint id twice. The portal's export wrote a row again. Rule U01 quarantines the second copy.</p></div>
+    <div class="card c-coral"><h4>Resubmissions: 240</h4><p class="small mb0">A new id, the same customer, merchant and product, a day later: the complainant tried again. Each row is valid.</p></div>
+  </div>
+  <div class="callout warn small mt"><b>What goes wrong.</b> A key too wide merges real repeat complaints; a key too narrow counts one problem twice. The choice of key changes the rate.</div>
+  <aside class="notes"><p>The pipeline drops a resubmission when the same customer, merchant name and product reappear within one day. Day 4 shows what happens to a region's rate when that key changes. Bayyin's customer key is a hash, never the national ID.</p></aside>
+</section>
+
+<section class="slide" data-label="Many spellings" id="merchant-spellings" data-lo="LO4" data-n="23" data-session="3">
+  <div class="kicker">The merchant on a complaint</div>
+  <h2>One merchant, written a dozen ways</h2>
+  <table class="t small">
+    <tr><th>As typed by the complainant</th><th>Registry</th></tr>
+    <tr><td class="ar">مؤسسة النور للإلكترونيات المحدودة</td><td>M1001</td></tr>
+    <tr><td>AL-NOOR ELECTRONICS CO.</td><td>M1001</td></tr>
+    <tr><td>Alnoor Elec.</td><td>M1001</td></tr>
+    <tr><td><span class="ar">النور</span> Electronics</td><td>M1001</td></tr>
+    <tr><td class="ar">شركة الفارسللأزياء المحدودة</td><td>M1130</td></tr>
+  </table>
+  <p class="small mt-s">600 raw names in the lab; 300 are labelled with the right registry id, or NONE.</p>
+  <aside class="notes"><p>About one complaint in five arrives without a merchant id. Hatoon's per-merchant figures need the registry id. Names come in Arabic, Latin, mixed, with legal forms, abbreviations, missing spaces and typing errors.</p></aside>
+</section>
+
+<section class="slide" data-label="Key" id="transliteration-key" data-lo="LO4" data-n="24" data-session="3">
+  <div class="kicker">Lab 3.3, comparing across scripts</div>
+  <h2>Normalise, then compare consonant skeletons</h2>
+  <div class="flow">
+    <div class="step c-navy"><b>1 · Normalise</b>unify أ إ آ, ة, ى; drop legal forms and the article</div>
+    <div class="arrow">→</div>
+    <div class="step c-teal"><b>2 · Sector</b>stems in both scripts: «لكترون», "elec"</div>
+    <div class="arrow">→</div>
+    <div class="step c-cyan"><b>3 · Skeleton</b>consonants in Latin letters</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>4 · Key</b>"nr|electronics"</div>
+  </div>
+  <p class="small mt">«النور للإلكترونيات» and "Al-Noor Electronics" both give <code>nr|electronics</code>. The Arabic and English names agree on the key for all 150 merchants.</p>
+  <aside class="notes"><p>The skeleton drops vowels and weak letters (w, y; و ي ا) except at the start of a word, so Al-Wifaq keeps its w and does not collide with Al-Ofuq. Check how many registry merchants share a key: zero in this registry. A key throws information away; that check tells you whether it threw away too much.</p></aside>
+</section>
+
+<section class="slide" data-label="Threshold" id="precision-first" data-lo="LO4" data-n="25" data-session="3">
+  <div class="kicker">Lab 3.3, 300 labelled names</div>
+  <h2>Choose the threshold by precision first</h2>
+  <table class="t small">
+    <tr><th class="num">Threshold</th><th class="num">Matched</th><th class="num">Precision</th><th class="num">Recall</th></tr>
+    <tr class="hl"><td class="num">60</td><td class="num">265</td><td class="num">1.000</td><td class="num">0.981</td></tr>
+    <tr><td class="num">70</td><td class="num">262</td><td class="num">1.000</td><td class="num">0.970</td></tr>
+    <tr><td class="num">85</td><td class="num">259</td><td class="num">1.000</td><td class="num">0.959</td></tr>
+    <tr><td class="num">100</td><td class="num">258</td><td class="num">1.000</td><td class="num">0.956</td></tr>
+  </table>
+  <p class="small mt-s">A tie between two merchants returns NONE. The five misses are typing errors in the sector word.</p>
+  <aside class="notes"><p>DS-202 chose a matching threshold on labelled pairs within one script; the new part here is matching across Arabic and Latin spellings. Precision first because a wrong match blames a merchant who did nothing; a miss leaves the complaint unattributed, which analysts can see. On this sample the key and the tie rule do most of the work, so precision is 1.0 at every threshold; the threshold only decides names whose sector was misspelt ("Fasion", «للمجورات»). The fix for those is in the stems, not a lower threshold.</p></aside>
+</section>
+
+<section class="slide" data-label="Blocking" id="blocking" data-lo="LO4" data-n="26" data-session="3">
+  <div class="kicker">Stretch of Lab 3.3</div>
+  <h2>Blocking compares only names that could match</h2>
+  <div class="cols cols-2">
+    <div class="stat"><div class="big">1,354</div><div class="lbl">comparisons when blocked by sector and first letter, of 90,000</div></div>
+    <ul class="bullets">
+      <li>Fine for 600 names; essential for 30,000 complaints a month.</li>
+      <li>A block that is too strict hides true matches: check recall after blocking.</li>
+      <li>Libraries for record linkage do the same with more care.</li>
+    </ul>
+  </div>
+  <aside class="notes"><p>From the stretch of Lab 3.3. A typing error in the first letter puts a name in the wrong block; that is the cost of blocking, and the reason to measure recall with and without it.</p></aside>
+</section>
+
+<section class="slide" id="checkpoint-3" data-lo="LO4" data-n="27" data-session="3">
+  <div class="kicker">Checkpoint</div>
+  <h2>Should a bare name match?</h2>
+  <div class="quiz" data-type="single" data-lo="LO4" data-id="checkpoint-3-q1">
+    <p class="lead">A complainant writes only «النور», with no sector. Six registry merchants share that name: electronics, furniture, appliances, fashion, auto parts and jewellery. All score 100. What should the matcher return?</p>
+    <div class="opts">
+      <div class="opt" data-why="Lets the order of the registry decide who is blamed" data-k="A">The first of the six in the registry</div>
+      <div class="opt" data-why="Guesses from the population, which may not be this complaint's merchant" data-k="B">The one with the most complaints this year</div>
+      <div class="opt" data-why="Changes the threshold to fix a tie it cannot resolve" data-k="C">Raise the threshold until only one remains</div>
+      <div class="opt" data-ok data-k="D">NONE, until someone checks the complaint text</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> A tie means the name does not say which merchant; a wrong match blames a merchant who did nothing, a NONE is visible and can be fixed.</div>
+  </div>
+  <aside class="notes"><p>Answer: D. The lab's best_match returns NONE on any tie between merchants. The complaint text often names the product, which settles the sector: a good task for a person or a later step.</p></aside>
+</section>
+
+<section class="slide lab top" id="lab-3-3" data-auto="lab" data-lab="3.3" data-label="Lab 3.3" data-n="28" data-session="3">
+  <div class="cols cols-2 mid"><div><div class="lab-tag">Lab 3.3 · 25 min</div><h2>Merchant names across two scripts</h2><p class="lead small">Normalise 600 raw merchant names, match them to the registry across Arabic and Latin spellings, choose a threshold, and measure precision and recall on 300 labelled names.</p><a class="nb" href="../labs/D3_3_match_merchant_names.ipynb">D3_3_match_merchant_names.ipynb</a></div><ul class="checklist"><li>Normalise Arabic and Latin names <span class="min">7 min</span></li><li>A transliteration key across scripts <span class="min">6 min</span></li><li>Score, and choose a threshold <span class="min">6 min</span></li><li>Precision and recall on 300 labelled names <span class="min">6 min</span></li><li class="stretch">✱ Stretch: Blocking: compare fewer pairs</li></ul></div>
+  <aside class="notes"><p>AI-tutor. The Arabic normalisation trips people up: remind them that unification must happen before filler words are removed, or «مؤسسة» survives as «مؤسسه». Those who finish early: the stretch on blocking, then look at the misses and propose one more stem.</p></aside>
+</section>
+
+<!-- ======================= SESSION 4 ======================= -->
+<section class="slide section" id="s4" data-auto="section" data-session="4" data-n="29">
+  <div class="kicker">Session 4</div>
+  <h1>A data contract</h1>
+  <ul class="bullets outcomes"><li>Write a contract for a table in the Open Data Contract Standard</li><li>Compile its quality clauses to SQL checks</li><li>Tell a breaking schema change from a compatible one</li></ul>
+  <div class="sess-no">04</div>
+</section>
+
+<section class="slide" data-label="Two parties" id="producer-consumer" data-lo="LO4" data-n="30" data-session="4">
+  <div class="kicker">A data contract</div>
+  <h2>A contract writes down what the consumer relies on</h2>
+  <div class="cols cols-2">
+    <div class="card c-teal"><h4>Producer: Abdulelah</h4><p class="small mb0">Runs the preparation pipeline and publishes <code>complaints_prepared</code>. Runs the contract before publishing.</p></div>
+    <div class="card c-coral"><h4>Consumer: Hatoon</h4><p class="small mb0">Builds the monthly rate from it. Agrees the clauses; can run the contract on arrival.</p></div>
+  </div>
+  <div class="callout warn small mt"><b>What goes wrong.</b> Without a contract, a renamed column breaks the report on the morning it is due, and nobody knew it was relied on.</div>
+  <aside class="notes"><p>The rules of Session 2 gate the raw extract inside the pipeline. The contract is on the output side: it states what the published table promises. Some clauses repeat rules; that is deliberate.</p></aside>
+</section>
+
+<section class="slide" data-label="ODCS" id="odcs-schema" data-lo="LO4" data-n="31" data-session="4">
+  <div class="kicker">The Open Data Contract Standard, v3.2.0</div>
+  <h2>The schema part: one property per column the consumer uses</h2>
+  <div class="cols cols-2">
+    <pre class="code s" data-file="contract.odcs.yaml"><code class="language-yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v3.2.0</span>
+<span class="hljs-attr">kind:</span> <span class="hljs-string">DataContract</span>
+<span class="hljs-attr">id:</span> <span class="hljs-string">bayyin-complaints-prepared</span>
+<span class="hljs-attr">version:</span> <span class="hljs-number">1.0</span><span class="hljs-number">.0</span>
+<span class="hljs-attr">schema:</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">complaints_prepared</span>
+  <span class="hljs-attr">properties:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">complaint_id</span>
+    <span class="hljs-attr">logicalType:</span> <span class="hljs-string">string</span>
+    <span class="hljs-attr">physicalType:</span> <span class="hljs-string">VARCHAR</span>
+    <span class="hljs-attr">required:</span> <span class="hljs-literal">true</span>
+    <span class="hljs-attr">primaryKey:</span> <span class="hljs-literal">true</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">region_code</span>
+    <span class="hljs-string">...</span></code></pre>
+    <ul class="bullets">
+      <li>An open, vendor-neutral standard maintained by the Bitol project of the Linux Foundation.</li>
+      <li>Ten properties for the ten columns of today's table.</li>
+      <li><code>description</code> says purpose, usage and limitations, in words.</li>
+    </ul>
+  </div>
+  <aside class="notes"><p>The full contract is written by Lab 3.4 to artifacts/d3_4/contract.odcs.yaml; the reference copy is in data/reference. The physicalType values are the DuckDB types: DATE, DECIMAL(12,2), BIGINT, VARCHAR.</p></aside>
+</section>
+
+<section class="slide" data-label="Clauses" id="quality-clauses" data-lo="LO4" data-n="32" data-session="4">
+  <div class="kicker">Quality clauses</div>
+  <h2>A small library of metrics, or a SQL query that returns a number</h2>
+  <div class="cols cols-2">
+    <pre class="code s" data-file="contract.odcs.yaml"><code class="language-yaml"><span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">category</span>
+  <span class="hljs-attr">quality:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">metric:</span> <span class="hljs-string">invalidValues</span>
+    <span class="hljs-attr">arguments:</span>
+      <span class="hljs-attr">validValues:</span> [<span class="hljs-string">REFUND</span>, <span class="hljs-string">DEFECT</span>, <span class="hljs-string">DELIVERY</span>,
+                    <span class="hljs-string">PRICE</span>, <span class="hljs-string">AD</span>, <span class="hljs-string">WARRANTY</span>]
+    <span class="hljs-attr">mustBe:</span> <span class="hljs-number">0</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">amount_sar</span>
+  <span class="hljs-attr">quality:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">sql</span>
+    <span class="hljs-attr">query:</span> <span class="hljs-string">SELECT</span> <span class="hljs-string">count(*)</span> <span class="hljs-string">FROM</span> <span class="hljs-string">${object}</span>
+           <span class="hljs-string">WHERE</span> <span class="hljs-string">${property}</span> <span class="hljs-string">&gt;</span> <span class="hljs-number">50000</span>
+    <span class="hljs-attr">mustBe:</span> <span class="hljs-number">0</span></code></pre>
+    <ul class="bullets">
+      <li>Library metrics: nullValues, missingValues, invalidValues, duplicateValues, rowCount.</li>
+      <li>Operators: mustBe, mustBeGreaterThan, mustBeLessThan and their kin.</li>
+      <li>Six clauses in Lab 3.4, plus "required" on seven columns.</li>
+    </ul>
+  </div>
+  <aside class="notes"><p>The metric names and the sql form are those of ODCS v3.2.0's data-quality section. The clauses carry Day 3's rules to the output side: U01, V01, V02, A01, K01 and a row count of more than 20,000.</p></aside>
+</section>
+
+<section class="slide" data-label="Run it" id="compile-to-sql" data-lo="LO4" data-n="33" data-session="4">
+  <div class="kicker">Lab 3.4, a contract that runs</div>
+  <h2>Every clause becomes one query and one comparison</h2>
+  <div class="cols cols-2">
+    <pre class="code s" data-file="compile_clause()"><code class="language-python"><span class="hljs-keyword">if</span> m == <span class="hljs-string">&quot;duplicateValues&quot;</span>:
+    <span class="hljs-keyword">return</span> (<span class="hljs-string">f&quot;SELECT count(<span class="hljs-subst">{col}</span>) - &quot;</span>
+            <span class="hljs-string">f&quot;count(DISTINCT <span class="hljs-subst">{col}</span>) FROM <span class="hljs-subst">{t}</span>&quot;</span>)
+<span class="hljs-keyword">if</span> m == <span class="hljs-string">&quot;invalidValues&quot;</span>:
+    <span class="hljs-keyword">return</span> (<span class="hljs-string">f&quot;SELECT count(*) FROM <span class="hljs-subst">{t}</span> &quot;</span>
+            <span class="hljs-string">f&quot;WHERE <span class="hljs-subst">{col}</span> NOT IN (<span class="hljs-subst">{vals}</span>)&quot;</span>)</code></pre>
+    <div class="stack">
+      <div class="stat"><div class="big">23 of 23</div><div class="lbl">checks pass on today's 30,000-row table</div></div>
+      <div class="card c-teal flat"><h4>Types first</h4><p class="small mb0">Each column's type is checked before its values.</p></div>
+    </div>
+  </div>
+  <aside class="notes"><p>A contract nobody runs is documentation. Tools such as the Data Contract CLI do this compilation for many engines; writing it once by hand shows there is no magic. Day 4 runs the contract inside the pipeline before publishing.</p></aside>
+</section>
+
+<section class="slide" data-label="Breaking" id="breaking-vs-compatible" data-lo="LO4" data-n="34" data-session="4">
+  <div class="kicker">Lab 3.4, two proposed changes</div>
+  <h2>A rename fails the contract; an added column passes</h2>
+  <table class="t small">
+    <tr><th>Change</th><th>Contract result</th><th>Version</th></tr>
+    <tr class="hl"><td>A: <code>region_code</code> renamed to <code>region</code>; <code>amount_sar</code> sent as "SAR 120.00"</td><td>3 checks fail: column missing, type changed, amount clause cannot run</td><td>2.0.0</td></tr>
+    <tr><td>B: a nullable <code>merchant_name</code> added</td><td>every check passes</td><td>1.1.0</td></tr>
+    <tr><td>A corrected description</td><td>nothing to check</td><td>1.0.1</td></tr>
+  </table>
+  <aside class="notes"><p>B passes because the contract lists what the consumer relies on, not every column the table may have; a report that selects named columns is not hurt by a new one. A would have broken the rate on the morning it is due. The version numbers are the stretch.</p></aside>
+</section>
+
+<section class="slide" id="checkpoint-4" data-lo="LO4" data-n="35" data-session="4">
+  <div class="kicker">Checkpoint</div>
+  <h2>Which change breaks the contract?</h2>
+  <div class="quiz" data-type="single" data-lo="LO4" data-id="checkpoint-4-q1">
+    <p class="lead">The contract for <code>complaints_prepared</code> lists ten columns. Which change by the producer should fail the contract check?</p>
+    <div class="opts">
+      <div class="opt" data-why="Thinks any new column breaks consumers who select the columns they use" data-k="A">Adding a nullable column <code>merchant_name</code></div>
+      <div class="opt" data-ok data-k="B">Sending <code>amount_sar</code> as text such as "SAR 120.00"</div>
+      <div class="opt" data-why="Confuses a documentation change with a schema change" data-k="C">Correcting the description of <code>status</code></div>
+      <div class="opt" data-why="Treats more data within the clauses as a change of meaning" data-k="D">Publishing 31,000 rows instead of 30,000</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> A changed type breaks every consumer that computes with the column; the contract's type check fails before any value is read.</div>
+  </div>
+  <aside class="notes"><p>Answer: B. The row count clause is "greater than 20,000", so D passes. Follow-up: what version number does B need? 2.0.0, a breaking change.</p></aside>
+</section>
+
+<section class="slide lab top" id="lab-3-4" data-auto="lab" data-lab="3.4" data-label="Lab 3.4" data-n="36" data-session="4">
+  <div class="cols cols-2 mid"><div><div class="lab-tag">Lab 3.4 · 25 min</div><h2>A contract that rejects a breaking change</h2><p class="lead small">Write an ODCS contract for the prepared complaints table, compile its clauses to SQL, pass it on today's table, and make a producer's breaking change fail while an added column passes.</p><a class="nb" href="../labs/D3_4_write_contract_prepared.ipynb">D3_4_write_contract_prepared.ipynb</a></div><ul class="checklist"><li>The schema part of the contract <span class="min">7 min</span></li><li>Quality clauses from the rules <span class="min">5 min</span></li><li>Compile the clauses to SQL and run them <span class="min">7 min</span></li><li>A breaking change fails; an added column passes <span class="min">6 min</span></li><li class="stretch">✱ Stretch: The version number each change needs</li></ul></div>
+  <aside class="notes"><p>The prepared table is built at the top of the notebook with the pipeline's own steps on the clean extract, so everyone starts from the same table. Common failure: physicalType written as "DECIMAL(12, 2)" with a space; the check ignores spaces. Those who finish: the stretch, then compare the contract's clauses with the rules of Lab 3.2.</p></aside>
+</section>
+
+<!-- ======================= CLOSE ======================= -->
+<section class="slide" id="wrap-up" data-n="37" data-session="4">
+  <div class="kicker">Day 3 · wrap-up</div>
+  <h2>Three things to keep</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal"><h4>A rule has an owner</h4><p class="small mb0">Dimension, attributes, threshold and a reason; judged on seeded defects and on clean data.</p></div>
+    <div class="card c-coral"><h4>Precision before recall</h4><p class="small mb0">A wrong match blames someone; a tie returns NONE.</p></div>
+    <div class="card c-purple"><h4>A contract that runs</h4><p class="small mb0">The consumer's columns and clauses, compiled to SQL, checked before publishing.</p></div>
+  </div>
+  <aside class="notes"><p>Tomorrow the rules and the contract go inside a pipeline: steps, a runner, a run log, gates that quarantine and block, and the lineage that explains a changed figure.</p></aside>
+</section>
+
+<section class="slide dark" id="next" data-label="Next" data-n="38" data-session="4">
+  <div class="kicker">Next</div>
+  <h2>Day 4: Pipelines for analysis</h2>
+  <p class="lead">From a notebook to a pipeline that gives the same bytes twice, stops on a blocking rule, and explains why August's rate changed.</p>
+  <aside class="notes"><p>Ask participants to keep their Day 3 artifacts; Day 4's labs bring their own reference state, so nobody is blocked by an unfinished lab. Git must work on their laptops for Lab 4.2's clean checkout.</p></aside>
+</section>
+</div>
+<script type="application/json" id="academy-data">{"v":1,"engine":"1.0.0","build":{"at":"2026-11-15T21:37:37Z","version":"2027.1.0","commit":"7240e93"},"course":{"id":"ds-311","code":"DS-311","title":"Data Quality, Labelling and Pipelines for Analysis","track":"data-science","lang":"en","dir":"ltr","url":"https://sdaiaacademy.github.io/ds-311/","repo":"SDAIAAcademy/ds-311","home":"../index.html"},"deck":{"id":"day3","kind":"day","day":3,"label":"Day 3","title":"Rules and contracts","prev":"day2.html","next":"day4.html","md":"day3.md","alt":{}},"sessions":[{"n":1,"label":"Session 1","title":"Profiling to rules","slide":"s1","outcomes":["Profile tables for completeness, uniqueness, validity, consistency, accuracy and timeliness","Read anomalies from a profile without help","Write a rule with an owner, a dimension, a threshold and a business reason"],"minutes":50,"lab":{"id":"3.1","title":"Profile four tables, propose rules","minutes":25,"href":"../labs/D3_1_profile_four_source.ipynb"}},{"n":2,"label":"Session 2","title":"Rules with severity","slide":"s2","outcomes":["Write a rule as a query that returns the failing rows","Give each rule a severity: warn, quarantine or block","Show that the rules catch each seeded defect and stay quiet on clean data"],"minutes":50,"lab":{"id":"3.2","title":"Warning and blocking rules","minutes":25,"href":"../labs/D3_2_implement_warning_blocking.ipynb"}},{"n":3,"label":"Session 3","title":"Duplicates and merchant matching","slide":"s3","outcomes":["Tell exact duplicates from resubmissions","Normalise Arabic and Latin names and compare them through a transliteration key","Choose a match threshold from precision and recall on labelled pairs"],"minutes":50,"lab":{"id":"3.3","title":"Merchant names across two scripts","minutes":25,"href":"../labs/D3_3_match_merchant_names.ipynb"}},{"n":4,"label":"Session 4","title":"A data contract","slide":"s4","outcomes":["Write a contract for a table in the Open Data Contract Standard","Compile its quality clauses to SQL checks","Tell a breaking schema change from a compatible one"],"minutes":50,"lab":{"id":"3.4","title":"A contract that rejects a breaking change","minutes":25,"href":"../labs/D3_4_write_contract_prepared.ipynb"}}],"slides":[{"id":"title","n":1,"title":"Rules and contracts","kind":"title","session":0,"hash":"94b4cb62","md":"#### [day3#title] Rules and contracts\n\n*SDAIA Academy · Data Quality, Labelling and Pipelines for Analysis*\n\nDay 3: Turn analysts' requirements into rules and a contract\n\nData Science Track · 4 teaching days + capstone day · 4 sessions · 4 labs · DS-311","notes":"Two days on labels. Today the labels join the office's other data: the portal extract, the merchant registry, the regions table and the case-action log. The question becomes \"is this table fit to publish a rate from?\" Hatoon's monthly rate per 100,000 residents is the figure everything today protects.","minutes":null,"lo":[]},{"id":"review-day2","n":2,"title":"Who needs which response?","kind":"quiz","session":0,"hash":"cbf32fb7","md":"#### [day3#review-day2] Who needs which response?\n\n*Review of Day 2*\n\n**Question:** Over ten days R5 and R6 both average about 0.72 on gold. R5 scored 0.975 in the first five days and 0.375 in the last three; R6 stayed between 0.68 and 0.79. What do you do?\n\n- A. Coach both raters the same way\n- B. Re-check R5's recent labels; coach R6 and double-label its work\n- C. Re-check R6's recent labels; leave R5, whose average is the same\n- D. Wait for more gold answers before doing anything","notes":"Answer: B. Numbers from Lab 2.3: R5 fell from 0.975 to 0.375 (z = 5.37) and 211 labels went back for re-checking. Bridge: today the same habit, a baseline and a threshold, is applied to tables instead of raters.","minutes":null,"lo":["LO3"]},{"id":"agenda","n":3,"title":"Rules and contracts","kind":"content","session":0,"hash":"1c329ad3","md":"#### [day3#agenda] Rules and contracts\n\n*Today*\n\n- **Session 1 · Profiling to rules**: A profile of each source table, read against the six quality dimensions, becomes rules with owners and thresholds\n- **Session 2 · Rules with severity**: Warn, quarantine or block: a rule as a query that returns failing rows, judged on seeded defects and on clean data\n- **Session 3 · Duplicates and merchant matching**: Exact and near duplicates, and merchant names matched across Arabic and Latin spellings with measured precision\n- **Session 4 · A data contract**: A contract in an open standard that the producer and the consumer of the prepared table both check","notes":"","minutes":null,"lo":[]},{"id":"s1","n":4,"title":"Profiling to rules","kind":"section","session":1,"hash":"d9994556","md":"#### [day3#s1] Profiling to rules\n\n*Session 1*\n\n- Profile tables for completeness, uniqueness, validity, consistency, accuracy and timeliness\n- Read anomalies from a profile without help\n- Write a rule with an owner, a dimension, a threshold and a business reason","notes":"","minutes":null,"lo":["LO4"]},{"id":"four-tables","n":5,"title":"Four tables feed one published rate","kind":"content","session":1,"hash":"b6b7b074","md":"#### [day3#four-tables] Four tables feed one published rate\n\n*What Bayyin prepares every month*\n\n- **Complaints.** The portal extract of 5 September: 30,300 rows, one per complaint, with its category from the labels.\n- **Merchants.** The registry: 153 rows, Arabic and English names, a commercial registration number.\n- **Regions.** Thirteen regions with their populations: the denominator of the rate.\n- **Case actions.** 30,148 actions taken by officers: warnings, referrals, refunds.\n\n> **What goes wrong.** Each table can be correct on its own and the join still wrong: a missing region drops a complaint from the rate silently.","notes":"The extract is synthetic and seeded with nine kinds of defect. Participants do not see the list of defects until Lab 3.2: in Lab 3.1 they find them from the profile. The figure at stake: complaints per 100,000 residents, by region and month.","minutes":null,"lo":["LO4"]},{"id":"six-dimensions","n":6,"title":"Six dimensions organise what a profile can show","kind":"content","session":1,"hash":"bdc856c9","md":"#### [day3#six-dimensions] Six dimensions organise what a profile can show\n\n*The NDMO Data Quality domain*\n\n| Dimension | The question | In Bayyin's extract |\n| --- | --- | --- |\n| Completeness | Is the value there? | Region empty on 414 complaints |\n| Uniqueness | Is each thing recorded once? | 60 complaint ids appear twice |\n| Validity | Is the value allowed? | Category \"defect\" and \"C7\"; region R99 |\n| Consistency | Do related values agree? | 85 closed before they were received |\n| Accuracy | Is the value true? | Amounts of SAR 694,783 |\n| Timeliness | Is it recent enough? | Newest complaint against the extract date |","notes":"The six are the dimensions named in the NDMO Data Management and Personal Data Protection Standards' Data Quality domain; DS-202 already wrote type, range, uniqueness and completeness rules from a data dictionary and matched names at three thresholds: treat this as a recap. What is new here is the owner, the threshold and the severity of each rule, accuracy and timeliness, and rules that run inside a pipeline every month. Point out that accuracy is the hardest: it needs a reference outside the table.","minutes":null,"lo":["LO4"]},{"id":"profile-as-text","n":7,"title":"Profile the values as they arrived, loaded as text","kind":"content","session":1,"hash":"bf2aa549","md":"#### [day3#profile-as-text] Profile the values as they arrived, loaded as text\n\n*Lab 3.1, before any rule*\n\n```sql\n-- file: profile(table)\nSELECT count(*) FILTER (WHERE c IS NULL\n                         OR trim(c) = '') AS empty,\n       count(DISTINCT c)  AS distinct_values,\n       min(c), max(c), mode(c),\n       min(TRY_CAST(c AS DOUBLE)),\n       max(TRY_CAST(c AS DOUBLE))\nFROM complaints\n```\n\n- **Why text.** A typed load turns \"warranty\" or \"2027-06-25\" into an error or a NULL before anyone sees it.\n- **AI-off.** Lab 3.1 is done without an assistant: reading a profile is the skill.","notes":"DuckDB reads the gzip CSVs directly; all_varchar keeps every value as written. The profile is one row per column: empty, distinct, min, max, most common, and numeric min and max where the cast works. Ask: which column would you look at first, and why?","minutes":null,"lo":["LO4"]},{"id":"profile-findings","n":8,"title":"The profile points at the anomalies; one query confirms each","kind":"content","session":1,"hash":"d88156d0","md":"#### [day3#profile-findings] The profile points at the anomalies; one query confirms each\n\n*Lab 3.1, read from the profile*\n\n| What the profile shows | Confirmed by | Rows |\n| --- | --- | --- |\n| 30,300 rows, 30,240 distinct ids | count minus count distinct | 60 |\n| 13 category codes for six categories | codes outside the six | 170 |\n| Maximum amount SAR 694,783 | amounts above SAR 50,000 | 619 |\n| Latest received date 2027-06-25 | after the extract date | 12 |\n| 14 region codes for 13 regions; 414 empty | not in the regions table | 600 |\n| Actions for 22,676 complaint ids | action without a complaint | 150 |","notes":"All counts from the Lab 3.1 solution run. The category codes include lower-case variants (\"defect\", \"price\", \"ad\", \"warranty\") and a legacy code from the old portal. The registry has 153 rows for 150 registration numbers: three merchants registered twice.","minutes":null,"lo":["LO4"]},{"id":"halala-batch","n":9,"title":"August's app batch arrived in halalas","kind":"content","session":1,"hash":"9de16396","md":"#### [day3#halala-batch] August's app batch arrived in halalas\n\n*The anomaly the maximum hides*\n\n| Item | Value |\n| --- | --- |\n| App, June | SAR 545 |\n| App, July | SAR 694 |\n| App, August | SAR 54,706 |\n| Web, August | SAR 530 |\n\nMedian amount by month and channel. Multiplied by 100, only 619 of the 1,195 amounts pass SAR 50,000.","notes":"The app vendor changed its export in August and sent amounts in halalas. A row-level rule on the maximum sees only the larger amounts; the batch moved as a whole. This is why Lab 3.2 has a second accuracy rule on the monthly median by channel. Ask: what would the August refund figures have shown?","minutes":null,"lo":["LO4"]},{"id":"rule-anatomy","n":10,"title":"A rule names its owner, dimension, attributes and threshold","kind":"content","session":1,"hash":"5cad99b5","md":"#### [day3#rule-anatomy] A rule names its owner, dimension, attributes and threshold\n\n*What a rule must state*\n\n```python\n# file: pipeline/rules.py\ndict(id=\"C01\", dimension=\"completeness\",\n     owner=\"Hatoon Al-Furaih\",\n     table=\"complaints\",\n     description=\"Every complaint has a region: \"\n                 \"the rate is published by region\",\n     attributes=[\"region_code\"],\n     severity=\"quarantine\", max_rate=0.03,\n     sql=\"SELECT rid FROM complaints WHERE \"\n         \"region_code IS NULL OR trim(region_code) = ''\")\n```\n\n- **Owner.** Who accepts the threshold and answers when the rule fires.\n- **Business description.** Why the figure needs it, in the user's words.\n- **Threshold.** The share of failing rows the owner accepts.","notes":"The NDMO Data Quality domain asks each data-quality rule to identify its owner, describe the business requirement, assign a dimension, list the attributes and define the metric. Bayyin's rules carry exactly those fields. The owners: Hatoon uses the rate, Abdulelah runs the pipeline, Khulood leads labelling.","minutes":null,"lo":["LO4"]},{"id":"checkpoint-1","n":11,"title":"Is the maximum enough?","kind":"quiz","session":1,"hash":"e8e0fc80","md":"#### [day3#checkpoint-1] Is the maximum enough?\n\n*Checkpoint*\n\n**Question:** The profile shows a maximum amount of SAR 694,783. Abdulelah proposes one rule: \"no amount above SAR 50,000\". August's app batch was sent in halalas. What does his rule miss?\n\n- A. The halala amounts that stayed under SAR 50,000; a rule on the batch's median catches them\n- B. Nothing: every halala amount is above SAR 50,000\n- C. The duplicated complaints of August\n- D. Only amounts between SAR 40,000 and 50,000; lower the limit to 40,000","notes":"Answer: A. D is tempting: any fixed limit still misses small purchases multiplied by 100. Look at the medians by month and channel instead.","minutes":null,"lo":["LO4"]},{"id":"lab-3-1","n":12,"title":"Profile four tables, propose rules","kind":"lab","session":1,"hash":"29a61be2","md":"#### [day3#lab-3-1] Profile four tables, propose rules\n\nLab 3.1 · 25 min\n\nProfile four source tables in DuckDB without AI help, find the anomalies, and propose rules with a dimension, an owner, a threshold and a reason.\n\n[D3_1_profile_four_source.ipynb](https://sdaiaacademy.github.io/ds-311/labs/D3_1_profile_four_source.ipynb)\n\n- [ ] Profile each table in DuckDB (8 min)\n- [ ] Five anomalies from the profile (7 min)\n- [ ] Rules with dimension, owner and threshold (10 min)\n- [ ] ✱ Stretch: Timeliness: how old is the newest complaint in each extract?","notes":"AI-off: assistants closed. Walk the room during task 2; people who stall usually have not looked at min and max of the date columns. The profile function is the slow part; anyone stuck after eight minutes can load the reference profile (the safety net does it) and go on to the anomalies.","minutes":null,"lo":[]},{"id":"s2","n":13,"title":"Rules with severity","kind":"section","session":2,"hash":"d3862d35","md":"#### [day3#s2] Rules with severity\n\n*Session 2*\n\n- Write a rule as a query that returns the failing rows\n- Give each rule a severity: warn, quarantine or block\n- Show that the rules catch each seeded defect and stay quiet on clean data","notes":"","minutes":null,"lo":["LO4"]},{"id":"rule-as-query","n":14,"title":"A rule is a query that returns the failing rows","kind":"content","session":2,"hash":"39f6d3f9","md":"#### [day3#rule-as-query] A rule is a query that returns the failing rows\n\n*One shape for every rule*\n\n```sql\n-- file: K01\nSELECT rid FROM complaints\nWHERE coalesce(closed_date, '') \u003c> ''\n  AND TRY_CAST(closed_date AS DATE)\n    \u003c TRY_CAST(received_date AS DATE)\n```\n\n- The same query **counts** failures, **lists** them and **moves** them to quarantine.\n- Every table gets a row id, `rid`, so a failing row can be named.\n- Rules run on text: a bad value fails the rule, not the load.","notes":"K01 is the participants' first exercise in Lab 3.2. TRY_CAST returns NULL instead of an error, so a malformed date does not stop the rule run; V03 catches malformed or future received dates separately.","minutes":null,"lo":["LO4"]},{"id":"severity-ladder","n":15,"title":"Warn, quarantine or block","kind":"content","session":2,"hash":"c74cb1e2","md":"#### [day3#severity-ladder] Warn, quarantine or block\n\n*What happens when a rule fails*\n\n1. **Warn** log it; the run goes on\n2. **Quarantine** set the failing rows aside with the rule id; stop above the threshold\n3. **Block** stop before anything is published\n\n> **Choosing.** Quarantine when the remaining rows are still right; block when the error could be in rows that look fine.","notes":"A missing region affects only that row: quarantine it and publish the rest. A unit error in a batch may affect rows the rule cannot see: block. The threshold on a quarantine rule protects against quarantining so many rows that the published figure becomes unrepresentative.","minutes":null,"lo":["LO4"]},{"id":"rule-results","n":16,"title":"Two accuracy rules stop the run; the rest quarantine or log","kind":"content","session":2,"hash":"7929c13d","md":"#### [day3#rule-results] Two accuracy rules stop the run; the rest quarantine or log\n\n*Lab 3.2, the seeded extract*\n\n| Rule | Dimension | Owner | Failing | Threshold | Action |\n| --- | --- | --- | --- | --- | --- |\n| U01 one row per id | uniqueness | Abdulelah | 60 | 0.5% | quarantined |\n| C01 region present | completeness | Hatoon | 414 | 3% | quarantined |\n| V02 category valid | validity | Khulood | 170 | 1% | quarantined |\n| K01 closed after received | consistency | Abdulelah | 85 | 0.5% | quarantined |\n| A01 amount ≤ SAR 50,000 | accuracy | Hatoon | 619 | 0.1% | stop |\n| A02 monthly median by channel | accuracy | Hatoon | 1,195 | 0.1% | stop |\n| U02 one entry per CR number | uniqueness | Abdulelah | 3 | 0 | logged |","notes":"Seven of the eleven rules shown; V01 (186, region not in the table), V03 (12, future dates), I01 (150, orphan actions) and T01 (0, timeliness) are in the lab's table. U02 is a warning: duplicated registry entries do not change the complaint rate, so Abdulelah logs them and the registry team fixes them.","minutes":null,"lo":["LO4"]},{"id":"judge-both-ways","n":17,"title":"Catch every seeded defect, and stay quiet on clean data","kind":"content","session":2,"hash":"6d86cc3c","md":"#### [day3#judge-both-ways] Catch every seeded defect, and stay quiet on clean data\n\n*How a rule set is judged*\n\n- **On the seeded extract.** Eight listed defects, each caught in full by the rule meant for it: 60 duplicates, 600 regions, 170 codes, 85 dates out of order, 1,195 halala amounts, 12 future dates, 150 orphan actions, 3 registry duplicates.\n- **On the clean extract.** The same eleven rules on the same month without defects: no rule fails a single row.\n\n> **What goes wrong.** A rule that fires on good data trains people to ignore it, and then to switch it off.","notes":"The trainer's list of seeded defects is in data/reference/seeded_defects.json. The ninth defect, 240 resubmissions, is valid row by row: no rule catches it. That is the next session.","minutes":null,"lo":["LO4"]},{"id":"pandera","n":18,"title":"A validation library expresses the same rules as a schema","kind":"content","session":2,"hash":"6bc51fad","md":"#### [day3#pandera] A validation library expresses the same rules as a schema\n\n*The same checks in a framework*\n\n```python\n# file: Pandera, stretch of Lab 3.2\npa.DataFrameSchema({\n  \"complaint_id\": pa.Column(str, unique=True),\n  \"category_code\": pa.Column(str,\n      pa.Check.isin(SIX)),\n  \"amount_sar\": pa.Column(float,\n      pa.Check.le(50000), nullable=True),\n})\n```\n\n- Finds the same failures: 120 rows in duplicated ids, 170 codes, 619 amounts.\n- Keeps owners, severities and thresholds outside the schema: you still need them.\n- The SQL rules run where the data is; the schema runs where the DataFrame is.","notes":"Pandera counts both copies of a duplicated id (120), the SQL rule counts the second copy only (60). Either is fine if the report says which. Frameworks such as Pandera, Great Expectations or Soda are worth using; none of them decides the owner or the threshold for you.","minutes":null,"lo":["LO4"]},{"id":"checkpoint-2","n":19,"title":"What should C01 do?","kind":"quiz","session":2,"hash":"6796329e","md":"#### [day3#checkpoint-2] What should C01 do?\n\n*Checkpoint*\n\n**Question:** C01 (region present) is a quarantine rule with a 3% threshold. This month 414 of 30,300 complaints, 1.4%, have no region. What happens to the run?\n\n- A. The run stops before publishing\n- B. The rows are published with an empty region and a warning\n- C. The 414 rows go to quarantine with C01; the run goes on\n- D. The rows are given the most common region and published","notes":"Answer: C. D is a real temptation in practice: imputing a region changes the rate of the region it lands in. The quarantine file keeps the rows for whoever can fix them at source.","minutes":null,"lo":["LO4"]},{"id":"lab-3-2","n":20,"title":"Warning and blocking rules","kind":"lab","session":2,"hash":"2f86672c","md":"#### [day3#lab-3-2] Warning and blocking rules\n\nLab 3.2 · 25 min\n\nImplement the rule set as SQL with thresholds and severities, catch every seeded defect in the four tables, and show no false alarm on the clean tables.\n\n[D3_2_implement_warning_blocking.ipynb](https://sdaiaacademy.github.io/ds-311/labs/D3_2_implement_warning_blocking.ipynb)\n\n- [ ] A rule as a query that returns failing rows (5 min)\n- [ ] The rule set with thresholds and severities (9 min)\n- [ ] Every seeded defect caught (6 min)\n- [ ] No alarm on the clean tables (5 min)\n- [ ] ✱ Stretch: Three of the rules again in Pandera","notes":"AI-tutor: an assistant may explain a SQL error, not write the rules. A02 is the hardest query; anyone stuck can use the reference query, which the safety net loads, and move on to task 3. Check that participants compare counts with the trainer's list, not just \"caught: yes\".","minutes":null,"lo":[]},{"id":"s3","n":21,"title":"Duplicates and merchant matching","kind":"section","session":3,"hash":"70c54245","md":"#### [day3#s3] Duplicates and merchant matching\n\n*Session 3*\n\n- Tell exact duplicates from resubmissions\n- Normalise Arabic and Latin names and compare them through a transliteration key\n- Choose a match threshold from precision and recall on labelled pairs","notes":"","minutes":null,"lo":["LO4"]},{"id":"exact-vs-near","n":22,"title":"An exact duplicate is an export fault; a resubmission is a person","kind":"content","session":3,"hash":"74bc67d1","md":"#### [day3#exact-vs-near] An exact duplicate is an export fault; a resubmission is a person\n\n*Duplicates*\n\n- **Exact duplicates: 60.** The same complaint id twice. The portal's export wrote a row again. Rule U01 quarantines the second copy.\n- **Resubmissions: 240.** A new id, the same customer, merchant and product, a day later: the complainant tried again. Each row is valid.\n\n> **What goes wrong.** A key too wide merges real repeat complaints; a key too narrow counts one problem twice. The choice of key changes the rate.","notes":"The pipeline drops a resubmission when the same customer, merchant name and product reappear within one day. Day 4 shows what happens to a region's rate when that key changes. Bayyin's customer key is a hash, never the national ID.","minutes":null,"lo":["LO4"]},{"id":"merchant-spellings","n":23,"title":"One merchant, written a dozen ways","kind":"content","session":3,"hash":"165edb85","md":"#### [day3#merchant-spellings] One merchant, written a dozen ways\n\n*The merchant on a complaint*\n\n| As typed by the complainant | Registry |\n| --- | --- |\n| مؤسسة النور للإلكترونيات المحدودة | M1001 |\n| AL-NOOR ELECTRONICS CO. | M1001 |\n| Alnoor Elec. | M1001 |\n| النور Electronics | M1001 |\n| شركة الفارسللأزياء المحدودة | M1130 |\n\n600 raw names in the lab; 300 are labelled with the right registry id, or NONE.","notes":"About one complaint in five arrives without a merchant id. Hatoon's per-merchant figures need the registry id. Names come in Arabic, Latin, mixed, with legal forms, abbreviations, missing spaces and typing errors.","minutes":null,"lo":["LO4"]},{"id":"transliteration-key","n":24,"title":"Normalise, then compare consonant skeletons","kind":"content","session":3,"hash":"dce247ae","md":"#### [day3#transliteration-key] Normalise, then compare consonant skeletons\n\n*Lab 3.3, comparing across scripts*\n\n1. **1 · Normalise** unify أ إ آ, ة, ى; drop legal forms and the article\n2. **2 · Sector** stems in both scripts: «لكترون», \"elec\"\n3. **3 · Skeleton** consonants in Latin letters\n4. **4 · Key** \"nr|electronics\"\n\n«النور للإلكترونيات» and \"Al-Noor Electronics\" both give `nr|electronics`. The Arabic and English names agree on the key for all 150 merchants.","notes":"The skeleton drops vowels and weak letters (w, y; و ي ا) except at the start of a word, so Al-Wifaq keeps its w and does not collide with Al-Ofuq. Check how many registry merchants share a key: zero in this registry. A key throws information away; that check tells you whether it threw away too much.","minutes":null,"lo":["LO4"]},{"id":"precision-first","n":25,"title":"Choose the threshold by precision first","kind":"content","session":3,"hash":"95011a3e","md":"#### [day3#precision-first] Choose the threshold by precision first\n\n*Lab 3.3, 300 labelled names*\n\n| Threshold | Matched | Precision | Recall |\n| --- | --- | --- | --- |\n| 60 | 265 | 1.000 | 0.981 |\n| 70 | 262 | 1.000 | 0.970 |\n| 85 | 259 | 1.000 | 0.959 |\n| 100 | 258 | 1.000 | 0.956 |\n\nA tie between two merchants returns NONE. The five misses are typing errors in the sector word.","notes":"DS-202 chose a matching threshold on labelled pairs within one script; the new part here is matching across Arabic and Latin spellings. Precision first because a wrong match blames a merchant who did nothing; a miss leaves the complaint unattributed, which analysts can see. On this sample the key and the tie rule do most of the work, so precision is 1.0 at every threshold; the threshold only decides names whose sector was misspelt (\"Fasion\", «للمجورات»). The fix for those is in the stems, not a lower threshold.","minutes":null,"lo":["LO4"]},{"id":"blocking","n":26,"title":"Blocking compares only names that could match","kind":"content","session":3,"hash":"86cf783c","md":"#### [day3#blocking] Blocking compares only names that could match\n\n*Stretch of Lab 3.3*\n\n**1,354** comparisons when blocked by sector and first letter, of 90,000\n\n- Fine for 600 names; essential for 30,000 complaints a month.\n- A block that is too strict hides true matches: check recall after blocking.\n- Libraries for record linkage do the same with more care.","notes":"From the stretch of Lab 3.3. A typing error in the first letter puts a name in the wrong block; that is the cost of blocking, and the reason to measure recall with and without it.","minutes":null,"lo":["LO4"]},{"id":"checkpoint-3","n":27,"title":"Should a bare name match?","kind":"quiz","session":3,"hash":"8a52aa56","md":"#### [day3#checkpoint-3] Should a bare name match?\n\n*Checkpoint*\n\n**Question:** A complainant writes only «النور», with no sector. Six registry merchants share that name: electronics, furniture, appliances, fashion, auto parts and jewellery. All score 100. What should the matcher return?\n\n- A. The first of the six in the registry\n- B. The one with the most complaints this year\n- C. Raise the threshold until only one remains\n- D. NONE, until someone checks the complaint text","notes":"Answer: D. The lab's best_match returns NONE on any tie between merchants. The complaint text often names the product, which settles the sector: a good task for a person or a later step.","minutes":null,"lo":["LO4"]},{"id":"lab-3-3","n":28,"title":"Merchant names across two scripts","kind":"lab","session":3,"hash":"22a2c3c7","md":"#### [day3#lab-3-3] Merchant names across two scripts\n\nLab 3.3 · 25 min\n\nNormalise 600 raw merchant names, match them to the registry across Arabic and Latin spellings, choose a threshold, and measure precision and recall on 300 labelled names.\n\n[D3_3_match_merchant_names.ipynb](https://sdaiaacademy.github.io/ds-311/labs/D3_3_match_merchant_names.ipynb)\n\n- [ ] Normalise Arabic and Latin names (7 min)\n- [ ] A transliteration key across scripts (6 min)\n- [ ] Score, and choose a threshold (6 min)\n- [ ] Precision and recall on 300 labelled names (6 min)\n- [ ] ✱ Stretch: Blocking: compare fewer pairs","notes":"AI-tutor. The Arabic normalisation trips people up: remind them that unification must happen before filler words are removed, or «مؤسسة» survives as «مؤسسه». Those who finish early: the stretch on blocking, then look at the misses and propose one more stem.","minutes":null,"lo":[]},{"id":"s4","n":29,"title":"A data contract","kind":"section","session":4,"hash":"3008ff72","md":"#### [day3#s4] A data contract\n\n*Session 4*\n\n- Write a contract for a table in the Open Data Contract Standard\n- Compile its quality clauses to SQL checks\n- Tell a breaking schema change from a compatible one","notes":"","minutes":null,"lo":["LO4"]},{"id":"producer-consumer","n":30,"title":"A contract writes down what the consumer relies on","kind":"content","session":4,"hash":"f3a2a426","md":"#### [day3#producer-consumer] A contract writes down what the consumer relies on\n\n*A data contract*\n\n- **Producer: Abdulelah.** Runs the preparation pipeline and publishes `complaints_prepared`. Runs the contract before publishing.\n- **Consumer: Hatoon.** Builds the monthly rate from it. Agrees the clauses; can run the contract on arrival.\n\n> **What goes wrong.** Without a contract, a renamed column breaks the report on the morning it is due, and nobody knew it was relied on.","notes":"The rules of Session 2 gate the raw extract inside the pipeline. The contract is on the output side: it states what the published table promises. Some clauses repeat rules; that is deliberate.","minutes":null,"lo":["LO4"]},{"id":"odcs-schema","n":31,"title":"The schema part: one property per column the consumer uses","kind":"content","session":4,"hash":"c42f2e4e","md":"#### [day3#odcs-schema] The schema part: one property per column the consumer uses\n\n*The Open Data Contract Standard, v3.2.0*\n\n```yaml\n# file: contract.odcs.yaml\napiVersion: v3.2.0\nkind: DataContract\nid: bayyin-complaints-prepared\nversion: 1.0.0\nschema:\n- name: complaints_prepared\n  properties:\n  - name: complaint_id\n    logicalType: string\n    physicalType: VARCHAR\n    required: true\n    primaryKey: true\n  - name: region_code\n    ...\n```\n\n- An open, vendor-neutral standard maintained by the Bitol project of the Linux Foundation.\n- Ten properties for the ten columns of today's table.\n- `description` says purpose, usage and limitations, in words.","notes":"The full contract is written by Lab 3.4 to artifacts/d3_4/contract.odcs.yaml; the reference copy is in data/reference. The physicalType values are the DuckDB types: DATE, DECIMAL(12,2), BIGINT, VARCHAR.","minutes":null,"lo":["LO4"]},{"id":"quality-clauses","n":32,"title":"A small library of metrics, or a SQL query that returns a number","kind":"content","session":4,"hash":"f0750110","md":"#### [day3#quality-clauses] A small library of metrics, or a SQL query that returns a number\n\n*Quality clauses*\n\n```yaml\n# file: contract.odcs.yaml\n- name: category\n  quality:\n  - metric: invalidValues\n    arguments:\n      validValues: [REFUND, DEFECT, DELIVERY,\n                    PRICE, AD, WARRANTY]\n    mustBe: 0\n- name: amount_sar\n  quality:\n  - type: sql\n    query: SELECT count(*) FROM ${object}\n           WHERE ${property} > 50000\n    mustBe: 0\n```\n\n- Library metrics: nullValues, missingValues, invalidValues, duplicateValues, rowCount.\n- Operators: mustBe, mustBeGreaterThan, mustBeLessThan and their kin.\n- Six clauses in Lab 3.4, plus \"required\" on seven columns.","notes":"The metric names and the sql form are those of ODCS v3.2.0's data-quality section. The clauses carry Day 3's rules to the output side: U01, V01, V02, A01, K01 and a row count of more than 20,000.","minutes":null,"lo":["LO4"]},{"id":"compile-to-sql","n":33,"title":"Every clause becomes one query and one comparison","kind":"content","session":4,"hash":"b7d5a2f9","md":"#### [day3#compile-to-sql] Every clause becomes one query and one comparison\n\n*Lab 3.4, a contract that runs*\n\n```python\n# file: compile_clause()\nif m == \"duplicateValues\":\n    return (f\"SELECT count({col}) - \"\n            f\"count(DISTINCT {col}) FROM {t}\")\nif m == \"invalidValues\":\n    return (f\"SELECT count(*) FROM {t} \"\n            f\"WHERE {col} NOT IN ({vals})\")\n```\n\n**23 of 23** checks pass on today's 30,000-row table\n\n- **Types first.** Each column's type is checked before its values.","notes":"A contract nobody runs is documentation. Tools such as the Data Contract CLI do this compilation for many engines; writing it once by hand shows there is no magic. Day 4 runs the contract inside the pipeline before publishing.","minutes":null,"lo":["LO4"]},{"id":"breaking-vs-compatible","n":34,"title":"A rename fails the contract; an added column passes","kind":"content","session":4,"hash":"2bd5b2fb","md":"#### [day3#breaking-vs-compatible] A rename fails the contract; an added column passes\n\n*Lab 3.4, two proposed changes*\n\n| Change | Contract result | Version |\n| --- | --- | --- |\n| A: `region_code` renamed to `region`; `amount_sar` sent as \"SAR 120.00\" | 3 checks fail: column missing, type changed, amount clause cannot run | 2.0.0 |\n| B: a nullable `merchant_name` added | every check passes | 1.1.0 |\n| A corrected description | nothing to check | 1.0.1 |","notes":"B passes because the contract lists what the consumer relies on, not every column the table may have; a report that selects named columns is not hurt by a new one. A would have broken the rate on the morning it is due. The version numbers are the stretch.","minutes":null,"lo":["LO4"]},{"id":"checkpoint-4","n":35,"title":"Which change breaks the contract?","kind":"quiz","session":4,"hash":"ae7732ff","md":"#### [day3#checkpoint-4] Which change breaks the contract?\n\n*Checkpoint*\n\n**Question:** The contract for `complaints_prepared` lists ten columns. Which change by the producer should fail the contract check?\n\n- A. Adding a nullable column `merchant_name`\n- B. Sending `amount_sar` as text such as \"SAR 120.00\"\n- C. Correcting the description of `status`\n- D. Publishing 31,000 rows instead of 30,000","notes":"Answer: B. The row count clause is \"greater than 20,000\", so D passes. Follow-up: what version number does B need? 2.0.0, a breaking change.","minutes":null,"lo":["LO4"]},{"id":"lab-3-4","n":36,"title":"A contract that rejects a breaking change","kind":"lab","session":4,"hash":"a22fefa0","md":"#### [day3#lab-3-4] A contract that rejects a breaking change\n\nLab 3.4 · 25 min\n\nWrite an ODCS contract for the prepared complaints table, compile its clauses to SQL, pass it on today's table, and make a producer's breaking change fail while an added column passes.\n\n[D3_4_write_contract_prepared.ipynb](https://sdaiaacademy.github.io/ds-311/labs/D3_4_write_contract_prepared.ipynb)\n\n- [ ] The schema part of the contract (7 min)\n- [ ] Quality clauses from the rules (5 min)\n- [ ] Compile the clauses to SQL and run them (7 min)\n- [ ] A breaking change fails; an added column passes (6 min)\n- [ ] ✱ Stretch: The version number each change needs","notes":"The prepared table is built at the top of the notebook with the pipeline's own steps on the clean extract, so everyone starts from the same table. Common failure: physicalType written as \"DECIMAL(12, 2)\" with a space; the check ignores spaces. Those who finish: the stretch, then compare the contract's clauses with the rules of Lab 3.2.","minutes":null,"lo":[]},{"id":"wrap-up","n":37,"title":"Three things to keep","kind":"content","session":4,"hash":"b3fa3573","md":"#### [day3#wrap-up] Three things to keep\n\n*Day 3 · wrap-up*\n\n- **A rule has an owner.** Dimension, attributes, threshold and a reason; judged on seeded defects and on clean data.\n- **Precision before recall.** A wrong match blames someone; a tie returns NONE.\n- **A contract that runs.** The consumer's columns and clauses, compiled to SQL, checked before publishing.","notes":"Tomorrow the rules and the contract go inside a pipeline: steps, a runner, a run log, gates that quarantine and block, and the lineage that explains a changed figure.","minutes":null,"lo":[]},{"id":"next","n":38,"title":"Day 4: Pipelines for analysis","kind":"content","session":4,"hash":"6d5da7ab","md":"#### [day3#next] Day 4: Pipelines for analysis\n\n*Next*\n\nFrom a notebook to a pipeline that gives the same bytes twice, stops on a blocking rule, and explains why August's rate changed.","notes":"Ask participants to keep their Day 3 artifacts; Day 4's labs bring their own reference state, so nobody is blocked by an unfinished lab. Git must work on their laptops for Lab 4.2's clean checkout.","minutes":null,"lo":[]}],"activities":[{"id":"review-day2-q1","slide":"review-day2","type":"single","prompt":"Over ten days R5 and R6 both average about 0.72 on gold. R5 scored 0.975 in the first five days and 0.375 in the last three; R6 stayed between 0.68 and 0.79. What do you do?","options":[{"key":"A","text":"Coach both raters the same way"},{"key":"B","text":"Re-check R5's recent labels; coach R6 and double-label its work"},{"key":"C","text":"Re-check R6's recent labels; leave R5, whose average is the same"},{"key":"D","text":"Wait for more gold answers before doing anything"}],"correct":[1],"explanation":"Drift is judged against each rater's own baseline: R5 changed, so its recent work is suspect; R6 is steadily low, which calls for coaching.","misconceptions":["Lets two similar averages hide two different histories","","Reads a steady, low rater as the one who changed","Ignores that pooled days give enough gold answers to judge"],"lo":["LO3"]},{"id":"checkpoint-1-q1","slide":"checkpoint-1","type":"single","prompt":"The profile shows a maximum amount of SAR 694,783. Abdulelah proposes one rule: \"no amount above SAR 50,000\". August's app batch was sent in halalas. What does his rule miss?","options":[{"key":"A","text":"The halala amounts that stayed under SAR 50,000; a rule on the batch's median catches them"},{"key":"B","text":"Nothing: every halala amount is above SAR 50,000"},{"key":"C","text":"The duplicated complaints of August"},{"key":"D","text":"Only amounts between SAR 40,000 and 50,000; lower the limit to 40,000"}],"correct":[0],"explanation":"A unit error moves the whole batch; a row rule sees only the rows it pushes past the limit. 619 of 1,195 rows passed SAR 50,000.","misconceptions":["","Assumes multiplying by 100 pushes every amount over the limit","Confuses a unit error with a duplicate","Thinks the threshold, not the level of the check, is the problem"],"lo":["LO4"]},{"id":"checkpoint-2-q1","slide":"checkpoint-2","type":"single","prompt":"C01 (region present) is a quarantine rule with a 3% threshold. This month 414 of 30,300 complaints, 1.4%, have no region. What happens to the run?","options":[{"key":"A","text":"The run stops before publishing"},{"key":"B","text":"The rows are published with an empty region and a warning"},{"key":"C","text":"The 414 rows go to quarantine with C01; the run goes on"},{"key":"D","text":"The rows are given the most common region and published"}],"correct":[2],"explanation":"Under the 3% threshold, quarantine sets the failing rows aside with the rule that caught them and lets the rest be published; above 3% the run would stop.","misconceptions":["Treats every failure as a reason to stop, whatever the severity","Forgets that quarantine removes the failing rows from the published table","","Invents a repair the rule does not make"],"lo":["LO4"]},{"id":"checkpoint-3-q1","slide":"checkpoint-3","type":"single","prompt":"A complainant writes only «النور», with no sector. Six registry merchants share that name: electronics, furniture, appliances, fashion, auto parts and jewellery. All score 100. What should the matcher return?","options":[{"key":"A","text":"The first of the six in the registry"},{"key":"B","text":"The one with the most complaints this year"},{"key":"C","text":"Raise the threshold until only one remains"},{"key":"D","text":"NONE, until someone checks the complaint text"}],"correct":[3],"explanation":"A tie means the name does not say which merchant; a wrong match blames a merchant who did nothing, a NONE is visible and can be fixed.","misconceptions":["Lets the order of the registry decide who is blamed","Guesses from the population, which may not be this complaint's merchant","Changes the threshold to fix a tie it cannot resolve",""],"lo":["LO4"]},{"id":"checkpoint-4-q1","slide":"checkpoint-4","type":"single","prompt":"The contract for complaints_prepared lists ten columns. Which change by the producer should fail the contract check?","options":[{"key":"A","text":"Adding a nullable column merchant_name"},{"key":"B","text":"Sending amount_sar as text such as \"SAR 120.00\""},{"key":"C","text":"Correcting the description of status"},{"key":"D","text":"Publishing 31,000 rows instead of 30,000"}],"correct":[1],"explanation":"A changed type breaks every consumer that computes with the column; the contract's type check fails before any value is read.","misconceptions":["Thinks any new column breaks consumers who select the columns they use","","Confuses a documentation change with a schema change","Treats more data within the clauses as a change of meaning"],"lo":["LO4"]}],"ai":{"context":{"course":"../context/course.md","courseJs":"../context/course.js","day":"day3.md","llms":"../llms.txt"},"tasks":[],"tools":[]},"bridge":{"allowedOrigins":[]},"features":{},"strings":{}}</script>
+<script src="../_engine/academy.js"></script>
+</body>
+</html>

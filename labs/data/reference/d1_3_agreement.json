@@ -1,0 +1,101 @@
+{
+ "all_agree": 0.54,
+ "pair_pa": {
+  "R1-R2": 0.68,
+  "R1-R3": 0.7,
+  "R2-R3": 0.6533333333333333
+ },
+ "pair_pe": {
+  "R1-R2": 0.19804444444444444,
+  "R1-R3": 0.21213333333333334,
+  "R2-R3": 0.2040888888888889
+ },
+ "kappas": {
+  "R1-R2": 0.601,
+  "R1-R3": 0.619,
+  "R2-R3": 0.564
+ },
+ "alpha": 0.5943746732717632,
+ "report": [
+  {
+   "group": "category",
+   "name": "REFUND",
+   "n": 193,
+   "alpha": 0.512,
+   "lo": 0.42,
+   "hi": 0.594
+  },
+  {
+   "group": "category",
+   "name": "DEFECT",
+   "n": 241,
+   "alpha": 0.575,
+   "lo": 0.486,
+   "hi": 0.655
+  },
+  {
+   "group": "category",
+   "name": "DELIVERY",
+   "n": 221,
+   "alpha": 0.736,
+   "lo": 0.666,
+   "hi": 0.802
+  },
+  {
+   "group": "category",
+   "name": "PRICE",
+   "n": 87,
+   "alpha": 0.593,
+   "lo": 0.452,
+   "hi": 0.715
+  },
+  {
+   "group": "category",
+   "name": "AD",
+   "n": 118,
+   "alpha": 0.678,
+   "lo": 0.576,
+   "hi": 0.766
+  },
+  {
+   "group": "category",
+   "name": "WARRANTY",
+   "n": 40,
+   "alpha": 0.164,
+   "lo": 0.063,
+   "hi": 0.26
+  },
+  {
+   "group": "variety",
+   "name": "msa",
+   "n": 136,
+   "alpha": 0.669,
+   "lo": 0.598,
+   "hi": 0.732
+  },
+  {
+   "group": "variety",
+   "name": "gulf",
+   "n": 94,
+   "alpha": 0.47,
+   "lo": 0.379,
+   "hi": 0.555
+  },
+  {
+   "group": "variety",
+   "name": "english",
+   "n": 55,
+   "alpha": 0.674,
+   "lo": 0.549,
+   "hi": 0.778
+  },
+  {
+   "group": "variety",
+   "name": "mixed",
+   "n": 15,
+   "alpha": 0.34,
+   "lo": 0.103,
+   "hi": 0.532
+  }
+ ]
+}
